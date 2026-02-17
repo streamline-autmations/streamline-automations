@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
@@ -28,17 +28,14 @@ const FeaturedProject: React.FC<FeaturedProjectProps> = ({
   containerHeight = 'h-[500px] md:h-[600px]'
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
-    setIsHovered(true);
     if (videoRef.current && videoSrc) {
       videoRef.current.play().catch(err => console.log('Video play failed:', err));
     }
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
     if (videoRef.current && videoSrc) {
       videoRef.current.pause();
       videoRef.current.currentTime = 0;

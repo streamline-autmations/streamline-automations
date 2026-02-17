@@ -1,5 +1,6 @@
 import React from 'react';
 import * as LucideIcons from 'lucide-react';
+import type { LucideProps } from 'lucide-react';
 import Button from './Button';
 
 interface CardProps {
@@ -21,7 +22,9 @@ const Card: React.FC<CardProps> = ({
   ctaText,
   ctaLink,
 }) => {
-  const IconComponent = icon ? (LucideIcons as any)[icon] : null;
+  const IconComponent = icon
+    ? (LucideIcons as unknown as Record<string, React.ComponentType<LucideProps>>)[icon]
+    : null;
 
   return (
     <div className={`relative glass-card p-6 md:p-8 transition-all duration-300 tech-glow-hover group ${className}`}>

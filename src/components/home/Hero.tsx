@@ -4,13 +4,6 @@ import Button from '../ui/Button';
 import DigitalEcosystemStack from './DigitalEcosystemStack';
 
 const Hero: React.FC = () => {
-  const handleServiceClick = () => {
-    const servicesSection = document.getElementById('services');
-    if (servicesSection) {
-      servicesSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <section className="relative min-h-screen flex items-center pt-20 pb-32 overflow-hidden">
       {/* High-tech background with circuit pattern */}

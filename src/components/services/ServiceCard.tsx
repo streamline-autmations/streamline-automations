@@ -1,6 +1,7 @@
 import React from 'react';
 import * as LucideIcons from 'lucide-react';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import type { LucideProps } from 'lucide-react';
 import { Service } from '../../types';
 import Button from '../ui/Button';
 
@@ -12,7 +13,7 @@ interface ServiceCardProps {
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ service, className = '', showLearnMore = true }) => {
   const { title, description, icon, category, features } = service;
-  const IconComponent = (LucideIcons as any)[icon];
+  const IconComponent = (LucideIcons as unknown as Record<string, React.ComponentType<LucideProps>>)[icon];
 
   const getCategoryRoute = (): string => {
     switch (category) {
