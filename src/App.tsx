@@ -7,6 +7,7 @@ import Layout from './components/layout/Layout';
 import Home from './pages/Home';
 import Services from './pages/Services';
 import Packages from './pages/Packages';
+import AddOnsPage from './pages/AddOnsPage';
 import OnlinePresencePage from './pages/packages/OnlinePresencePage';
 import ClientMagnetPage from './pages/packages/ClientMagnetPage';
 import BusinessAcceleratorPage from './pages/packages/BusinessAcceleratorPage';
@@ -31,6 +32,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="services" element={<Services />} />
           <Route path="packages" element={<Packages />} />
+          <Route path="add-ons" element={<AddOnsPage />} />
           <Route path="packages/online-presence" element={<OnlinePresencePage />} />
           <Route path="packages/client-magnet" element={<ClientMagnetPage />} />
           <Route path="packages/business-accelerator" element={<BusinessAcceleratorPage />} />

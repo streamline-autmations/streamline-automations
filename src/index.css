@@ -8,6 +8,10 @@
     --mouse-y: 50vh;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: #050505;
     background-image:
@@ -65,12 +69,34 @@
     font-family: 'Ubuntu', sans-serif;
     font-weight: 700;
     color: white;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  h1 {
+    line-height: 1.1;
+  }
+
+  p {
+    line-height: 1.625;
+  }
+
+  a:not([class]) {
+    @apply text-white/50 transition-colors duration-150;
+  }
+
+  a:not([class]):hover {
+    @apply text-white;
   }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-glass-surface backdrop-blur-glass border border-white/10 rounded-lg;
+    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6;
+  }
+
+  .section-divider {
+    @apply w-full border-t border-white/[0.04];
   }
 
   .circuit-bg {

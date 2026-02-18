@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import PackagePageLayout from '../../components/layout/PackagePageLayout';
-import CircuitLine from '../../components/ui/CircuitLine';
 import {
   Monitor,
   Smartphone,
@@ -26,91 +25,66 @@ import {
   FileEdit,
 } from 'lucide-react';
 
-// Animation variants
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6 }
+const fadeUpVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
 };
 
 const staggerContainer = {
-  animate: {
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
 };
 
-// Data
 const isForYouIf = [
-  "You're scaling and need systems, not just a website",
-  "You want a long-term partner who maintains and improves your systems monthly",
-  "You need visibility into your leads, bookings, and business performance",
-  "You're done duct-taping tools together and want one clean infrastructure",
+  "Scaling and need systems, not just a website",
+  "Want long-term partner for monthly improvements",
+  "Need visibility into leads, bookings, performance",
+  "Done duct-taping tools — want clean infrastructure",
 ];
 
 const whatsIncluded = [
   { icon: <Monitor className="w-5 h-5" />, title: "Up to 5 Pages", desc: "Home, About, Services, Portfolio, Contact" },
-  { icon: <Smartphone className="w-5 h-5" />, title: "Fully Responsive", desc: "Looks perfect on every device" },
-  { icon: <Mail className="w-5 h-5" />, title: "Contact Form", desc: "Enquiries land directly in your inbox" },
+  { icon: <Smartphone className="w-5 h-5" />, title: "Fully Responsive", desc: "Perfect on every device" },
+  { icon: <Mail className="w-5 h-5" />, title: "Contact Form", desc: "Enquiries to your inbox" },
   { icon: <MapPin className="w-5 h-5" />, title: "Google Maps & Socials", desc: "Linked and embedded" },
-  { icon: <Zap className="w-5 h-5" />, title: "Fast Performance", desc: "Optimised load times from day one" },
-  { icon: <Search className="w-5 h-5" />, title: "Basic SEO", desc: "Meta tags, titles, descriptions set up correctly" },
-  { icon: <Calendar className="w-5 h-5" />, title: "Appointment Booking", desc: "Integrated calendar booking system" },
-  { icon: <Brain className="w-5 h-5" />, title: "Smart Enquiry Forms", desc: "Forms that qualify leads before they reach you" },
-  { icon: <ClipboardCheck className="w-5 h-5" />, title: "Simple CRM", desc: "Leads captured and organised automatically" },
-  { icon: <Bell className="w-5 h-5" />, title: "WhatsApp & Email Alerts", desc: "Instant notifications when a lead comes in" },
-  { icon: <Check className="w-5 h-5" />, title: "Booking Confirmations", desc: "Auto-sent the moment someone books" },
-  { icon: <MessageSquare className="w-5 h-5" />, title: "Reminder Messages", desc: "Automated reminders reduce no-shows" },
-  { icon: <RefreshCw className="w-5 h-5" />, title: "Basic Follow-Up Sequence", desc: "Automatic follow-ups for cold leads" },
-  { icon: <Brain className="w-5 h-5" />, title: "Basic AI Chatbot", desc: "Handles FAQs and booking help 24/7" },
-  { icon: <TrendingUp className="w-5 h-5" />, title: "Analytics Dashboard", desc: "See your leads, bookings, and trends in one place" },
-  { icon: <Edit className="w-5 h-5" />, title: "Editable Site Sections", desc: "Update content without touching code" },
-  { icon: <Settings className="w-5 h-5" />, title: "Advanced Follow-Up Logic", desc: "Multi-step sequences based on lead behaviour" },
-  { icon: <Zap className="w-5 h-5" />, title: "Monthly Optimisation", desc: "We improve your system every month" },
+  { icon: <Zap className="w-5 h-5" />, title: "Fast Performance", desc: "Optimised load times" },
+  { icon: <Search className="w-5 h-5" />, title: "Basic SEO", desc: "Meta tags + titles set up" },
+  { icon: <Calendar className="w-5 h-5" />, title: "Appointment Booking", desc: "Integrated calendar system" },
+  { icon: <Brain className="w-5 h-5" />, title: "Smart Enquiry Forms", desc: "Qualifies leads automatically" },
+  { icon: <ClipboardCheck className="w-5 h-5" />, title: "Simple CRM", desc: "Leads captured + organized" },
+  { icon: <Bell className="w-5 h-5" />, title: "WhatsApp & Email Alerts", desc: "Instant lead notifications" },
+  { icon: <Check className="w-5 h-5" />, title: "Booking Confirmations", desc: "Auto-sent on booking" },
+  { icon: <MessageSquare className="w-5 h-5" />, title: "Reminder Messages", desc: "Automated reminders" },
+  { icon: <RefreshCw className="w-5 h-5" />, title: "Basic Follow-Up", desc: "Auto follow-ups for leads" },
+  { icon: <Brain className="w-5 h-5" />, title: "Basic AI Chatbot", desc: "FAQ + booking, 24/7" },
+  { icon: <TrendingUp className="w-5 h-5" />, title: "Analytics Dashboard", desc: "Leads, bookings, trends view" },
+  { icon: <Edit className="w-5 h-5" />, title: "Editable Site Sections", desc: "Update without code" },
+  { icon: <Settings className="w-5 h-5" />, title: "Advanced Follow-Up", desc: "Multi-step sequences" },
+  { icon: <Zap className="w-5 h-5" />, title: "Monthly Optimisation", desc: "We improve every month" },
   { icon: <Headphones className="w-5 h-5" />, title: "Priority Support", desc: "Direct line, fast response" },
-  { icon: <FileEdit className="w-5 h-5" />, title: "Minor Changes Included", desc: "Small updates at no extra cost" },
+  { icon: <FileEdit className="w-5 h-5" />, title: "Minor Changes", desc: "Small updates included" },
 ];
 
 const processSteps = [
-  { number: 1, title: "Deep Strategy Session", subtitle: "Day 1", desc: "Full audit of your current systems, goals, and growth targets." },
-  { number: 2, title: "Architecture Planning", subtitle: "Days 1–2", desc: "We map every automation, dashboard, and integration before we build." },
-  { number: 3, title: "Design & Build", subtitle: "Days 2–6", desc: "Full system built — website, automations, CRM, dashboard, chatbot." },
-  { number: 4, title: "Integration & Configuration", subtitle: "Days 6–7", desc: "Every module connected, tested individually, and configured." },
-  { number: 5, title: "Full System Testing", subtitle: "Days 7–10", desc: "Minimum 1 week of thorough end-to-end testing. Real scenarios, real data, edge cases covered." },
-  { number: 6, title: "Launch & Onboarding", subtitle: "Day 10+", desc: "System deployed. Full handover session. Monthly retainer begins." },
+  { number: 1, title: "Deep Strategy", subtitle: "Day 1", desc: "Audit systems, goals, growth targets" },
+  { number: 2, title: "Architecture", subtitle: "Days 1–2", desc: "Map automations + dashboard before build" },
+  { number: 3, title: "Design & Build", subtitle: "Days 2–6", desc: "Full system — all modules built" },
+  { number: 4, title: "Integration", subtitle: "Days 6–7", desc: "Modules connected + configured" },
+  { number: 5, title: "Testing", subtitle: "Days 7–10", desc: "End-to-end, real scenarios" },
+  { number: 6, title: "Launch", subtitle: "Day 10+", desc: "Deploy + full handover" },
 ];
 
 const whatsNotIncluded = [
   "Large-scale custom software development",
-  "Paid advertising management (Google Ads, Meta Ads)",
-  "Photography, videography, or content production",
-];
-
-const addOns = [
-  { name: "CRM Expansion", price: "R2,000–R6,000" },
-  { name: "Advanced AI Chatbot", price: "R2,000–R5,000" },
-  { name: "Logo & Branding", price: "R2,000–R5,000" },
-  { name: "SEO Upgrade", price: "R2,500–R8,000" },
+  "Paid advertising management",
+  "Photography or content production",
 ];
 
 const faqs = [
-  {
-    q: "Why is there a minimum 1-week testing period?",
-    a: "At this tier, we're building interconnected systems — automations triggering other automations, dashboards pulling live data, multi-channel notifications. One untested edge case can break the whole flow. The testing week is non-negotiable and protects you."
-  },
-  {
-    q: "What does the monthly retainer actually include?",
-    a: "Monthly optimisation of your automations, minor site updates, priority support, and a monthly review of your system performance. Retainer starts at R3,500/month."
-  },
-  {
-    q: "Do I own everything after the build?",
-    a: "Yes. Full ownership of your website, database, and all automation workflows. We don't lock you into proprietary systems."
-  },
-  {
-    q: "What if I want to cancel the retainer?",
-    a: "No lock-in contracts. 30-day notice to cancel. Your system continues running — you just lose the ongoing optimisation and support."
-  },
+  { q: "Why 1-week testing period?", a: "Interconnected systems require thorough testing. One edge case can break the flow. This protects you." },
+  { q: "What's included in monthly retainer?", a: "Ongoing optimisation, priority support, minor changes — all included." },
+  { q: "Can I upgrade from Client Magnet?", a: "Yes. Original build cost credits toward Accelerator." },
+  { q: "How is this different from Client Magnet?", a: "Full dashboard visibility, editable content, monthly improvements, priority support." },
 ];
 
 const BusinessAcceleratorPage: React.FC = () => {
@@ -119,275 +93,196 @@ const BusinessAcceleratorPage: React.FC = () => {
   return (
     <PackagePageLayout
       packageName="Business Accelerator"
-      packagePrice="Starting from R25,000 + R3,500-7,000/month"
+      packagePrice="Starting from R25,000"
       accentColor="purple"
     >
       {/* SECTION 1: Hero */}
-      <section className="relative pt-12 pb-20 md:pt-16 md:pb-28 overflow-hidden">
-        <div className="absolute inset-0 circuit-bg opacity-10"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
+      <section className="pt-12 pb-16 md:pt-16 md:pb-24 px-4">
+        <div className="container mx-auto">
           <motion.div
-            initial="initial"
-            animate="animate"
+            initial="hidden"
+            animate="visible"
             variants={staggerContainer}
-            className="text-center max-w-3xl mx-auto"
+            className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto"
           >
-            <motion.div variants={fadeInUp} className="mb-6">
-              <span className="inline-block px-4 py-2 bg-brand-purple/10 text-brand-purple text-sm rounded-full border border-brand-purple/20">
-                Tier 3 — Business Accelerator
+            {/* Left: Text */}
+            <motion.div variants={fadeUpVariants}>
+              <span className="inline-block px-4 py-1.5 bg-purple-500/10 text-purple-400 text-xs font-mono tracking-[2px] rounded-full border border-purple-500/20 mb-6">
+                TIER 3 — BUSINESS ACCELERATOR
               </span>
-            </motion.div>
-            <motion.h1 
-              variants={fadeInUp}
-              className="text-4xl md:text-5xl lg:text-6xl font-ubuntu font-bold text-white mb-6"
-            >
-              A Growth Partner, Not Just a Build.
-            </motion.h1>
-            <motion.p 
-              variants={fadeInUp}
-              className="text-lg md:text-xl text-gray-300 font-inter mb-4"
-            >
-              Your complete digital infrastructure — built, tested, optimised, 
-              and maintained every month so you can focus entirely on running your business.
-            </motion.p>
-            <motion.p 
-              variants={fadeInUp}
-              className="text-2xl font-bold text-brand-purple mb-8"
-            >
-              Starting from R25,000 + R3,500-7,000/month
-            </motion.p>
-            <motion.div variants={fadeInUp}>
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                Scale with Systems.
+              </h1>
+              <p className="text-white/50 text-lg mb-6 max-w-md">
+                Full infrastructure with dashboard, analytics, and monthly growth partner.
+              </p>
+              <p className="text-2xl font-bold text-purple-400 mb-6 font-mono">From R25,000</p>
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-brand-purple/10 hover:bg-brand-purple/20 text-brand-purple font-ubuntu font-medium rounded-lg transition-all duration-300 border border-brand-purple/20"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-purple-500 text-white font-semibold rounded-full hover:bg-purple-400 transition-all hover:shadow-[0_0_20px_rgba(139,92,246,0.4)]"
               >
-                Let's Build Your System <ArrowRight className="w-5 h-5" />
+                Scale Your Business <ArrowRight className="w-5 h-5" />
               </Link>
+            </motion.div>
+
+            {/* Right: Mockup */}
+            <motion.div variants={fadeUpVariants} className="hidden lg:block">
+              <div className="w-full max-w-sm h-64 mx-auto rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
+                <span className="font-mono text-[10px] text-white/20 text-center leading-tight">
+                  DASHBOARD<br />Placeholder
+                </span>
+              </div>
             </motion.div>
           </motion.div>
         </div>
       </section>
-
-      <CircuitLine variant="fast" />
 
       {/* SECTION 2: This is for you if */}
-      <section className="py-16 md:py-20 relative">
-        <div className="absolute inset-0 circuit-bg opacity-10"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <motion.div
-            initial="initial"
-            animate="animate"
-            variants={staggerContainer}
-            className="max-w-3xl mx-auto"
-          >
-            <motion.h2 variants={fadeInUp} className="text-2xl md:text-3xl font-ubuntu font-bold text-white mb-8 text-center">
-              This package is built for you if...
-            </motion.h2>
-            <motion.div 
-              variants={fadeInUp}
-              className="glass-card p-6 md:p-8 rounded-2xl border-l-4 border-brand-purple/50"
-            >
-              <ul className="space-y-4">
+      <section className="py-16 px-4">
+        <div className="container mx-auto max-w-3xl">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+            <h2 className="text-2xl font-bold text-white mb-6 text-center">Built for you if...</h2>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+              <ul className="space-y-3">
                 {isForYouIf.map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 text-gray-300">
-                    <Check className="w-5 h-5 text-brand-purple flex-shrink-0 mt-0.5" />
-                    <span>{item}</span>
+                  <li key={i} className="flex items-center gap-3 text-gray-300">
+                    <Check className="w-5 h-5 text-purple-400" /> {item}
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
           </motion.div>
         </div>
       </section>
-
-      <CircuitLine variant="slow-pulse" />
 
       {/* SECTION 3: What's Included */}
-      <section className="py-16 md:py-20 relative">
-        <div className="absolute inset-0 circuit-bg opacity-10"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <motion.div initial="initial" animate="animate" variants={staggerContainer}>
-            <motion.h2 variants={fadeInUp} className="text-2xl md:text-3xl font-ubuntu font-bold text-white mb-12 text-center">
-              What's Included
-            </motion.h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto">
-              {whatsIncluded.map((item, i) => (
-                <motion.div
-                  key={i}
-                  variants={fadeInUp}
-                  className="glass-card p-4 md:p-6 rounded-xl border border-white/10 hover:border-brand-purple/30 transition-all duration-300"
-                >
-                  <div className="w-10 h-10 mb-3 rounded-lg bg-brand-purple/10 flex items-center justify-center text-brand-purple">
-                    {item.icon}
-                  </div>
-                  <h3 className="text-white font-ubuntu font-medium mb-1">{item.title}</h3>
-                  <p className="text-gray-400 text-sm">{item.desc}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+      <section className="py-16 px-4">
+        <div className="container mx-auto">
+          <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariants} className="text-2xl font-bold text-white mb-8 text-center">
+            What's Included
+          </motion.h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+            {whatsIncluded.map((item, i) => (
+              <motion.div
+                key={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeUpVariants}
+                className="bg-white/5 border border-white/10 rounded-xl p-5"
+              >
+                <div className="w-10 h-10 mb-3 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400">
+                  {item.icon}
+                </div>
+                <h3 className="text-white font-medium mb-1">{item.title}</h3>
+                <p className="text-gray-400 text-sm">{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
-      <CircuitLine variant="fast" />
-
-      {/* SECTION 4: The Process */}
-      <section className="py-16 md:py-20 relative">
-        <div className="absolute inset-0 circuit-bg opacity-10"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <motion.div initial="initial" animate="animate" variants={staggerContainer}>
-            <motion.h2 variants={fadeInUp} className="text-2xl md:text-3xl font-ubuntu font-bold text-white mb-12 text-center">
-              How It Works
-            </motion.h2>
-            <div className="flex flex-col md:flex-row justify-between gap-4 md:gap-2 max-w-5xl mx-auto">
-              {processSteps.map((step, i) => (
-                <motion.div
-                  key={i}
-                  variants={fadeInUp}
-                  className="flex-1 text-center relative"
-                >
-                  <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-brand-purple/10 flex items-center justify-center text-brand-purple font-bold text-lg border border-brand-purple/20">
-                    {step.number}
-                  </div>
-                  <h3 className="text-white font-ubuntu font-medium mb-1">{step.title}</h3>
-                  <p className="text-brand-purple/60 text-sm mb-2">{step.subtitle}</p>
-                  <p className="text-gray-400 text-sm">{step.desc}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+      {/* SECTION 4: Process */}
+      <section className="py-16 px-4">
+        <div className="container mx-auto">
+          <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariants} className="text-2xl font-bold text-white mb-10 text-center">
+            How It Works
+          </motion.h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-5xl mx-auto">
+            {processSteps.map((step, i) => (
+              <motion.div
+                key={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeUpVariants}
+                className="text-center"
+              >
+                <div className="w-10 h-10 mx-auto mb-3 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-400 font-bold text-sm border border-purple-500/20 relative z-10">
+                  {step.number}
+                </div>
+                <h3 className="text-white font-medium mb-0.5 text-sm">{step.title}</h3>
+                <p className="text-white/50 text-xs">{step.subtitle}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
-
-      <CircuitLine variant="slow-pulse" />
 
       {/* SECTION 5: What's Not Included */}
-      <section className="py-16 md:py-20 relative">
-        <div className="absolute inset-0 circuit-bg opacity-10"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <motion.div
-            initial="initial"
-            animate="animate"
-            variants={staggerContainer}
-            className="max-w-2xl mx-auto"
-          >
-            <motion.h2 variants={fadeInUp} className="text-2xl md:text-3xl font-ubuntu font-bold text-white mb-8 text-center">
-              What This Package Doesn't Cover
-            </motion.h2>
-            <motion.div 
-              variants={fadeInUp}
-              className="glass-card p-6 md:p-8 rounded-2xl border-l-4 border-brand-purple/50"
-            >
-              <ul className="space-y-3">
+      <section className="py-16 px-4">
+        <div className="container mx-auto max-w-2xl">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+            <h2 className="text-xl font-bold text-white mb-6 text-center">What This Doesn't Cover</h2>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+              <ul className="space-y-2">
                 {whatsNotIncluded.map((item, i) => (
-                  <li key={i} className="text-gray-400 text-sm">
-                    • {item}
-                  </li>
+                  <li key={i} className="text-gray-400 text-sm">• {item}</li>
                 ))}
               </ul>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      <CircuitLine variant="fast" />
-
-      {/* SECTION 6: Relevant Add-ons */}
-      <section className="py-16 md:py-20 bg-white/5 relative">
-        <div className="absolute inset-0 circuit-bg opacity-10"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <motion.div initial="initial" animate="animate" variants={staggerContainer}>
-            <motion.h2 variants={fadeInUp} className="text-2xl md:text-3xl font-ubuntu font-bold text-white mb-4 text-center">
-              Enhance Your Package
-            </motion.h2>
-            <motion.p variants={fadeInUp} className="text-gray-400 text-center mb-8">
-              Add-ons are only available when combined with a package.
-            </motion.p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-              {addOns.map((addOn, i) => (
-                <motion.div
-                  key={i}
-                  variants={fadeInUp}
-                  className="glass-card p-4 rounded-xl border border-white/10 hover:border-brand-purple/30 transition-all duration-300 text-center"
-                >
-                  <h3 className="text-white font-ubuntu font-medium text-sm mb-1">{addOn.name}</h3>
-                  <p className="text-brand-purple/60 text-xs">{addOn.price}</p>
-                </motion.div>
-              ))}
             </div>
           </motion.div>
         </div>
       </section>
 
-      <CircuitLine variant="slow-pulse" />
-
-      {/* SECTION 7: FAQ */}
-      <section className="py-16 md:py-20 relative">
-        <div className="absolute inset-0 circuit-bg opacity-10"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <motion.div initial="initial" animate="animate" variants={staggerContainer}>
-            <motion.h2 variants={fadeInUp} className="text-2xl md:text-3xl font-ubuntu font-bold text-white mb-12 text-center">
-              Common Questions
-            </motion.h2>
-            <div className="max-w-3xl mx-auto space-y-4">
-              {faqs.map((faq, i) => (
-                <motion.div
-                  key={i}
-                  variants={fadeInUp}
-                  className="glass-card rounded-xl border border-white/10 overflow-hidden"
-                >
-                  <button
-                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                    className="w-full flex items-center justify-between p-4 md:p-5 text-left"
-                  >
-                    <span className="text-white font-ubuntu font-medium pr-4">{faq.q}</span>
-                    <ChevronDown className={`w-5 h-5 text-brand-purple/60 flex-shrink-0 transition-transform ${openFaq === i ? 'rotate-180' : ''}`} />
-                  </button>
-                  <AnimatePresence>
-                    {openFaq === i && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="overflow-hidden"
-                      >
-                        <p className="px-4 md:px-5 pb-4 md:pb-5 text-gray-400 text-sm">
-                          {faq.a}
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      <CircuitLine variant="fast" />
-
-      {/* SECTION 8: Final CTA */}
-      <section className="py-16 md:py-20">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto">
-            <div className="glass-card p-8 md:p-12 rounded-2xl border border-brand-purple/30 text-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-brand-purple/5 to-transparent pointer-events-none" />
-              <h2 className="text-2xl md:text-3xl font-ubuntu font-bold text-white mb-4 relative z-10">
-                Ready to build something that actually scales?
-              </h2>
-              <p className="text-gray-300 text-lg mb-8 relative z-10">
-                Let's map your full system on a free strategy call. 
-                No pitch. Just a plan.
-              </p>
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-brand-purple/10 hover:bg-brand-purple/20 text-brand-purple font-ubuntu font-medium rounded-lg transition-all duration-300 border border-brand-purple/20 relative z-10"
+      {/* SECTION 6: FAQ */}
+      <section className="py-16 px-4">
+        <div className="container mx-auto max-w-3xl">
+          <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariants} className="text-2xl font-bold text-white mb-8 text-center">
+            Common Questions
+          </motion.h2>
+          <div className="space-y-3">
+            {faqs.map((faq, i) => (
+              <motion.div
+                key={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeUpVariants}
+                className="bg-white/5 border border-white/10 rounded-xl overflow-hidden"
               >
-                Book Your Free Strategy Call <ArrowRight className="w-5 h-5" />
-              </Link>
-            </div>
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full flex items-center justify-between p-4 text-left"
+                >
+                  <span className="text-white font-medium pr-4">{faq.q}</span>
+                  <ChevronDown className={`w-5 h-5 text-white/60 flex-shrink-0 transition-transform ${openFaq === i ? 'rotate-180' : ''}`} />
+                </button>
+                <AnimatePresence>
+                  {openFaq === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <p className="px-4 pb-4 text-gray-400 text-sm">{faq.a}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            ))}
           </div>
+        </div>
+      </section>
+
+      {/* SECTION 7: Final CTA */}
+      <section className="py-24 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-[120px]" />
+        </div>
+        <div className="container mx-auto relative z-10 text-center max-w-xl">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+            <h2 className="text-3xl font-bold text-white mb-4">Ready to scale?</h2>
+            <p className="text-white/50 mb-8">Your long-term growth partner awaits.</p>
+            <Link
+              to="/contact"
+              className="inline-block bg-purple-500 text-white font-semibold rounded-full px-8 py-4 hover:bg-purple-400 transition-all hover:shadow-[0_0_20px_rgba(139,92,246,0.4)]"
+            >
+              Book a Free Strategy Call →
+            </Link>
+          </motion.div>
         </div>
       </section>
     </PackagePageLayout>

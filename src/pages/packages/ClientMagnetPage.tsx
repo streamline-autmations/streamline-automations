@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import PackagePageLayout from '../../components/layout/PackagePageLayout';
-import CircuitLine from '../../components/ui/CircuitLine';
 import {
   Monitor,
   Smartphone,
@@ -21,85 +20,59 @@ import {
   Check,
 } from 'lucide-react';
 
-// Animation variants
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6 }
+const fadeUpVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
 };
 
 const staggerContainer = {
-  animate: {
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
 };
 
-// Data
 const isForYouIf = [
-  "You're getting enquiries but losing them because of slow responses",
-  "You're manually confirming bookings, sending reminders, and following up",
-  "You want leads captured and handled automatically while you work",
-  "You run a service business — salon, gym, coach, contractor, studio, clinic",
+  "Getting enquiries but losing them to slow responses",
+  "Manually confirming bookings and sending reminders",
+  "Want leads captured and handled automatically",
+  "Run a service business — salon, gym, coach",
 ];
 
 const whatsIncluded = [
   { icon: <Monitor className="w-5 h-5" />, title: "Up to 5 Pages", desc: "Home, About, Services, Portfolio, Contact" },
-  { icon: <Smartphone className="w-5 h-5" />, title: "Fully Responsive", desc: "Looks perfect on every device" },
-  { icon: <Mail className="w-5 h-5" />, title: "Contact Form", desc: "Enquiries land directly in your inbox" },
+  { icon: <Smartphone className="w-5 h-5" />, title: "Fully Responsive", desc: "Perfect on every device" },
+  { icon: <Mail className="w-5 h-5" />, title: "Contact Form", desc: "Enquiries to your inbox" },
   { icon: <MapPin className="w-5 h-5" />, title: "Google Maps & Socials", desc: "Linked and embedded" },
-  { icon: <Zap className="w-5 h-5" />, title: "Fast Performance", desc: "Optimised load times from day one" },
-  { icon: <Search className="w-5 h-5" />, title: "Basic SEO", desc: "Meta tags, titles, descriptions set up correctly" },
-  { icon: <Calendar className="w-5 h-5" />, title: "Appointment Booking", desc: "Integrated calendar booking system" },
-  { icon: <Brain className="w-5 h-5" />, title: "Smart Enquiry Forms", desc: "Forms that qualify leads before they reach you" },
-  { icon: <ClipboardCheck className="w-5 h-5" />, title: "Simple CRM", desc: "Leads captured and organised automatically" },
-  { icon: <Bell className="w-5 h-5" />, title: "WhatsApp & Email Alerts", desc: "Instant notifications when a lead comes in" },
-  { icon: <Check className="w-5 h-5" />, title: "Booking Confirmations", desc: "Auto-sent the moment someone books" },
-  { icon: <MessageSquare className="w-5 h-5" />, title: "Reminder Messages", desc: "Automated reminders reduce no-shows" },
-  { icon: <RefreshCw className="w-5 h-5" />, title: "Basic Follow-Up Sequence", desc: "Automatic follow-ups for cold leads" },
-  { icon: <Brain className="w-5 h-5" />, title: "Basic AI Chatbot", desc: "Handles FAQs and booking help 24/7" },
+  { icon: <Zap className="w-5 h-5" />, title: "Fast Performance", desc: "Optimised load times" },
+  { icon: <Search className="w-5 h-5" />, title: "Basic SEO", desc: "Meta tags + titles set up" },
+  { icon: <Calendar className="w-5 h-5" />, title: "Appointment Booking", desc: "Integrated calendar system" },
+  { icon: <Brain className="w-5 h-5" />, title: "Smart Enquiry Forms", desc: "Qualifies leads automatically" },
+  { icon: <ClipboardCheck className="w-5 h-5" />, title: "Simple CRM", desc: "Leads captured + organized" },
+  { icon: <Bell className="w-5 h-5" />, title: "WhatsApp & Email Alerts", desc: "Instant lead notifications" },
+  { icon: <Check className="w-5 h-5" />, title: "Booking Confirmations", desc: "Auto-sent on booking" },
+  { icon: <MessageSquare className="w-5 h-5" />, title: "Reminder Messages", desc: "Automated reminders" },
+  { icon: <RefreshCw className="w-5 h-5" />, title: "Basic Follow-Up", desc: "Auto follow-ups for leads" },
+  { icon: <Brain className="w-5 h-5" />, title: "Basic AI Chatbot", desc: "FAQ + booking, 24/7" },
 ];
 
 const processSteps = [
-  { number: 1, title: "Strategy Call", subtitle: "Day 1", desc: "We map your booking flow, lead sources, and automation needs." },
-  { number: 2, title: "Design & Build", subtitle: "Days 1–4", desc: "Website built and all automation modules connected and configured." },
-  { number: 3, title: "Automation Setup", subtitle: "Days 4–5", desc: "Booking system, CRM, chatbot, notifications — all wired together." },
-  { number: 4, title: "Testing", subtitle: "Days 5–6", desc: "Full end-to-end test. We submit real leads and bookings to verify everything fires correctly." },
-  { number: 5, title: "Launch", subtitle: "Day 7", desc: "System live. You receive a handover walkthrough so you know exactly how everything works." },
+  { number: 1, title: "Strategy Call", subtitle: "Day 1", desc: "Map booking flow + automation needs" },
+  { number: 2, title: "Design & Build", subtitle: "Days 1–4", desc: "Website built + modules connected" },
+  { number: 3, title: "Automation Setup", subtitle: "Days 4–5", desc: "Booking, CRM, chatbot wired" },
+  { number: 4, title: "Testing", subtitle: "Days 5–6", desc: "End-to-end test with real data" },
+  { number: 5, title: "Launch", subtitle: "Day 7", desc: "System live + handover walkthrough" },
 ];
 
 const whatsNotIncluded = [
-  "Analytics dashboards or CMS editing (upgrade to Business Accelerator)",
+  "Analytics dashboards or CMS (upgrade to Accelerator)",
   "Advanced multi-step automation logic",
-  "Monthly maintenance or ongoing support (available as retainer add-on)",
-];
-
-const addOns = [
-  { name: "Advanced AI Chatbot", price: "R2,000–R5,000" },
-  { name: "Advanced Booking Logic", price: "R1,500–R3,000" },
-  { name: "CRM Expansion", price: "R2,000–R6,000" },
-  { name: "Logo & Branding", price: "R2,000–R5,000" },
-  { name: "Hosting", price: "R250–R699/month" },
+  "Monthly maintenance (retainer add-on available)",
 ];
 
 const faqs = [
-  {
-    q: "Which booking system do you integrate?",
-    a: "We primarily use Cal.com — it's reliable, free, and deeply customizable. We can also integrate with existing systems you use."
-  },
-  {
-    q: "Will I need to manage the automations myself?",
-    a: "No. Everything runs automatically. You'll receive a handover walkthrough so you understand what's happening, but nothing requires manual management from you."
-  },
-  {
-    q: "What if something breaks after launch?",
-    a: "We include a 7-day post-launch support window. After that, ongoing support is available via retainer or on request."
-  },
-  {
-    q: "Can the chatbot handle complex questions?",
-    a: "The basic chatbot handles FAQs and booking assistance. For advanced logic, objection handling, or multi-step flows, the Advanced AI Chatbot add-on covers that."
-  },
+  { q: "Which booking system do you use?", a: "Cal.com — reliable, free, customizable. Or integrate your existing system." },
+  { q: "Do I need to manage automations?", a: "No. Everything runs automatically. Get handover walkthrough at launch." },
+  { q: "What if something breaks after launch?", a: "7-day post-launch support included. Ongoing support via retainer." },
+  { q: "Can chatbot handle complex questions?", a: "Basic FAQs + booking. Complex queries route to you." },
 ];
 
 const ClientMagnetPage: React.FC = () => {
@@ -112,271 +85,192 @@ const ClientMagnetPage: React.FC = () => {
       accentColor="orange"
     >
       {/* SECTION 1: Hero */}
-      <section className="relative pt-12 pb-20 md:pt-16 md:pb-28 overflow-hidden">
-        <div className="absolute inset-0 circuit-bg opacity-10"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
+      <section className="pt-12 pb-16 md:pt-16 md:pb-24 px-4">
+        <div className="container mx-auto">
           <motion.div
-            initial="initial"
-            animate="animate"
+            initial="hidden"
+            animate="visible"
             variants={staggerContainer}
-            className="text-center max-w-3xl mx-auto"
+            className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto"
           >
-            <motion.div variants={fadeInUp} className="mb-6">
-              <span className="inline-block px-4 py-2 bg-brand-orange/10 text-brand-orange text-sm rounded-full border border-brand-orange/20">
-                Tier 2 — Client Magnet ⭐ Most Popular
+            {/* Left: Text */}
+            <motion.div variants={fadeUpVariants}>
+              <span className="inline-block px-4 py-1.5 bg-orange-500/10 text-orange-400 text-xs font-mono tracking-[2px] rounded-full border border-orange-500/20 mb-6">
+                TIER 2 — CLIENT MAGNET
               </span>
-            </motion.div>
-            <motion.h1 
-              variants={fadeInUp}
-              className="text-4xl md:text-5xl lg:text-6xl font-ubuntu font-bold text-white mb-6"
-            >
-              Turn Your Website Into a Booking Machine.
-            </motion.h1>
-            <motion.p 
-              variants={fadeInUp}
-              className="text-lg md:text-xl text-gray-300 font-inter mb-4"
-            >
-              A complete lead and booking system — your site captures enquiries, 
-              sends confirmations, follows up automatically, and never sleeps.
-            </motion.p>
-            <motion.p 
-              variants={fadeInUp}
-              className="text-2xl font-bold text-brand-orange mb-8"
-            >
-              Starting from R12,000
-            </motion.p>
-            <motion.div variants={fadeInUp}>
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                Automate Leads & Bookings.
+              </h1>
+              <p className="text-white/50 text-lg mb-6 max-w-md">
+                System that captures, qualifies, and books clients 24/7.
+              </p>
+              <p className="text-2xl font-bold text-orange-400 mb-6 font-mono">From R12,000</p>
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-brand-orange/10 hover:bg-brand-orange/20 text-brand-orange font-ubuntu font-medium rounded-lg transition-all duration-300 border border-brand-orange/20"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-orange-500 text-white font-semibold rounded-full hover:bg-orange-400 transition-all hover:shadow-[0_0_20px_rgba(249,115,22,0.4)]"
               >
-                Start Getting More Clients <ArrowRight className="w-5 h-5" />
+                Automate Your Business <ArrowRight className="w-5 h-5" />
               </Link>
+            </motion.div>
+
+            {/* Right: Mockup */}
+            <motion.div variants={fadeUpVariants} className="hidden lg:block">
+              <div className="w-full max-w-sm h-64 mx-auto rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
+                <span className="font-mono text-[10px] text-white/20 text-center leading-tight">
+                  BOOKING SYSTEM<br />Placeholder
+                </span>
+              </div>
             </motion.div>
           </motion.div>
         </div>
       </section>
-
-      <CircuitLine variant="fast" />
 
       {/* SECTION 2: This is for you if */}
-      <section className="py-16 md:py-20 relative">
-        <div className="absolute inset-0 circuit-bg opacity-10"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <motion.div
-            initial="initial"
-            animate="animate"
-            variants={staggerContainer}
-            className="max-w-3xl mx-auto"
-          >
-            <motion.h2 variants={fadeInUp} className="text-2xl md:text-3xl font-ubuntu font-bold text-white mb-8 text-center">
-              This package is built for you if...
-            </motion.h2>
-            <motion.div 
-              variants={fadeInUp}
-              className="glass-card p-6 md:p-8 rounded-2xl border-l-4 border-brand-orange/50"
-            >
-              <ul className="space-y-4">
+      <section className="py-16 px-4">
+        <div className="container mx-auto max-w-3xl">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+            <h2 className="text-2xl font-bold text-white mb-6 text-center">Built for you if...</h2>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+              <ul className="space-y-3">
                 {isForYouIf.map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 text-gray-300">
-                    <Check className="w-5 h-5 text-brand-orange flex-shrink-0 mt-0.5" />
-                    <span>{item}</span>
+                  <li key={i} className="flex items-center gap-3 text-gray-300">
+                    <Check className="w-5 h-5 text-orange-400" /> {item}
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
           </motion.div>
         </div>
       </section>
-
-      <CircuitLine variant="slow-pulse" />
 
       {/* SECTION 3: What's Included */}
-      <section className="py-16 md:py-20 relative">
-        <div className="absolute inset-0 circuit-bg opacity-10"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <motion.div initial="initial" animate="animate" variants={staggerContainer}>
-            <motion.h2 variants={fadeInUp} className="text-2xl md:text-3xl font-ubuntu font-bold text-white mb-12 text-center">
-              What's Included
-            </motion.h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto">
-              {whatsIncluded.map((item, i) => (
-                <motion.div
-                  key={i}
-                  variants={fadeInUp}
-                  className="glass-card p-4 md:p-6 rounded-xl border border-white/10 hover:border-brand-orange/30 transition-all duration-300"
-                >
-                  <div className="w-10 h-10 mb-3 rounded-lg bg-brand-orange/10 flex items-center justify-center text-brand-orange">
-                    {item.icon}
-                  </div>
-                  <h3 className="text-white font-ubuntu font-medium mb-1">{item.title}</h3>
-                  <p className="text-gray-400 text-sm">{item.desc}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+      <section className="py-16 px-4">
+        <div className="container mx-auto">
+          <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariants} className="text-2xl font-bold text-white mb-8 text-center">
+            What's Included
+          </motion.h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+            {whatsIncluded.map((item, i) => (
+              <motion.div
+                key={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeUpVariants}
+                className="bg-white/5 border border-white/10 rounded-xl p-5"
+              >
+                <div className="w-10 h-10 mb-3 rounded-lg bg-orange-500/10 flex items-center justify-center text-orange-400">
+                  {item.icon}
+                </div>
+                <h3 className="text-white font-medium mb-1">{item.title}</h3>
+                <p className="text-gray-400 text-sm">{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
-      <CircuitLine variant="fast" />
-
-      {/* SECTION 4: The Process */}
-      <section className="py-16 md:py-20 relative">
-        <div className="absolute inset-0 circuit-bg opacity-10"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <motion.div initial="initial" animate="animate" variants={staggerContainer}>
-            <motion.h2 variants={fadeInUp} className="text-2xl md:text-3xl font-ubuntu font-bold text-white mb-12 text-center">
-              How It Works
-            </motion.h2>
-            <div className="flex flex-col md:flex-row justify-between gap-4 md:gap-2 max-w-5xl mx-auto">
-              {processSteps.map((step, i) => (
-                <motion.div
-                  key={i}
-                  variants={fadeInUp}
-                  className="flex-1 text-center relative"
-                >
-                  <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-brand-orange/10 flex items-center justify-center text-brand-orange font-bold text-lg border border-brand-orange/20">
-                    {step.number}
-                  </div>
-                  <h3 className="text-white font-ubuntu font-medium mb-1">{step.title}</h3>
-                  <p className="text-brand-orange/60 text-sm mb-2">{step.subtitle}</p>
-                  <p className="text-gray-400 text-sm">{step.desc}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+      {/* SECTION 4: Process */}
+      <section className="py-16 px-4">
+        <div className="container mx-auto">
+          <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariants} className="text-2xl font-bold text-white mb-10 text-center">
+            How It Works
+          </motion.h2>
+          <div className="flex flex-col md:flex-row justify-between gap-8 max-w-4xl mx-auto relative">
+            {processSteps.map((step, i) => (
+              <motion.div
+                key={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeUpVariants}
+                className="flex-1 text-center flex flex-col items-center"
+              >
+                <div className="w-12 h-12 mb-3 rounded-full bg-orange-500/10 flex items-center justify-center text-orange-400 font-bold text-lg border border-orange-500/20 relative z-10">
+                  {step.number}
+                </div>
+                <h3 className="text-white font-medium mb-0.5">{step.title}</h3>
+                <p className="text-white/50 text-sm">{step.subtitle}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
-
-      <CircuitLine variant="slow-pulse" />
 
       {/* SECTION 5: What's Not Included */}
-      <section className="py-16 md:py-20 relative">
-        <div className="absolute inset-0 circuit-bg opacity-10"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <motion.div
-            initial="initial"
-            animate="animate"
-            variants={staggerContainer}
-            className="max-w-2xl mx-auto"
-          >
-            <motion.h2 variants={fadeInUp} className="text-2xl md:text-3xl font-ubuntu font-bold text-white mb-8 text-center">
-              What This Package Doesn't Cover
-            </motion.h2>
-            <motion.div 
-              variants={fadeInUp}
-              className="glass-card p-6 md:p-8 rounded-2xl border-l-4 border-brand-orange/50"
-            >
-              <ul className="space-y-3">
+      <section className="py-16 px-4">
+        <div className="container mx-auto max-w-2xl">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+            <h2 className="text-xl font-bold text-white mb-6 text-center">What This Doesn't Cover</h2>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+              <ul className="space-y-2">
                 {whatsNotIncluded.map((item, i) => (
-                  <li key={i} className="text-gray-400 text-sm">
-                    • {item}
-                  </li>
+                  <li key={i} className="text-gray-400 text-sm">• {item}</li>
                 ))}
               </ul>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      <CircuitLine variant="fast" />
-
-      {/* SECTION 6: Relevant Add-ons */}
-      <section className="py-16 md:py-20 bg-white/5 relative">
-        <div className="absolute inset-0 circuit-bg opacity-10"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <motion.div initial="initial" animate="animate" variants={staggerContainer}>
-            <motion.h2 variants={fadeInUp} className="text-2xl md:text-3xl font-ubuntu font-bold text-white mb-4 text-center">
-              Enhance Your Package
-            </motion.h2>
-            <motion.p variants={fadeInUp} className="text-gray-400 text-center mb-8">
-              Add-ons are only available when combined with a package.
-            </motion.p>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 max-w-4xl mx-auto">
-              {addOns.map((addOn, i) => (
-                <motion.div
-                  key={i}
-                  variants={fadeInUp}
-                  className="glass-card p-4 rounded-xl border border-white/10 hover:border-brand-orange/30 transition-all duration-300 text-center"
-                >
-                  <h3 className="text-white font-ubuntu font-medium text-sm mb-1">{addOn.name}</h3>
-                  <p className="text-brand-orange/60 text-xs">{addOn.price}</p>
-                </motion.div>
-              ))}
             </div>
           </motion.div>
         </div>
       </section>
 
-      <CircuitLine variant="slow-pulse" />
-
-      {/* SECTION 7: FAQ */}
-      <section className="py-16 md:py-20 relative">
-        <div className="absolute inset-0 circuit-bg opacity-10"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <motion.div initial="initial" animate="animate" variants={staggerContainer}>
-            <motion.h2 variants={fadeInUp} className="text-2xl md:text-3xl font-ubuntu font-bold text-white mb-12 text-center">
-              Common Questions
-            </motion.h2>
-            <div className="max-w-3xl mx-auto space-y-4">
-              {faqs.map((faq, i) => (
-                <motion.div
-                  key={i}
-                  variants={fadeInUp}
-                  className="glass-card rounded-xl border border-white/10 overflow-hidden"
-                >
-                  <button
-                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                    className="w-full flex items-center justify-between p-4 md:p-5 text-left"
-                  >
-                    <span className="text-white font-ubuntu font-medium pr-4">{faq.q}</span>
-                    <ChevronDown className={`w-5 h-5 text-brand-orange/60 flex-shrink-0 transition-transform ${openFaq === i ? 'rotate-180' : ''}`} />
-                  </button>
-                  <AnimatePresence>
-                    {openFaq === i && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="overflow-hidden"
-                      >
-                        <p className="px-4 md:px-5 pb-4 md:pb-5 text-gray-400 text-sm">
-                          {faq.a}
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      <CircuitLine variant="fast" />
-
-      {/* SECTION 8: Final CTA */}
-      <section className="py-16 md:py-20">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto">
-            <div className="glass-card p-8 md:p-12 rounded-2xl border border-brand-orange/30 text-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-brand-orange/5 to-transparent pointer-events-none" />
-              <h2 className="text-2xl md:text-3xl font-ubuntu font-bold text-white mb-4 relative z-10">
-                Ready to stop losing leads?
-              </h2>
-              <p className="text-gray-300 text-lg mb-8 relative z-10">
-                Most clients recover the cost of this package within 
-                their first month from automated bookings alone.
-              </p>
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-brand-orange/10 hover:bg-brand-orange/20 text-brand-orange font-ubuntu font-medium rounded-lg transition-all duration-300 border border-brand-orange/20 relative z-10"
+      {/* SECTION 6: FAQ */}
+      <section className="py-16 px-4">
+        <div className="container mx-auto max-w-3xl">
+          <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariants} className="text-2xl font-bold text-white mb-8 text-center">
+            Common Questions
+          </motion.h2>
+          <div className="space-y-3">
+            {faqs.map((faq, i) => (
+              <motion.div
+                key={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeUpVariants}
+                className="bg-white/5 border border-white/10 rounded-xl overflow-hidden"
               >
-                Book Your Free Strategy Call <ArrowRight className="w-5 h-5" />
-              </Link>
-            </div>
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full flex items-center justify-between p-4 text-left"
+                >
+                  <span className="text-white font-medium pr-4">{faq.q}</span>
+                  <ChevronDown className={`w-5 h-5 text-white/60 flex-shrink-0 transition-transform ${openFaq === i ? 'rotate-180' : ''}`} />
+                </button>
+                <AnimatePresence>
+                  {openFaq === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <p className="px-4 pb-4 text-gray-400 text-sm">{faq.a}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            ))}
           </div>
+        </div>
+      </section>
+
+      {/* SECTION 7: Final CTA */}
+      <section className="py-24 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/10 rounded-full blur-[120px]" />
+        </div>
+        <div className="container mx-auto relative z-10 text-center max-w-xl">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+            <h2 className="text-3xl font-bold text-white mb-4">Ready to automate?</h2>
+            <p className="text-white/50 mb-8">Book more clients while you sleep.</p>
+            <Link
+              to="/contact"
+              className="inline-block bg-orange-500 text-white font-semibold rounded-full px-8 py-4 hover:bg-orange-400 transition-all hover:shadow-[0_0_20px_rgba(249,115,22,0.4)]"
+            >
+              Book a Free Strategy Call →
+            </Link>
+          </motion.div>
         </div>
       </section>
     </PackagePageLayout>

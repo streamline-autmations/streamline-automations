@@ -1,326 +1,277 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { 
-  Globe, 
-  Zap, 
-  TrendingUp, 
-  Check, 
-  Plus, 
-  Mail, 
-  Server, 
-  MessageSquare, 
-  Calendar, 
-  Database, 
-  Search,
-  ArrowRight
-} from 'lucide-react';
-import CircuitLine from '../components/ui/CircuitLine';
+import { Check, ArrowRight, Zap, TrendingUp, Globe, Search, MessageSquare } from 'lucide-react';
 
-// Animation variants
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6 }
+const fadeUpVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
 };
 
 const staggerContainer = {
-  animate: {
-    transition: {
-      staggerChildren: 0.1
-    }
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
   }
 };
 
-// Add-ons data
-const addOns = [
-  { icon: <Globe className="w-5 h-5" />, name: 'Logo & Branding', price: 'R2,000 – R5,000' },
-  { icon: <Plus className="w-5 h-5" />, name: 'Extra Page', price: 'R750' },
-  { icon: <Mail className="w-5 h-5" />, name: 'Professional Email Setup', price: 'R750' },
-  { icon: <Server className="w-5 h-5" />, name: 'Hosting', price: 'R250 – R699/month' },
-  { icon: <MessageSquare className="w-5 h-5" />, name: 'Advanced AI Chatbot', price: 'R2,000 – R5,000' },
-  { icon: <Calendar className="w-5 h-5" />, name: 'Advanced Booking Logic', price: 'R1,500 – R3,000' },
-  { icon: <Database className="w-5 h-5" />, name: 'CRM Expansion', price: 'R2,000 – R6,000' },
-  { icon: <Search className="w-5 h-5" />, name: 'SEO Upgrade', price: 'R2,500 – R8,000' },
-];
-
 const Packages: React.FC = () => {
   return (
-    <div className="relative overflow-hidden">
-      {/* Atmospheric Orbs */}
-      <div className="absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-brand-orange/10 blur-[100px] rounded-full animate-blob pointer-events-none"></div>
-      <div className="absolute bottom-[20%] left-[-10%] w-[600px] h-[600px] bg-brand-purple/10 blur-[120px] rounded-full animate-blob pointer-events-none" style={{ animationDelay: '4s' }}></div>
-
-      {/* SECTION 1: Hero */}
-      <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
-        <div className="absolute inset-0 circuit-bg opacity-10"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <motion.div
-            initial="initial"
-            animate="animate"
-            variants={staggerContainer}
-            className="text-center max-w-3xl mx-auto"
-          >
-            <motion.h1 
-              variants={fadeInUp}
-              className="text-4xl md:text-5xl lg:text-6xl font-ubuntu font-bold text-white mb-6"
-            >
-              Choose Your System
-            </motion.h1>
-            <motion.p 
-              variants={fadeInUp}
-              className="text-lg md:text-xl text-gray-300 font-inter"
-            >
-              Every package is a complete business system — not just a website. 
-              Pick the one that matches where you are right now.
-            </motion.p>
+    <div className="min-h-screen bg-[#050505]">
+      {/* SECTION 1 — HERO */}
+      <section className="py-20 md:py-32 text-center px-4">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainer}
+        >
+          {/* Badge */}
+          <motion.div variants={fadeUpVariants} className="inline-flex mb-8">
+            <span className="border border-purple-500/30 bg-purple-500/10 rounded-full px-4 py-1.5 font-mono text-xs tracking-[3px] uppercase text-purple-400">
+              CHOOSE YOUR SYSTEM
+            </span>
           </motion.div>
-        </div>
+
+          {/* Headline */}
+          <motion.h1 variants={fadeUpVariants} className="text-5xl md:text-6xl font-bold tracking-tight text-white leading-tight">
+            Every package is a
+            <br />
+            <span className="bg-gradient-to-r from-purple-400 to-orange-400 bg-clip-text text-transparent">
+              complete business system.
+            </span>
+          </motion.h1>
+
+          {/* Subtext */}
+          <motion.p variants={fadeUpVariants} className="text-white/50 text-lg text-center max-w-xl mx-auto mt-4">
+            Not just a website. A system that captures leads, books clients, 
+            and runs while you focus on your business.
+          </motion.p>
+        </motion.div>
       </section>
 
-      {/* SECTION 2: Package Cards */}
-      <section className="py-20 md:py-28 relative">
-        <div className="absolute inset-0 circuit-bg opacity-10"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <motion.div
-            initial="initial"
-            animate="animate"
-            variants={staggerContainer}
-            className="grid md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto"
-          >
-            {/* Card 1: Online Presence */}
-            <motion.div
-              variants={fadeInUp}
-              className="glass-card p-6 md:p-8 rounded-2xl border border-white/10 hover:border-white/20 transition-all duration-300"
-            >
-              <div className="mb-4">
-                <span className="inline-block px-3 py-1 bg-white/10 text-white text-sm rounded-full">
-                  Get Found Online
+      {/* SECTION 2 — 3 PACKAGE CARDS */}
+      <section className="container mx-auto px-4 md:px-6 py-24">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          viewport={{ once: true }}
+          variants={staggerContainer}
+          className="grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto"
+        >
+          {/* Card 1: Online Presence */}
+          <motion.div variants={fadeUpVariants} className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden">
+            {/* Device Mockup Area */}
+            <div className="h-[220px] overflow-hidden rounded-t-2xl bg-gradient-to-br from-white/5 to-transparent">
+              <div className="h-3 w-full bg-white/5 rounded-t-xl"></div>
+              <div className="w-48 h-32 mx-auto mt-6 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
+                <span className="font-mono text-[10px] text-white/20 text-center leading-tight">
+                  WEBSITE MOCKUP<br />[Online Presence]
                 </span>
               </div>
-              <h3 className="text-2xl font-ubuntu font-bold text-white mb-2">
-                Online Presence
-              </h3>
-              <p className="text-2xl font-bold text-white mb-4">Starting from R6,500</p>
-              <p className="text-gray-300 mb-6">A clean, professional website that works.</p>
+            </div>
+            
+            {/* Card Content */}
+            <div className="p-6">
+              <h3 className="font-bold text-xl text-white">Online Presence</h3>
+              <p className="text-white/50 text-sm mt-1">A clean, professional website live in 3–5 days.</p>
+              <p className="font-mono text-2xl font-bold text-white mt-4">From R6,500</p>
               
-              <ul className="space-y-3 mb-8">
-                {[
-                  'Up to 5 pages',
-                  'Responsive design',
-                  'Contact form',
-                  'Basic SEO',
-                  'Google Maps & social links',
-                  'Fast performance',
-                ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 text-gray-300">
-                    <Check className="w-5 h-5 text-white flex-shrink-0 mt-0.5" />
-                    <span>{item}</span>
+              <ul className="mt-4 space-y-2">
+                {['Up to 5 pages', 'Contact form + SEO', 'Delivered in 3–5 days'].map((item, i) => (
+                  <li key={i} className="flex items-center gap-2 text-white/70 text-sm">
+                    <Check className="w-4 h-4 text-white" /> {item}
                   </li>
                 ))}
               </ul>
-
-              <p className="text-sm text-gray-400 mb-6">Timeline: 3–5 working days</p>
-
+              
               <Link
                 to="/packages/online-presence"
-                className="block w-full py-3 px-6 bg-white/10 hover:bg-white/20 text-white text-center font-ubuntu font-medium rounded-lg transition-all duration-300"
+                className="block w-full py-3 mt-6 text-center border border-white/20 text-white rounded-xl hover:bg-white/5 transition-colors"
               >
-                Start Here
+                Learn More →
               </Link>
-            </motion.div>
+            </div>
+          </motion.div>
 
-            {/* Card 2: Client Magnet (Most Popular) */}
-            <motion.div
-              variants={fadeInUp}
-              className="glass-card p-6 md:p-8 rounded-2xl border-2 border-brand-orange relative overflow-hidden"
-              style={{
-                boxShadow: '0 0 40px rgba(249, 115, 22, 0.3)',
-                transform: 'scale(1.05)'
-              }}
-            >
-              {/* Animated glow border */}
-              <div className="absolute inset-0 rounded-2xl pointer-events-none">
-                <div className="absolute inset-0 rounded-2xl animate-pulse" style={{
-                  boxShadow: 'inset 0 0 20px rgba(249, 115, 22, 0.5)'
-                }} />
-              </div>
-
-              <div className="mb-4 relative z-10">
-                <span className="inline-block px-3 py-1 bg-brand-orange text-white text-sm rounded-full font-medium">
-                  Most Popular
+          {/* Card 2: Client Magnet (Elevated) */}
+          <motion.div variants={fadeUpVariants} className="bg-white/5 backdrop-blur-md border-2 border-orange-500/50 rounded-2xl overflow-hidden relative lg:-mt-4 lg:mb-4" style={{ boxShadow: '0 0 40px rgba(249,115,22,0.2)' }}>
+            {/* Most Popular Badge */}
+            <div className="absolute top-4 right-4 z-10">
+              <span className="bg-orange-500 text-white text-[10px] font-mono tracking-[2px] uppercase rounded-full px-3 py-1">
+                Most Popular
+              </span>
+            </div>
+            
+            {/* Device Mockup Area */}
+            <div className="h-[220px] overflow-hidden rounded-t-2xl bg-gradient-to-br from-orange-500/5 to-transparent">
+              <div className="h-3 w-full bg-white/5 rounded-t-xl"></div>
+              <div className="w-48 h-32 mx-auto mt-6 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
+                <span className="font-mono text-[10px] text-white/20 text-center leading-tight">
+                  BOOKING SYSTEM<br />[Client Magnet]
                 </span>
               </div>
-              <h3 className="text-2xl font-ubuntu font-bold text-white mb-2 relative z-10">
-                Client Magnet
-              </h3>
-              <p className="text-2xl font-bold text-brand-orange mb-4 relative z-10">Starting from R12,000</p>
-              <p className="text-gray-300 mb-6 relative z-10">Automate your leads, bookings, and follow-ups.</p>
+            </div>
+            
+            {/* Card Content */}
+            <div className="p-6">
+              <h3 className="font-bold text-xl text-white">Client Magnet</h3>
+              <p className="text-white/50 text-sm mt-1">Automated leads, bookings, and follow-ups.</p>
+              <p className="font-mono text-2xl font-bold text-orange-400 mt-4">From R12,000</p>
               
-              <ul className="space-y-3 mb-8 relative z-10">
-                {[
-                  'Everything in Online Presence PLUS:',
-                  'Appointment booking integration',
-                  'Smart enquiry forms',
-                  'Lead capture into simple CRM',
-                  'Email & WhatsApp notifications',
-                  'Booking confirmations & reminders',
-                  'Basic automated follow-ups',
-                  'Basic AI chatbot (FAQ + booking help)',
-                ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 text-gray-300">
-                    <Check className="w-5 h-5 text-brand-orange flex-shrink-0 mt-0.5" />
-                    <span>{item}</span>
+              <ul className="mt-4 space-y-2">
+                {['Booking system + AI chatbot', 'WhatsApp & email alerts', 'Delivered in 5–7 days'].map((item, i) => (
+                  <li key={i} className="flex items-center gap-2 text-white/70 text-sm">
+                    <Check className="w-4 h-4 text-orange-400" /> {item}
                   </li>
                 ))}
               </ul>
-
-              <p className="text-sm text-gray-400 mb-6 relative z-10">Timeline: 5–7 working days</p>
-
+              
               <Link
                 to="/packages/client-magnet"
-                className="block w-full py-3 px-6 bg-brand-orange hover:bg-brand-orange/80 text-white text-center font-ubuntu font-medium rounded-lg transition-all duration-300 relative z-10"
+                className="block w-full py-3 mt-6 text-center bg-orange-500 text-white rounded-xl hover:bg-orange-400 transition-colors hover:shadow-[0_0_20px_rgba(249,115,22,0.4)]"
               >
-                Get More Clients
+                Learn More →
               </Link>
-            </motion.div>
+            </div>
+          </motion.div>
 
-            {/* Card 3: Business Accelerator */}
-            <motion.div
-              variants={fadeInUp}
-              className="glass-card p-6 md:p-8 rounded-2xl border border-brand-purple/50 hover:border-brand-purple transition-all duration-300"
-            >
-              <div className="mb-4">
-                <span className="inline-block px-3 py-1 bg-brand-purple/20 text-brand-purple text-sm rounded-full">
-                  Full Growth System
+          {/* Card 3: Business Accelerator */}
+          <motion.div variants={fadeUpVariants} className="bg-white/5 backdrop-blur-md border border-purple-500/30 rounded-2xl overflow-hidden">
+            {/* Device Mockup Area */}
+            <div className="h-[220px] overflow-hidden rounded-t-2xl bg-gradient-to-br from-purple-500/5 to-transparent">
+              <div className="h-3 w-full bg-white/5 rounded-t-xl"></div>
+              <div className="w-48 h-32 mx-auto mt-6 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
+                <span className="font-mono text-[10px] text-white/20 text-center leading-tight">
+                  DASHBOARD<br />[Business Accelerator]
                 </span>
               </div>
-              <h3 className="text-2xl font-ubuntu font-bold text-white mb-2">
-                Business Accelerator
-              </h3>
-              <p className="text-2xl font-bold text-brand-purple mb-4">Starting from R25,000 + R3,500–R7,000/month</p>
-              <p className="text-gray-300 mb-6">A long-term growth partner, not just a build.</p>
+            </div>
+            
+            {/* Card Content */}
+            <div className="p-6">
+              <h3 className="font-bold text-xl text-white">Business Accelerator</h3>
+              <p className="text-white/50 text-sm mt-1">A long-term growth partner.</p>
+              <p className="font-mono text-2xl font-bold text-purple-400 mt-4">From R25,000</p>
               
-              <ul className="space-y-3 mb-8">
-                {[
-                  'Everything in Client Magnet PLUS:',
-                  'Analytics dashboard',
-                  'Lead & booking visibility',
-                  'Editable site sections (CMS-style)',
-                  'Advanced follow-up logic',
-                  'Monthly optimisation',
-                  'Priority support & minor changes included',
-                  'Automation tuning',
-                ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 text-gray-300">
-                    <Check className="w-5 h-5 text-brand-purple flex-shrink-0 mt-0.5" />
-                    <span>{item}</span>
+              <ul className="mt-4 space-y-2">
+                {['Analytics dashboard', 'Advanced automations', 'Monthly optimisation'].map((item, i) => (
+                  <li key={i} className="flex items-center gap-2 text-white/70 text-sm">
+                    <Check className="w-4 h-4 text-purple-400" /> {item}
                   </li>
                 ))}
               </ul>
-
-              <p className="text-sm text-gray-400 mb-6">Timeline: 7–10 days setup + ongoing retainer</p>
-
+              
               <Link
                 to="/packages/business-accelerator"
-                className="block w-full py-3 px-6 bg-brand-purple hover:bg-brand-purple/80 text-white text-center font-ubuntu font-medium rounded-lg transition-all duration-300"
+                className="block w-full py-3 mt-6 text-center border border-purple-500/40 text-purple-400 rounded-xl hover:bg-purple-500/10 transition-colors"
               >
-                Let's Build
+                Learn More →
               </Link>
+            </div>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* SECTION 3 — STATS BAR */}
+      <section className="border-y border-white/5 py-10">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+            className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center"
+          >
+            <motion.div variants={fadeUpVariants}>
+              <div className="text-4xl font-bold font-mono text-purple-400">&lt;7</div>
+              <div className="text-white/40 text-xs tracking-[2px] uppercase mt-1">Days Delivery</div>
+            </motion.div>
+            <motion.div variants={fadeUpVariants}>
+              <div className="text-4xl font-bold font-mono text-orange-400">3</div>
+              <div className="text-white/40 text-xs tracking-[2px] uppercase mt-1">Core Packages</div>
+            </motion.div>
+            <motion.div variants={fadeUpVariants}>
+              <div className="text-4xl font-bold font-mono text-purple-400">R6.5K</div>
+              <div className="text-white/40 text-xs tracking-[2px] uppercase mt-1">Starting From</div>
+            </motion.div>
+            <motion.div variants={fadeUpVariants}>
+              <div className="text-4xl font-bold font-mono text-orange-400">100%</div>
+              <div className="text-white/40 text-xs tracking-[2px] uppercase mt-1">Ownership</div>
             </motion.div>
           </motion.div>
         </div>
       </section>
 
-      {/* SECTION 3: What's Not Included */}
-      <div className="py-8 md:py-12">
-        <CircuitLine variant="fast" />
-      </div>
+      {/* SECTION 4 — ADD-ONS TEASER */}
+      <section className="py-24 px-4">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={staggerContainer}
+          className="container mx-auto text-center"
+        >
+          <motion.h2 variants={fadeUpVariants} className="text-2xl font-bold text-white">
+            Need more?
+          </motion.h2>
+          <motion.p variants={fadeUpVariants} className="text-white/50 mt-2">
+            Extend any package with add-ons.
+          </motion.p>
 
-      <section className="py-16 md:py-20">
-        <div className="absolute inset-0 circuit-bg opacity-10"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-ubuntu font-bold text-white mb-4">
-              What's Not Included (And Why)
-            </h2>
-            <p className="text-gray-400 text-lg">
-              We don't do templates. We don't do one-size-fits-all. 
-              Every build starts with a strategy call so we scope exactly what you need — 
-              nothing more, nothing less.
-            </p>
-          </div>
-        </div>
+          {/* Teaser Tiles */}
+          <motion.div variants={fadeUpVariants} className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-2xl mx-auto mt-8">
+            {[
+              { icon: <MessageSquare className="w-4 h-4" />, name: 'AI Chatbot' },
+              { icon: <Zap className="w-4 h-4" />, name: 'Logo & Branding' },
+              { icon: <Search className="w-4 h-4" />, name: 'SEO Upgrade' },
+              { icon: <Globe className="w-4 h-4" />, name: 'Social Media' },
+            ].map((item, i) => (
+              <div key={i} className="bg-white/5 backdrop-blur-md border border-white/10 rounded-full py-2.5 px-4 flex items-center justify-center gap-2">
+                <span className="text-purple-400">{item.icon}</span>
+                <span className="text-white/70 text-sm">{item.name}</span>
+              </div>
+            ))}
+          </motion.div>
+
+          {/* Link to all add-ons */}
+          <motion.div variants={fadeUpVariants} className="mt-8">
+            <Link to="/add-ons" className="text-orange-400 text-sm hover:text-orange-300 underline-offset-4 hover:underline transition">
+              View all add-ons & branding →
+            </Link>
+          </motion.div>
+        </motion.div>
       </section>
 
-      {/* SECTION 4: Power-Ups / Add-ons */}
-      <div className="py-8 md:py-12">
-        <CircuitLine variant="slow-pulse" />
-      </div>
-
-      <section className="py-20 md:py-28 bg-white/5 relative">
-        <div className="absolute inset-0 circuit-bg opacity-10"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
+      {/* SECTION 5 — FINAL CTA BANNER */}
+      <section className="py-24 px-4 relative overflow-hidden">
+        {/* Purple radial glow */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-[120px]" />
+        </div>
+        
+        <div className="container mx-auto relative z-10 text-center max-w-2xl">
           <motion.div
-            initial="initial"
-            animate="animate"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
             variants={staggerContainer}
           >
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-ubuntu font-bold text-white mb-4">
-                Power-Ups
-              </h2>
-              <p className="text-gray-400">
-                Only available on top of a package. Never sold alone.
-              </p>
-            </div>
-
-            <motion.div 
-              variants={staggerContainer}
-              className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-5xl mx-auto"
-            >
-              {addOns.map((addOn, index) => (
-                <motion.div
-                  key={index}
-                  variants={fadeInUp}
-                  className="glass-card p-4 md:p-6 rounded-xl border border-white/10 hover:border-brand-purple/50 transition-all duration-300 text-center"
-                >
-                  <div className="w-10 h-10 mx-auto mb-3 rounded-lg bg-brand-purple/20 flex items-center justify-center text-brand-purple">
-                    {addOn.icon}
-                  </div>
-                  <h3 className="text-white font-ubuntu font-medium mb-2">{addOn.name}</h3>
-                  <p className="text-brand-purple font-bold text-sm">{addOn.price}</p>
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* SECTION 5: Final CTA Banner */}
-      <section className="py-20 md:py-28">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-4xl mx-auto">
-            <div className="glass-card p-8 md:p-12 rounded-2xl border border-brand-orange/30 text-center relative overflow-hidden">
-              {/* Subtle orange glow */}
-              <div className="absolute inset-0 bg-gradient-to-br from-brand-orange/5 to-transparent pointer-events-none" />
-              
-              <h2 className="text-2xl md:text-3xl font-ubuntu font-bold text-white mb-4 relative z-10">
-                Not sure which package fits you?
-              </h2>
-              <p className="text-gray-300 text-lg mb-8 relative z-10">
-                Book a free 20-minute strategy call. We'll scope the right system for your business — 
-                no pressure, no pitch.
-              </p>
+            <motion.h2 variants={fadeUpVariants} className="text-3xl md:text-4xl font-bold text-white">
+              Not sure which fits you?
+            </motion.h2>
+            <motion.p variants={fadeUpVariants} className="text-white/50 mt-4">
+              Book a free 20-minute call. We'll tell you exactly which package makes sense.
+            </motion.p>
+            <motion.div variants={fadeUpVariants} className="mt-8">
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-2 py-3 px-8 bg-brand-orange hover:bg-brand-orange/80 text-white font-ubuntu font-medium rounded-lg transition-all duration-300 relative z-10"
+                className="inline-block bg-orange-500 hover:bg-orange-400 text-white font-semibold rounded-full px-8 py-4 transition-all duration-200 hover:shadow-[0_0_20px_rgba(249,115,22,0.4)]"
               >
-                Book a Free Strategy Call
-                <ArrowRight className="w-5 h-5" />
+                Book a Free Strategy Call →
               </Link>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
     </div>

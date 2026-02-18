@@ -1,11 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Button from '../ui/Button';
+
+const packageLinks = [
+  { name: 'Online Presence', path: '/packages/online-presence', subtext: 'From R6,500 · 3–5 days' },
+  { name: 'Client Magnet', path: '/packages/client-magnet', subtext: 'From R12,000 · 5–7 days ⭐ Most Popular' },
+  { name: 'Business Accelerator', path: '/packages/business-accelerator', subtext: 'From R25,000 · 7–10 days' },
+];
+
+const moreLinks = [
+  { name: 'Add-Ons & Branding', path: '/add-ons' },
+];
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isPackagesDropdownOpen, setIsPackagesDropdownOpen] = useState(false);
+  const [isMobilePackagesOpen, setIsMobilePackagesOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
   const serviceLinks = [
@@ -25,7 +39,22 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     setIsMenuOpen(false);
+    setIsMobilePackagesOpen(false);
   }, [location]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsPackagesDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const isPackagesActive = location.pathname.startsWith('/packages');
 
   return (
     <header
@@ -90,18 +119,65 @@ const Header: React.FC = () => {
                 </Link>
               </li>
 
-              {/* Packages - Direct Link */}
-              <li>
-                <Link
-                  to="/packages"
-                  className={`inline-block px-3 py-2 rounded-lg text-base font-ubuntu font-medium transition-all duration-300 ${
-                    location.pathname === '/packages'
-                      ? 'text-brand-purple bg-brand-purple/10'
-                      : 'text-gray-200 hover:text-brand-purple hover:bg-brand-purple/10'
+              {/* Packages with Dropdown */}
+              <li className="relative">
+                <button
+                  onClick={() => setIsPackagesDropdownOpen(!isPackagesDropdownOpen)}
+                  onMouseEnter={() => setIsPackagesDropdownOpen(true)}
+                  className={`inline-flex items-center gap-1 px-3 py-2 rounded-lg text-base font-ubuntu font-medium transition-all duration-300 ${
+                    isPackagesActive ? 'text-brand-purple bg-brand-purple/10' : 'text-gray-200 hover:text-brand-purple hover:bg-brand-purple/10'
                   }`}
                 >
                   Packages
-                </Link>
+                  <ChevronDown size={16} className={`transition-transform duration-200 ${isPackagesDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                <AnimatePresence>
+                  {isPackagesDropdownOpen && (
+                    <motion.div
+                      ref={dropdownRef}
+                      initial={{ opacity: 0, y: -8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute top-full left-0 mt-2 w-72 bg-brand-dark/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden"
+                    >
+                      {/* PACKAGES Group */}
+                      <div className="px-4 pt-3 pb-1">
+                        <span className="text-[10px] font-mono tracking-widest text-gray-500 uppercase">Packages</span>
+                      </div>
+                      {packageLinks.map((item) => (
+                        <Link
+                          key={item.path}
+                          to={item.path}
+                          onClick={() => setIsPackagesDropdownOpen(false)}
+                          className="block px-4 py-3 mx-2 rounded-lg hover:bg-white/5 transition-colors group"
+                        >
+                          <div className="text-sm font-ubuntu font-medium text-gray-200 group-hover:text-white">{item.name}</div>
+                          <div className="text-xs text-gray-500 mt-0.5">{item.subtext}</div>
+                        </Link>
+                      ))}
+
+                      {/* Divider */}
+                      <div className="mx-4 my-2 h-px bg-white/10" />
+
+                      {/* MORE Group */}
+                      <div className="px-4 pt-2 pb-1">
+                        <span className="text-[10px] font-mono tracking-widest text-gray-500 uppercase">More</span>
+                      </div>
+                      {moreLinks.map((item) => (
+                        <Link
+                          key={item.path}
+                          to={item.path}
+                          onClick={() => setIsPackagesDropdownOpen(false)}
+                          className="block px-4 py-3 mx-2 rounded-lg hover:bg-white/5 transition-colors group"
+                        >
+                          <div className="text-sm font-ubuntu font-medium text-gray-200 group-hover:text-white">{item.name}</div>
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </li>
 
               <li>
@@ -141,7 +217,7 @@ const Header: React.FC = () => {
         {/* Mobile Menu */}
         <div
           className={`md:hidden transition-all duration-300 overflow-hidden bg-brand-dark border-t border-white/10 ${
-            isMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+            isMenuOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'
           }`}
         >
           <nav className="py-6 px-2">
@@ -159,18 +235,57 @@ const Header: React.FC = () => {
                 </Link>
               </li>
 
-              {/* Packages - Main Link */}
+              {/* Packages with Dropdown (Mobile) */}
               <li>
-                <Link
-                  to="/packages"
-                  className={`block py-3 px-4 text-base font-ubuntu font-medium transition-all duration-300 rounded-lg ${
-                    location.pathname === '/packages'
-                      ? 'text-brand-purple bg-brand-purple/10'
-                      : 'text-gray-200 hover:bg-white/5'
+                <button
+                  onClick={() => setIsMobilePackagesOpen(!isMobilePackagesOpen)}
+                  className={`w-full flex items-center justify-between py-3 px-4 text-base font-ubuntu font-medium transition-all duration-300 rounded-lg ${
+                    isPackagesActive ? 'text-brand-purple bg-brand-purple/10' : 'text-gray-200 hover:bg-white/5'
                   }`}
                 >
-                  Packages
-                </Link>
+                  <span>Packages</span>
+                  <ChevronDown size={18} className={`transition-transform duration-200 ${isMobilePackagesOpen ? 'rotate-180' : ''}`} />
+                </button>
+                
+                <AnimatePresence>
+                  {isMobilePackagesOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden ml-2 border-l border-white/10 ml-4"
+                    >
+                      {/* Package links */}
+                      {packageLinks.map((item) => (
+                        <Link
+                          key={item.path}
+                          to={item.path}
+                          onClick={() => { setIsMobilePackagesOpen(false); setIsMenuOpen(false); }}
+                          className="block py-2.5 pl-4 pr-4 text-sm text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                        >
+                          <div className="font-medium">{item.name}</div>
+                          <div className="text-xs text-gray-500 mt-0.5">{item.subtext}</div>
+                        </Link>
+                      ))}
+                      
+                      {/* Divider */}
+                      <div className="mx-4 my-2 h-px bg-white/10" />
+                      
+                      {/* More links */}
+                      {moreLinks.map((item) => (
+                        <Link
+                          key={item.path}
+                          to={item.path}
+                          onClick={() => { setIsMobilePackagesOpen(false); setIsMenuOpen(false); }}
+                          className="block py-2.5 pl-4 pr-4 text-sm text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                        >
+                          {item.name}
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </li>
 
               <li>
