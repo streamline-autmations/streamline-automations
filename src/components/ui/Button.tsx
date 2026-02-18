@@ -36,8 +36,8 @@ const Button: React.FC<ButtonProps> = ({
     primary: 'bg-white/5 border border-white/10 text-white hover:bg-brand-purple hover:border-brand-purple',
     secondary: 'bg-brand-glow hover:bg-brand-purple text-white tech-glow tech-glow-hover',
     outline: 'bg-transparent border-2 border-brand-purple text-brand-purple hover:bg-brand-purple/10 hover:border-brand-glow',
-    orange: 'bg-brand-orange text-white hover:brightness-110 shadow-lg shadow-brand-orange/20',
-    purple: 'bg-brand-purple text-white hover:brightness-110 shadow-lg shadow-brand-purple/20',
+    orange: 'bg-brand-orange text-white hover:brightness-110 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(249,115,22,0.4),0_0_40px_rgba(249,115,22,0.15)]',
+    purple: 'bg-brand-purple text-white hover:brightness-110 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(139,92,246,0.4),0_0_40px_rgba(139,92,246,0.15)]',
     glass: 'bg-white/5 border border-white/10 text-white hover:bg-white/10',
     ghost: 'text-gray-300 hover:text-white border border-transparent hover:border-brand-purple/50',
   };

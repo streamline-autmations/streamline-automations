@@ -90,8 +90,8 @@ const Header: React.FC = () => {
                 </Link>
               </li>
 
-              {/* Services with Hover Dropdown */}
-              <li className="relative group">
+              {/* Packages - Direct Link */}
+              <li>
                 <Link
                   to="/packages"
                   className={`inline-block px-3 py-2 rounded-lg text-base font-ubuntu font-medium transition-all duration-300 ${
@@ -102,21 +102,6 @@ const Header: React.FC = () => {
                 >
                   Packages
                 </Link>
-
-                {/* Dropdown Menu - appears on hover */}
-                <div className="absolute top-full left-0 mt-2 w-56 glass-card shadow-glass opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 -translate-y-2 group-hover:translate-y-0">
-                  <div className="py-2">
-                    {serviceLinks.map((link) => (
-                      <Link
-                        key={link.path}
-                        to={link.path}
-                        className="block px-4 py-3 text-gray-300 hover:text-brand-purple hover:bg-brand-purple/10 transition-all duration-300"
-                      >
-                        {link.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
               </li>
 
               <li>
@@ -186,19 +171,6 @@ const Header: React.FC = () => {
                 >
                   Packages
                 </Link>
-              </li>
-
-              {/* Services - Sub Links (Always Visible) */}
-              <li className="pl-6 space-y-2">
-                {serviceLinks.map((link) => (
-                  <Link
-                    key={link.path}
-                    to={link.path}
-                    className="block py-2 px-4 rounded-lg text-sm text-gray-300 hover:text-brand-purple hover:bg-white/5 transition-all duration-300"
-                  >
-                    {link.name}
-                  </Link>
-                ))}
               </li>
 
               <li>
