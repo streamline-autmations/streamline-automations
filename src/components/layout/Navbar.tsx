@@ -9,9 +9,9 @@ const Header: React.FC = () => {
   const location = useLocation();
 
   const serviceLinks = [
-    { name: 'Branding & Design', path: '/services#branding' },
-    { name: 'Web Development', path: '/services#web-development' },
-    { name: 'Automation', path: '/services#automation' },
+    { name: 'Branding & Design', path: '/services/branding' },
+    { name: 'Web Development', path: '/services/development' },
+    { name: 'Automation', path: '/services/automation' },
   ];
 
   useEffect(() => {
@@ -93,14 +93,14 @@ const Header: React.FC = () => {
               {/* Services with Hover Dropdown */}
               <li className="relative group">
                 <Link
-                  to="/services"
+                  to="/packages"
                   className={`inline-block px-3 py-2 rounded-lg text-base font-ubuntu font-medium transition-all duration-300 ${
-                    location.pathname === '/services'
+                    location.pathname === '/packages'
                       ? 'text-brand-purple bg-brand-purple/10'
                       : 'text-gray-200 hover:text-brand-purple hover:bg-brand-purple/10'
                   }`}
                 >
-                  Services
+                  Packages
                 </Link>
 
                 {/* Dropdown Menu - appears on hover */}
@@ -174,17 +174,17 @@ const Header: React.FC = () => {
                 </Link>
               </li>
 
-              {/* Services - Main Link */}
+              {/* Packages - Main Link */}
               <li>
                 <Link
-                  to="/services"
+                  to="/packages"
                   className={`block py-3 px-4 text-base font-ubuntu font-medium transition-all duration-300 rounded-lg ${
-                    location.pathname === '/services'
+                    location.pathname === '/packages'
                       ? 'text-brand-purple bg-brand-purple/10'
                       : 'text-gray-200 hover:bg-white/5'
                   }`}
                 >
-                  Services
+                  Packages
                 </Link>
               </li>
 

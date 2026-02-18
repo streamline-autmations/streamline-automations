@@ -44,7 +44,8 @@ const CursorGlow: React.FC = () => {
     };
 
     if (isVisible && !isMobile) {
-      document.documentElement.style.cursor = 'none';
+      // Keep default cursor - don't hide it
+      document.documentElement.style.cursor = 'auto';
     } else {
       document.documentElement.style.cursor = 'auto';
     }
@@ -59,19 +60,8 @@ const CursorGlow: React.FC = () => {
     };
   }, [mouseX, mouseY, isVisible, isMobile]);
 
-  useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      if (e.detail === 3) {
-        setIsVisible((prev) => !prev);
-      }
-    };
-
-    window.addEventListener('click', handleClick);
-
-    return () => {
-      window.removeEventListener('click', handleClick);
-    };
-  }, []);
+  // Remove 3-click toggle - always show cursor
+  // useEffect for click handler removed
 
   if (isMobile) return null;
   if (!isVisible) return null;

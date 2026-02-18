@@ -41,23 +41,19 @@ const Hero: React.FC = () => {
             </h1>
 
             <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-12 px-4 lg:px-0 font-inter leading-relaxed">
-              We build the digital infrastructure that runs your business for you. From high-performance websites to AI sales agents—scale without the chaos.
+              We build websites and automation systems for local service businesses —
+              so leads come in, bookings get confirmed, and follow-ups happen
+              automatically. Without you lifting a finger.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-6 mb-16 lg:mb-0 justify-center lg:justify-start px-4 lg:px-0">
-              <Button variant="orange" to="/contact" size="lg" className="w-full sm:w-auto text-lg">
-                Start Your Build
-              </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center px-4 lg:px-0">
+              <a href="/contact" className="w-full sm:w-auto text-lg px-8 py-4 bg-brand-orange hover:bg-brand-orange/90 text-white font-ubuntu font-semibold rounded-full transition-all duration-300 text-center">
+                Book a Free Strategy Call
+              </a>
 
-              <Button
-                variant="ghost"
-                to="/portfolio"
-                size="lg"
-                className="w-full sm:w-auto text-lg"
-              >
-                View Our Work
-                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </Button>
+              <a href="/portfolio" className="w-full sm:w-auto text-lg px-8 py-4 bg-transparent border border-white/20 hover:bg-white/10 text-white font-ubuntu font-semibold rounded-full transition-all duration-300 text-center">
+                See Our Work
+              </a>
             </div>
           </div>
 

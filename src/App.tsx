@@ -6,6 +6,10 @@ import CursorHint from './components/ui/CursorHint';
 import Layout from './components/layout/Layout';
 import Home from './pages/Home';
 import Services from './pages/Services';
+import Packages from './pages/Packages';
+import OnlinePresencePage from './pages/packages/OnlinePresencePage';
+import ClientMagnetPage from './pages/packages/ClientMagnetPage';
+import BusinessAcceleratorPage from './pages/packages/BusinessAcceleratorPage';
 import Portfolio from './pages/Portfolio';
 import ProjectDetails from './pages/ProjectDetails';
 import Contact from './pages/Contact';
@@ -26,6 +30,10 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="services" element={<Services />} />
+          <Route path="packages" element={<Packages />} />
+          <Route path="packages/online-presence" element={<OnlinePresencePage />} />
+          <Route path="packages/client-magnet" element={<ClientMagnetPage />} />
+          <Route path="packages/business-accelerator" element={<BusinessAcceleratorPage />} />
           <Route path="services/branding" element={<Branding />} />
           <Route path="services/development" element={<WebDevelopment />} />
           <Route path="services/automation" element={<Automation />} />

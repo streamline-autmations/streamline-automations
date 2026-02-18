@@ -16,37 +16,20 @@ const FinalCTA: React.FC = () => {
             </span>
           </div>
 
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-ubuntu font-bold text-white mb-8 leading-tight">
-            Unlock your{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-brand-glow">
-              full potential
-            </span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-ubuntu font-bold text-white mb-8 leading-tight">
+            Ready to stop doing everything manually?
           </h2>
 
           <p className="text-lg md:text-xl text-gray-300 mb-12 font-inter leading-relaxed max-w-2xl mx-auto">
-            Stop letting manual tasks slow you down. Let our AI-powered systems handle the work while you focus on growth.
+            Book a free 20-minute strategy call. We'll map out exactly what your business needs — no pitch, no pressure.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              to="/contact"
-              variant="orange"
-              size="lg"
-              className="text-base md:text-lg px-8 md:px-10 py-4 md:py-5 group"
-            >
-              Book Your System Audit
-              <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-            </Button>
-
-            <Button
-              to="/portfolio"
-              variant="ghost"
-              size="lg"
-              className="text-base md:text-lg px-8 md:px-10 py-4 md:py-5"
-            >
-              See Our Work
-            </Button>
-          </div>
+          <a
+            href="/contact"
+            className="inline-block px-8 py-4 bg-brand-orange hover:bg-brand-orange/90 text-white font-ubuntu font-semibold rounded-full transition-all duration-300"
+          >
+            Book a Free Strategy Call →
+          </a>
 
           <p className="text-sm md:text-base text-gray-500 mt-10 font-inter">
             Free consultation • No commitment • Results-driven approach
