@@ -44,8 +44,8 @@
     right: 0;
     bottom: 0;
     background-image:
-      linear-gradient(rgba(255, 255, 255, 0.22) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.22) 1px, transparent 1px);
+      linear-gradient(rgba(139, 92, 246, 0.22) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(139, 92, 246, 0.22) 1px, transparent 1px);
     background-size: 44px 44px;
     opacity: 0.9;
     mix-blend-mode: screen;
