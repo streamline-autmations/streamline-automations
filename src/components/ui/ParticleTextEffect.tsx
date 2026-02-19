@@ -99,11 +99,54 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
   const frameRef     = useRef(0)
   const wordIdxRef   = useRef(0)
   const completedRef = useRef(false)
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null)
+  const chunksRef = useRef<Blob[]>([])
 
   // How long each word stays after forming (frames at ~60fps)
   // WEBSITES/SYSTEMS/AUTOMATION: 2s (120 frames)
   // WE DO IT ALL: 2.5s (150 frames) before exit
   const HOLD_FRAMES = [120, 120, 120, 150]
+
+  // Start recording when 'R' is pressed
+  const startRecording = () => {
+    const canvas = canvasRef.current
+    if (!canvas || mediaRecorderRef.current) return
+    
+    const stream = canvas.captureStream(60) // 60fps
+    const recorder = new MediaRecorder(stream, { 
+      mimeType: 'video/webm;codecs=vp9',
+      videoBitsPerSecond: 8000000 // 8Mbps high quality
+    })
+    
+    chunksRef.current = []
+    
+    recorder.ondataavailable = (e) => {
+      if (e.data.size > 0) chunksRef.current.push(e.data)
+    }
+    
+    recorder.onstop = () => {
+      const blob = new Blob(chunksRef.current, { type: 'video/webm' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'streamline-intro.webm'
+      a.click()
+      URL.revokeObjectURL(url)
+    }
+    
+    recorder.start()
+    mediaRecorderRef.current = recorder
+    console.log('Recording started...')
+  }
+
+  // Stop recording when 'R' is pressed again
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+      mediaRecorderRef.current.stop()
+      mediaRecorderRef.current = null
+      console.log('Recording saved!')
+    }
+  }
 
   const spawnFromEdge = (canvas: HTMLCanvasElement): Vector2D => {
     const edge = Math.floor(Math.random() * 4)
@@ -248,11 +291,29 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
       canvas.height = window.innerHeight
       showWord(WORDS[wordIdxRef.current], canvas, wordIdxRef.current)
     }
+    
+    // Handle 'R' key for recording
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'r' || e.key === 'R') {
+        if (!mediaRecorderRef.current) {
+          startRecording()
+        } else {
+          stopRecording()
+        }
+      }
+    }
+    
     window.addEventListener("resize", handleResize)
+    window.addEventListener("keydown", handleKeyDown)
 
     return () => {
       cancelAnimationFrame(rafRef.current)
       window.removeEventListener("resize", handleResize)
+      window.removeEventListener("keydown", handleKeyDown)
+      // Stop any ongoing recording
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+        mediaRecorderRef.current.stop()
+      }
     }
   }, [])
 
