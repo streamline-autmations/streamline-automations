@@ -9,11 +9,7 @@ interface IntroScreenProps {
 }
 
 export function IntroScreen({ children }: IntroScreenProps) {
-  // Check if intro already played this session
-  const alreadySeen = typeof window !== "undefined"
-    && sessionStorage.getItem(SESSION_KEY) === "true"
-
-  const [showIntro, setShowIntro] = useState(!alreadySeen)
+  const [showIntro, setShowIntro] = useState(true)
   const [introExiting, setIntroExiting] = useState(false)
 
   const handleComplete = () => {

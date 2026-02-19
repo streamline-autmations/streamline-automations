@@ -60,8 +60,8 @@ const Header: React.FC = () => {
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
         isScrolled
-          ? 'py-2 bg-black/60 backdrop-blur-md border-b border-white/5'
-          : 'py-3 md:py-4 bg-transparent'
+          ? 'py-1.5 bg-black/70 backdrop-blur-md border-b border-white/5'
+          : 'py-2 bg-transparent'
       }`}
     >
       <div className="container mx-auto px-4 md:px-6">
@@ -96,7 +96,7 @@ const Header: React.FC = () => {
             <img
               src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1765279919/Streamline-black_500_x_186_px_scthzc.svg"
               alt="Streamline Automations"
-              className="h-7 lg:h-8 w-auto"
+              className="h-6 lg:h-7 w-auto"
             />
             <span className="hidden lg:block font-ubuntu font-bold text-lg text-white">
               Streamline Automations
@@ -209,7 +209,7 @@ const Header: React.FC = () => {
           </nav>
 
           {/* Desktop CTA Button */}
-          <Button to="/contact" variant="primary" size="md">
+          <Button href="/contact" variant="primary" size="md">
             Book a Free Call
           </Button>
         </div>
@@ -315,7 +315,7 @@ const Header: React.FC = () => {
               </li>
             </ul>
             <div className="mt-8 px-4">
-              <Button to="/contact" variant="primary" size="lg" className="w-full">
+              <Button href="/contact" variant="primary" size="lg" className="w-full">
                 Book a Free Call
               </Button>
             </div>
