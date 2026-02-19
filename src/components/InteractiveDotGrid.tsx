@@ -19,6 +19,14 @@ const CFG = {
       alpha: 0.22,
       isMouseBlob: true,
     },
+    // Scroll-triggered blob — purple, follows scroll position
+    {
+      x: 0.5, y: 0.5,
+      r: 280,
+      color: [139, 92, 246] as [number, number, number],
+      alpha: 0.25,
+      isScrollBlob: true,
+    },
     // Drifting blob — orange, lower-right
     {
       x: 0.85, y: 0.8,
@@ -41,7 +49,7 @@ const CFG = {
 } as const;
 // ─────────────────────────────────────────────
 
-type Blob = (typeof CFG.blobs)[number];
+type Blob = (typeof CFG.blobs)[number] & { isScrollBlob?: boolean };
 
 function lerp(a: number, b: number, t: number) {
   return a + (b - a) * t;
@@ -143,6 +151,11 @@ export default function InteractiveDotGrid({
       const positions = CFG.blobs.map((blob: Blob) => {
         if (blob.isMouseBlob) {
           return { wx: curMX, wy: curMY, blob };
+        }
+        // Scroll-triggered blob follows scroll position
+        if ((blob as any).isScrollBlob) {
+          const scrollPercent = Math.min(scrollY / (document.body.scrollHeight - H), 1);
+          return { wx: W * 0.5, wy: (scrollPercent * H * 0.8) + (H * 0.2), blob };
         }
         const d  = (blob as any).drift;
         const dx = Math.sin(t * d.ax * 1000 + d.phase) * 0.06;
