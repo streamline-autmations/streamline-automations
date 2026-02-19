@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ScrollToTop from './components/layout/ScrollToTop';
-import CursorGlow from './components/ui/CursorGlow';
 import CursorHint from './components/ui/CursorHint';
+import DotGridBackground from './components/ui/DotGridBackground';
 import Layout from './components/layout/Layout';
 import Home from './pages/Home';
 import Services from './pages/Services';
@@ -24,10 +24,11 @@ import RecklessBear from './pages/portfolio/RecklessBear';
 function App() {
   return (
     <Router>
-      <CursorGlow />
-      <CursorHint />
-      <ScrollToTop />
-      <Routes>
+      <div className="relative min-h-screen bg-[#050508]">
+        <DotGridBackground />
+        <CursorHint />
+        <ScrollToTop />
+        <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="services" element={<Services />} />
@@ -47,6 +48,7 @@ function App() {
           <Route path="contact" element={<Contact />} />
         </Route>
       </Routes>
+      </div>
     </Router>
   );
 }
