@@ -49,7 +49,8 @@ class Particle {
     const g = Math.round(this.startColor.g + (this.targetColor.g - this.startColor.g) * this.colorWeight)
     const b = Math.round(this.startColor.b + (this.targetColor.b - this.startColor.b) * this.colorWeight)
     ctx.fillStyle = `rgb(${r},${g},${b})`
-    ctx.fillRect(this.pos.x, this.pos.y, 2.5, 2.5)
+    // Slightly smaller particles
+    ctx.fillRect(this.pos.x, this.pos.y, 2, 2)
   }
 
   kill(width: number, height: number) {
@@ -121,7 +122,11 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
     const octx = offscreen.getContext("2d")!
 
     // Bold, large — fills the canvas width
-    const fontSize = Math.min(canvas.width * 0.16, 130)
+    // Responsive: smaller on mobile
+    const isMobile = canvas.width < 640
+    const fontSize = isMobile 
+      ? Math.min(canvas.width * 0.1, 48)  // Mobile: 10% of width, max 48px
+      : Math.min(canvas.width * 0.14, 130)  // Desktop: 14% of width, max 130px
     octx.fillStyle    = "white"
     octx.font         = `900 ${fontSize}px 'Inter', 'Helvetica Neue', Arial, sans-serif`
     octx.textAlign    = "center"
@@ -153,9 +158,11 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
           p = new Particle()
           const spawn = spawnFromEdge(canvas)
           p.pos.x = spawn.x; p.pos.y = spawn.y
-          p.maxSpeed     = Math.random() * 14 + 10
+          // Smaller particles on mobile for better performance
+          const isMobile = canvas.width < 640
+          p.maxSpeed     = isMobile ? Math.random() * 10 + 8 : Math.random() * 14 + 10
           p.maxForce     = p.maxSpeed * 0.12
-          p.particleSize = Math.random() * 3 + 3
+          p.particleSize = isMobile ? Math.random() * 2 + 2 : Math.random() * 3 + 3
           p.colorBlendRate = Math.random() * 0.06 + 0.03
           particles.push(p)
         }
