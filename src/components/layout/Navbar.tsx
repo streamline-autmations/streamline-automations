@@ -60,8 +60,8 @@ const Header: React.FC = () => {
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
         isScrolled
-          ? 'py-3 bg-black/60 backdrop-blur-md border-b border-white/5'
-          : 'py-4 md:py-6 bg-transparent'
+          ? 'py-2 bg-black/60 backdrop-blur-md border-b border-white/5'
+          : 'py-3 md:py-4 bg-transparent'
       }`}
     >
       <div className="container mx-auto px-4 md:px-6">
@@ -81,7 +81,7 @@ const Header: React.FC = () => {
             <img
               src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1765279919/Streamline-black_500_x_186_px_scthzc.svg"
               alt="Streamline Automations"
-              className="h-8 w-auto"
+              className="h-7 w-auto"
             />
           </Link>
 
@@ -96,7 +96,7 @@ const Header: React.FC = () => {
             <img
               src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1765279919/Streamline-black_500_x_186_px_scthzc.svg"
               alt="Streamline Automations"
-              className="h-8 lg:h-10 w-auto"
+              className="h-7 lg:h-8 w-auto"
             />
             <span className="hidden lg:block font-ubuntu font-bold text-lg text-white">
               Streamline Automations

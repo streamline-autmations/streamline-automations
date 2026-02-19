@@ -14,17 +14,7 @@ import {
   ChevronDown,
   Check,
 } from 'lucide-react';
-
-// Standard Framer Motion variants
-const fadeUp = {
-  initial:   { opacity: 0, y: 20 },
-  animate:   { opacity: 1, y: 0 },
-  transition:{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] },
-};
-
-const staggerContainer = {
-  animate: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
-};
+import { fadeUp, stagger, cardItem, viewport } from '../../lib/motion';
 
 const isForYouIf = [
   "No website or outdated site",
@@ -71,13 +61,14 @@ const OnlinePresencePage: React.FC = () => {
       packagePrice="Starting from R7,500"
       accentColor="white"
     >
-      {/* SECTION 1: Hero */}
-      <section className="pt-12 pb-16 md:pt-16 md:pb-24 px-4">
-        <div className="container mx-auto">
+      {/* SECTION 1: Hero - s */}
+      <section className="s">
+        <div className="container">
           <motion.div
             initial="hidden"
-            animate="visible"
-            variants={staggerContainer}
+            whileInView="visible"
+            viewport={viewport}
+            variants={stagger}
             className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto"
           >
             {/* Left: Text */}
@@ -85,16 +76,16 @@ const OnlinePresencePage: React.FC = () => {
               <span className="inline-block px-4 py-1.5 bg-white/10 text-white text-xs font-mono tracking-[2px] rounded-full border border-white/20 mb-6">
                 TIER 1 — ONLINE PRESENCE
               </span>
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-4">
+              <h1 className="h1 mb-4">
                 Get Found. Look Professional.
               </h1>
-              <p className="text-base md:text-lg text-white/55 mb-6 max-w-md leading-relaxed">
+              <p className="body-text mb-6 max-w-md">
                 Clean, fast website live in 3–5 days.
               </p>
-              <p className="text-2xl md:text-3xl font-bold font-mono text-white mb-6">From R7,500</p>
-              <Button variant="primary" size="lg" href="/contact">
+              <p className="price mb-6">From R7,500</p>
+              <Link to="/contact" className="btn btn-primary btn-lg">
                 Start Your Presence <ArrowRight className="w-5 h-5" />
-              </Button>
+              </Link>
             </motion.div>
 
             {/* Right: Mockup */}
@@ -111,54 +102,56 @@ const OnlinePresencePage: React.FC = () => {
 
       <Divider />
 
-      {/* SECTION 2: This is for you if */}
-      <section className="py-24 md:py-32 px-4">
-        <div className="max-w-3xl mx-auto px-6 md:px-8">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
-            <div className="text-center mb-12 md:mb-16">
-              <SectionLabel>Target Audience</SectionLabel>
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white">
+      {/* SECTION 2: This is for you if - s-panel s-line-purple */}
+      <section className="s s-panel s-line-purple">
+        <div className="container">
+          <motion.div initial="hidden" whileInView="visible" viewport={viewport} variants={stagger}>
+            <div className="section-intro">
+              <span className="label">Target Audience</span>
+              <h2 className="h2">
                 Built for you if...
               </h2>
             </div>
-            <Card accent="white" topBar hover={false}>
-              <div className="p-6">
-                <ul className="space-y-3">
-                  {isForYouIf.map((item, i) => (
-                    <li key={i} className="flex items-center gap-3 text-white/55">
-                      <Check className="w-5 h-5 text-white" /> {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Card>
+            <div className="max-w-2xl mx-auto">
+              <motion.div variants={cardItem} className="card card-bar card-bar-white">
+                <div className="p-6">
+                  <ul className="space-y-3">
+                    {isForYouIf.map((item, i) => (
+                      <li key={i} className="flex items-center gap-3 body-text">
+                        <Check className="w-5 h-5" /> {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       </section>
 
       <Divider />
 
-      {/* SECTION 3: What's Included */}
-      <section className="py-24 md:py-32 px-4">
-        <div className="container mx-auto">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
-            <div className="text-center mb-12 md:mb-16 max-w-5xl mx-auto">
-              <SectionLabel>Features</SectionLabel>
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">
+      {/* SECTION 3: What's Included - s-line-white */}
+      <section className="s s-line-white">
+        <div className="container">
+          <motion.div initial="hidden" whileInView="visible" viewport={viewport} variants={stagger}>
+            <div className="section-intro">
+              <span className="label">Features</span>
+              <h2 className="h2 mb-4">
                 What's Included
               </h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 max-w-5xl mx-auto">
               {whatsIncluded.map((item, i) => (
-                <Card key={i} accent="white" hover>
+                <motion.div key={i} variants={cardItem} className="card card-bar card-bar-white card-h">
                   <div className="p-5">
-                    <IconBox accent="white" size="md">
+                    <div className="icon-box" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
                       {item.icon}
-                    </IconBox>
-                    <h3 className="text-lg md:text-xl font-semibold text-white mt-4 mb-1">{item.title}</h3>
-                    <p className="text-white/55 text-sm">{item.desc}</p>
+                    </div>
+                    <h3 className="h3 mt-4 mb-1">{item.title}</h3>
+                    <p className="body-text">{item.desc}</p>
                   </div>
-                </Card>
+                </motion.div>
               ))}
             </div>
           </motion.div>
@@ -167,13 +160,13 @@ const OnlinePresencePage: React.FC = () => {
 
       <Divider />
 
-      {/* SECTION 4: Process */}
-      <section className="py-24 md:py-32 px-4">
-        <div className="container mx-auto">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
-            <div className="text-center mb-12 md:mb-16">
-              <SectionLabel>Process</SectionLabel>
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white">
+      {/* SECTION 4: Process - s-panel s-line-orange */}
+      <section className="s s-panel s-line-orange">
+        <div className="container">
+          <motion.div initial="hidden" whileInView="visible" viewport={viewport} variants={stagger}>
+            <div className="section-intro">
+              <span className="label">Process</span>
+              <h2 className="h2">
                 How It Works
               </h2>
             </div>
@@ -183,15 +176,15 @@ const OnlinePresencePage: React.FC = () => {
           
             <div className="flex flex-col md:flex-row justify-between gap-8 max-w-4xl mx-auto relative">
               {processSteps.map((step, i) => (
-                <Card key={i} accent="none" hover={false} className="flex-1">
+                <motion.div key={i} variants={cardItem} className="card flex-1">
                   <div className="p-6 text-center flex flex-col items-center">
                     <div className="w-12 h-12 mb-3 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-lg border border-white/20 relative z-10">
                       {step.number}
                     </div>
                     <h3 className="text-white font-medium mb-0.5">{step.title}</h3>
-                    <p className="text-white/50 text-sm">{step.subtitle}</p>
+                    <p className="body-text">{step.subtitle}</p>
                   </div>
-                </Card>
+                </motion.div>
               ))}
             </div>
           </motion.div>
@@ -200,44 +193,46 @@ const OnlinePresencePage: React.FC = () => {
 
       <Divider />
 
-      {/* SECTION 5: What's Not Included */}
-      <section className="py-24 md:py-32 px-4">
-        <div className="max-w-2xl mx-auto px-6 md:px-8">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
-            <div className="text-center mb-12 md:mb-16">
-              <SectionLabel>Scope</SectionLabel>
-              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white">
+      {/* SECTION 5: What's Not Included - s-line-white */}
+      <section className="s s-line-white">
+        <div className="container">
+          <motion.div initial="hidden" whileInView="visible" viewport={viewport} variants={stagger}>
+            <div className="section-intro">
+              <span className="label">Scope</span>
+              <h2 className="h2">
                 What This Doesn't Cover
               </h2>
             </div>
-            <Card accent="none" hover={false}>
-              <div className="p-6">
-                <ul className="space-y-2">
-                  {whatsNotIncluded.map((item, i) => (
-                    <li key={i} className="text-white/55 text-sm">• {item}</li>
-                  ))}
-                </ul>
-              </div>
-            </Card>
+            <div className="max-w-xl mx-auto">
+              <motion.div variants={cardItem} className="card">
+                <div className="p-6">
+                  <ul className="space-y-2">
+                    {whatsNotIncluded.map((item, i) => (
+                      <li key={i} className="body-text">• {item}</li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       </section>
 
       <Divider />
 
-      {/* SECTION 6: FAQ */}
-      <section className="py-24 md:py-32 px-4">
-        <div className="max-w-3xl mx-auto px-6 md:px-8">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
-            <div className="text-center mb-12 md:mb-16">
-              <SectionLabel>FAQ</SectionLabel>
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white">
+      {/* SECTION 6: FAQ - s-line-white */}
+      <section className="s s-line-white">
+        <div className="container">
+          <motion.div initial="hidden" whileInView="visible" viewport={viewport} variants={stagger}>
+            <div className="section-intro">
+              <span className="label">FAQ</span>
+              <h2 className="h2">
                 Common Questions
               </h2>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-3 max-w-2xl mx-auto">
               {faqs.map((faq, i) => (
-                <Card key={i} accent="none" hover={false}>
+                <motion.div key={i} variants={cardItem} className="card card-sm">
                   <div className="overflow-hidden">
                     <button
                       onClick={() => setOpenFaq(openFaq === i ? null : i)}
@@ -255,12 +250,12 @@ const OnlinePresencePage: React.FC = () => {
                           transition={{ duration: 0.3 }}
                           className="overflow-hidden"
                         >
-                          <p className="px-4 pb-4 text-white/55 text-sm">{faq.a}</p>
+                          <p className="px-4 pb-4 body-text">{faq.a}</p>
                         </motion.div>
                       )}
                     </AnimatePresence>
                   </div>
-                </Card>
+                </motion.div>
               ))}
             </div>
           </motion.div>
@@ -269,19 +264,19 @@ const OnlinePresencePage: React.FC = () => {
 
       <Divider />
 
-      {/* SECTION 7: Final CTA */}
-      <section className="py-20 md:py-28 px-4 relative overflow-hidden">
+      {/* SECTION 7: Final CTA - s-panel s-line-orange */}
+      <section className="s s-panel s-line-orange">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/5 rounded-full blur-[120px]" />
         </div>
-        <div className="container mx-auto relative z-10 text-center max-w-xl">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
-            <SectionLabel>Get Started</SectionLabel>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">Ready to go live?</h2>
-            <p className="text-base md:text-lg text-white/55 mb-8 leading-relaxed">3–5 days to a professional online presence.</p>
-            <Button variant="primary" size="lg" href="/contact">
+        <div className="container relative z-10 text-center max-w-xl">
+          <motion.div initial="hidden" whileInView="visible" viewport={viewport} variants={stagger}>
+            <span className="label">Get Started</span>
+            <h2 className="h2 mb-4">Ready to go live?</h2>
+            <p className="body-text mb-8">3–5 days to a professional online presence.</p>
+            <Link to="/contact" className="btn btn-primary btn-lg">
               Book a Free Strategy Call →
-            </Button>
+            </Link>
           </motion.div>
         </div>
       </section>
