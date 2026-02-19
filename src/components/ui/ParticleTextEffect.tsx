@@ -49,8 +49,8 @@ class Particle {
     const g = Math.round(this.startColor.g + (this.targetColor.g - this.startColor.g) * this.colorWeight)
     const b = Math.round(this.startColor.b + (this.targetColor.b - this.startColor.b) * this.colorWeight)
     ctx.fillStyle = `rgb(${r},${g},${b})`
-    // Slightly smaller particles
-    ctx.fillRect(this.pos.x, this.pos.y, 2, 2)
+    // Larger, more solid particles for clearer words
+    ctx.fillRect(this.pos.x, this.pos.y, 4, 4)
   }
 
   kill(width: number, height: number) {
@@ -85,7 +85,7 @@ const WORD_COLORS = [
 ]
 
 const WORDS = ["WEBSITES", "SYSTEMS", "AUTOMATION", "WE DO IT ALL"]
-const PIXEL_STEPS = 5
+const PIXEL_STEPS = 3  // Lower = more particles for solid words
 
 interface ParticleTextEffectProps {
   onComplete?: () => void  // called after last word hold
@@ -203,9 +203,9 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
           p.pos.x = spawn.x; p.pos.y = spawn.y
           // Smaller particles on mobile for better performance
           const isMobile = canvas.width < 640
-          p.maxSpeed     = isMobile ? Math.random() * 10 + 8 : Math.random() * 14 + 10
-          p.maxForce     = p.maxSpeed * 0.12
-          p.particleSize = isMobile ? Math.random() * 2 + 2 : Math.random() * 3 + 3
+          p.maxSpeed     = isMobile ? Math.random() * 8 + 6 : Math.random() * 10 + 8
+          p.maxForce     = p.maxSpeed * 0.1
+          p.particleSize = isMobile ? Math.random() * 3 + 3 : Math.random() * 4 + 4
           p.colorBlendRate = Math.random() * 0.06 + 0.03
           particles.push(p)
         }
