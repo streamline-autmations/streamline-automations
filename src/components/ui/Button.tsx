@@ -1,70 +1,98 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { ReactNode } from 'react';
+import { motion } from 'framer-motion';
 
-type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'orange' | 'purple' | 'glass' | 'ghost';
+type Variant = 'primary' | 'secondary' | 'ghost' | 'ghost-purple';
+type Size    = 'sm' | 'md' | 'lg';
 
 interface ButtonProps {
-  children: React.ReactNode;
-  variant?: ButtonVariant;
-  to?: string;
-  href?: string;
+  children: ReactNode;
+  variant?: Variant;
+  size?: Size;
   onClick?: () => void;
+  href?: string;
   className?: string;
-  type?: 'button' | 'submit' | 'reset';
-  size?: 'sm' | 'md' | 'lg';
+  fullWidth?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({
-  children,
-  variant = 'primary',
-  to,
-  href,
-  onClick,
-  className = '',
-  type = 'button',
-  size = 'md',
-}) => {
-  const baseClasses = 'inline-flex items-center justify-center rounded-lg font-ubuntu font-bold transition-all duration-300 cursor-pointer';
-  
-  const sizeClasses = {
-    sm: 'px-4 py-3 text-sm min-h-[44px]',
-    md: 'px-6 py-4 text-sm min-h-[48px]',
-    lg: 'px-8 py-4 text-base min-h-[52px]',
-  };
-  
-  const variantClasses = {
-    primary: 'bg-white/5 border border-white/10 text-white hover:bg-brand-purple hover:border-brand-purple',
-    secondary: 'bg-brand-glow hover:bg-brand-purple text-white tech-glow tech-glow-hover',
-    outline: 'bg-transparent border-2 border-brand-purple text-brand-purple hover:bg-brand-purple/10 hover:border-brand-glow',
-    orange: 'bg-brand-orange text-white hover:brightness-110 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(249,115,22,0.4),0_0_40px_rgba(249,115,22,0.15)]',
-    purple: 'bg-brand-purple text-white hover:brightness-110 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(139,92,246,0.4),0_0_40px_rgba(139,92,246,0.15)]',
-    glass: 'bg-white/5 border border-white/10 text-white hover:bg-white/10',
-    ghost: 'text-gray-300 hover:text-white border border-transparent hover:border-brand-purple/50',
-  };
-  
-  const classes = `${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${className} btn-interactive`;
-  
-  if (to) {
-    return (
-      <Link to={to} className={classes}>
-        {children}
-      </Link>
-    );
-  }
-  
-  if (href) {
-    return (
-      <a href={href} className={classes}>
-        {children}
-      </a>
-    );
-  }
-  
-  return (
-    <button type={type} onClick={onClick} className={classes}>
-      {children}
-    </button>
-  );
+const base = `
+  inline-flex items-center justify-center gap-2
+  font-semibold tracking-wide rounded-full
+  transition-all duration-200 ease-out
+  cursor-pointer select-none whitespace-nowrap
+  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
+`;
+
+const sizes: Record<Size, string> = {
+  sm: 'px-5 py-2.5 text-sm',
+  md: 'px-7 py-3.5 text-sm',
+  lg: 'px-9 py-4   text-base',
 };
 
+const variants: Record<Variant, string> = {
+  // Solid orange — primary CTA
+  primary: `
+    bg-[#f97316] text-white
+    hover:bg-[#ea6c0e]
+    hover:shadow-[0_0_24px_rgba(249,115,22,0.4),0_0_48px_rgba(249,115,22,0.15)]
+    active:scale-[0.97]
+  `,
+  // White ghost — like Featured Works cards
+  secondary: `
+    bg-transparent text-white/70
+    border border-white/12
+    hover:text-white
+    hover:border-white/25
+    hover:bg-white/5
+    hover:shadow-[0_0_16px_rgba(255,255,255,0.06)]
+    active:scale-[0.97]
+  `,
+  // Pure ghost — minimal, text only with subtle border
+  ghost: `
+    bg-transparent text-white/50
+    border border-white/8
+    hover:text-white/80
+    hover:border-white/15
+    hover:bg-white/[0.03]
+    active:scale-[0.97]
+  `,
+  // Purple ghost — for purple accent sections
+  'ghost-purple': `
+    bg-transparent text-purple-400
+    border border-purple-500/25
+    hover:text-purple-300
+    hover:border-purple-500/50
+    hover:bg-purple-500/[0.07]
+    hover:shadow-[0_0_20px_rgba(139,92,246,0.2)]
+    active:scale-[0.97]
+  `,
+};
+
+export function Button({
+  children, variant = 'primary', size = 'md',
+  onClick, href, className = '', fullWidth = false,
+}: ButtonProps) {
+  const classes = `${base} ${sizes[size]} ${variants[variant]} ${fullWidth ? 'w-full' : ''} ${className}`;
+
+  const motionProps = {
+    whileHover: { scale: 1.02 },
+    whileTap:   { scale: 0.97 },
+    transition: { duration: 0.15 },
+  };
+
+  if (href) {
+    return (
+      <motion.a href={href} className={classes} {...motionProps}>
+        {children}
+      </motion.a>
+    );
+  }
+
+  return (
+    <motion.button onClick={onClick} className={classes} {...motionProps}>
+      {children}
+    </motion.button>
+  );
+}
+
+// Default export for backward compatibility
 export default Button;

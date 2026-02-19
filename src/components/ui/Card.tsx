@@ -1,57 +1,80 @@
-import React from 'react';
-import * as LucideIcons from 'lucide-react';
-import type { LucideProps } from 'lucide-react';
-import Button from './Button';
+import { ReactNode } from 'react';
+import { motion } from 'framer-motion';
+
+type AccentColor = 'none' | 'purple' | 'orange' | 'white';
 
 interface CardProps {
-  title: string;
-  description?: string;
-  icon?: string;
-  children?: React.ReactNode;
+  children: ReactNode;
+  accent?: AccentColor;
+  hover?: boolean;       // enables lift + border glow on hover
+  topBar?: boolean;      // 2px accent line at top
   className?: string;
-  ctaText?: string;
-  ctaLink?: string;
+  onClick?: () => void;
 }
 
-const Card: React.FC<CardProps> = ({
-  title,
-  description,
-  icon,
-  children,
-  className = '',
-  ctaText,
-  ctaLink,
-}) => {
-  const IconComponent = icon
-    ? (LucideIcons as unknown as Record<string, React.ComponentType<LucideProps>>)[icon]
-    : null;
-
-  return (
-    <div className={`relative glass-card p-6 md:p-8 transition-all duration-300 tech-glow-hover group card-interactive ${className}`}>
-      {/* Subtle gradient overlay on hover */}
-      <div className="absolute inset-0 bg-gradient-to-br from-brand-purple/10 to-brand-orange/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
-      
-      <div className="relative z-10">
-        {IconComponent && (
-          <div className="mb-6">
-            <div className="w-12 h-12 rounded-lg bg-brand-purple/20 flex items-center justify-center">
-              <IconComponent className="w-6 h-6 text-brand-purple" />
-            </div>
-          </div>
-        )}
-        <h3 className="text-xl md:text-2xl font-ubuntu font-bold mb-4 text-white">{title}</h3>
-        {description && <p className="text-gray-300 mb-6 font-inter">{description}</p>}
-        {children}
-        {ctaText && ctaLink && (
-          <div className="mt-8">
-            <Button variant="outline" to={ctaLink}>
-              {ctaText}
-            </Button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
+const accentBorder: Record<AccentColor, string> = {
+  none:   'border-white/8',
+  purple: 'border-purple-500/20',
+  orange: 'border-orange-500/20',
+  white:  'border-white/15',
 };
 
+const accentHoverBorder: Record<AccentColor, string> = {
+  none:   'hover:border-white/16',
+  purple: 'hover:border-purple-500/45',
+  orange: 'hover:border-orange-500/45',
+  white:  'hover:border-white/30',
+};
+
+const accentHoverGlow: Record<AccentColor, string> = {
+  none:   '',
+  purple: 'hover:shadow-[0_0_32px_rgba(139,92,246,0.18),0_8px_32px_rgba(0,0,0,0.4)]',
+  orange: 'hover:shadow-[0_0_32px_rgba(249,115,22,0.18),0_8px_32px_rgba(0,0,0,0.4)]',
+  white:  'hover:shadow-[0_0_24px_rgba(255,255,255,0.06),0_8px_32px_rgba(0,0,0,0.4)]',
+};
+
+const accentTopBar: Record<AccentColor, string> = {
+  none:   'from-white/10 to-white/5',
+  purple: 'from-purple-500 to-purple-400',
+  orange: 'from-orange-500 to-orange-400',
+  white:  'from-white/40 to-white/20',
+};
+
+export function Card({
+  children, accent = 'none', hover = true,
+  topBar = false, className = '', onClick,
+}: CardProps) {
+  const hoverClasses = hover
+    ? `${accentHoverBorder[accent]} ${accentHoverGlow[accent]} hover:-translate-y-1`
+    : '';
+
+  return (
+    <motion.div
+      onClick={onClick}
+      className={`
+        relative
+        bg-white/[0.04] backdrop-blur-md
+        border ${accentBorder[accent]}
+        rounded-2xl overflow-hidden
+        transition-all duration-250 ease-out
+        shadow-[0_4px_24px_rgba(0,0,0,0.35)]
+        ${hoverClasses}
+        ${onClick ? 'cursor-pointer' : ''}
+        ${className}
+      `}
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.4, ease: 'easeOut' }}
+    >
+      {/* Optional accent top bar */}
+      {topBar && (
+        <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${accentTopBar[accent]}`} />
+      )}
+      {children}
+    </motion.div>
+  );
+}
+
+// Default export for backward compatibility
 export default Card;

@@ -8,6 +8,7 @@ import Testimonials from '../components/home/Testimonials';
 import FinalCTA from '../components/home/FinalCTA';
 import CircuitLine from '../components/ui/CircuitLine';
 import SectionHeading from '../components/ui/SectionHeading';
+import { Button, Card, Badge, SectionLabel, IconBox, Divider } from '../components/ui';
 import {
   Zap,
   Layers,
@@ -16,19 +17,21 @@ import {
   Check,
 } from 'lucide-react';
 
-// Animation variants
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6 }
+// Standard Framer Motion variants
+const fadeUp = {
+  initial:   { opacity: 0, y: 20 },
+  animate:   { opacity: 1, y: 0 },
+  transition:{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] },
 };
 
 const staggerContainer = {
-  animate: {
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
+  animate: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
+};
+
+const cardItem = {
+  initial:   { opacity: 0, y: 24 },
+  animate:   { opacity: 1, y: 0 },
+  transition:{ duration: 0.4, ease: 'easeOut' },
 };
 
 // Package preview data
@@ -108,82 +111,85 @@ const Home: React.FC = () => {
       <Hero />
 
       {/* SECTION 2: WHY STREAMLINE */}
-      <section className="relative py-16 md:py-24">
+      <section className="relative py-24 md:py-32">
         <div className="absolute inset-0 circuit-bg opacity-10"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
+        <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10">
           <motion.div
             initial="initial"
             animate="animate"
             variants={staggerContainer}
           >
-            <SectionHeading
-              title="Why businesses choose Streamline"
-              subtitle="We don't sell websites. We build systems that work for you."
-              centered={true}
-              className="max-w-4xl mx-auto mb-12 md:mb-16"
-            />
+            <div className="text-center max-w-4xl mx-auto mb-12 md:mb-16">
+              <SectionLabel>Why Streamline</SectionLabel>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">
+                Why businesses choose Streamline
+              </h2>
+              <p className="text-base md:text-lg text-white/55 leading-relaxed">
+                We don't sell websites. We build systems that work for you.
+              </p>
+            </div>
 
-            <div className="grid md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-5 md:gap-6 max-w-5xl mx-auto">
               {/* Card 1 - Orange */}
-              <motion.div
-                variants={fadeInUp}
-                className="glass-card p-6 md:p-8 rounded-2xl border border-white/10 hover:border-brand-orange/30 transition-all duration-300"
-              >
-                <div className="w-12 h-12 mb-4 rounded-lg bg-brand-orange/10 flex items-center justify-center text-brand-orange">
-                  <Zap className="w-6 h-6" />
+              <Card accent="orange" hover>
+                <div className="p-6 md:p-8">
+                  <IconBox accent="orange" size="md">
+                    <Zap className="w-5 h-5" />
+                  </IconBox>
+                  <h3 className="text-lg md:text-xl font-semibold text-white mt-4 mb-3">Built for Speed</h3>
+                  <p className="text-white/55 text-sm leading-relaxed">
+                    From strategy call to live site in under 7 days. No back-and-forth delays, no bloated timelines.
+                  </p>
                 </div>
-                <h3 className="text-xl font-ubuntu font-bold text-white mb-3">Built for Speed</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">
-                  From strategy call to live site in under 7 days. No back-and-forth delays, no bloated timelines.
-                </p>
-              </motion.div>
+              </Card>
 
               {/* Card 2 - Purple */}
-              <motion.div
-                variants={fadeInUp}
-                className="glass-card p-6 md:p-8 rounded-2xl border border-white/10 hover:border-brand-purple/30 transition-all duration-300"
-              >
-                <div className="w-12 h-12 mb-4 rounded-lg bg-brand-purple/10 flex items-center justify-center text-brand-purple">
-                  <Layers className="w-6 h-6" />
+              <Card accent="purple" hover>
+                <div className="p-6 md:p-8">
+                  <IconBox accent="purple" size="md">
+                    <Layers className="w-5 h-5" />
+                  </IconBox>
+                  <h3 className="text-lg md:text-xl font-semibold text-white mt-4 mb-3">Systems, Not Just Sites</h3>
+                  <p className="text-white/55 text-sm leading-relaxed">
+                    Every build includes the automations, forms, and flows that actually run your business day-to-day.
+                  </p>
                 </div>
-                <h3 className="text-xl font-ubuntu font-bold text-white mb-3">Systems, Not Just Sites</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">
-                  Every build includes the automations, forms, and flows that actually run your business day-to-day.
-                </p>
-              </motion.div>
+              </Card>
 
               {/* Card 3 - White */}
-              <motion.div
-                variants={fadeInUp}
-                className="glass-card p-6 md:p-8 rounded-2xl border border-white/10 hover:border-white/20 transition-all duration-300"
-              >
-                <div className="w-12 h-12 mb-4 rounded-lg bg-white/10 flex items-center justify-center text-white">
-                  <ShieldCheck className="w-6 h-6" />
+              <Card accent="white" hover>
+                <div className="p-6 md:p-8">
+                  <IconBox accent="white" size="md">
+                    <ShieldCheck className="w-5 h-5" />
+                  </IconBox>
+                  <h3 className="text-lg md:text-xl font-semibold text-white mt-4 mb-3">You Own Everything</h3>
+                  <p className="text-white/55 text-sm leading-relaxed">
+                    No lock-in. No proprietary platforms. Full ownership of your site, data, and automations from day one.
+                  </p>
                 </div>
-                <h3 className="text-xl font-ubuntu font-bold text-white mb-3">You Own Everything</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">
-                  No lock-in. No proprietary platforms. Full ownership of your site, data, and automations from day one.
-                </p>
-              </motion.div>
+              </Card>
             </div>
           </motion.div>
         </div>
       </section>
 
-      <CircuitLine variant="fast" />
+      <Divider />
 
       {/* SECTION 3: FEATURED BUILDS */}
-      <section className="relative py-16 md:py-24 overflow-hidden">
+      <section className="relative py-24 md:py-32 overflow-hidden">
         <div className="absolute inset-0 circuit-bg opacity-10"></div>
         <div className="absolute -right-40 top-1/3 w-[800px] h-[800px] bg-gradient-to-l from-brand-purple/20 to-brand-orange/20 rounded-full blur-[120px] pointer-events-none"></div>
 
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <SectionHeading
-            title="Featured Builds"
-            subtitle="Real systems. Real businesses. Real results."
-            centered={true}
-            className="max-w-4xl mx-auto mb-12 md:mb-16"
-          />
+        <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10">
+          <div className="text-center max-w-4xl mx-auto mb-12 md:mb-16">
+            <SectionLabel>Featured Work</SectionLabel>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">
+              Featured Builds
+            </h2>
+            <p className="text-base md:text-lg text-white/55 leading-relaxed">
+              Real systems. Real businesses. Real results.
+            </p>
+          </div>
 
           <div className="space-y-8 md:space-y-12 max-w-7xl mx-auto">
             <FeaturedProject
@@ -210,12 +216,14 @@ const Home: React.FC = () => {
           </div>
 
           <div className="text-center mt-12">
-            <Link to="/portfolio" className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors">
+            <Button variant="ghost" size="md" href="/portfolio">
               View All Work <ArrowRight className="w-4 h-4" />
-            </Link>
+            </Button>
           </div>
         </div>
       </section>
+
+      <Divider />
 
       {/* SECTION 4: TECH STACK MARQUEE */}
       <div className="pt-8 md:pt-12 text-center">
@@ -229,85 +237,79 @@ const Home: React.FC = () => {
       </div>
 
       {/* SECTION 5: PACKAGE PREVIEW */}
-      <section className="relative py-16 md:py-24">
+      <section className="relative py-24 md:py-32">
         <div className="absolute inset-0 circuit-bg opacity-10"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
+        <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10">
           <motion.div
             initial="initial"
             animate="animate"
             variants={staggerContainer}
           >
-            <SectionHeading
-              title="Choose Your System"
-              subtitle="Every package is a complete business system. Pick the one that fits where you are right now."
-              centered={true}
-              className="max-w-4xl mx-auto mb-12 md:mb-16"
-            />
+            <div className="text-center max-w-4xl mx-auto mb-12 md:mb-16">
+              <SectionLabel>Packages</SectionLabel>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">
+                Choose Your System
+              </h2>
+              <p className="text-base md:text-lg text-white/55 leading-relaxed">
+                Every package is a complete business system. Pick the one that fits where you are right now.
+              </p>
+            </div>
 
-            <div className="grid md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-5 md:gap-6 max-w-5xl mx-auto">
               {packages.map((pkg, i) => (
-                <motion.div
-                  key={i}
-                  variants={fadeInUp}
-                  className={`glass-card p-6 md:p-8 rounded-2xl border ${
-                    pkg.popular 
-                      ? 'border-brand-orange/50' 
-                      : pkg.accent === 'purple' 
-                        ? 'border-brand-purple/30' 
-                        : 'border-white/10'
-                  } hover:border-white/20 transition-all duration-300 relative ${pkg.popular ? 'scale-105' : ''}`}
-                  style={pkg.popular ? { boxShadow: '0 0 40px rgba(249, 115, 22, 0.2)' } : {}}
+                <Card 
+                  key={i} 
+                  accent={pkg.accent as 'white' | 'orange' | 'purple'} 
+                  topBar 
+                  hover
+                  className={pkg.popular ? 'relative' : ''}
                 >
-                  {pkg.popular && (
-                    <div className="absolute -top-3 right-4">
-                      <span className="inline-block px-3 py-1 bg-brand-orange text-white text-xs rounded-full font-medium">
-                        Most Popular
-                      </span>
-                    </div>
-                  )}
+                  <div className="p-6 md:p-8">
+                    {pkg.popular && (
+                      <div className="absolute -top-3 right-4">
+                        <Badge variant="orange">Most Popular</Badge>
+                      </div>
+                    )}
 
-                  <div className={`w-2 h-8 mb-4 rounded-full ${
-                    pkg.accent === 'orange' ? 'bg-brand-orange' : 
-                    pkg.accent === 'purple' ? 'bg-brand-purple' : 'bg-white'
-                  }`}></div>
+                    <div className={`w-2 h-8 mb-4 rounded-full ${
+                      pkg.accent === 'orange' ? 'bg-brand-orange' : 
+                      pkg.accent === 'purple' ? 'bg-brand-purple' : 'bg-white'
+                    }`}></div>
 
-                  <h3 className="text-xl font-ubuntu font-bold text-white mb-2">{pkg.name}</h3>
-                  <p className="text-gray-300 text-sm mb-3">{pkg.outcome}</p>
-                  <p className={`text-lg font-bold mb-4 ${
-                    pkg.accent === 'orange' ? 'text-brand-orange' : 
-                    pkg.accent === 'purple' ? 'text-brand-purple' : 'text-white'
-                  }`}>{pkg.price}</p>
+                    <h3 className="text-lg md:text-xl font-semibold text-white mb-2">{pkg.name}</h3>
+                    <p className="text-white/55 text-sm mb-3">{pkg.outcome}</p>
+                    <p className={`text-2xl md:text-3xl font-bold font-mono mb-4 ${
+                      pkg.accent === 'orange' ? 'text-brand-orange' : 
+                      pkg.accent === 'purple' ? 'text-brand-purple' : 'text-white'
+                    }`}>{pkg.price}</p>
 
-                  <ul className="space-y-2 mb-6">
-                    {pkg.bullets.map((bullet, j) => (
-                      <li key={j} className="flex items-start gap-2 text-gray-400 text-sm">
-                        <Check className={`w-4 h-4 mt-0.5 flex-shrink-0 ${
-                          pkg.accent === 'orange' ? 'text-brand-orange' : 
-                          pkg.accent === 'purple' ? 'text-brand-purple' : 'text-white'
-                        }`} />
-                        <span>{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
+                    <ul className="space-y-2 mb-6">
+                      {pkg.bullets.map((bullet, j) => (
+                        <li key={j} className="flex items-start gap-2 text-white/55 text-sm">
+                          <Check className={`w-4 h-4 mt-0.5 flex-shrink-0 ${
+                            pkg.accent === 'orange' ? 'text-brand-orange' : 
+                            pkg.accent === 'purple' ? 'text-brand-purple' : 'text-white'
+                          }`} />
+                          <span>{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
 
-                  <Link
-                    to={pkg.link}
-                    className={`block w-full py-3 px-4 text-center font-ubuntu font-medium rounded-lg transition-all duration-300 ${
-                      pkg.accent === 'orange' 
-                        ? 'bg-brand-orange/10 hover:bg-brand-orange/20 text-brand-orange border border-brand-orange/20' 
-                        : pkg.accent === 'purple'
-                          ? 'bg-brand-purple/10 hover:bg-brand-purple/20 text-brand-purple border border-brand-purple/20'
-                          : 'bg-white/10 hover:bg-white/20 text-white border border-white/20'
-                    }`}
-                  >
-                    Learn More
-                  </Link>
-                </motion.div>
+                    <Button
+                      variant={pkg.accent === 'orange' ? 'ghost-purple' : pkg.accent === 'purple' ? 'ghost-purple' : 'secondary'}
+                      size="md"
+                      href={pkg.link}
+                      fullWidth
+                    >
+                      Learn More
+                    </Button>
+                  </div>
+                </Card>
               ))}
             </div>
 
             <div className="text-center mt-10">
-              <p className="text-gray-400 text-sm">
+              <p className="text-white/55 text-sm">
                 Not sure which fits you?{' '}
                 <Link to="/contact" className="text-white underline underline-offset-4 hover:text-brand-orange transition-colors">
                   Book a free strategy call →
@@ -318,144 +320,145 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      <CircuitLine variant="slow-pulse" />
+      <Divider />
 
       {/* SECTION 6: HOW IT WORKS */}
-      <section className="relative py-16 md:py-24">
+      <section className="relative py-24 md:py-32">
         <div className="absolute inset-0 circuit-bg opacity-10"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
+        <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10">
           <motion.div
             initial="initial"
             animate="animate"
             variants={staggerContainer}
           >
-            <SectionHeading
-              title="How It Works"
-              subtitle="Simple process. Fast delivery. No surprises."
-              centered={true}
-              className="max-w-4xl mx-auto mb-12 md:mb-16"
-            />
+            <div className="text-center max-w-4xl mx-auto mb-12 md:mb-16">
+              <SectionLabel>Process</SectionLabel>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">
+                How It Works
+              </h2>
+              <p className="text-base md:text-lg text-white/55 leading-relaxed">
+                Simple process. Fast delivery. No surprises.
+              </p>
+            </div>
 
             <div className="flex flex-col md:flex-row justify-between gap-8 md:gap-4 max-w-4xl mx-auto">
               {howItWorks.map((step, i) => (
-                <motion.div
-                  key={i}
-                  variants={fadeInUp}
-                  className="flex-1 text-center relative"
-                >
-                  {/* Step Number */}
-                  <div className="text-7xl md:text-8xl font-ubuntu font-bold text-white/5 absolute top-0 left-1/2 -translate-x-1/2 -translate-y-4">
-                    {step.number}
-                  </div>
-                  
-                  <div className="relative pt-16">
-                    <div className={`w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-lg border-2 ${
-                      step.color === 'orange' ? 'bg-brand-orange/10 border-brand-orange text-brand-orange' :
-                      step.color === 'purple' ? 'bg-brand-purple/10 border-brand-purple text-brand-purple' :
-                      'bg-white/10 border-white text-white'
-                    }`}>
+                <Card key={i} accent="none" hover={false} className="flex-1">
+                  <div className="p-6 md:p-8 text-center relative">
+                    {/* Step Number */}
+                    <div className="text-7xl md:text-8xl font-bold text-white/5 absolute top-0 left-1/2 -translate-x-1/2 -translate-y-4">
                       {step.number}
                     </div>
                     
-                    <h3 className="text-lg font-ubuntu font-bold text-white mb-2">{step.title}</h3>
-                    <p className="text-gray-400 text-sm mb-3">{step.description}</p>
-                    <span className={`inline-block px-3 py-1 text-xs rounded-full ${
-                      step.color === 'orange' ? 'bg-brand-orange/10 text-brand-orange' :
-                      step.color === 'purple' ? 'bg-brand-purple/10 text-brand-purple' :
-                      'bg-white/10 text-white'
-                    }`}>
-                      {step.badge}
-                    </span>
-                  </div>
-
-                  {/* Arrow connector (desktop only) */}
-                  {i < howItWorks.length - 1 && (
-                    <div className="hidden md:block absolute top-1/2 -right-4 -translate-y-1/2 text-white/20">
-                      →
+                    <div className="relative pt-16">
+                      <div className={`w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-lg border-2 ${
+                        step.color === 'orange' ? 'bg-brand-orange/10 border-brand-orange text-brand-orange' :
+                        step.color === 'purple' ? 'bg-brand-purple/10 border-brand-purple text-brand-purple' :
+                        'bg-white/10 border-white text-white'
+                      }`}>
+                        {step.number}
+                      </div>
+                      
+                      <h3 className="text-lg md:text-xl font-semibold text-white mb-2">{step.title}</h3>
+                      <p className="text-white/55 text-sm mb-3">{step.description}</p>
+                      <span className={`inline-block px-3 py-1 text-xs rounded-full ${
+                        step.color === 'orange' ? 'bg-brand-orange/10 text-brand-orange' :
+                        step.color === 'purple' ? 'bg-brand-purple/10 text-brand-purple' :
+                        'bg-white/10 text-white'
+                      }`}>
+                        {step.badge}
+                      </span>
                     </div>
-                  )}
-                </motion.div>
+
+                    {/* Arrow connector (desktop only) */}
+                    {i < howItWorks.length - 1 && (
+                      <div className="hidden md:block absolute top-1/2 -right-4 -translate-y-1/2 text-white/20">
+                        →
+                      </div>
+                    )}
+                  </div>
+                </Card>
               ))}
             </div>
           </motion.div>
         </div>
       </section>
 
-      <CircuitLine variant="fast" />
+      <Divider />
 
       {/* SECTION 7: TESTIMONIALS */}
-      <section className="relative py-16 md:py-24 bg-white/5">
+      <section className="relative py-24 md:py-32 bg-white/[0.02]">
         <div className="absolute inset-0 circuit-bg opacity-10"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
+        <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10">
           <motion.div
             initial="initial"
             animate="animate"
             variants={staggerContainer}
           >
-            <SectionHeading
-              title="What Our Clients Say"
-              subtitle="Real businesses. Real results."
-              centered={true}
-              className="max-w-4xl mx-auto mb-12 md:mb-16"
-            />
+            <div className="text-center max-w-4xl mx-auto mb-12 md:mb-16">
+              <SectionLabel>Testimonials</SectionLabel>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">
+                What Our Clients Say
+              </h2>
+              <p className="text-base md:text-lg text-white/55 leading-relaxed">
+                Real businesses. Real results.
+              </p>
+            </div>
 
-            <div className="grid md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-5 md:gap-6 max-w-5xl mx-auto">
               {/* Testimonial 1 */}
-              <motion.div
-                variants={fadeInUp}
-                className="glass-card p-6 md:p-8 rounded-2xl border border-white/10"
-              >
-                <div className="flex gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <div key={i} className="w-4 h-4 bg-brand-orange rounded-full" />
-                  ))}
+              <Card accent="none" hover>
+                <div className="p-6 md:p-8">
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <div key={i} className="w-4 h-4 bg-brand-orange rounded-full" />
+                    ))}
+                  </div>
+                  <p className="text-white/55 text-sm mb-6 italic">
+                    "Before Streamline, we were managing orders manually across three different apps. Now everything runs through one system — inventory updates automatically and customers get instant confirmation. It changed how we operate."
+                  </p>
+                  <div>
+                    <p className="text-white font-medium">BLOM Cosmetics</p>
+                    <p className="text-white/50 text-xs">E-commerce + Automation Client</p>
+                  </div>
                 </div>
-                <p className="text-gray-300 text-sm mb-6 italic">
-                  "Before Streamline, we were managing orders manually across three different apps. Now everything runs through one system — inventory updates automatically and customers get instant confirmation. It changed how we operate."
-                </p>
-                <div>
-                  <p className="text-white font-medium">BLOM Cosmetics</p>
-                  <p className="text-white/50 text-xs">E-commerce + Automation Client</p>
-                </div>
-              </motion.div>
+              </Card>
 
               {/* Testimonial 2 */}
-              <motion.div
-                variants={fadeInUp}
-                className="glass-card p-6 md:p-8 rounded-2xl border border-white/10"
-              >
-                <div className="flex gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <div key={i} className="w-4 h-4 bg-brand-orange rounded-full" />
-                  ))}
+              <Card accent="none" hover>
+                <div className="p-6 md:p-8">
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <div key={i} className="w-4 h-4 bg-brand-orange rounded-full" />
+                    ))}
+                  </div>
+                  <p className="text-white/55 text-sm mb-6 italic">
+                    "The quote engine alone saved us hours every week. Customers build their own order, the chatbot qualifies them, and we get a clean brief — ready to action. Zero back and forth."
+                  </p>
+                  <div>
+                    <p className="text-white font-medium">RecklessBear Apparel</p>
+                    <p className="text-white/50 text-xs">Web Design + AI Agent Client</p>
+                  </div>
                 </div>
-                <p className="text-gray-300 text-sm mb-6 italic">
-                  "The quote engine alone saved us hours every week. Customers build their own order, the chatbot qualifies them, and we get a clean brief — ready to action. Zero back and forth."
-                </p>
-                <div>
-                  <p className="text-white font-medium">RecklessBear Apparel</p>
-                  <p className="text-white/50 text-xs">Web Design + AI Agent Client</p>
-                </div>
-              </motion.div>
+              </Card>
 
               {/* Testimonial 3 */}
-              <motion.div
-                variants={fadeInUp}
-                className="glass-card p-6 md:p-8 rounded-2xl border border-white/10"
-              >
-                <div className="flex gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <div key={i} className="w-4 h-4 bg-brand-orange rounded-full" />
-                  ))}
+              <Card accent="none" hover>
+                <div className="p-6 md:p-8">
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <div key={i} className="w-4 h-4 bg-brand-orange rounded-full" />
+                    ))}
+                  </div>
+                  <p className="text-white/55 text-sm mb-6 italic">
+                    "We went from missing enquiries to having every lead captured, confirmed, and followed up automatically. I don't touch it. It just works."
+                  </p>
+                  <div>
+                    <p className="text-white font-medium">Service Business Client</p>
+                    <p className="text-white/50 text-xs">Client Magnet Package</p>
+                  </div>
                 </div>
-                <p className="text-gray-300 text-sm mb-6 italic">
-                  "We went from missing enquiries to having every lead captured, confirmed, and followed up automatically. I don't touch it. It just works."
-                </p>
-                <div>
-                  <p className="text-white font-medium">Service Business Client</p>
-                  <p className="text-white/50 text-xs">Client Magnet Package</p>
-                </div>
-              </motion.div>
+              </Card>
             </div>
 
             <p className="text-center text-white/30 text-xs mt-8">
@@ -465,7 +468,7 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      <CircuitLine variant="slow-pulse" />
+      <Divider />
 
       {/* SECTION 8: FINAL CTA */}
       <FinalCTA />

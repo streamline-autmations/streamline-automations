@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import PackagePageLayout from '../../components/layout/PackagePageLayout';
+import { Button, Card, Badge, SectionLabel, IconBox, Divider } from '../../components/ui';
 import {
   Monitor,
   Smartphone,
@@ -20,14 +21,15 @@ import {
   Check,
 } from 'lucide-react';
 
-const fadeUpVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 }
+// Standard Framer Motion variants
+const fadeUp = {
+  initial:   { opacity: 0, y: 20 },
+  animate:   { opacity: 1, y: 0 },
+  transition:{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] },
 };
 
 const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+  animate: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
 };
 
 const isForYouIf = [
@@ -94,27 +96,24 @@ const ClientMagnetPage: React.FC = () => {
             className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto"
           >
             {/* Left: Text */}
-            <motion.div variants={fadeUpVariants}>
+            <motion.div variants={fadeUp}>
               <span className="inline-block px-4 py-1.5 bg-orange-500/10 text-orange-400 text-xs font-mono tracking-[2px] rounded-full border border-orange-500/20 mb-6">
                 TIER 2 — CLIENT MAGNET
               </span>
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-4">
                 Automate Leads & Bookings.
               </h1>
-              <p className="text-white/50 text-lg mb-6 max-w-md">
+              <p className="text-base md:text-lg text-white/55 mb-6 max-w-md leading-relaxed">
                 System that captures, qualifies, and books clients 24/7.
               </p>
-              <p className="text-2xl font-bold text-orange-400 mb-6 font-mono">From R15,000</p>
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-orange-500 text-white font-semibold rounded-full hover:bg-orange-400 transition-all hover:shadow-[0_0_20px_rgba(249,115,22,0.4)]"
-              >
+              <p className="text-2xl md:text-3xl font-bold font-mono text-orange-400 mb-6">From R15,000</p>
+              <Button variant="primary" size="lg" href="/contact">
                 Automate Your Business <ArrowRight className="w-5 h-5" />
-              </Link>
+              </Button>
             </motion.div>
 
             {/* Right: Mockup */}
-            <motion.div variants={fadeUpVariants} className="hidden lg:block">
+            <motion.div variants={fadeUp} className="hidden lg:block">
               <div className="w-full max-w-sm h-64 mx-auto rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
                 <span className="font-mono text-[10px] text-white/20 text-center leading-tight">
                   BOOKING SYSTEM<br />Placeholder
@@ -125,151 +124,175 @@ const ClientMagnetPage: React.FC = () => {
         </div>
       </section>
 
+      <Divider />
+
       {/* SECTION 2: This is for you if */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto max-w-3xl">
+      <section className="py-24 md:py-32 px-4">
+        <div className="max-w-3xl mx-auto px-6 md:px-8">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
-            <h2 className="text-2xl font-bold text-white mb-6 text-center">Built for you if...</h2>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-              <ul className="space-y-3">
-                {isForYouIf.map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 text-gray-300">
-                    <Check className="w-5 h-5 text-orange-400" /> {item}
-                  </li>
-                ))}
-              </ul>
+            <div className="text-center mb-12 md:mb-16">
+              <SectionLabel>Target Audience</SectionLabel>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white">
+                Built for you if...
+              </h2>
             </div>
+            <Card accent="orange" topBar hover={false}>
+              <div className="p-6">
+                <ul className="space-y-3">
+                  {isForYouIf.map((item, i) => (
+                    <li key={i} className="flex items-center gap-3 text-white/55">
+                      <Check className="w-5 h-5 text-orange-400" /> {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Card>
           </motion.div>
         </div>
       </section>
+
+      <Divider />
 
       {/* SECTION 3: What's Included */}
-      <section className="py-16 px-4">
+      <section className="py-24 md:py-32 px-4">
         <div className="container mx-auto">
-          <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariants} className="text-2xl font-bold text-white mb-8 text-center">
-            What's Included
-          </motion.h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
-            {whatsIncluded.map((item, i) => (
-              <motion.div
-                key={i}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeUpVariants}
-                className="bg-white/5 border border-white/10 rounded-xl p-5"
-              >
-                <div className="w-10 h-10 mb-3 rounded-lg bg-orange-500/10 flex items-center justify-center text-orange-400">
-                  {item.icon}
-                </div>
-                <h3 className="text-white font-medium mb-1">{item.title}</h3>
-                <p className="text-gray-400 text-sm">{item.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 4: Process */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto">
-          <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariants} className="text-2xl font-bold text-white mb-10 text-center">
-            How It Works
-          </motion.h2>
-          <div className="flex flex-col md:flex-row justify-between gap-8 max-w-4xl mx-auto relative">
-            {processSteps.map((step, i) => (
-              <motion.div
-                key={i}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeUpVariants}
-                className="flex-1 text-center flex flex-col items-center"
-              >
-                <div className="w-12 h-12 mb-3 rounded-full bg-orange-500/10 flex items-center justify-center text-orange-400 font-bold text-lg border border-orange-500/20 relative z-10">
-                  {step.number}
-                </div>
-                <h3 className="text-white font-medium mb-0.5">{step.title}</h3>
-                <p className="text-white/50 text-sm">{step.subtitle}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 5: What's Not Included */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto max-w-2xl">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
-            <h2 className="text-xl font-bold text-white mb-6 text-center">What This Doesn't Cover</h2>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-              <ul className="space-y-2">
-                {whatsNotIncluded.map((item, i) => (
-                  <li key={i} className="text-gray-400 text-sm">• {item}</li>
-                ))}
-              </ul>
+            <div className="text-center mb-12 md:mb-16 max-w-5xl mx-auto">
+              <SectionLabel>Features</SectionLabel>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">
+                What's Included
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 max-w-5xl mx-auto">
+              {whatsIncluded.map((item, i) => (
+                <Card key={i} accent="orange" hover>
+                  <div className="p-5">
+                    <IconBox accent="orange" size="md">
+                      {item.icon}
+                    </IconBox>
+                    <h3 className="text-lg md:text-xl font-semibold text-white mt-4 mb-1">{item.title}</h3>
+                    <p className="text-white/55 text-sm">{item.desc}</p>
+                  </div>
+                </Card>
+              ))}
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* SECTION 6: FAQ */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto max-w-3xl">
-          <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariants} className="text-2xl font-bold text-white mb-8 text-center">
-            Common Questions
-          </motion.h2>
-          <div className="space-y-3">
-            {faqs.map((faq, i) => (
-              <motion.div
-                key={i}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeUpVariants}
-                className="bg-white/5 border border-white/10 rounded-xl overflow-hidden"
-              >
-                <button
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full flex items-center justify-between p-4 text-left"
-                >
-                  <span className="text-white font-medium pr-4">{faq.q}</span>
-                  <ChevronDown className={`w-5 h-5 text-white/60 flex-shrink-0 transition-transform ${openFaq === i ? 'rotate-180' : ''}`} />
-                </button>
-                <AnimatePresence>
-                  {openFaq === i && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="overflow-hidden"
-                    >
-                      <p className="px-4 pb-4 text-gray-400 text-sm">{faq.a}</p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            ))}
-          </div>
+      <Divider />
+
+      {/* SECTION 4: Process */}
+      <section className="py-24 md:py-32 px-4">
+        <div className="container mx-auto">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+            <div className="text-center mb-12 md:mb-16">
+              <SectionLabel>Process</SectionLabel>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white">
+                How It Works
+              </h2>
+            </div>
+            <div className="flex flex-col md:flex-row justify-between gap-8 max-w-4xl mx-auto relative">
+              {processSteps.map((step, i) => (
+                <Card key={i} accent="none" hover={false} className="flex-1">
+                  <div className="p-6 text-center flex flex-col items-center">
+                    <div className="w-12 h-12 mb-3 rounded-full bg-orange-500/10 flex items-center justify-center text-orange-400 font-bold text-lg border border-orange-500/20 relative z-10">
+                      {step.number}
+                    </div>
+                    <h3 className="text-white font-medium mb-0.5">{step.title}</h3>
+                    <p className="text-white/50 text-sm">{step.subtitle}</p>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </section>
 
+      <Divider />
+
+      {/* SECTION 5: What's Not Included */}
+      <section className="py-24 md:py-32 px-4">
+        <div className="max-w-2xl mx-auto px-6 md:px-8">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+            <div className="text-center mb-12 md:mb-16">
+              <SectionLabel>Scope</SectionLabel>
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white">
+                What This Doesn't Cover
+              </h2>
+            </div>
+            <Card accent="none" hover={false}>
+              <div className="p-6">
+                <ul className="space-y-2">
+                  {whatsNotIncluded.map((item, i) => (
+                    <li key={i} className="text-white/55 text-sm">• {item}</li>
+                  ))}
+                </ul>
+              </div>
+            </Card>
+          </motion.div>
+        </div>
+      </section>
+
+      <Divider />
+
+      {/* SECTION 6: FAQ */}
+      <section className="py-24 md:py-32 px-4">
+        <div className="max-w-3xl mx-auto px-6 md:px-8">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+            <div className="text-center mb-12 md:mb-16">
+              <SectionLabel>FAQ</SectionLabel>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white">
+                Common Questions
+              </h2>
+            </div>
+            <div className="space-y-3">
+              {faqs.map((faq, i) => (
+                <Card key={i} accent="none" hover={false}>
+                  <div className="overflow-hidden">
+                    <button
+                      onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                      className="w-full flex items-center justify-between p-4 text-left"
+                    >
+                      <span className="text-white font-medium pr-4">{faq.q}</span>
+                      <ChevronDown className={`w-5 h-5 text-white/60 flex-shrink-0 transition-transform ${openFaq === i ? 'rotate-180' : ''}`} />
+                    </button>
+                    <AnimatePresence>
+                      {openFaq === i && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="overflow-hidden"
+                        >
+                          <p className="px-4 pb-4 text-white/55 text-sm">{faq.a}</p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <Divider />
+
       {/* SECTION 7: Final CTA */}
-      <section className="py-24 px-4 relative overflow-hidden">
+      <section className="py-20 md:py-28 px-4 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/10 rounded-full blur-[120px]" />
         </div>
         <div className="container mx-auto relative z-10 text-center max-w-xl">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
-            <h2 className="text-3xl font-bold text-white mb-4">Ready to automate?</h2>
-            <p className="text-white/50 mb-8">Book more clients while you sleep.</p>
-            <Link
-              to="/contact"
-              className="inline-block bg-orange-500 text-white font-semibold rounded-full px-8 py-4 hover:bg-orange-400 transition-all hover:shadow-[0_0_20px_rgba(249,115,22,0.4)]"
-            >
+            <SectionLabel>Get Started</SectionLabel>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">Ready to automate?</h2>
+            <p className="text-base md:text-lg text-white/55 mb-8 leading-relaxed">Book more clients while you sleep.</p>
+            <Button variant="primary" size="lg" href="/contact">
               Book a Free Strategy Call →
-            </Link>
+            </Button>
           </motion.div>
         </div>
       </section>

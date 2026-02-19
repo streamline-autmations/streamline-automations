@@ -1,0 +1,87 @@
+/* ============================================================
+   STREAMLINE AUTOMATIONS — DESIGN SYSTEM
+   Single source of truth for all visual tokens
+   ============================================================ */
+
+:root {
+  /* ── Colors ── */
+  --color-bg:           #050507;
+  --color-surface:      rgba(255, 255, 255, 0.04);
+  --color-surface-hover:rgba(255, 255, 255, 0.07);
+  --color-border:       rgba(255, 255, 255, 0.08);
+  --color-border-hover: rgba(255, 255, 255, 0.16);
+
+  --color-purple:       #8b5cf6;
+  --color-purple-dim:   rgba(139, 92, 246, 0.15);
+  --color-purple-glow:  rgba(139, 92, 246, 0.35);
+
+  --color-orange:       #f97316;
+  --color-orange-dim:   rgba(249, 115, 22, 0.12);
+  --color-orange-glow:  rgba(249, 115, 22, 0.35);
+
+  --color-white-high:   rgba(255, 255, 255, 0.95);
+  --color-white-mid:    rgba(255, 255, 255, 0.55);
+  --color-white-low:    rgba(255, 255, 255, 0.30);
+
+  /* ── Radius ── */
+  --radius-card:   16px;
+  --radius-btn:    9999px;   /* pill */
+  --radius-badge:  9999px;
+  --radius-icon:   12px;
+
+  /* ── Spacing rhythm ── */
+  --section-gap:   120px;    /* between major sections */
+  --section-gap-m: 80px;     /* mobile */
+  --card-pad:      28px;
+  --card-pad-sm:   20px;
+
+  /* ── Transitions ── */
+  --transition-fast:   all 0.18s ease;
+  --transition-normal: all 0.25s ease;
+  --transition-slow:   all 0.4s ease;
+
+  /* ── Shadows / Glows ── */
+  --glow-purple: 0 0 24px rgba(139, 92, 246, 0.3), 0 0 48px rgba(139, 92, 246, 0.12);
+  --glow-orange: 0 0 24px rgba(249, 115, 22, 0.3), 0 0 48px rgba(249, 115, 22, 0.12);
+  --glow-white:  0 0 24px rgba(255, 255, 255, 0.1);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Consistent section spacing ── */
+.section {
+  padding-top:    var(--section-gap);
+  padding-bottom: var(--section-gap);
+}
+@media (max-width: 768px) {
+  .section {
+    padding-top:    var(--section-gap-m);
+    padding-bottom: var(--section-gap-m);
+  }
+}
+
+/* ── All headings: tight tracking ── */
+h1, h2, h3 {
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+/* ── Body text consistency ── */
+p {
+  line-height: 1.7;
+}
+
+/* ── Smooth scrolling ── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ── Focus ring ── */
+*:focus-visible {
+  outline: 2px solid rgba(139, 92, 246, 0.6);
+  outline-offset: 3px;
+}
+
+/* ── Link hover ── */
+a {
+  transition: color 0.18s ease;
+}
