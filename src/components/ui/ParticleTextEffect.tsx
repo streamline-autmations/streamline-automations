@@ -100,8 +100,8 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
   const completedRef = useRef(false)
 
   // How long each word stays after forming (frames at ~60fps)
-  // Each word: quick form (~40 frames) + hold 60 frames = 100 total
-  const HOLD_FRAMES = [100, 100, 100, 90]
+  // Each word: quick form (~40 frames) + hold 180 frames = 220 total (~3.6 seconds per word)
+  const HOLD_FRAMES = [180, 180, 180, 150]
 
   const spawnFromEdge = (canvas: HTMLCanvasElement): Vector2D => {
     const edge = Math.floor(Math.random() * 4)
