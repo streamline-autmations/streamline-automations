@@ -75,7 +75,7 @@ const Packages: React.FC = () => {
             <div className="p-6">
               <h3 className="font-bold text-xl text-white">Online Presence</h3>
               <p className="text-white/50 text-sm mt-1">A clean, professional website live in 3–5 days.</p>
-              <p className="font-mono text-2xl font-bold text-white mt-4">From R6,500</p>
+              <p className="font-mono text-2xl font-bold text-white mt-4">From R7,500</p>
               
               <ul className="mt-4 space-y-2">
                 {['Up to 5 pages', 'Contact form + SEO', 'Delivered in 3–5 days'].map((item, i) => (
@@ -117,7 +117,7 @@ const Packages: React.FC = () => {
             <div className="p-6">
               <h3 className="font-bold text-xl text-white">Client Magnet</h3>
               <p className="text-white/50 text-sm mt-1">Automated leads, bookings, and follow-ups.</p>
-              <p className="font-mono text-2xl font-bold text-orange-400 mt-4">From R12,000</p>
+              <p className="font-mono text-2xl font-bold text-orange-400 mt-4">From R15,000</p>
               
               <ul className="mt-4 space-y-2">
                 {['Booking system + AI chatbot', 'WhatsApp & email alerts', 'Delivered in 5–7 days'].map((item, i) => (
@@ -152,7 +152,7 @@ const Packages: React.FC = () => {
             <div className="p-6">
               <h3 className="font-bold text-xl text-white">Business Accelerator</h3>
               <p className="text-white/50 text-sm mt-1">A long-term growth partner.</p>
-              <p className="font-mono text-2xl font-bold text-purple-400 mt-4">From R25,000</p>
+              <p className="font-mono text-2xl font-bold text-purple-400 mt-4">From R30,000</p>
               
               <ul className="mt-4 space-y-2">
                 {['Analytics dashboard', 'Advanced automations', 'Monthly optimisation'].map((item, i) => (

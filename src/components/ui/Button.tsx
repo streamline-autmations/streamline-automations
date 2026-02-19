@@ -42,7 +42,7 @@ const Button: React.FC<ButtonProps> = ({
     ghost: 'text-gray-300 hover:text-white border border-transparent hover:border-brand-purple/50',
   };
   
-  const classes = `${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${className}`;
+  const classes = `${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${className} btn-interactive`;
   
   if (to) {
     return (

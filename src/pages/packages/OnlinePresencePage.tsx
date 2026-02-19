@@ -66,7 +66,7 @@ const OnlinePresencePage: React.FC = () => {
   return (
     <PackagePageLayout
       packageName="Online Presence"
-      packagePrice="Starting from R6,500"
+      packagePrice="Starting from R7,500"
       accentColor="white"
     >
       {/* SECTION 1: Hero */}
@@ -89,7 +89,7 @@ const OnlinePresencePage: React.FC = () => {
               <p className="text-white/50 text-lg mb-6 max-w-md">
                 Clean, fast website live in 3–5 days.
               </p>
-              <p className="text-2xl font-bold text-white mb-6 font-mono">From R6,500</p>
+              <p className="text-2xl font-bold text-white mb-6 font-mono">From R7,500</p>
               <Link
                 to="/contact"
                 className="inline-flex items-center gap-2 px-8 py-4 bg-white text-black font-semibold rounded-full hover:bg-white/90 transition-all"

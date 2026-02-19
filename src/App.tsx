@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ScrollToTop from './components/layout/ScrollToTop';
 import CursorHint from './components/ui/CursorHint';
 import DotGridBackground from './components/ui/DotGridBackground';
+import InteractiveDotGrid from './components/InteractiveDotGrid';
 import Layout from './components/layout/Layout';
 import Home from './pages/Home';
 import Services from './pages/Services';
@@ -25,7 +26,7 @@ function App() {
   return (
     <Router>
       <div className="relative min-h-screen bg-[#050508]">
-        <DotGridBackground />
+        <InteractiveDotGrid />
         <CursorHint />
         <ScrollToTop />
         <Routes>

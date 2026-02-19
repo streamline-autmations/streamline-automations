@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Dot Grid — Streamline Automations</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ─── Reset & Base ─── */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --purple:      #7c3aed;
+    --purple-mid:  #8b5cf6;
+    --purple-light:#a78bfa;
+    --orange:      #f97316;
+    --orange-mid:  #fb923c;
+    --bg:          #050507;
+    --dot-color:   rgba(255,255,255,0.18);
+    --dot-size:    1.5px;
+    --dot-gap:     28px;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ─── Canvas: sits fixed behind everything ─── */
+  #dot-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── Page wrapper ─── */
+  .page {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px 120px;
+  }
+
+  /* ─── Section label ─── */
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: rgba(167,139,250,0.7);
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  /* ─── Heading ─── */
+  .heading {
+    font-size: clamp(48px, 8vw, 88px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -3px;
+    text-align: center;
+    margin-bottom: 20px;
+    /* subtle gradient on the text itself */
+    background: linear-gradient(135deg, #ffffff 30%, rgba(167,139,250,0.8) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ─── Subtitle ─── */
+  .subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: rgba(255,255,255,0.35);
+    text-align: center;
+    letter-spacing: 1px;
+    margin-bottom: 64px;
+    max-width: 400px;
+  }
+
+  /* ─── Tab buttons ─── */
+  .tabs {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .tab-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(12px);
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    transition: all 0.25s ease;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  /* Glow blob inside each button */
+  .tab-btn::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 13px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .tab-btn:hover {
+    color: #fff;
+    border-color: rgba(255,255,255,0.15);
+    transform: translateY(-2px);
+  }
+
+  /* ── Purple tab ── */
+  .tab-btn.purple::before {
+    background: linear-gradient(135deg, rgba(124,58,237,0.4), rgba(139,92,246,0.2));
+    box-shadow: 0 0 30px rgba(124,58,237,0.3) inset;
+  }
+  .tab-btn.purple:hover::before { opacity: 1; }
+  .tab-btn.purple:hover {
+    border-color: rgba(124,58,237,0.5);
+    box-shadow: 0 0 24px rgba(124,58,237,0.25), 0 4px 20px rgba(0,0,0,0.4);
+  }
+
+  /* ── Orange tab ── */
+  .tab-btn.orange::before {
+    background: linear-gradient(135deg, rgba(249,115,22,0.35), rgba(251,146,60,0.2));
+    box-shadow: 0 0 30px rgba(249,115,22,0.25) inset;
+  }
+  .tab-btn.orange:hover::before { opacity: 1; }
+  .tab-btn.orange:hover {
+    border-color: rgba(249,115,22,0.45);
+    box-shadow: 0 0 24px rgba(249,115,22,0.2), 0 4px 20px rgba(0,0,0,0.4);
+  }
+
+  /* ── White/neutral tab ── */
+  .tab-btn.neutral:hover {
+    border-color: rgba(255,255,255,0.2);
+    box-shadow: 0 0 24px rgba(255,255,255,0.05), 0 4px 20px rgba(0,0,0,0.4);
+  }
+
+  /* Dot indicator */
+  .tab-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .tab-btn.purple  .tab-dot { background: var(--purple-mid); box-shadow: 0 0 8px var(--purple-mid); }
+  .tab-btn.orange  .tab-dot { background: var(--orange); box-shadow: 0 0 8px var(--orange); }
+  .tab-btn.neutral .tab-dot { background: rgba(255,255,255,0.4); }
+
+  /* ─── Scroll-down hint ─── */
+  .scroll-hint {
+    position: absolute;
+    bottom: 48px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.25;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  .scroll-hint span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .scroll-hint-arrow {
+    width: 1px;
+    height: 32px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%       { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 600px) {
+    .tabs { gap: 10px; }
+    .tab-btn { padding: 12px 20px; font-size: 10px; }
+    .heading { letter-spacing: -1px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     CANVAS — drawn by JS below
+══════════════════════════════════════════════ -->
+<canvas id="dot-canvas"></canvas>
+
+<!-- ══════════════════════════════════════════════
+     PAGE CONTENT
+══════════════════════════════════════════════ -->
+<div class="page">
+  <p class="section-label">Our Work</p>
+
+  <h1 class="heading">Our Expertise</h1>
+
+  <p class="subtitle">Interactive portfolios of our core capabilities</p>
+
+  <div class="tabs">
+    <button class="tab-btn purple">
+      <span class="tab-dot"></span>
+      3 Items
+    </button>
+    <button class="tab-btn neutral">
+      <span class="tab-dot"></span>
+      3 Items
+    </button>
+    <button class="tab-btn orange">
+      <span class="tab-dot"></span>
+      3 Items
+    </button>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-hint-arrow"></div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     INTERACTIVE DOT GRID + BLOB ENGINE
+══════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  const canvas = document.getElementById('dot-canvas');
+  const ctx    = canvas.getContext('2d');
+
+  /* ── Config — tweak these ── */
+  const CFG = {
+    dotGap:       28,      // px between dot centres
+    dotRadius:    1.5,     // dot size (radius in px)
+    dotBaseAlpha: 0.18,    // dots at rest
+    dotLitAlpha:  0.85,    // dots when fully lit
+    litRadius:    180,     // how far the glow reaches from each blob centre (px)
+
+    blobs: [
+      /* Mouse-follow blob — purple */
+      {
+        x: 0.5, y: 0.4,        // normalised 0-1 (updated by mouse)
+        r: 320,                 // glow radius on canvas
+        color: [109, 40, 217],  // RGB
+        alpha: 0.22,
+        isMouseBlob: true,
+      },
+      /* Static drifting blob — orange, bottom-right */
+      {
+        x: 0.85, y: 0.8,
+        r: 260,
+        color: [249, 115, 22],
+        alpha: 0.14,
+        isMouseBlob: false,
+        drift: { ax: 0.00007, ay: 0.00005, phase: 0 },
+      },
+      /* Static drifting blob — purple, top-left */
+      {
+        x: 0.15, y: 0.25,
+        r: 280,
+        color: [139, 92, 246],
+        alpha: 0.13,
+        isMouseBlob: false,
+        drift: { ax: 0.00005, ay: 0.00008, phase: Math.PI },
+      },
+    ],
+  };
+
+  /* ── State ── */
+  let W = 0, H = 0;
+  let mouseX = -9999, mouseY = -9999;   // off-screen until first move
+  let scrollY = 0;
+  let rafId;
+  let t = 0; // time counter for drift
+
+  /* ── Resize ── */
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    // Move mouse blob to center on resize
+    CFG.blobs[0].x = 0.5;
+    CFG.blobs[0].y = 0.4;
+    mouseX = W * 0.5;
+    mouseY = H * 0.4;
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+
+  /* ── Mouse tracking (smooth lerp) ── */
+  let targetMX = W * 0.5, targetMY = H * 0.4;
+  let curMX    = targetMX, curMY   = targetMY;
+
+  window.addEventListener('mousemove', e => {
+    targetMX = e.clientX;
+    targetMY = e.clientY + window.scrollY;
+  });
+
+  window.addEventListener('touchmove', e => {
+    targetMX = e.touches[0].clientX;
+    targetMY = e.touches[0].clientY + window.scrollY;
+  }, { passive: true });
+
+  window.addEventListener('scroll', () => {
+    scrollY = window.scrollY;
+  }, { passive: true });
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  /* ── Build a radial gradient for a blob ── */
+  function blobGradient(blob, wx, wy) {
+    const r = blob.r;
+    const g = ctx.createRadialGradient(wx, wy, 0, wx, wy, r);
+    const [R, G, B] = blob.color;
+    g.addColorStop(0,   `rgba(${R},${G},${B},${blob.alpha})`);
+    g.addColorStop(0.4, `rgba(${R},${G},${B},${blob.alpha * 0.5})`);
+    g.addColorStop(1,   `rgba(${R},${G},${B},0)`);
+    return g;
+  }
+
+  /* ── Main render ── */
+  function render() {
+    t++;
+
+    /* Smooth mouse blob */
+    curMX = lerp(curMX, targetMX, 0.07);
+    curMY = lerp(curMY, targetMY - scrollY, 0.07);
+
+    ctx.clearRect(0, 0, W, H);
+
+    /* ── 1. Compute world-space blob positions ── */
+    const positions = CFG.blobs.map(blob => {
+      if (blob.isMouseBlob) {
+        return { wx: curMX, wy: curMY, blob };
+      }
+      /* Drifting blobs gently oscillate */
+      const d  = blob.drift;
+      const dx = Math.sin(t * d.ax * 1000 + d.phase) * 0.06;
+      const dy = Math.cos(t * d.ay * 1000 + d.phase) * 0.06;
+      return {
+        wx: (blob.x + dx) * W,
+        wy: (blob.y + dy) * H,
+        blob,
+      };
+    });
+
+    /* ── 2. Draw large soft blob glows (below dots) ── */
+    positions.forEach(({ wx, wy, blob }) => {
+      ctx.fillStyle = blobGradient(blob, wx, wy);
+      ctx.beginPath();
+      ctx.arc(wx, wy, blob.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    /* ── 3. Draw dot grid, each dot lit by proximity to any blob ── */
+    const gap = CFG.dotGap;
+    const dotR = CFG.dotRadius;
+    const litR = CFG.litRadius;
+
+    // Calculate grid offset so dots are evenly distributed
+    const offX = (W % gap) / 2;
+    const offY = (H % gap) / 2;
+
+    for (let gx = offX; gx < W; gx += gap) {
+      for (let gy = offY; gy < H; gy += gap) {
+
+        /* Find strongest blob influence on this dot */
+        let maxInfluence = 0;
+        let blendR = 255, blendG = 255, blendB = 255;
+
+        positions.forEach(({ wx, wy, blob }) => {
+          const dx   = gx - wx;
+          const dy   = gy - wy;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const inf  = Math.max(0, 1 - dist / litR);
+
+          if (inf > maxInfluence) {
+            maxInfluence = inf;
+            [blendR, blendG, blendB] = blob.color;
+          }
+        });
+
+        const eased = maxInfluence * maxInfluence * (3 - 2 * maxInfluence); // smoothstep
+        const alpha = CFG.dotBaseAlpha + eased * (CFG.dotLitAlpha - CFG.dotBaseAlpha);
+
+        /* Slight size boost for lit dots */
+        const radius = dotR + eased * 1.0;
+
+        if (maxInfluence > 0.01) {
+          /* Lit dot — tinted toward blob color */
+          ctx.fillStyle = `rgba(${blendR},${blendG},${blendB},${alpha})`;
+        } else {
+          /* Resting dot — pure white */
+          ctx.fillStyle = `rgba(255,255,255,${CFG.dotBaseAlpha})`;
+        }
+
+        ctx.beginPath();
+        ctx.arc(gx, gy, radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    rafId = requestAnimationFrame(render);
+  }
+
+  render();
+})();
+</script>
+
+</body>
+</html>

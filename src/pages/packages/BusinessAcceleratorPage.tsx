@@ -93,7 +93,7 @@ const BusinessAcceleratorPage: React.FC = () => {
   return (
     <PackagePageLayout
       packageName="Business Accelerator"
-      packagePrice="Starting from R25,000"
+      packagePrice="Starting from R30,000"
       accentColor="purple"
     >
       {/* SECTION 1: Hero */}
@@ -116,7 +116,7 @@ const BusinessAcceleratorPage: React.FC = () => {
               <p className="text-white/50 text-lg mb-6 max-w-md">
                 Full infrastructure with dashboard, analytics, and monthly growth partner.
               </p>
-              <p className="text-2xl font-bold text-purple-400 mb-6 font-mono">From R25,000</p>
+              <p className="text-2xl font-bold text-purple-400 mb-6 font-mono">From R30,000</p>
               <Link
                 to="/contact"
                 className="inline-flex items-center gap-2 px-8 py-4 bg-purple-500 text-white font-semibold rounded-full hover:bg-purple-400 transition-all hover:shadow-[0_0_20px_rgba(139,92,246,0.4)]"

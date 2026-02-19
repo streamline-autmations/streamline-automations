@@ -36,7 +36,7 @@ const packages = [
   {
     name: "Online Presence",
     outcome: "A clean, professional website live in 3–5 days.",
-    price: "From R6,500",
+    price: "From R7,500",
     bullets: [
       "Up to 5 pages, fully responsive",
       "Contact form + Google Maps + social links",
@@ -48,7 +48,7 @@ const packages = [
   {
     name: "Client Magnet",
     outcome: "Automated leads, bookings, and follow-ups.",
-    price: "From R12,000",
+    price: "From R15,000",
     bullets: [
       "Appointment booking + smart enquiry forms",
       "WhatsApp & email notifications",
@@ -61,7 +61,7 @@ const packages = [
   {
     name: "Business Accelerator",
     outcome: "A long-term growth partner, not just a build.",
-    price: "From R25,000 + retainer",
+    price: "From R30,000 + retainer",
     bullets: [
       "Analytics dashboard + CMS editing",
       "Advanced automations + follow-up logic",

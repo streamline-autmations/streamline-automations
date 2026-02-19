@@ -27,7 +27,7 @@ const Card: React.FC<CardProps> = ({
     : null;
 
   return (
-    <div className={`relative glass-card p-6 md:p-8 transition-all duration-300 tech-glow-hover group ${className}`}>
+    <div className={`relative glass-card p-6 md:p-8 transition-all duration-300 tech-glow-hover group card-interactive ${className}`}>
       {/* Subtle gradient overlay on hover */}
       <div className="absolute inset-0 bg-gradient-to-br from-brand-purple/10 to-brand-orange/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
       

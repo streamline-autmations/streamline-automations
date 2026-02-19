@@ -5,9 +5,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Button from '../ui/Button';
 
 const packageLinks = [
-  { name: 'Online Presence', path: '/packages/online-presence', subtext: 'From R6,500 · 3–5 days' },
-  { name: 'Client Magnet', path: '/packages/client-magnet', subtext: 'From R12,000 · 5–7 days ⭐ Most Popular' },
-  { name: 'Business Accelerator', path: '/packages/business-accelerator', subtext: 'From R25,000 · 7–10 days' },
+  { name: 'Online Presence', path: '/packages/online-presence', subtext: 'From R7,500 · 3–5 days' },
+  { name: 'Client Magnet', path: '/packages/client-magnet', subtext: 'From R15,000 · 5–7 days ⭐ Most Popular' },
+  { name: 'Business Accelerator', path: '/packages/business-accelerator', subtext: 'From R30,000 · 7–10 days' },
 ];
 
 const moreLinks = [

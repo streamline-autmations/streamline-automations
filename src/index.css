@@ -48,6 +48,52 @@
   a:not([class]):hover {
     @apply text-white;
   }
+
+  /* Interactive elements purple glow effect */
+  a, button, [role="button"] {
+    transition: all 0.3s ease;
+  }
+
+  /* Links glow purple on hover */
+  a:not([class]):hover,
+  .nav-link:hover,
+  .menu-link:hover {
+    text-shadow: 0 0 20px rgba(139, 92, 246, 0.8), 0 0 40px rgba(139, 92, 246, 0.4);
+  }
+
+  /* Cards with interactive glow */
+  .card-interactive {
+    transition: all 0.3s ease;
+  }
+  
+  .card-interactive:hover {
+    border-color: rgba(139, 92, 246, 0.6) !important;
+    box-shadow: 0 0 30px rgba(139, 92, 246, 0.3), inset 0 0 30px rgba(139, 92, 246, 0.05);
+    transform: translateY(-2px);
+  }
+
+  /* Button glow effect */
+  button:hover,
+  .btn-interactive:hover {
+    box-shadow: 0 0 25px rgba(139, 92, 246, 0.5), 0 0 50px rgba(139, 92, 246, 0.2);
+  }
+
+  /* Input fields glow */
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+    border-color: rgba(139, 92, 246, 0.8) !important;
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+  }
+
+  /* Active/pressed state */
+  button:active,
+  a:active,
+  .btn-interactive:active {
+    transform: scale(0.98);
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.6);
+  }
 }
 
 @layer components {
