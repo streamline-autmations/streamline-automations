@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin, Instagram, Facebook, Linkedin } from 'lucide-react';
-import RogueBot from '../ui/RogueBot';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -248,13 +247,6 @@ const Footer: React.FC = () => {
                 <div className="text-gray-400 text-sm">Gauteng, South Africa</div>
               </li>
             </ul>
-          </div>
-        </div>
-
-        {/* RogueBot Playground - Dedicated Centered Space */}
-        <div className="w-full flex justify-center py-8 border-t border-white/10">
-          <div className="w-full max-w-4xl">
-            <RogueBot />
           </div>
         </div>
 

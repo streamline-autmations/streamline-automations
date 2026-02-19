@@ -58,16 +58,6 @@ export function IntroScreen({ children }: IntroScreenProps) {
               onComplete={handleComplete}
               className="absolute inset-0 w-full h-full"
             />
-
-            {/* Skip hint — bottom center, fades in after 1.5s */}
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.28 }}
-              transition={{ delay: 1.5, duration: 1 }}
-              className="absolute bottom-8 left-1/2 -translate-x-1/2 font-mono text-[10px] tracking-[3px] uppercase text-white pointer-events-none"
-            >
-              Press ESC to skip
-            </motion.p>
           </motion.div>
         )}
       </AnimatePresence>
