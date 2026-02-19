@@ -100,8 +100,9 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
   const completedRef = useRef(false)
 
   // How long each word stays after forming (frames at ~60fps)
-  // Each word: quick form (~40 frames) + hold 180 frames = 220 total (~3.6 seconds per word)
-  const HOLD_FRAMES = [180, 180, 180, 150]
+  // WEBSITES/SYSTEMS/AUTOMATION: 1.5s (90 frames)
+  // WE DO IT ALL: 2s (120 frames) before exit
+  const HOLD_FRAMES = [90, 90, 90, 120]
 
   const spawnFromEdge = (canvas: HTMLCanvasElement): Vector2D => {
     const edge = Math.floor(Math.random() * 4)
@@ -198,10 +199,21 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
       const nextIdx = wordIdxRef.current + 1
 
       if (nextIdx >= WORDS.length) {
-        // All words shown — hold the last one then trigger completion
+        // All words shown — trigger exit animation then completion
         if (!completedRef.current) {
           completedRef.current = true
-          setTimeout(() => { onComplete?.() }, 600)
+          // Exit: particles explode outward with a swirl
+          const particles = particlesRef.current
+          for (const p of particles) {
+            const angle = Math.atan2(p.pos.y - canvas.height/2, p.pos.x - canvas.width/2)
+            const speed = Math.random() * 8 + 6
+            p.target.x = p.pos.x + Math.cos(angle) * speed * 40
+            p.target.y = p.pos.y + Math.sin(angle) * speed * 40
+            p.targetColor = { r: 255, g: 255, b: 255 }
+            p.colorBlendRate = 0.08
+          }
+          // Wait for exit animation then complete
+          setTimeout(() => { onComplete?.() }, 800)
         }
       } else {
         wordIdxRef.current = nextIdx
