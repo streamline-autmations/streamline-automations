@@ -103,9 +103,9 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
   const chunksRef = useRef<Blob[]>([])
 
   // How long each word stays after forming (frames at ~60fps)
-  // WEBSITES/SYSTEMS/AUTOMATION: 2s (120 frames)
+  // WEBSITES/SYSTEMS/AUTOMATION: 2.25s (135 frames)
   // WE DO IT ALL: 2.5s (150 frames) before exit
-  const HOLD_FRAMES = [120, 120, 120, 150]
+  const HOLD_FRAMES = [135, 135, 135, 150]
 
   // Start recording when 'R' is pressed
   const startRecording = () => {
