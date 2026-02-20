@@ -16,6 +16,7 @@ const AMBER: [number, number, number] = [249, 115, 22]
 const WHITE: [number, number, number] = [255, 255, 255]
 
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v))
+const smooth01 = (t: number) => t * t * (3 - 2 * t)
 
 export default function DotGridBackground() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
@@ -140,6 +141,14 @@ export default function DotGridBackground() {
       const drift = !reduced && idle ? 1 : 0
       const ox = drift ? Math.sin(now / 9000) * 3 : 0
       const oy = drift ? Math.cos(now / 9800) * 3 : 0
+      const hoverRadius = gap * (w < 480 ? 2.8 : 3.0)
+      const hoverGridRadius = 3
+      const hoverGrow = w < 480 ? 1.35 : 1.1
+      const hoverAlphaAdd = 0.12
+      const cursorX = s.lastPointer.has ? s.lastPointer.x : -99999
+      const cursorY = s.lastPointer.has ? s.lastPointer.y : -99999
+      const cix = s.lastPointer.has ? Math.round(cursorX / gap) : 0
+      const ciy = s.lastPointer.has ? Math.round(cursorY / gap) : 0
 
       for (let y = -gap; y <= h + gap; y += gap) {
         for (let x = -gap; x <= w + gap; x += gap) {
@@ -164,9 +173,24 @@ export default function DotGridBackground() {
             else aW += sV
           }
 
+          let hover = 0
+          if (s.lastPointer.has) {
+            const ix = Math.round(px / gap)
+            const iy = Math.round(py / gap)
+            const dxI = Math.abs(ix - cix)
+            const dyI = Math.abs(iy - ciy)
+            if (dxI <= hoverGridRadius && dyI <= hoverGridRadius) {
+              const dx = px - cursorX
+              const dy = py - cursorY
+              const d = Math.hypot(dx, dy)
+              const t = clamp(1 - d / hoverRadius, 0, 1)
+              hover = smooth01(t)
+            }
+          }
+
           const iC = clamp(intensity, 0, 0.75)
-          const r = baseR + iC * maxGrow
-          const alpha = clamp(0.10 + iC * 0.28, 0.06, 0.34)
+          const r = baseR + iC * maxGrow + hover * hoverGrow
+          const alpha = clamp(0.10 + iC * 0.26 + hover * hoverAlphaAdd, 0.06, 0.34)
 
           let cr = WHITE[0], cg = WHITE[1], cb = WHITE[2]
           const wSum = pW + aW
@@ -176,17 +200,24 @@ export default function DotGridBackground() {
             cg = Math.round(PURPLE[1] * (1 - t) + AMBER[1] * t)
             cb = Math.round(PURPLE[2] * (1 - t) + AMBER[2] * t)
           }
+          if (hover > 0) {
+            const t = clamp(hover * 0.55, 0, 0.55)
+            cr = Math.round(cr * (1 - t) + PURPLE[0] * t)
+            cg = Math.round(cg * (1 - t) + PURPLE[1] * t)
+            cb = Math.round(cb * (1 - t) + PURPLE[2] * t)
+          }
 
           ctx.beginPath()
           ctx.fillStyle = `rgba(${cr},${cg},${cb},${alpha})`
           ctx.arc(px, py, r, 0, Math.PI * 2)
           ctx.fill()
 
-          if (iC > 0.14) {
-            const glowA = clamp((iC - 0.12) * 0.20, 0.01, 0.08)
+          const glowBasis = Math.max(iC * 0.7, hover * 0.45)
+          if (glowBasis > 0.18) {
+            const glowA = clamp((glowBasis - 0.18) * 0.12, 0.006, 0.045)
             ctx.beginPath()
             ctx.fillStyle = `rgba(${cr},${cg},${cb},${glowA})`
-            ctx.arc(px, py, r * 2.0, 0, Math.PI * 2)
+            ctx.arc(px, py, r * 1.75, 0, Math.PI * 2)
             ctx.fill()
           }
         }
