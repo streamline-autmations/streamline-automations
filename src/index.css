@@ -11,6 +11,10 @@
   --purple-dim: rgba(139, 92, 246, 0.12);
   --purple-border: rgba(139, 92, 246, 0.35);
   --purple-glow: rgba(139, 92, 246, 0.20);
+  --orange: #F05523;
+  --orange-dim: rgba(240, 85, 35, 0.12);
+  --orange-border: rgba(240, 85, 35, 0.35);
+  --orange-glow: rgba(240, 85, 35, 0.18);
   --text-high: rgba(255, 255, 255, 0.95);
   --text-mid: rgba(255, 255, 255, 0.60);
   --text-low: rgba(255, 255, 255, 0.35);
@@ -57,6 +61,7 @@ body::after {
   background:
     radial-gradient(500px circle at var(--mx) var(--my), rgba(255,255,255,0.04), transparent 70%),
     radial-gradient(700px circle at var(--mx) var(--my), rgba(109,40,217,0.13), transparent 70%),
+    radial-gradient(760px circle at var(--mx) var(--my), rgba(240,85,35,0.09), transparent 72%),
     radial-gradient(1000px circle at 50% -200px, rgba(99,40,200,0.18), transparent 65%),
     radial-gradient(600px circle at 0% 100%, rgba(109,40,217,0.07), transparent 65%);
 }
@@ -269,7 +274,7 @@ body::after {
 .body { font-size: 15px; line-height: 1.75; color: var(--text-mid); }
 .body-sm { font-size: 13px; line-height: 1.65; color: var(--text-low); }
 .price { font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 700; line-height: 1; color: var(--text-high); }
-.text-accent { color: #a78bfa; }
+.text-accent { color: var(--orange); }
 
 .section-intro { text-align: center; max-width: 580px; margin: 0 auto 56px; }
 .section-intro .body { margin-top: 14px; }

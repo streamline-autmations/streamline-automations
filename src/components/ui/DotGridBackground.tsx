@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-type Accent = 'purple' | 'amber'
+type Accent = 'purple' | 'orange'
 
 type Activation = {
   x: number
@@ -12,7 +12,7 @@ type Activation = {
 }
 
 const PURPLE: [number, number, number] = [139, 92, 246]
-const AMBER: [number, number, number] = [249, 115, 22]
+const ORANGE: [number, number, number] = [240, 85, 35]
 const WHITE: [number, number, number] = [255, 255, 255]
 
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v))
@@ -75,7 +75,7 @@ export default function DotGridBackground() {
     }
 
     const onPointerDown = (e: PointerEvent) => {
-      const color: Accent = Math.random() < 0.14 ? 'amber' : 'purple'
+      const color: Accent = Math.random() < 0.18 ? 'orange' : 'purple'
       addActivation(e.clientX, e.clientY, 0.45, 1800, color)
     }
 
@@ -123,12 +123,16 @@ export default function DotGridBackground() {
       }
 
       const idle = now - s.lastInteract > 1200
-      if (!reduced && idle && now - lastIdlePulse > 650) {
+      if (!reduced && idle && now - lastIdlePulse > 900) {
         lastIdlePulse = now
         const x = Math.random() * w
         const y = Math.random() * h
-        const color: Accent = Math.random() < 0.12 ? 'amber' : 'purple'
-        addActivation(x, y, 0.18 + Math.random() * 0.12, 1800 + Math.random() * 1200, color)
+        const color: Accent = Math.random() < 0.18 ? 'orange' : 'purple'
+        const dx = (Math.random() - 0.5) * 26
+        const dy = (Math.random() - 0.5) * 26
+        const strength = 0.38 + Math.random() * 0.12
+        addActivation(x, y, strength, 1800, color)
+        addActivation(x + dx, y + dy, strength * 0.72, 1600, color)
       }
 
       ctx.clearRect(0, 0, w, h)
@@ -196,9 +200,9 @@ export default function DotGridBackground() {
           const wSum = pW + aW
           if (wSum > 0.001) {
             const t = clamp(aW / wSum, 0, 1)
-            cr = Math.round(PURPLE[0] * (1 - t) + AMBER[0] * t)
-            cg = Math.round(PURPLE[1] * (1 - t) + AMBER[1] * t)
-            cb = Math.round(PURPLE[2] * (1 - t) + AMBER[2] * t)
+            cr = Math.round(PURPLE[0] * (1 - t) + ORANGE[0] * t)
+            cg = Math.round(PURPLE[1] * (1 - t) + ORANGE[1] * t)
+            cb = Math.round(PURPLE[2] * (1 - t) + ORANGE[2] * t)
           }
           if (hover > 0) {
             const t = clamp(hover * 0.55, 0, 0.55)
@@ -214,10 +218,10 @@ export default function DotGridBackground() {
 
           const glowBasis = Math.max(iC * 0.7, hover * 0.45)
           if (glowBasis > 0.18) {
-            const glowA = clamp((glowBasis - 0.18) * 0.12, 0.006, 0.045)
+            const glowA = clamp((glowBasis - 0.18) * 0.08, 0.004, 0.03)
             ctx.beginPath()
             ctx.fillStyle = `rgba(${cr},${cg},${cb},${glowA})`
-            ctx.arc(px, py, r * 1.75, 0, Math.PI * 2)
+            ctx.arc(px, py, r * 1.65, 0, Math.PI * 2)
             ctx.fill()
           }
         }

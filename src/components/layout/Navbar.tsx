@@ -50,10 +50,10 @@ const Header: React.FC = () => {
     <header className="navbar">
       <div className="w-full">
         {/* Mobile Layout: Hamburger Left, Logo Center, Empty Right */}
-        <div className="flex md:hidden items-center justify-between">
+        <div className="relative flex md:hidden items-center justify-between h-16">
           {/* Mobile Menu Button */}
           <button
-            className="text-gray-200 hover:text-white p-3"
+            className="text-gray-200 hover:text-white p-3 z-10"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -61,7 +61,7 @@ const Header: React.FC = () => {
           </button>
 
           {/* Centered Logo */}
-          <Link to="/" className="absolute left-1/2 transform -translate-x-1/2">
+          <Link to="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <img
               src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1765275983/Streamline-White_1_yf5ow5.svg"
               alt="Streamline Automations"
@@ -70,7 +70,7 @@ const Header: React.FC = () => {
           </Link>
 
           {/* Empty space for balance */}
-          <div className="w-16"></div>
+          <div className="w-16 z-10"></div>
         </div>
 
         {/* Desktop Layout: Logo Left, Nav Center, Button Right */}
@@ -190,8 +190,8 @@ const Header: React.FC = () => {
 
         {/* Mobile Menu */}
         <div
-          className={`md:hidden transition-all duration-300 overflow-hidden bg-black border-t border-white/10 ${
-            isMenuOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'
+          className={`md:hidden transition-all duration-300 bg-black border-t border-white/10 ${
+            isMenuOpen ? 'max-h-[calc(100vh-64px)] opacity-100 overflow-y-auto' : 'max-h-0 opacity-0 overflow-hidden'
           }`}
         >
           <nav className="py-6 px-2">

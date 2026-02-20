@@ -8,7 +8,7 @@ export default {
         'brand-dark': '#050505',
         'brand-purple': '#8B5CF6',
         'brand-glow': '#7c3aed',
-        'brand-orange': '#F97316',
+        'brand-orange': '#F05523',
         'glass-surface': 'rgba(255, 255, 255, 0.03)',
         
         // Legacy colors for gradual migration
@@ -56,7 +56,7 @@ export default {
       boxShadow: {
         glow: '0 0 20px rgba(139, 92, 246, 0.4)',
         'glow-hover': '0 0 30px rgba(124, 58, 237, 0.6)',
-        'glow-orange': '0 0 20px rgba(249, 115, 22, 0.4)',
+        'glow-orange': '0 0 20px rgba(240, 85, 35, 0.4)',
         'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
       },
       backgroundImage: {
