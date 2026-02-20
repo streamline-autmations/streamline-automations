@@ -57,7 +57,7 @@ const BlomCosmetics: React.FC = () => {
       </section>
 
       {/* Module 2: The Command Center (Tabs Section) */}
-      <section className="relative py-24 bg-black/30 border-y border-white/10">
+      <section className="relative py-24 border-y border-white/10">
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-7xl mx-auto">
@@ -213,7 +213,7 @@ const BlomCosmetics: React.FC = () => {
       </section>
 
       {/* Module 4: The Automation Layer (Bento Grid) */}
-      <section className="relative py-24 bg-black/30 border-y border-white/10">
+      <section className="relative py-24 border-y border-white/10">
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-7xl mx-auto">

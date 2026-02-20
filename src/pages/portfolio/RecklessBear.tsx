@@ -66,7 +66,7 @@ const RecklessBear: React.FC = () => {
       </section>
 
       {/* Sales Automation Showcase - 3 Features */}
-      <section className="relative py-20 md:py-32 bg-black/30 border-y border-white/10">
+      <section className="relative py-20 md:py-32 border-y border-white/10">
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-7xl mx-auto">

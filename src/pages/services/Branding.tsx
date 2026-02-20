@@ -68,7 +68,7 @@ const Branding: React.FC = () => {
   ];
 
   return (
-    <div className="relative min-h-screen bg-brand-dark overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden">
       {/* Animated Background Orbs */}
 
       {/* Section A: The Hero */}
@@ -112,7 +112,7 @@ const Branding: React.FC = () => {
       </section>
 
       {/* Section B: The "Pro Tools" Bar */}
-      <section className="relative py-12 md:py-16 bg-brand-dark/50 border-y border-white/10">
+      <section className="relative py-12 md:py-16 border-y border-white/10">
         <div className="container mx-auto px-4 md:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

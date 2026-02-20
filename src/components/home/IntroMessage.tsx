@@ -49,7 +49,7 @@ const IntroMessage: React.FC = () => {
   };
 
   return (
-    <section className="py-24 bg-brand-dark relative overflow-hidden">
+    <section className="py-24 relative overflow-hidden">
       <div className="absolute -right-40 top-1/3 w-[800px] h-[800px] bg-gradient-to-l from-brand-purple/20 to-transparent rounded-full blur-[120px] pointer-events-none"></div>
       
       <div className="container mx-auto px-4 md:px-6 relative z-10">
@@ -63,7 +63,7 @@ const IntroMessage: React.FC = () => {
             {benefits.map((benefit, index) => (
               <div key={index} className="glass-card p-8 md:p-10 tech-glow-hover group">
                 <div className="flex justify-center mb-6">
-                  <div className="p-4 rounded-full bg-brand-dark border border-white/20 group-hover:border-brand-purple/50 transition-colors">
+                  <div className="p-4 rounded-full bg-[color:var(--surface)] border border-white/20 group-hover:border-brand-purple/50 transition-colors">
                     {benefit.icon}
                   </div>
                 </div>

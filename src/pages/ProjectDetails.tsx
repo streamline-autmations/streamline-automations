@@ -11,7 +11,7 @@ const ProjectDetails: React.FC = () => {
 
   if (!project) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-brand-dark">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-ubuntu font-bold text-white mb-4">Project Not Found</h1>
           <Link to="/portfolio" className="text-brand-purple hover:text-accent transition-colors">
@@ -24,7 +24,7 @@ const ProjectDetails: React.FC = () => {
 
   if (!project.challenge || !project.solution || !project.results) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-brand-dark">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-ubuntu font-bold text-white mb-4">Case Study Not Available</h1>
           <Link to="/portfolio" className="text-brand-purple hover:text-accent transition-colors">
@@ -38,7 +38,7 @@ const ProjectDetails: React.FC = () => {
   const resultIcons = [CheckCircle2, Target, Lightbulb, TrendingUp];
 
   return (
-    <div className="min-h-screen bg-brand-dark">
+    <div className="min-h-screen">
       {/* Hero Header */}
       <section className="relative h-[60vh] md:h-[70vh] overflow-hidden">
         <div className="absolute inset-0">
@@ -82,7 +82,7 @@ const ProjectDetails: React.FC = () => {
       </section>
 
       {/* The Stack */}
-      <section className="py-12 md:py-16 bg-brand-dark/50 border-y border-white/10">
+      <section className="py-12 md:py-16 border-y border-white/10">
         <div className="container mx-auto px-4 md:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -256,7 +256,7 @@ const ProjectDetails: React.FC = () => {
       )}
 
       {/* CTA Section */}
-      <section className="relative py-20 md:py-32 bg-brand-dark border-t border-white/10">
+      <section className="relative py-20 md:py-32 border-t border-white/10">
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

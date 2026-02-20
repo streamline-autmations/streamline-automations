@@ -19,7 +19,7 @@ const Portfolio: React.FC = () => {
     : portfolioProjects.filter(project => project.category === activeFilter);
 
   return (
-    <div className="min-h-screen bg-brand-dark">
+    <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-purple/20 rounded-full filter blur-3xl"></div>

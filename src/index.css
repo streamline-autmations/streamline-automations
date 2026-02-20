@@ -92,8 +92,8 @@ body::after {
 @media (max-width: 768px) { .section { padding: 64px 0; } }
 
 .section-panel {
-  background-color: #000000;
-  box-shadow: 0 -80px 60px 30px #000000, 0 80px 60px 30px #000000;
+  background-color: transparent;
+  box-shadow: none;
 }
 
 .section-line::before {

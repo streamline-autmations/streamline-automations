@@ -16,7 +16,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, index }) => {
   const cardContent = (
     <>
       {/* Project Image */}
-      <div className="relative overflow-hidden h-56 md:h-64 bg-brand-dark">
+      <div className="relative overflow-hidden h-56 md:h-64 bg-[color:var(--surface)]">
         <img
           src={project.image}
           alt={project.title}
@@ -48,7 +48,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, index }) => {
           {project.tags.map((tag, idx) => (
             <span
               key={idx}
-              className="px-3 py-1.5 bg-brand-dark/50 border border-brand-purple/30 rounded-full text-xs md:text-sm text-gray-300 font-inter"
+              className="px-3 py-1.5 bg-[color:var(--surface)] border border-brand-purple/30 rounded-full text-xs md:text-sm text-gray-300 font-inter"
             >
               {tag}
             </span>

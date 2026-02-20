@@ -71,7 +71,7 @@ const TechStack: React.FC = () => {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-brand-dark border-b border-white/5">
+    <section className="py-16 md:py-24 border-b border-white/5">
       <div className="container mx-auto px-4 md:px-6">
         <p className="text-center text-gray-500 text-xs md:text-sm uppercase tracking-widest mb-12 font-inter">
           Powered by Next-Gen Infrastructure

@@ -102,7 +102,7 @@ const AmeliVanZyl: React.FC = () => {
       </section>
 
       {/* Section B: Invisible Automation */}
-      <section className="relative py-20 md:py-32 bg-black/30 border-y border-white/10">
+      <section className="relative py-20 md:py-32 border-y border-white/10">
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-7xl mx-auto">
@@ -141,7 +141,7 @@ const AmeliVanZyl: React.FC = () => {
               </div>
 
               {/* Bottom Detail Bar */}
-              <div className="border-t border-white/10 bg-brand-dark/30 p-6">
+              <div className="border-t border-white/10 bg-[color:var(--surface)] p-6">
                 <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-400 font-inter">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>

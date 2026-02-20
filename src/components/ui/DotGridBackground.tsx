@@ -27,6 +27,7 @@ export default function DotGridBackground() {
     lastInteract: 0,
     lastPointer: { x: 0, y: 0, has: false },
     lastScrollY: 0,
+    lastMoveAdd: 0,
   })
 
   useEffect(() => {
@@ -66,12 +67,15 @@ export default function DotGridBackground() {
     const onPointerMove = (e: PointerEvent) => {
       const s = stateRef.current
       s.lastPointer = { x: e.clientX, y: e.clientY, has: true }
-      addActivation(e.clientX, e.clientY, 0.55, 420, 'purple')
+      const now = performance.now()
+      if (now - s.lastMoveAdd < 26) return
+      s.lastMoveAdd = now
+      addActivation(e.clientX, e.clientY, 0.18, 1100, 'purple')
     }
 
     const onPointerDown = (e: PointerEvent) => {
-      const color: Accent = Math.random() < 0.22 ? 'amber' : 'purple'
-      addActivation(e.clientX, e.clientY, 1.1, 900, color)
+      const color: Accent = Math.random() < 0.14 ? 'amber' : 'purple'
+      addActivation(e.clientX, e.clientY, 0.45, 1800, color)
     }
 
     const onTouchMove = (e: TouchEvent) => {
@@ -79,7 +83,10 @@ export default function DotGridBackground() {
       const t = e.touches[0]
       const s = stateRef.current
       s.lastPointer = { x: t.clientX, y: t.clientY, has: true }
-      addActivation(t.clientX, t.clientY, 0.45, 420, 'purple')
+      const now = performance.now()
+      if (now - s.lastMoveAdd < 26) return
+      s.lastMoveAdd = now
+      addActivation(t.clientX, t.clientY, 0.16, 1100, 'purple')
     }
 
     const onScroll = () => {
@@ -90,7 +97,7 @@ export default function DotGridBackground() {
       if (dy < 2) return
       const x = s.lastPointer.has ? s.lastPointer.x : Math.random() * (s.w || window.innerWidth)
       const cy = s.lastPointer.has ? s.lastPointer.y : ((y * 0.4) % (s.h || window.innerHeight))
-      addActivation(x, cy, 0.5, 520, 'purple')
+      addActivation(x, cy, 0.16, 1300, 'purple')
     }
 
     resize()
@@ -115,24 +122,24 @@ export default function DotGridBackground() {
       }
 
       const idle = now - s.lastInteract > 1200
-      if (!reduced && idle && now - lastIdlePulse > 190) {
+      if (!reduced && idle && now - lastIdlePulse > 650) {
         lastIdlePulse = now
         const x = Math.random() * w
         const y = Math.random() * h
-        const color: Accent = Math.random() < 0.18 ? 'amber' : 'purple'
-        addActivation(x, y, 0.35 + Math.random() * 0.25, 700 + Math.random() * 500, color)
+        const color: Accent = Math.random() < 0.12 ? 'amber' : 'purple'
+        addActivation(x, y, 0.18 + Math.random() * 0.12, 1800 + Math.random() * 1200, color)
       }
 
       ctx.clearRect(0, 0, w, h)
 
       const gap = Math.max(22, Math.min(42, Math.round(w / 38)))
-      const baseR = w < 480 ? 0.9 : 1.05
-      const maxGrow = w < 480 ? 4.4 : 3.8
-      const influenceRadius = w < 480 ? 140 : 120
+      const baseR = w < 480 ? 0.85 : 0.95
+      const maxGrow = w < 480 ? 1.8 : 1.45
+      const influenceRadius = w < 480 ? 125 : 110
       const invTwoSigma2 = 1 / (2 * influenceRadius * influenceRadius)
       const drift = !reduced && idle ? 1 : 0
-      const ox = drift ? Math.sin(now / 6500) * 6 : 0
-      const oy = drift ? Math.cos(now / 7200) * 6 : 0
+      const ox = drift ? Math.sin(now / 9000) * 3 : 0
+      const oy = drift ? Math.cos(now / 9800) * 3 : 0
 
       for (let y = -gap; y <= h + gap; y += gap) {
         for (let x = -gap; x <= w + gap; x += gap) {
@@ -157,9 +164,9 @@ export default function DotGridBackground() {
             else aW += sV
           }
 
-          const iC = clamp(intensity, 0, 1.25)
+          const iC = clamp(intensity, 0, 0.75)
           const r = baseR + iC * maxGrow
-          const alpha = clamp(0.11 + iC * 0.62, 0.06, 0.78)
+          const alpha = clamp(0.10 + iC * 0.28, 0.06, 0.34)
 
           let cr = WHITE[0], cg = WHITE[1], cb = WHITE[2]
           const wSum = pW + aW
@@ -175,11 +182,11 @@ export default function DotGridBackground() {
           ctx.arc(px, py, r, 0, Math.PI * 2)
           ctx.fill()
 
-          if (iC > 0.22) {
-            const glowA = clamp((iC - 0.18) * 0.35, 0.02, 0.22)
+          if (iC > 0.14) {
+            const glowA = clamp((iC - 0.12) * 0.20, 0.01, 0.08)
             ctx.beginPath()
             ctx.fillStyle = `rgba(${cr},${cg},${cb},${glowA})`
-            ctx.arc(px, py, r * 2.6, 0, Math.PI * 2)
+            ctx.arc(px, py, r * 2.0, 0, Math.PI * 2)
             ctx.fill()
           }
         }

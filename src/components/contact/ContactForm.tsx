@@ -56,7 +56,7 @@ const ContactForm: React.FC = () => {
                       name={field.id}
                       required={field.required}
                       onChange={handleChange}
-                      className="w-full px-4 py-4 bg-brand-dark/50 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-brand-purple focus:border-transparent appearance-none min-h-[56px] font-inter backdrop-blur-sm"
+                      className="w-full px-4 py-4 bg-[color:var(--surface)] border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-brand-purple focus:border-transparent appearance-none min-h-[56px] font-inter backdrop-blur-sm"
                     >
                       <option value="">{field.placeholder}</option>
                       {field.options?.map((option) => (
@@ -77,7 +77,7 @@ const ContactForm: React.FC = () => {
                     placeholder={field.placeholder}
                     required={field.required}
                     onChange={handleChange}
-                    className="w-full px-4 py-4 bg-brand-dark/50 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-brand-purple focus:border-transparent min-h-[56px] font-inter backdrop-blur-sm"
+                    className="w-full px-4 py-4 bg-[color:var(--surface)] border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-brand-purple focus:border-transparent min-h-[56px] font-inter backdrop-blur-sm"
                   />
                 )}
               </div>
@@ -103,7 +103,7 @@ const ContactForm: React.FC = () => {
           ))}
         </ul>
 
-        <div className="mt-8 md:mt-10 p-6 md:p-8 bg-brand-dark/30 rounded-lg border border-white/10">
+        <div className="mt-8 md:mt-10 p-6 md:p-8 bg-[color:var(--surface)] rounded-lg border border-white/10">
           <p className="text-base text-gray-300 font-inter leading-relaxed">
             "Streamline helped us automate our lead qualification process, saving our sales team 15+ hours per week while increasing conversion rates by 32%."
           </p>
