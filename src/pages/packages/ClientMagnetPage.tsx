@@ -84,7 +84,7 @@ const ClientMagnetPage: React.FC = () => {
     <PackagePageLayout
       packageName="Client Magnet"
       packagePrice="Starting from R15,000"
-      accentColor="orange"
+      accentColor="purple"
     >
       {/* SECTION 1: Hero */}
       <section className="pt-12 pb-16 md:pt-16 md:pb-24 px-4">
@@ -97,7 +97,7 @@ const ClientMagnetPage: React.FC = () => {
           >
             {/* Left: Text */}
             <motion.div variants={fadeUp}>
-              <span className="inline-block px-4 py-1.5 bg-orange-500/10 text-orange-400 text-xs font-mono tracking-[2px] rounded-full border border-orange-500/20 mb-6">
+              <span className="inline-block px-4 py-1.5 bg-[color:var(--purple-dim)] text-accent text-xs font-mono tracking-[2px] rounded-full border border-[color:var(--purple-border)] mb-6">
                 TIER 2 — CLIENT MAGNET
               </span>
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-4">
@@ -106,7 +106,7 @@ const ClientMagnetPage: React.FC = () => {
               <p className="text-base md:text-lg text-white/55 mb-6 max-w-md leading-relaxed">
                 System that captures, qualifies, and books clients 24/7.
               </p>
-              <p className="text-2xl md:text-3xl font-bold font-mono text-orange-400 mb-6">From R15,000</p>
+              <p className="text-2xl md:text-3xl font-bold font-mono text-accent mb-6">From R15,000</p>
               <Button variant="primary" size="lg" href="/contact">
                 Automate Your Business <ArrowRight className="w-5 h-5" />
               </Button>
@@ -141,7 +141,7 @@ const ClientMagnetPage: React.FC = () => {
                 <ul className="space-y-3">
                   {isForYouIf.map((item, i) => (
                     <li key={i} className="flex items-center gap-3 text-white/55">
-                      <Check className="w-5 h-5 text-orange-400" /> {item}
+                      <Check className="w-5 h-5 text-accent" /> {item}
                     </li>
                   ))}
                 </ul>
@@ -196,7 +196,7 @@ const ClientMagnetPage: React.FC = () => {
               {processSteps.map((step, i) => (
                 <Card key={i} accent="none" hover={false} className="flex-1">
                   <div className="p-6 text-center flex flex-col items-center">
-                    <div className="w-12 h-12 mb-3 rounded-full bg-orange-500/10 flex items-center justify-center text-orange-400 font-bold text-lg border border-orange-500/20 relative z-10">
+                    <div className="w-12 h-12 mb-3 rounded-full bg-[color:var(--purple-dim)] flex items-center justify-center text-accent font-bold text-lg border border-[color:var(--purple-border)] relative z-10">
                       {step.number}
                     </div>
                     <h3 className="text-white font-medium mb-0.5">{step.title}</h3>
@@ -283,7 +283,7 @@ const ClientMagnetPage: React.FC = () => {
       {/* SECTION 7: Final CTA */}
       <section className="py-20 md:py-28 px-4 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/10 rounded-full blur-[120px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[color:var(--purple-dim)] rounded-full blur-[120px]" />
         </div>
         <div className="container mx-auto relative z-10 text-center max-w-xl">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>

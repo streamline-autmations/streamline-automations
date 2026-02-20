@@ -70,13 +70,10 @@ const WebDevelopment: React.FC = () => {
   return (
     <div className="relative min-h-screen bg-brand-dark overflow-hidden">
       {/* Animated Background Orbs */}
-      <div className="absolute top-[12%] right-[-10%] w-[520px] h-[520px] bg-brand-purple/10 blur-[100px] rounded-full animate-blob pointer-events-none"></div>
-      <div className="absolute bottom-[15%] left-[-10%] w-[580px] h-[580px] bg-brand-orange/10 blur-[120px] rounded-full animate-blob pointer-events-none" style={{ animationDelay: '2.5s' }}></div>
 
       {/* Section A: The Hero */}
       <section className="relative min-h-screen flex items-center justify-center pt-32 pb-20 overflow-hidden">
         {/* Circuit background pattern */}
-        <div className="absolute inset-0 circuit-bg opacity-10"></div>
 
         <div className="container mx-auto px-4 md:px-8 relative z-10">
           <motion.div
@@ -90,7 +87,7 @@ const WebDevelopment: React.FC = () => {
               variants={fadeInUp}
             >
               Web{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-brand-orange">Infrastructure</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-transparent">Infrastructure</span>
             </motion.h1>
 
             <motion.p
@@ -179,7 +176,7 @@ const WebDevelopment: React.FC = () => {
                   className="glass-card p-8 md:p-10 border border-white/10 hover:border-brand-purple/50 transition-all duration-300 group"
                 >
                   <div className="flex items-start space-x-4 mb-6">
-                    <div className="flex-shrink-0 p-4 bg-gradient-to-br from-brand-purple/20 to-brand-orange/20 rounded-xl border border-white/10 group-hover:border-brand-purple/50 transition-all">
+                    <div className="flex-shrink-0 p-4 bg-gradient-to-br from-brand-purple/20 to-transparent rounded-xl border border-white/10 group-hover:border-brand-purple/50 transition-all">
                       <Icon className="w-7 h-7 md:w-8 md:h-8 text-brand-purple" />
                     </div>
                     <div className="flex-1">
@@ -228,7 +225,7 @@ const WebDevelopment: React.FC = () => {
                 className="relative"
               >
                 <div className="glass-card p-8 border border-white/10 h-full flex flex-col items-center text-center hover:border-brand-purple/50 transition-all duration-300 group">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-brand-purple to-brand-orange flex items-center justify-center mb-6 font-ubuntu font-bold text-2xl text-white group-hover:scale-110 transition-transform">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-brand-purple to-purple-400 flex items-center justify-center mb-6 font-ubuntu font-bold text-2xl text-white group-hover:scale-110 transition-transform">
                     {step.number}
                   </div>
                   <h3 className="text-xl font-ubuntu font-bold text-white mb-3">
@@ -240,7 +237,7 @@ const WebDevelopment: React.FC = () => {
                 </div>
 
                 {index < processSteps.length - 1 && (
-                  <div className="absolute top-10 -right-3 w-6 h-0.5 bg-gradient-to-r from-brand-purple to-brand-orange"></div>
+                  <div className="absolute top-10 -right-3 w-6 h-0.5 bg-gradient-to-r from-brand-purple to-transparent"></div>
                 )}
               </motion.div>
             ))}
@@ -259,7 +256,7 @@ const WebDevelopment: React.FC = () => {
               >
                 <div className="glass-card p-8 border border-white/10 hover:border-brand-purple/50 transition-all duration-300">
                   <div className="flex items-start space-x-6">
-                    <div className="flex-shrink-0 w-14 h-14 rounded-full bg-gradient-to-br from-brand-purple to-brand-orange flex items-center justify-center font-ubuntu font-bold text-xl text-white">
+                    <div className="flex-shrink-0 w-14 h-14 rounded-full bg-gradient-to-br from-brand-purple to-purple-400 flex items-center justify-center font-ubuntu font-bold text-xl text-white">
                       {step.number}
                     </div>
                     <div className="flex-1">
@@ -274,7 +271,7 @@ const WebDevelopment: React.FC = () => {
                 </div>
 
                 {index < processSteps.length - 1 && (
-                  <div className="absolute left-11 top-[calc(100%)] w-0.5 h-6 bg-gradient-to-b from-brand-purple to-brand-orange"></div>
+                  <div className="absolute left-11 top-[calc(100%)] w-0.5 h-6 bg-gradient-to-b from-brand-purple to-transparent"></div>
                 )}
               </motion.div>
             ))}
@@ -284,7 +281,6 @@ const WebDevelopment: React.FC = () => {
 
       {/* Final CTA Section */}
       <section className="relative py-20 md:py-32">
-        <div className="absolute inset-0 circuit-bg opacity-10"></div>
         <div className="container mx-auto px-4 md:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

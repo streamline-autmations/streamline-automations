@@ -14,7 +14,7 @@ const ProjectDetails: React.FC = () => {
       <div className="min-h-screen flex items-center justify-center bg-brand-dark">
         <div className="text-center">
           <h1 className="text-4xl font-ubuntu font-bold text-white mb-4">Project Not Found</h1>
-          <Link to="/portfolio" className="text-brand-purple hover:text-brand-orange transition-colors">
+          <Link to="/portfolio" className="text-brand-purple hover:text-accent transition-colors">
             Back to Portfolio
           </Link>
         </div>
@@ -27,7 +27,7 @@ const ProjectDetails: React.FC = () => {
       <div className="min-h-screen flex items-center justify-center bg-brand-dark">
         <div className="text-center">
           <h1 className="text-4xl font-ubuntu font-bold text-white mb-4">Case Study Not Available</h1>
-          <Link to="/portfolio" className="text-brand-purple hover:text-brand-orange transition-colors">
+          <Link to="/portfolio" className="text-brand-purple hover:text-accent transition-colors">
             Back to Portfolio
           </Link>
         </div>
@@ -125,11 +125,11 @@ const ProjectDetails: React.FC = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="glass-card p-8 md:p-10 border border-white/10 hover:border-brand-orange/50 transition-all"
+              className="glass-card p-8 md:p-10 border border-white/10 hover:border-brand-purple/50 transition-all"
             >
               <div className="flex items-center mb-6">
-                <div className="w-12 h-12 rounded-lg bg-brand-orange/20 border border-brand-orange/30 flex items-center justify-center mr-4">
-                  <Target className="w-6 h-6 text-brand-orange" />
+                <div className="w-12 h-12 rounded-lg bg-brand-purple/20 border border-brand-purple/30 flex items-center justify-center mr-4">
+                  <Target className="w-6 h-6 text-accent" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-ubuntu font-bold text-white">
                   The Challenge
@@ -174,7 +174,7 @@ const ProjectDetails: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto mb-12 md:mb-16 text-center"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-ubuntu font-bold mb-6 bg-gradient-to-r from-brand-purple to-brand-orange bg-clip-text text-transparent">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-ubuntu font-bold mb-6 bg-gradient-to-r from-brand-purple to-transparent bg-clip-text text-transparent">
               Key Results
             </h2>
             <p className="text-lg md:text-xl text-gray-300 font-inter">
@@ -195,7 +195,7 @@ const ProjectDetails: React.FC = () => {
                   className="glass-card p-8 md:p-10 border border-white/10 hover:border-brand-purple/50 transition-all duration-300 group"
                 >
                   <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 p-4 bg-gradient-to-br from-brand-purple/30 to-brand-orange/30 rounded-xl border border-brand-purple/30 group-hover:from-brand-purple/40 group-hover:to-brand-orange/40 transition-all">
+                    <div className="flex-shrink-0 p-4 bg-gradient-to-br from-brand-purple/30 to-transparent rounded-xl border border-brand-purple/30 group-hover:from-brand-purple/40 group-hover:to-transparent transition-all">
                       <Icon className="w-7 h-7 md:w-8 md:h-8 text-brand-purple" />
                     </div>
                     <div className="flex-1">
@@ -257,7 +257,6 @@ const ProjectDetails: React.FC = () => {
 
       {/* CTA Section */}
       <section className="relative py-20 md:py-32 bg-brand-dark border-t border-white/10">
-        <div className="absolute inset-0 circuit-bg opacity-10"></div>
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

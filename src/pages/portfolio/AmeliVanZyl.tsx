@@ -103,7 +103,6 @@ const AmeliVanZyl: React.FC = () => {
 
       {/* Section B: Invisible Automation */}
       <section className="relative py-20 md:py-32 bg-black/30 border-y border-white/10">
-        <div className="absolute inset-0 circuit-bg opacity-5"></div>
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-7xl mx-auto">
@@ -133,8 +132,8 @@ const AmeliVanZyl: React.FC = () => {
                 {/* Right Side - WhatsApp Notification */}
                 <div className="aspect-[4/3] md:aspect-auto bg-white/5 flex items-center justify-center p-8 hover:bg-white/10 transition-all duration-300">
                   <div className="text-center">
-                    <div className="w-16 h-16 mx-auto mb-4 bg-brand-orange/20 rounded-xl border border-brand-orange/30 flex items-center justify-center">
-                      <Send className="w-8 h-8 text-brand-orange" />
+                    <div className="w-16 h-16 mx-auto mb-4 bg-brand-purple/20 rounded-xl border border-brand-purple/30 flex items-center justify-center">
+                      <Send className="w-8 h-8 text-accent" />
                     </div>
                     <span className="text-gray-500 font-ubuntu text-sm">WHATSAPP NOTIFICATION SCREEN</span>
                   </div>

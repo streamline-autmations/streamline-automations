@@ -44,19 +44,16 @@ const FeaturedProject: React.FC<FeaturedProjectProps> = ({
 
   const getGlowColor = () => {
     if (color.includes('purple')) return 'shadow-brand-purple/30';
-    if (color.includes('orange')) return 'shadow-brand-orange/30';
     return 'shadow-white/10';
   };
 
   const getAccentColor = () => {
-    if (color.includes('purple')) return 'text-brand-purple';
-    if (color.includes('orange')) return 'text-brand-orange';
+    if (color.includes('purple') || color.includes('orange')) return 'text-accent';
     return 'text-white';
   };
 
   const getTagBorderColor = () => {
-    if (color.includes('purple')) return 'border-brand-purple/30 bg-brand-purple/10';
-    if (color.includes('orange')) return 'border-brand-orange/30 bg-brand-orange/10';
+    if (color.includes('purple') || color.includes('orange')) return 'border-[color:var(--purple-border)] bg-[color:var(--purple-dim)]';
     return 'border-white/30 bg-white/10';
   };
 
@@ -101,8 +98,7 @@ const FeaturedProject: React.FC<FeaturedProjectProps> = ({
 
         {/* Ambient Glow Effect */}
         <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-[5] ${
-          color.includes('purple') ? 'bg-gradient-to-br from-brand-purple/20 via-transparent to-transparent' :
-          color.includes('orange') ? 'bg-gradient-to-br from-brand-orange/20 via-transparent to-transparent' :
+          color.includes('purple') || color.includes('orange') ? 'bg-gradient-to-br from-purple-500/20 via-transparent to-transparent' :
           'bg-gradient-to-br from-white/10 via-transparent to-transparent'
         }`}></div>
 
@@ -144,7 +140,7 @@ const FeaturedProject: React.FC<FeaturedProjectProps> = ({
               color.includes('purple')
                 ? 'bg-brand-purple/20 border-brand-purple/50 hover:bg-brand-purple/30'
                 : color.includes('orange')
-                ? 'bg-brand-orange/20 border-brand-orange/50 hover:bg-brand-orange/30'
+                ? 'bg-brand-purple/20 border-brand-purple/50 hover:bg-brand-purple/30'
                 : 'bg-white/20 border-white/50 hover:bg-white/30'
             }`}>
               <span className={`font-ubuntu font-bold text-sm md:text-base ${getAccentColor()}`}>
@@ -158,7 +154,7 @@ const FeaturedProject: React.FC<FeaturedProjectProps> = ({
         {/* Corner Accent Indicator */}
         <div className={`absolute top-4 right-4 w-3 h-3 rounded-full animate-pulse z-30 ${
           color.includes('purple') ? 'bg-brand-purple' :
-          color.includes('orange') ? 'bg-brand-orange' :
+          color.includes('orange') ? 'bg-brand-purple' :
           'bg-white'
         }`}></div>
 

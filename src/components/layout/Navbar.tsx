@@ -16,7 +16,6 @@ const moreLinks = [
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isPackagesDropdownOpen, setIsPackagesDropdownOpen] = useState(false);
   const [isMobilePackagesOpen, setIsMobilePackagesOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -27,15 +26,6 @@ const Header: React.FC = () => {
     { name: 'Web Development', path: '/services/development' },
     { name: 'Automation', path: '/services/automation' },
   ];
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   useEffect(() => {
     setIsMenuOpen(false);
@@ -57,14 +47,8 @@ const Header: React.FC = () => {
   const isPackagesActive = location.pathname.startsWith('/packages');
 
   return (
-    <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'py-1.5 bg-black/70 backdrop-blur-md border-b border-white/5'
-          : 'py-2 bg-transparent'
-      }`}
-    >
-      <div className="container mx-auto px-4 md:px-6">
+    <header className="navbar">
+      <div className="w-full">
         {/* Mobile Layout: Hamburger Left, Logo Center, Empty Right */}
         <div className="flex md:hidden items-center justify-between">
           {/* Mobile Menu Button */}
@@ -79,7 +63,7 @@ const Header: React.FC = () => {
           {/* Centered Logo */}
           <Link to="/" className="absolute left-1/2 transform -translate-x-1/2">
             <img
-              src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1765279919/Streamline-black_500_x_186_px_scthzc.svg"
+              src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1765275983/Streamline-White_1_yf5ow5.svg"
               alt="Streamline Automations"
               className="h-7 w-auto"
             />
@@ -94,7 +78,7 @@ const Header: React.FC = () => {
           {/* Logo Section */}
           <Link to="/" className="flex items-center space-x-3">
             <img
-              src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1765279919/Streamline-black_500_x_186_px_scthzc.svg"
+              src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1765275983/Streamline-White_1_yf5ow5.svg"
               alt="Streamline Automations"
               className="h-6 lg:h-7 w-auto"
             />
@@ -109,11 +93,8 @@ const Header: React.FC = () => {
               <li>
                 <Link
                   to="/"
-                  className={`inline-block px-3 py-2 rounded-lg text-base font-ubuntu font-medium transition-all duration-300 ${
-                    location.pathname === '/'
-                      ? 'text-brand-purple bg-brand-purple/10'
-                      : 'text-gray-200 hover:text-brand-purple hover:bg-brand-purple/10'
-                  }`}
+                  className="inline-block px-3 py-2 text-base font-ubuntu font-medium border-b-2 transition-all duration-300 text-[color:var(--text-mid)] hover:text-white"
+                  style={{ borderBottomColor: location.pathname === '/' ? 'var(--purple)' : 'transparent', color: location.pathname === '/' ? 'white' : 'var(--text-mid)' }}
                 >
                   Home
                 </Link>
@@ -124,9 +105,8 @@ const Header: React.FC = () => {
                 <button
                   onClick={() => setIsPackagesDropdownOpen(!isPackagesDropdownOpen)}
                   onMouseEnter={() => setIsPackagesDropdownOpen(true)}
-                  className={`inline-flex items-center gap-1 px-3 py-2 rounded-lg text-base font-ubuntu font-medium transition-all duration-300 ${
-                    isPackagesActive ? 'text-brand-purple bg-brand-purple/10' : 'text-gray-200 hover:text-brand-purple hover:bg-brand-purple/10'
-                  }`}
+                  className="inline-flex items-center gap-1 px-3 py-2 text-base font-ubuntu font-medium border-b-2 transition-all duration-300 text-[color:var(--text-mid)] hover:text-white"
+                  style={{ borderBottomColor: isPackagesActive ? 'var(--purple)' : 'transparent', color: isPackagesActive ? 'white' : 'var(--text-mid)' }}
                 >
                   Packages
                   <ChevronDown size={16} className={`transition-transform duration-200 ${isPackagesDropdownOpen ? 'rotate-180' : ''}`} />
@@ -140,7 +120,7 @@ const Header: React.FC = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -8 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute top-full left-0 mt-2 w-72 bg-brand-dark/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden"
+                      className="absolute top-full left-0 mt-2 w-72 bg-black border border-white/10 rounded-xl shadow-2xl overflow-hidden"
                     >
                       {/* PACKAGES Group */}
                       <div className="px-4 pt-3 pb-1">
@@ -183,11 +163,8 @@ const Header: React.FC = () => {
               <li>
                 <Link
                   to="/portfolio"
-                  className={`inline-block px-3 py-2 rounded-lg text-base font-ubuntu font-medium transition-all duration-300 ${
-                    location.pathname === '/portfolio'
-                      ? 'text-brand-purple bg-brand-purple/10'
-                      : 'text-gray-200 hover:text-brand-purple hover:bg-brand-purple/10'
-                  }`}
+                  className="inline-block px-3 py-2 text-base font-ubuntu font-medium border-b-2 transition-all duration-300 text-[color:var(--text-mid)] hover:text-white"
+                  style={{ borderBottomColor: location.pathname === '/portfolio' ? 'var(--purple)' : 'transparent', color: location.pathname === '/portfolio' ? 'white' : 'var(--text-mid)' }}
                 >
                   Portfolio
                 </Link>
@@ -196,11 +173,8 @@ const Header: React.FC = () => {
               <li>
                 <Link
                   to="/contact"
-                  className={`inline-block px-3 py-2 rounded-lg text-base font-ubuntu font-medium transition-all duration-300 ${
-                    location.pathname === '/contact'
-                      ? 'text-brand-purple bg-brand-purple/10'
-                      : 'text-gray-200 hover:text-brand-purple hover:bg-brand-purple/10'
-                  }`}
+                  className="inline-block px-3 py-2 text-base font-ubuntu font-medium border-b-2 transition-all duration-300 text-[color:var(--text-mid)] hover:text-white"
+                  style={{ borderBottomColor: location.pathname === '/contact' ? 'var(--purple)' : 'transparent', color: location.pathname === '/contact' ? 'white' : 'var(--text-mid)' }}
                 >
                   Contact
                 </Link>
@@ -209,14 +183,14 @@ const Header: React.FC = () => {
           </nav>
 
           {/* Desktop CTA Button */}
-          <Button href="/contact" variant="primary" size="md">
+          <Button href="/contact" variant="ghost-purple" size="md" className="btn btn-nav">
             Book a Free Call
           </Button>
         </div>
 
         {/* Mobile Menu */}
         <div
-          className={`md:hidden transition-all duration-300 overflow-hidden bg-brand-dark border-t border-white/10 ${
+          className={`md:hidden transition-all duration-300 overflow-hidden bg-black border-t border-white/10 ${
             isMenuOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'
           }`}
         >
@@ -225,11 +199,8 @@ const Header: React.FC = () => {
               <li>
                 <Link
                   to="/"
-                  className={`block py-3 px-4 text-base font-ubuntu font-medium transition-all duration-300 rounded-lg ${
-                    location.pathname === '/'
-                      ? 'text-brand-purple bg-brand-purple/10'
-                      : 'text-gray-200 hover:bg-white/5'
-                  }`}
+                  className="block py-3 px-4 text-base font-ubuntu font-medium transition-all duration-300 border-l-2"
+                  style={{ borderLeftColor: location.pathname === '/' ? 'var(--purple)' : 'transparent', color: location.pathname === '/' ? 'white' : 'var(--text-mid)' }}
                 >
                   Home
                 </Link>
@@ -239,9 +210,8 @@ const Header: React.FC = () => {
               <li>
                 <button
                   onClick={() => setIsMobilePackagesOpen(!isMobilePackagesOpen)}
-                  className={`w-full flex items-center justify-between py-3 px-4 text-base font-ubuntu font-medium transition-all duration-300 rounded-lg ${
-                    isPackagesActive ? 'text-brand-purple bg-brand-purple/10' : 'text-gray-200 hover:bg-white/5'
-                  }`}
+                  className="w-full flex items-center justify-between py-3 px-4 text-base font-ubuntu font-medium transition-all duration-300 border-l-2"
+                  style={{ borderLeftColor: isPackagesActive ? 'var(--purple)' : 'transparent', color: isPackagesActive ? 'white' : 'var(--text-mid)' }}
                 >
                   <span>Packages</span>
                   <ChevronDown size={18} className={`transition-transform duration-200 ${isMobilePackagesOpen ? 'rotate-180' : ''}`} />
@@ -291,11 +261,8 @@ const Header: React.FC = () => {
               <li>
                 <Link
                   to="/portfolio"
-                  className={`block py-3 px-4 text-base font-ubuntu font-medium transition-all duration-300 rounded-lg ${
-                    location.pathname === '/portfolio'
-                      ? 'text-brand-purple bg-brand-purple/10'
-                      : 'text-gray-200 hover:bg-white/5'
-                  }`}
+                  className="block py-3 px-4 text-base font-ubuntu font-medium transition-all duration-300 border-l-2"
+                  style={{ borderLeftColor: location.pathname === '/portfolio' ? 'var(--purple)' : 'transparent', color: location.pathname === '/portfolio' ? 'white' : 'var(--text-mid)' }}
                 >
                   Portfolio
                 </Link>
@@ -304,18 +271,15 @@ const Header: React.FC = () => {
               <li>
                 <Link
                   to="/contact"
-                  className={`block py-3 px-4 text-base font-ubuntu font-medium transition-all duration-300 rounded-lg ${
-                    location.pathname === '/contact'
-                      ? 'text-brand-purple bg-brand-purple/10'
-                      : 'text-gray-200 hover:bg-white/5'
-                  }`}
+                  className="block py-3 px-4 text-base font-ubuntu font-medium transition-all duration-300 border-l-2"
+                  style={{ borderLeftColor: location.pathname === '/contact' ? 'var(--purple)' : 'transparent', color: location.pathname === '/contact' ? 'white' : 'var(--text-mid)' }}
                 >
                   Contact
                 </Link>
               </li>
             </ul>
             <div className="mt-8 px-4">
-              <Button href="/contact" variant="primary" size="lg" className="w-full">
+              <Button href="/contact" variant="ghost-purple" size="lg" className="btn btn-nav w-full">
                 Book a Free Call
               </Button>
             </div>

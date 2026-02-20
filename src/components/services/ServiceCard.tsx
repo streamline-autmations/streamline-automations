@@ -39,10 +39,10 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, className = '', show
         };
       case 'automation':
         return {
-          iconBg: 'bg-brand-orange/10',
-          iconBorder: 'border-brand-orange/20',
-          iconColor: 'text-brand-orange',
-          hoverBorder: 'hover:border-brand-orange/50',
+          iconBg: 'bg-brand-purple/10',
+          iconBorder: 'border-brand-purple/20',
+          iconColor: 'text-accent',
+          hoverBorder: 'hover:border-brand-purple/50',
         };
       case 'web-development':
         return {

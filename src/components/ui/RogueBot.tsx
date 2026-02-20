@@ -231,7 +231,7 @@ const RogueBot: React.FC = () => {
   const getColorClass = () => {
     if (isCaught) return 'text-green-500';
     if (state === 'panic') return 'text-red-500';
-    if (state === 'wary') return 'text-brand-orange';
+    if (state === 'wary') return 'text-accent';
     return 'text-brand-purple';
   };
 

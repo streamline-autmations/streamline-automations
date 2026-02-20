@@ -83,8 +83,8 @@ const CursorGlow: React.FC = () => {
       }}
       className="fixed w-12 h-12 pointer-events-none z-50"
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-brand-purple to-brand-orange rounded-full blur-lg mix-blend-screen shadow-lg shadow-brand-purple/50"></div>
-      <div className="absolute inset-0 bg-gradient-to-r from-brand-purple to-brand-orange rounded-full blur-3xl scale-150 mix-blend-lighten shadow-lg shadow-brand-orange/40"></div>
+      <div className="absolute inset-0 bg-[color:var(--purple)] rounded-full blur-lg mix-blend-screen opacity-35"></div>
+      <div className="absolute inset-0 bg-[color:var(--purple)] rounded-full blur-3xl scale-150 mix-blend-lighten opacity-20"></div>
       <motion.div
         animate={{
           opacity: isHoveringInteractive ? 0.9 : 0,

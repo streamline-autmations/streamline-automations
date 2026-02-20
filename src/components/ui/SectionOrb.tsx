@@ -16,10 +16,10 @@ const SectionOrb: React.FC<SectionOrbProps> = ({
       case 'purple':
         return 'bg-brand-purple/20';
       case 'orange':
-        return 'bg-brand-orange/20';
+        return 'bg-brand-purple/20';
       case 'mixed':
       default:
-        return 'bg-gradient-to-r from-brand-purple/20 to-brand-orange/20';
+        return 'bg-gradient-to-r from-brand-purple/20 to-transparent';
     }
   };
 

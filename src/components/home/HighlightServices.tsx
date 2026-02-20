@@ -45,9 +45,8 @@ const HighlightServices: React.FC = () => {
 
   return (
     <section id="services" className="relative py-20 md:py-32 overflow-hidden">
-      <div className="absolute inset-0 circuit-bg opacity-[0.08]" />
       <div className="absolute -left-40 top-1/4 w-[800px] h-[800px] bg-gradient-to-r from-brand-purple/20 to-transparent rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute -right-40 top-1/3 w-[800px] h-[800px] bg-gradient-to-l from-brand-orange/15 to-transparent rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute -right-40 top-1/3 w-[800px] h-[800px] bg-gradient-to-l from-brand-purple/15 to-transparent rounded-full blur-[140px] pointer-events-none" />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <SectionHeading
@@ -62,7 +61,7 @@ const HighlightServices: React.FC = () => {
             subtitle="Design & Strategy"
             projects={toProjects('branding')}
             accent="purple"
-            gradient="linear-gradient(135deg, rgba(139, 92, 246, 0.35), rgba(249, 115, 22, 0.15))"
+            gradient="linear-gradient(135deg, rgba(139, 92, 246, 0.35), rgba(139, 92, 246, 0.15))"
             onClick={() => navigate('/services/branding')}
           />
           <AnimatedFolder
@@ -78,7 +77,7 @@ const HighlightServices: React.FC = () => {
             subtitle="AI & Workflows"
             projects={toProjects('automation')}
             accent="orange"
-            gradient="linear-gradient(135deg, rgba(249, 115, 22, 0.32), rgba(139, 92, 246, 0.12))"
+            gradient="linear-gradient(135deg, rgba(139, 92, 246, 0.32), rgba(139, 92, 246, 0.12))"
             onClick={() => navigate('/services/automation')}
           />
         </div>

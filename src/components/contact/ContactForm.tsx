@@ -22,7 +22,7 @@ const ContactForm: React.FC = () => {
   if (isSubmitted) {
     return (
       <div className="glass-card p-10 flex flex-col items-center text-center tech-glow">
-        <CheckCircle2 className="w-20 h-20 text-brand-orange mb-6" />
+        <CheckCircle2 className="w-20 h-20 text-accent mb-6" />
         <h3 className="text-3xl font-ubuntu font-bold mb-4">Thank You!</h3>
         <p className="text-gray-300 mb-8 font-inter text-lg leading-relaxed">
           We've received your request and will contact you within 24 hours to schedule your free consultation.
@@ -46,7 +46,7 @@ const ContactForm: React.FC = () => {
                   htmlFor={field.id}
                   className="block text-base font-ubuntu font-bold text-gray-300 mb-3"
                 >
-                  {field.label} {field.required && <span className="text-brand-orange">*</span>}
+                  {field.label} {field.required && <span className="text-accent">*</span>}
                 </label>
 
                 {field.type === 'select' ? (
@@ -97,7 +97,7 @@ const ContactForm: React.FC = () => {
         <ul className="space-y-4 md:space-y-6">
           {expectationsList.map((item, index) => (
             <li key={index} className="flex items-start">
-              <CheckCircle2 className="w-6 h-6 text-brand-orange mr-4 mt-0.5 flex-shrink-0" />
+              <CheckCircle2 className="w-6 h-6 text-accent mr-4 mt-0.5 flex-shrink-0" />
               <span className="text-gray-300 font-inter text-lg">{item}</span>
             </li>
           ))}

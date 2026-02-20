@@ -9,10 +9,10 @@ interface BadgeProps {
 }
 
 const styles: Record<BadgeVariant, string> = {
-  purple: 'bg-purple-500/10 text-purple-300 border-purple-500/25',
-  orange: 'bg-orange-500/10 text-orange-300 border-orange-500/25',
-  white:  'bg-white/6 text-white/60 border-white/12',
-  green:  'bg-green-500/10 text-green-300 border-green-500/25',
+  purple: 'bg-[color:var(--purple-dim)] text-[color:var(--text-high)] border-[color:var(--purple-border)]',
+  orange: 'bg-[color:var(--purple-dim)] text-[color:var(--text-high)] border-[color:var(--purple-border)]',
+  white:  'bg-[color:var(--surface)] text-[color:var(--text-mid)] border-[color:var(--border)]',
+  green:  'bg-[color:var(--surface)] text-[color:var(--text-mid)] border-[color:var(--border)]',
 };
 
 export function Badge({ children, variant = 'purple', className = '' }: BadgeProps) {

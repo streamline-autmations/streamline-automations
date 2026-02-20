@@ -22,9 +22,8 @@ const Portfolio: React.FC = () => {
     <div className="min-h-screen bg-brand-dark">
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 overflow-hidden">
-        <div className="absolute inset-0 circuit-bg opacity-20"></div>
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-purple/20 rounded-full filter blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brand-orange/10 rounded-full filter blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brand-purple/10 rounded-full filter blur-3xl"></div>
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <SectionHeading
@@ -82,7 +81,6 @@ const Portfolio: React.FC = () => {
 
       {/* Client Trust Section */}
       <section className="relative py-20 md:py-32 bg-brand-purple/5 border-y border-white/10">
-        <div className="absolute inset-0 circuit-bg opacity-10"></div>
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <motion.div
@@ -121,7 +119,7 @@ const Portfolio: React.FC = () => {
                 </p>
 
                 <div className="flex items-center">
-                  <div className="w-1 h-12 bg-gradient-to-b from-brand-purple to-brand-orange rounded-full mr-4"></div>
+                  <div className="w-1 h-12 bg-gradient-to-b from-brand-purple to-transparent rounded-full mr-4"></div>
                   <div>
                     <p className="font-ubuntu font-bold text-white text-lg">
                       {testimonial.company}

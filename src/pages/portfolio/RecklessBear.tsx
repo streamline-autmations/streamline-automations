@@ -33,10 +33,10 @@ const RecklessBear: React.FC = () => {
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid md:grid-cols-2 gap-12 items-start max-w-7xl mx-auto">
             {/* Left Column - The Challenge */}
-            <div className="glass-card p-8 md:p-10 border border-white/10 hover:border-brand-orange/50 transition-all">
+            <div className="glass-card p-8 md:p-10 border border-white/10 hover:border-brand-purple/50 transition-all">
               <div className="flex items-center mb-6">
-                <div className="w-12 h-12 rounded-lg bg-brand-orange/20 border border-brand-orange/30 flex items-center justify-center mr-4">
-                  <TrendingDown className="w-6 h-6 text-brand-orange" />
+                <div className="w-12 h-12 rounded-lg bg-brand-purple/20 border border-brand-purple/30 flex items-center justify-center mr-4">
+                  <TrendingDown className="w-6 h-6 text-accent" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-ubuntu font-bold text-white">
                   The Challenge
@@ -67,7 +67,6 @@ const RecklessBear: React.FC = () => {
 
       {/* Sales Automation Showcase - 3 Features */}
       <section className="relative py-20 md:py-32 bg-black/30 border-y border-white/10">
-        <div className="absolute inset-0 circuit-bg opacity-5"></div>
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-7xl mx-auto">
@@ -130,8 +129,8 @@ const RecklessBear: React.FC = () => {
                 {/* Left - Text */}
                 <div>
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="p-3 bg-brand-orange/20 rounded-lg border border-brand-orange/30">
-                      <Bot className="w-6 h-6 text-brand-orange" />
+                    <div className="p-3 bg-brand-purple/20 rounded-lg border border-brand-purple/30">
+                      <Bot className="w-6 h-6 text-accent" />
                     </div>
                     <h3 className="text-2xl md:text-3xl font-ubuntu font-bold text-white">
                       The AI Sales Agent
@@ -142,15 +141,15 @@ const RecklessBear: React.FC = () => {
                   </p>
                   <ul className="space-y-3">
                     <li className="flex items-center gap-3 text-gray-300">
-                      <div className="w-2 h-2 bg-brand-orange rounded-full"></div>
+                      <div className="w-2 h-2 bg-brand-purple rounded-full"></div>
                       <span className="font-inter">Instant FAQ responses</span>
                     </li>
                     <li className="flex items-center gap-3 text-gray-300">
-                      <div className="w-2 h-2 bg-brand-orange rounded-full"></div>
+                      <div className="w-2 h-2 bg-brand-purple rounded-full"></div>
                       <span className="font-inter">Calendar integration for bookings</span>
                     </li>
                     <li className="flex items-center gap-3 text-gray-300">
-                      <div className="w-2 h-2 bg-brand-orange rounded-full"></div>
+                      <div className="w-2 h-2 bg-brand-purple rounded-full"></div>
                       <span className="font-inter">Lead qualification logic</span>
                     </li>
                   </ul>
@@ -158,7 +157,7 @@ const RecklessBear: React.FC = () => {
 
                 {/* Right - Visual */}
                 <div>
-                  <div className="aspect-[4/3] bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center hover:border-brand-orange/50 transition-all duration-300 overflow-hidden">
+                  <div className="aspect-[4/3] bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
                     <span className="text-gray-500 font-ubuntu text-sm text-center px-4">
                       CHAT WIDGET: AI conversation
                     </span>
@@ -219,7 +218,7 @@ const RecklessBear: React.FC = () => {
           <div className="max-w-7xl mx-auto">
             {/* Header */}
             <div className="text-center mb-12 md:mb-16">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-ubuntu font-bold mb-6 bg-gradient-to-r from-brand-purple to-brand-orange bg-clip-text text-transparent">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-ubuntu font-bold mb-6 bg-gradient-to-r from-brand-purple to-transparent bg-clip-text text-transparent">
                 The Impact
               </h2>
               <p className="text-lg md:text-xl text-gray-300 font-inter">
@@ -230,10 +229,10 @@ const RecklessBear: React.FC = () => {
             {/* Grid */}
             <div className="grid md:grid-cols-3 gap-6 md:gap-8">
               {/* Card 1 - Reduction in Manual Admin */}
-              <div className="glass-card p-8 md:p-10 border border-white/10 hover:border-brand-orange/50 transition-all duration-300 group">
+              <div className="glass-card p-8 md:p-10 border border-white/10 hover:border-brand-purple/50 transition-all duration-300 group">
                 <div className="flex justify-center mb-6">
-                  <div className="w-16 h-16 rounded-xl bg-brand-orange/20 border border-brand-orange/30 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <TrendingDown className="w-8 h-8 text-brand-orange" />
+                  <div className="w-16 h-16 rounded-xl bg-brand-purple/20 border border-brand-purple/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <TrendingDown className="w-8 h-8 text-accent" />
                   </div>
                 </div>
                 <h3 className="text-xl md:text-2xl font-ubuntu font-bold text-white mb-4 text-center">

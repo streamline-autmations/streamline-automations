@@ -27,7 +27,7 @@ const accentRingClass = (accent: FolderAccent) => {
     case 'purple':
       return 'group-hover/card:ring-brand-purple group-hover/card:shadow-brand-purple/30';
     case 'orange':
-      return 'group-hover/card:ring-brand-orange group-hover/card:shadow-brand-orange/30';
+      return 'group-hover/card:ring-brand-purple group-hover/card:shadow-brand-purple/30';
     default:
       return 'group-hover/card:ring-white/20 group-hover/card:shadow-white/10';
   }
@@ -38,7 +38,7 @@ const accentGlowClass = (accent: FolderAccent) => {
     case 'purple':
       return 'hover:shadow-brand-purple/20 hover:border-brand-purple/30';
     case 'orange':
-      return 'hover:shadow-brand-orange/20 hover:border-brand-orange/30';
+      return 'hover:shadow-brand-purple/20 hover:border-brand-purple/30';
     default:
       return 'hover:shadow-white/10 hover:border-white/20';
   }
@@ -172,7 +172,7 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
     accent === 'purple'
       ? 'bg-brand-purple'
       : accent === 'orange'
-        ? 'bg-brand-orange'
+        ? 'bg-brand-purple'
         : 'bg-white/70';
 
   return (
@@ -460,4 +460,3 @@ export const AnimatedFolder: React.FC<AnimatedFolderProps> = ({
     </>
   );
 };
-

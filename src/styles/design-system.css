@@ -15,9 +15,9 @@
   --color-purple-dim:   rgba(139, 92, 246, 0.15);
   --color-purple-glow:  rgba(139, 92, 246, 0.35);
 
-  --color-orange:       #f97316;
-  --color-orange-dim:   rgba(249, 115, 22, 0.12);
-  --color-orange-glow:  rgba(249, 115, 22, 0.35);
+  --color-orange:       #8b5cf6;
+  --color-orange-dim:   rgba(139, 92, 246, 0.15);
+  --color-orange-glow:  rgba(139, 92, 246, 0.35);
 
   --color-white-high:   rgba(255, 255, 255, 0.95);
   --color-white-mid:    rgba(255, 255, 255, 0.55);
@@ -42,7 +42,7 @@
 
   /* ── Shadows / Glows ── */
   --glow-purple: 0 0 24px rgba(139, 92, 246, 0.3), 0 0 48px rgba(139, 92, 246, 0.12);
-  --glow-orange: 0 0 24px rgba(249, 115, 22, 0.3), 0 0 48px rgba(249, 115, 22, 0.12);
+  --glow-orange: 0 0 24px rgba(139, 92, 246, 0.3), 0 0 48px rgba(139, 92, 246, 0.12);
   --glow-white:  0 0 24px rgba(255, 255, 255, 0.1);
   --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
 }

@@ -17,7 +17,7 @@ const FeaturedCaseStudies: React.FC = () => {
     {
       id: 2,
       tag: 'AI Automation System',
-      tagColor: 'text-brand-orange',
+      tagColor: 'text-accent',
       title: 'RecklessBear Apparel',
       description: 'Automated quote-engine with 24/7 AI booking agent.',
       image: 'https://images.pexels.com/photos/3588365/pexels-photo-3588365.jpeg?auto=compress&cs=tinysrgb&w=1200',
@@ -26,7 +26,7 @@ const FeaturedCaseStudies: React.FC = () => {
 
   return (
     <Section className="py-20 md:py-32 relative overflow-hidden">
-      <div className="absolute -left-40 top-1/2 w-[800px] h-[800px] bg-gradient-to-r from-brand-purple/20 to-brand-orange/20 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute -left-40 top-1/2 w-[800px] h-[800px] bg-gradient-to-r from-brand-purple/20 to-transparent rounded-full blur-[120px] pointer-events-none"></div>
 
       <div className="max-w-6xl mx-auto relative z-10">
         <SectionHeading
@@ -43,7 +43,7 @@ const FeaturedCaseStudies: React.FC = () => {
             >
               <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-300 h-full flex flex-col">
                 {/* Image */}
-                <div className="relative w-full aspect-video overflow-hidden bg-gradient-to-br from-brand-purple/20 to-brand-orange/20">
+                <div className="relative w-full aspect-video overflow-hidden bg-gradient-to-br from-brand-purple/20 to-transparent">
                   <img
                     src={project.image}
                     alt={project.title}

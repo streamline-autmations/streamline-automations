@@ -4,7 +4,7 @@ import { Clock, Users, Headset, Building2, ShoppingBag, Briefcase } from 'lucide
 
 const benefits = [
   {
-    icon: <Clock className="h-8 w-8 text-brand-orange" />,
+    icon: <Clock className="h-8 w-8 text-accent" />,
     title: 'Save 15+ Hours Weekly',
     text: 'Automate repetitive tasks and customer interactions'
   },
@@ -14,7 +14,7 @@ const benefits = [
     text: 'AI-powered lead qualification and nurturing'
   },
   {
-    icon: <Headset className="h-8 w-8 text-brand-orange" />,
+    icon: <Headset className="h-8 w-8 text-accent" />,
     title: '24/7 Customer Support',
     text: 'Instant responses, even after hours'
   }
@@ -50,13 +50,13 @@ const IntroMessage: React.FC = () => {
 
   return (
     <section className="py-24 bg-brand-dark relative overflow-hidden">
-      <div className="absolute -right-40 top-1/3 w-[800px] h-[800px] bg-gradient-to-l from-brand-orange/20 to-brand-purple/20 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute -right-40 top-1/3 w-[800px] h-[800px] bg-gradient-to-l from-brand-purple/20 to-transparent rounded-full blur-[120px] pointer-events-none"></div>
       
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="max-w-5xl mx-auto text-center mb-20">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-ubuntu font-bold mb-12 px-2 leading-tight">
             We build AI-powered systems that do the work for you – 
-            <span className="text-brand-orange"> while you sleep.</span>
+            <span className="text-accent"> while you sleep.</span>
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mt-16 px-4">
@@ -86,7 +86,7 @@ const IntroMessage: React.FC = () => {
                 onClick={() => handleIndustryClick(industry.id)}
                 className="glass-card px-6 md:px-8 py-4 md:py-5 rounded-full flex items-center hover:bg-white/10 tech-glow-hover transition-all duration-300 text-base md:text-lg min-h-[56px] group"
               >
-                <div className="text-brand-purple group-hover:text-brand-orange transition-colors">
+                <div className="text-brand-purple group-hover:text-accent transition-colors">
                   {industry.icon}
                 </div>
                 <span className="ml-3 md:ml-4 text-gray-200 font-inter">{industry.name}</span>
@@ -103,7 +103,7 @@ const IntroMessage: React.FC = () => {
           <div className="grid md:grid-cols-2 gap-8 md:gap-12 px-4">
             {testimonials.map((testimonial, index) => (
               <div key={index} className="glass-card p-8 md:p-10 tech-glow-hover group">
-                <div className="text-brand-orange font-ubuntu font-bold text-lg mb-6">{testimonial.metric}</div>
+                <div className="text-accent font-ubuntu font-bold text-lg mb-6">{testimonial.metric}</div>
                 <p className="text-gray-300 mb-8 font-inter text-lg leading-relaxed">"{testimonial.quote}"</p>
                 <div>
                   <div className="font-ubuntu font-bold text-white text-lg">{testimonial.author}</div>

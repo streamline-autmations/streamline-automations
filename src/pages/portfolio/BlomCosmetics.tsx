@@ -58,7 +58,6 @@ const BlomCosmetics: React.FC = () => {
 
       {/* Module 2: The Command Center (Tabs Section) */}
       <section className="relative py-24 bg-black/30 border-y border-white/10">
-        <div className="absolute inset-0 circuit-bg opacity-5"></div>
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-7xl mx-auto">
@@ -138,26 +137,26 @@ const BlomCosmetics: React.FC = () => {
                     </p>
                     <ul className="space-y-3">
                       <li className="flex items-center gap-3 text-gray-300">
-                        <div className="w-2 h-2 bg-brand-orange rounded-full"></div>
+                        <div className="w-2 h-2 bg-brand-purple rounded-full"></div>
                         <span className="font-inter">Sales analytics</span>
                       </li>
                       <li className="flex items-center gap-3 text-gray-300">
-                        <div className="w-2 h-2 bg-brand-orange rounded-full"></div>
+                        <div className="w-2 h-2 bg-brand-purple rounded-full"></div>
                         <span className="font-inter">Stock level monitoring</span>
                       </li>
                       <li className="flex items-center gap-3 text-gray-300">
-                        <div className="w-2 h-2 bg-brand-orange rounded-full"></div>
+                        <div className="w-2 h-2 bg-brand-purple rounded-full"></div>
                         <span className="font-inter">Low-stock alerts</span>
                       </li>
                       <li className="flex items-center gap-3 text-gray-300">
-                        <div className="w-2 h-2 bg-brand-orange rounded-full"></div>
+                        <div className="w-2 h-2 bg-brand-purple rounded-full"></div>
                         <span className="font-inter">CSV/PDF exports</span>
                       </li>
                     </ul>
                   </div>
 
                   {/* Right - Visual */}
-                  <div className="aspect-[4/3] bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center hover:border-brand-orange/50 transition-all duration-300 overflow-hidden">
+                  <div className="aspect-[4/3] bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
                     <span className="text-gray-500 font-ubuntu text-sm">IMAGE 3: ANALYTICS DASHBOARD</span>
                   </div>
                 </div>
@@ -215,7 +214,6 @@ const BlomCosmetics: React.FC = () => {
 
       {/* Module 4: The Automation Layer (Bento Grid) */}
       <section className="relative py-24 bg-black/30 border-y border-white/10">
-        <div className="absolute inset-0 circuit-bg opacity-5"></div>
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-7xl mx-auto">
@@ -232,17 +230,17 @@ const BlomCosmetics: React.FC = () => {
             {/* Grid */}
             <div className="grid md:grid-cols-3 gap-6">
               {/* Card 1 - Invoice */}
-              <div className="glass-card p-8 border border-white/10 hover:border-brand-orange/50 transition-all duration-300">
+              <div className="glass-card p-8 border border-white/10 hover:border-brand-purple/50 transition-all duration-300">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="p-3 bg-brand-orange/10 rounded-lg border border-brand-orange/30">
-                    <FileText className="w-6 h-6 text-brand-orange" />
+                  <div className="p-3 bg-brand-purple/10 rounded-lg border border-brand-purple/30">
+                    <FileText className="w-6 h-6 text-accent" />
                   </div>
                   <h3 className="text-xl font-ubuntu font-bold text-white">Auto-Invoicing</h3>
                 </div>
                 <p className="text-gray-300 font-inter leading-relaxed mb-6">
                   Every order generates a branded PDF invoice automatically. Sent via email and stored in the admin portal.
                 </p>
-                <div className="aspect-[4/3] bg-white/5 border border-white/10 rounded-xl flex items-center justify-center hover:border-brand-orange/50 transition-all duration-300 overflow-hidden">
+                <div className="aspect-[4/3] bg-white/5 border border-white/10 rounded-xl flex items-center justify-center hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
                   <span className="text-gray-500 font-ubuntu text-xs">IMAGE 7: PDF INVOICE</span>
                 </div>
               </div>

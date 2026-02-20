@@ -135,17 +135,13 @@ interface AddonCardProps {
 }
 
 const AddonCard: React.FC<AddonCardProps> = ({ icon, name, price, description, availableOn, accentColor }) => {
-  const cardClass = accentColor === 'purple' 
-    ? 'card card-sm card-bar card-bar-purple card-h-purple' 
-    : accentColor === 'orange' 
-    ? 'card card-sm card-bar card-bar-orange card-h-orange' 
-    : 'card card-sm card-bar card-bar-white card-h';
+  const cardClass = accentColor === 'white'
+    ? 'card card-sm card-bar-white card-interactive'
+    : 'card card-sm card-bar card-interactive'
 
-  const badgeStyles = accentColor === 'purple' 
-    ? 'bg-purple-500/10 text-purple-300 border-purple-500/20' 
-    : accentColor === 'orange' 
-    ? 'bg-orange-500/10 text-orange-300 border-orange-500/20' 
-    : 'bg-white/5 text-white/60 border-white/10';
+  const badgeStyles = accentColor === 'white'
+    ? 'bg-[color:var(--surface)] text-[color:var(--text-mid)] border-[color:var(--border)]'
+    : 'bg-[color:var(--purple-dim)] text-[color:var(--text-high)] border-[color:var(--purple-border)]'
 
   return (
     <motion.div
@@ -164,11 +160,11 @@ const AddonCard: React.FC<AddonCardProps> = ({ icon, name, price, description, a
       </div>
 
       {/* Description */}
-      <p className="body-text mt-3">{description}</p>
+      <p className="body mt-3">{description}</p>
 
       {/* Available on */}
-      <div className="mt-4 pt-4 border-t border-white/5">
-        <span className="font-mono text-[10px] text-white/30">Available on: {availableOn}</span>
+      <div className="mt-4 pt-4 border-t border-[color:var(--border)]">
+        <span className="font-mono text-[10px] text-[color:var(--text-muted)]">Available on: {availableOn}</span>
       </div>
     </motion.div>
   );
@@ -187,7 +183,7 @@ const AddOnsPage: React.FC = () => {
       </div>
 
       {/* HERO SECTION - s */}
-      <section className="s">
+      <section className="section">
         <div className="container">
           <motion.div
             initial="hidden"
@@ -206,13 +202,13 @@ const AddOnsPage: React.FC = () => {
             <motion.h1 variants={fadeUp} className="h1">
               Enhance Your
               <br />
-              <span className="bg-gradient-to-r from-purple-400 to-orange-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-purple-400 to-transparent bg-clip-text text-transparent">
                 Package.
               </span>
             </motion.h1>
 
             {/* Subtext */}
-            <motion.p variants={fadeUp} className="body-text-bright max-w-xl mx-auto mt-6">
+            <motion.p variants={fadeUp} className="body max-w-xl mx-auto mt-6">
               Every add-on is only available when combined with a core package.
               <br className="hidden md:block" />
               Pick what your business actually needs — nothing more.
@@ -222,7 +218,7 @@ const AddOnsPage: React.FC = () => {
       </section>
 
       {/* SECTION 2 — AUTOMATION ADD-ONS - s-panel s-line-purple */}
-      <section className="s s-panel s-line-purple">
+      <section className="section section-panel section-line">
         <div className="container">
           <motion.div
             initial="hidden"
@@ -248,7 +244,7 @@ const AddOnsPage: React.FC = () => {
             {/* Grid */}
             <motion.div 
               variants={stagger}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+              className="grid-3"
             >
               {automationAddons.map((addon, index) => (
                 <AddonCard
@@ -267,7 +263,7 @@ const AddOnsPage: React.FC = () => {
       </section>
 
       {/* SECTION 3 — BRANDING & IDENTITY - s-line-orange */}
-      <section className="s s-line-orange">
+      <section className="section section-line">
         <div className="container">
           <motion.div
             initial="hidden"
@@ -277,7 +273,7 @@ const AddOnsPage: React.FC = () => {
           >
             {/* Section label */}
             <motion.div variants={fadeUp} className="mb-2">
-              <span className="label" style={{ color: 'rgba(249,115,22,0.7)' }}>02 — BRANDING</span>
+              <span className="label">02 — BRANDING</span>
             </motion.div>
 
             {/* Section title */}
@@ -293,7 +289,7 @@ const AddOnsPage: React.FC = () => {
             {/* Grid */}
             <motion.div 
               variants={stagger}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+              className="grid-3"
             >
               {brandingAddons.map((addon, index) => (
                 <AddonCard
@@ -312,7 +308,7 @@ const AddOnsPage: React.FC = () => {
       </section>
 
       {/* SECTION 4 — SOCIAL MEDIA - s-panel s-line-white */}
-      <section className="s s-panel s-line-white">
+      <section className="section section-panel section-line-white">
         <div className="container">
           <motion.div
             initial="hidden"
@@ -322,7 +318,7 @@ const AddOnsPage: React.FC = () => {
           >
             {/* Section label */}
             <motion.div variants={fadeUp} className="mb-2">
-              <span className="label" style={{ color: 'rgba(255,255,255,0.5)' }}>03 — SOCIAL MEDIA</span>
+              <span className="label" style={{ color: 'rgba(255,255,255,0.35)' }}>03 — SOCIAL MEDIA</span>
             </motion.div>
 
             {/* Section title */}
@@ -338,7 +334,7 @@ const AddOnsPage: React.FC = () => {
             {/* Grid */}
             <motion.div 
               variants={stagger}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+              className="grid-3"
             >
               {socialMediaAddons.map((addon, index) => (
                 <AddonCard
@@ -357,7 +353,7 @@ const AddOnsPage: React.FC = () => {
       </section>
 
       {/* SECTION 5 — PRICING NOTE BANNER - s-line-orange */}
-      <section className="s s-line-orange">
+      <section className="section section-line">
         <div className="container">
           <motion.div
             initial="hidden"
@@ -366,10 +362,10 @@ const AddOnsPage: React.FC = () => {
             variants={fadeUp}
             className="card max-w-3xl mx-auto text-center"
           >
-            <p className="font-mono text-[10px] tracking-[3px] text-orange uppercase mb-3">
+            <p className="font-mono text-[10px] tracking-[3px] text-accent uppercase mb-3">
               IMPORTANT NOTE
             </p>
-            <p className="body-text">
+            <p className="body">
               Add-ons are only available when combined with a core package — 
               they are never sold as standalone services. 
               Pricing varies based on complexity and scope. 
@@ -380,13 +376,8 @@ const AddOnsPage: React.FC = () => {
       </section>
 
       {/* SECTION 6 — FINAL CTA BANNER - s-panel s-line-orange */}
-      <section className="s s-panel s-line-orange">
-        {/* Subtle orange radial glow */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/10 rounded-full blur-[120px]" />
-        </div>
-        
-        <div className="container relative z-10 text-center">
+      <section className="section section-panel section-line">
+        <div className="container text-center">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -396,7 +387,7 @@ const AddOnsPage: React.FC = () => {
             <motion.h2 variants={fadeUp} className="h2">
               Not sure what you need?
             </motion.h2>
-            <motion.p variants={fadeUp} className="body-text mt-4 max-w-lg mx-auto">
+            <motion.p variants={fadeUp} className="body mt-4 max-w-lg mx-auto">
               Book a free 20-minute strategy call. We'll scope your 
               package and add-ons together — no guessing.
             </motion.p>
