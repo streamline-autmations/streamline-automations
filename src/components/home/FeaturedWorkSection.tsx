@@ -196,7 +196,7 @@ export default function FeaturedWorkSection() {
           </div>
 
           <div className="text-center mt-16">
-            <Link to="/portfolio" className="btn btn-secondary">
+            <Link to="/portfolio" className="btn btn-orange">
               View All Work <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

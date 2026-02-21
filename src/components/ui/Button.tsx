@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-type Variant = 'primary' | 'secondary' | 'ghost' | 'ghost-purple';
+type Variant = 'primary' | 'secondary' | 'ghost' | 'ghost-purple' | 'orange' | 'ghost-orange';
 type Size    = 'sm' | 'md' | 'lg';
 
 interface ButtonProps {
@@ -18,6 +18,8 @@ const variantClasses: Record<Variant, string> = {
   secondary: 'btn btn-secondary',
   ghost: 'btn btn-secondary',
   'ghost-purple': 'btn btn-nav',
+  orange: 'btn btn-orange',
+  'ghost-orange': 'btn btn-ghost-orange',
 };
 
 const sizeClasses: Record<Size, string> = {

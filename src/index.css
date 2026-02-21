@@ -192,6 +192,31 @@ body::after {
   transform: translateY(-2px);
 }
 
+.btn-orange {
+  border-color: var(--orange-border);
+  color: #fff;
+  background: var(--orange-dim);
+}
+.btn-orange:hover {
+  border-color: rgba(247,138,61,0.55);
+  background: rgba(247,138,61,0.18);
+  box-shadow: 0 0 0 1px rgba(247,138,61,0.18), 0 0 28px rgba(247,138,61,0.25), 0 8px 28px rgba(0,0,0,0.45);
+  transform: translateY(-2px);
+}
+
+.btn-ghost-orange {
+  border-color: rgba(247,138,61,0.35);
+  color: rgba(247,138,61,0.95);
+  background: transparent;
+}
+.btn-ghost-orange:hover {
+  border-color: rgba(247,138,61,0.65);
+  color: #ffd1b4;
+  background: rgba(247,138,61,0.10);
+  box-shadow: 0 0 20px rgba(247,138,61,0.18);
+  transform: translateY(-2px);
+}
+
 .btn-nav {
   border-color: rgba(139,92,246,0.30);
   color: rgba(139,92,246,0.80);
