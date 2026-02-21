@@ -21,12 +21,6 @@ const Header: React.FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
-  const serviceLinks = [
-    { name: 'Branding & Design', path: '/services/branding' },
-    { name: 'Web Development', path: '/services/development' },
-    { name: 'Automation', path: '/services/automation' },
-  ];
-
   useEffect(() => {
     setIsMenuOpen(false);
     setIsMobilePackagesOpen(false);

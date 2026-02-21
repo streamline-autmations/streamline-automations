@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Check, Zap, TrendingUp, Globe, Search, MessageSquare } from 'lucide-react';
+import { Check, Zap, Globe, Search, MessageSquare } from 'lucide-react';
 import { fadeUp, stagger, cardItem, viewport } from '../lib/motion';
 
 const Packages: React.FC = () => {

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import PackagePageLayout from '../../components/layout/PackagePageLayout';
-import { Button, Card, Badge, SectionLabel, IconBox, Divider } from '../../components/ui';
+import { Button, Card, SectionLabel, IconBox, Divider } from '../../components/ui';
 import {
   Monitor,
   Smartphone,

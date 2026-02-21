@@ -2,14 +2,20 @@ import { useState, useEffect } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { ParticleTextEffect } from "./ui/ParticleTextEffect"
 
-const SESSION_KEY = "sa_intro_seen"
+const DEVICE_KEY = "sa_intro_seen_device"
 
 interface IntroScreenProps {
   children: React.ReactNode
 }
 
 export function IntroScreen({ children }: IntroScreenProps) {
-  const [showIntro, setShowIntro] = useState(true)
+  const [showIntro, setShowIntro] = useState(() => {
+    try {
+      return localStorage.getItem(DEVICE_KEY) !== "true"
+    } catch {
+      return true
+    }
+  })
   const [introExiting, setIntroExiting] = useState(false)
 
   const handleComplete = () => {
@@ -17,7 +23,9 @@ export function IntroScreen({ children }: IntroScreenProps) {
     // Fade out takes 500ms, then unmount
     setTimeout(() => {
       setShowIntro(false)
-      sessionStorage.setItem(SESSION_KEY, "true")
+      try {
+        localStorage.setItem(DEVICE_KEY, "true")
+      } catch {}
     }, 600)
   }
 

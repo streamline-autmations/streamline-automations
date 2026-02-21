@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useCallback, useEffect, useRef } from "react"
 
 interface Vector2D { x: number; y: number }
 
@@ -87,6 +87,8 @@ const WORD_COLORS = [
 const WORDS = ["WEBSITES", "SYSTEMS", "AUTOMATION", "WE DO IT ALL"]
 const PIXEL_STEPS = 2  // Lower = more particles for solid words
 
+const HOLD_FRAMES = [135, 135, 135, 150]
+
 interface ParticleTextEffectProps {
   onComplete?: () => void  // called after last word hold
   className?: string
@@ -102,13 +104,8 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
   const chunksRef = useRef<Blob[]>([])
 
-  // How long each word stays after forming (frames at ~60fps)
-  // WEBSITES/SYSTEMS/AUTOMATION: 2.25s (135 frames)
-  // WE DO IT ALL: 2.5s (150 frames) before exit
-  const HOLD_FRAMES = [135, 135, 135, 150]
-
   // Start recording when 'R' is pressed
-  const startRecording = () => {
+  const startRecording = useCallback(() => {
     const canvas = canvasRef.current
     if (!canvas || mediaRecorderRef.current) return
     
@@ -137,18 +134,18 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
     recorder.start()
     mediaRecorderRef.current = recorder
     console.log('Recording started...')
-  }
+  }, [])
 
   // Stop recording when 'R' is pressed again
-  const stopRecording = () => {
+  const stopRecording = useCallback(() => {
     if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
       mediaRecorderRef.current.stop()
       mediaRecorderRef.current = null
       console.log('Recording saved!')
     }
-  }
+  }, [])
 
-  const spawnFromEdge = (canvas: HTMLCanvasElement): Vector2D => {
+  const spawnFromEdge = useCallback((canvas: HTMLCanvasElement): Vector2D => {
     const edge = Math.floor(Math.random() * 4)
     switch (edge) {
       case 0: return { x: Math.random() * canvas.width, y: -20 }
@@ -156,9 +153,9 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
       case 2: return { x: Math.random() * canvas.width, y: canvas.height + 20 }
       default: return { x: -20, y: Math.random() * canvas.height }
     }
-  }
+  }, [])
 
-  const showWord = (word: string, canvas: HTMLCanvasElement, colorIndex: number) => {
+  const showWord = useCallback((word: string, canvas: HTMLCanvasElement, colorIndex: number) => {
     const offscreen = document.createElement("canvas")
     offscreen.width  = canvas.width
     offscreen.height = canvas.height
@@ -220,9 +217,9 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
       }
     }
     for (let i = pIdx; i < particles.length; i++) particles[i].kill(canvas.width, canvas.height)
-  }
+  }, [spawnFromEdge])
 
-  const animate = () => {
+  const animate = useCallback(() => {
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext("2d")!
@@ -272,7 +269,7 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
     }
 
     rafRef.current = requestAnimationFrame(animate)
-  }
+  }, [onComplete, showWord])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -315,7 +312,7 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
         mediaRecorderRef.current.stop()
       }
     }
-  }, [])
+  }, [animate, showWord, startRecording, stopRecording])
 
   return (
     <canvas

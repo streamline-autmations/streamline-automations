@@ -3,7 +3,6 @@ import { motion, useSpring, useMotionValue } from 'framer-motion';
 
 const CursorGlow: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
   const [isHoveringInteractive, setIsHoveringInteractive] = useState(false);
   const hoveringRef = useRef(false);
   const mouseX = useMotionValue(0);
@@ -43,12 +42,7 @@ const CursorGlow: React.FC = () => {
       }
     };
 
-    if (isVisible && !isMobile) {
-      // Keep default cursor - don't hide it
-      document.documentElement.style.cursor = 'auto';
-    } else {
-      document.documentElement.style.cursor = 'auto';
-    }
+    document.documentElement.style.cursor = 'auto';
 
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('resize', checkMobile);
@@ -58,13 +52,9 @@ const CursorGlow: React.FC = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', checkMobile);
     };
-  }, [mouseX, mouseY, isVisible, isMobile]);
-
-  // Remove 3-click toggle - always show cursor
-  // useEffect for click handler removed
+  }, [mouseX, mouseY, isMobile]);
 
   if (isMobile) return null;
-  if (!isVisible) return null;
 
   return (
     <motion.div

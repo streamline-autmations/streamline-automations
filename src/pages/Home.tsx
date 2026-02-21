@@ -3,20 +3,17 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Hero from '../components/home/Hero';
 import LogoMarquee from '../components/ui/LogoMarquee';
-import FeaturedProject from '../components/ui/FeaturedProject';
-import Testimonials from '../components/home/Testimonials';
+import FeaturedWorkSection from '../components/home/FeaturedWorkSection';
 import FinalCTA from '../components/home/FinalCTA';
 import CircuitLine from '../components/ui/CircuitLine';
-import SectionHeading from '../components/ui/SectionHeading';
 import { Badge } from '../components/ui';
 import {
   Zap,
   Layers,
   ShieldCheck,
-  ArrowRight,
   Check,
 } from 'lucide-react';
-import { fadeUp, stagger, cardItem, viewport } from '../lib/motion';
+import { stagger, cardItem, viewport } from '../lib/motion';
 
 // Package preview data
 const packages = [
@@ -149,49 +146,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* SECTION 3: FEATURED BUILDS */}
-      <section className="section section-line-white">
-        <div className="container">
-          <div className="section-intro">
-            <span className="label">Featured Work</span>
-            <h2 className="h2">
-              Featured Builds
-            </h2>
-            <p className="body">
-              Real systems. Real businesses. Real results.
-            </p>
-          </div>
-
-          <div className="space-y-8 md:space-y-12 max-w-7xl mx-auto">
-            <FeaturedProject
-              title="E-commerce Command Center"
-              subtitle="End-to-end digital retail system. Features custom inventory synchronization, automated stock alerts, and a unified CRM for managing reviews and orders."
-              tags={['Full-Stack Retail', 'Inventory Automation', 'Admin Dashboard']}
-              imageSrc="https://res.cloudinary.com/dnlgohkcc/image/upload/v1765468469/Untitled_design_50_p3ibsc.png"
-              color="brand-purple"
-              align="left"
-              linkTo="/portfolio/blom-cosmetics"
-            />
-
-            <FeaturedProject
-              title="Custom Website & Quote Engine"
-              subtitle="A modern, customer-facing website integrated with AI production infrastructure. Features product customization, automated quoting, and real-time job tracking."
-              tags={['Web Design', 'AI Booking Agent', 'Production Workflow']}
-              imageSrc="https://res.cloudinary.com/dnlgohkcc/image/upload/v1765468470/Unititled_design_51_zuhyoc.png"
-              color="brand-purple"
-              align="right"
-              linkTo="/portfolio/recklessbear-apparel"
-              objectFit="contain"
-              containerHeight="h-[600px] md:h-[750px]"
-            />
-          </div>
-
-          <div className="text-center mt-12">
-            <Link to="/portfolio" className="btn btn-secondary">
-              View All Work <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
+      <FeaturedWorkSection />
 
       {/* SECTION 4: TECH STACK */}
       <section className="section section-panel section-line">

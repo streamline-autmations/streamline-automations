@@ -49,27 +49,17 @@
           transform: translateY(0);
         }
       }
+      
+      /* Hide chat widget while intro screen is active */
+      .intro-active #VG_OVERLAY_CONTAINER {
+        display: none !important;
+      }
     </style>
   </head>
   <body class="bg-gradient-to-b from-dark-950 to-dark-900 text-white">
     <div id="root"></div>
     <div id="VG_OVERLAY_CONTAINER"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <script>
-      (function() {
-          window.VG_CONFIG = {
-              ID: "mkMfvjg7bF8dGjaTyhnJ",
-              region: 'na',
-              render: 'bottom-right',
-              stylesheets: [
-                  "https://vg-bunny-cdn.b-cdn.net/vg_live_build/styles.css"
-              ]
-          }
-          var VG_SCRIPT = document.createElement("script");
-          VG_SCRIPT.src = "https://vg-bunny-cdn.b-cdn.net/vg_live_build/vg_bundle.js";
-          VG_SCRIPT.defer = true;
-          document.body.appendChild(VG_SCRIPT);
-      })()
-    </script>
+    <!-- Chat widget removed per request -->
   </body>
 </html>
