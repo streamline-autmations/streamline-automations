@@ -51,16 +51,16 @@ const BlomCosmetics: React.FC = () => {
             </div>
 
             {/* Right - Visual */}
-            <div className="group relative aspect-[4/3] bg-white/5 border border-white/10 rounded-2xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
+            <div className="group relative aspect-[4/3] bg-white/5 border border-white/10 rounded-2xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden tech-glow-hover">
               <img
                 src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771685600/1_b5pc0q.png"
                 alt="Blom Storefront"
-                className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300 ease-out group-hover:opacity-0"
+                className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300 ease-out group-hover:opacity-0 group-hover:scale-[1.03]"
               />
               <img
                 src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771696742/1.hover_g2hr39.png"
                 alt="Blom Storefront Hover"
-                className="absolute inset-0 w-full h-full object-contain opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
+                className="absolute inset-0 w-full h-full object-contain opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 group-hover:scale-[1.03]"
               />
             </div>
           </div>
@@ -127,11 +127,11 @@ const BlomCosmetics: React.FC = () => {
                   </div>
 
                   {/* Right - Visual */}
-                  <div className="relative aspect-[4/3] bg-white/5 border border-white/10 rounded-2xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
+                  <div className="relative aspect-[4/3] bg-white/5 border border-white/10 rounded-2xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden tech-glow-hover group">
                     <img
                       src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771685600/2_g2i54c.png"
                       alt="Product Editor Form"
-                      className="absolute inset-0 w-full h-full object-contain"
+                      className="absolute inset-0 w-full h-full object-contain transition-transform duration-300 group-hover:scale-[1.03]"
                     />
                   </div>
                 </div>
@@ -171,11 +171,11 @@ const BlomCosmetics: React.FC = () => {
                   </div>
 
                   {/* Right - Visual */}
-                  <div className="relative aspect-[4/3] bg-white/5 border border-white/10 rounded-2xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
+                  <div className="relative aspect-[4/3] bg-white/5 border border-white/10 rounded-2xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden tech-glow-hover group">
                     <img
                       src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771685600/3_qdkh3g.png"
                       alt="Analytics Dashboard"
-                      className="absolute inset-0 w-full h-full object-contain"
+                      className="absolute inset-0 w-full h-full object-contain transition-transform duration-300 group-hover:scale-[1.03]"
                     />
                   </div>
                 </div>
@@ -192,23 +192,23 @@ const BlomCosmetics: React.FC = () => {
             {/* Left - Visual (Reversed Order) */}
             <div className="order-2 md:order-1">
               <div className="grid grid-cols-2 gap-4">
-                <div className="group relative aspect-square bg-white/5 border border-white/10 rounded-2xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
+                <div className="group relative aspect-square bg-white/5 border border-white/10 rounded-2xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden tech-glow-hover">
                   <img
                     src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771692546/4_fkphu6.png"
                     alt="Academy Front"
-                    className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300 ease-out group-hover:opacity-0"
+                    className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300 ease-out group-hover:opacity-0 group-hover:scale-[1.03]"
                   />
                   <img
                     src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771696741/4-hover_oczu9q.png"
                     alt="Academy Front Hover"
-                    className="absolute inset-0 w-full h-full object-contain opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
+                    className="absolute inset-0 w-full h-full object-contain opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 group-hover:scale-[1.03]"
                   />
                 </div>
-                <div className="relative aspect-square bg-white/5 border border-white/10 rounded-2xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
+                <div className="relative aspect-square bg-white/5 border border-white/10 rounded-2xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden tech-glow-hover group">
                   <img
                     src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771695196/5.2_dfzoiw.png"
                     alt="Academy Back"
-                    className="absolute inset-0 w-full h-full object-contain"
+                    className="absolute inset-0 w-full h-full object-contain transition-transform duration-300 group-hover:scale-[1.03]"
                   />
                 </div>
               </div>
@@ -272,11 +272,11 @@ const BlomCosmetics: React.FC = () => {
                 <p className="text-gray-300 font-inter leading-relaxed mb-6">
                   Every order generates a branded PDF invoice automatically. Sent via email and stored in the admin portal.
                 </p>
-                <div className="relative aspect-[4/3] bg-white/5 border border-white/10 rounded-xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
+                <div className="relative aspect-[4/3] bg-white/5 border border-white/10 rounded-xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden tech-glow-hover group">
                   <img
                     src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771685602/7_xqpqys.png"
                     alt="PDF Invoice"
-                    className="absolute inset-0 w-full h-full object-contain"
+                    className="absolute inset-0 w-full h-full object-contain transition-transform duration-300 group-hover:scale-[1.03]"
                   />
                 </div>
               </div>
@@ -292,16 +292,16 @@ const BlomCosmetics: React.FC = () => {
                 <p className="text-gray-300 font-inter leading-relaxed mb-6">
                   Order confirmations, shipping updates, and Academy reminders—all sent automatically with custom branding.
                 </p>
-                <div className="group relative aspect-[4/3] bg-white/5 border border-white/10 rounded-xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
+                <div className="group relative aspect-[4/3] bg-white/5 border border-white/10 rounded-xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden tech-glow-hover">
                   <img
                     src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771685601/6_bqrtys.png"
                     alt="Email Screenshot"
-                    className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300 ease-out group-hover:opacity-0"
+                    className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300 ease-out group-hover:opacity-0 group-hover:scale-[1.03]"
                   />
                   <img
                     src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771685603/6-back_kfy7zd.png"
                     alt="Email Screenshot Hover"
-                    className="absolute inset-0 w-full h-full object-contain opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
+                    className="absolute inset-0 w-full h-full object-contain opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 group-hover:scale-[1.03]"
                   />
                 </div>
               </div>
