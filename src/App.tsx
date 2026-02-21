@@ -4,7 +4,6 @@ import ScrollToTop from './components/layout/ScrollToTop';
 import CursorHint from './components/ui/CursorHint';
 import MouseTracker from './components/MouseTracker';
 import DotGridBackground from './components/ui/DotGridBackground';
-import { IntroScreen } from './components/IntroScreen';
 import Layout from './components/layout/Layout';
 import Home from './pages/Home';
 import Services from './pages/Services';
@@ -29,31 +28,29 @@ function App() {
       <MouseTracker />
       <ScrollToTop />
       <CursorHint />
-      <IntroScreen>
-        <DotGridBackground />
-        <div className="relative min-h-screen">
-          <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="services" element={<Services />} />
-            <Route path="packages" element={<Packages />} />
-            <Route path="add-ons" element={<AddOnsPage />} />
-            <Route path="packages/online-presence" element={<OnlinePresencePage />} />
-            <Route path="packages/client-magnet" element={<ClientMagnetPage />} />
-            <Route path="packages/business-accelerator" element={<BusinessAcceleratorPage />} />
-            <Route path="services/branding" element={<Branding />} />
-            <Route path="services/development" element={<WebDevelopment />} />
-            <Route path="services/automation" element={<Automation />} />
-            <Route path="portfolio" element={<Portfolio />} />
-            <Route path="portfolio/ameli-van-zyl-design" element={<AmeliVanZyl />} />
-            <Route path="portfolio/blom-cosmetics" element={<BlomCosmetics />} />
-            <Route path="portfolio/reckless-bear" element={<RecklessBear />} />
-            <Route path="portfolio/:id" element={<ProjectDetails />} />
-            <Route path="contact" element={<Contact />} />
-          </Route>
-        </Routes>
-        </div>
-      </IntroScreen>
+      <DotGridBackground />
+      <div className="relative min-h-screen">
+        <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="services" element={<Services />} />
+          <Route path="packages" element={<Packages />} />
+          <Route path="add-ons" element={<AddOnsPage />} />
+          <Route path="packages/online-presence" element={<OnlinePresencePage />} />
+          <Route path="packages/client-magnet" element={<ClientMagnetPage />} />
+          <Route path="packages/business-accelerator" element={<BusinessAcceleratorPage />} />
+          <Route path="services/branding" element={<Branding />} />
+          <Route path="services/development" element={<WebDevelopment />} />
+          <Route path="services/automation" element={<Automation />} />
+          <Route path="portfolio" element={<Portfolio />} />
+          <Route path="portfolio/ameli-van-zyl-design" element={<AmeliVanZyl />} />
+          <Route path="portfolio/blom-cosmetics" element={<BlomCosmetics />} />
+          <Route path="portfolio/reckless-bear" element={<RecklessBear />} />
+          <Route path="portfolio/:id" element={<ProjectDetails />} />
+          <Route path="contact" element={<Contact />} />
+        </Route>
+      </Routes>
+      </div>
     </Router>
   );
 }

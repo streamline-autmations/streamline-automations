@@ -4,7 +4,7 @@
 
 :root {
   --black: #000000;
-  --bg: #05050a;
+  --bg: #04040b;
   --surface: rgba(255, 255, 255, 0.03);
   --surface-hover: rgba(255, 255, 255, 0.055);
   --purple: #8b5cf6;
@@ -23,7 +23,7 @@
   --border-hover: rgba(255, 255, 255, 0.18);
   --dot-size: 2px;
   --dot-gap: 36px;
-  --dot-color: rgba(255, 255, 255, 0.14);
+  --dot-color: rgba(203, 172, 255, 0.16);
   --mx: 50vw;
   --my: 50vh;
   --t-fast: 0.15s ease;
@@ -59,11 +59,11 @@ body::after {
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(500px circle at var(--mx) var(--my), rgba(255,255,255,0.04), transparent 70%),
-    radial-gradient(700px circle at var(--mx) var(--my), rgba(109,40,217,0.13), transparent 70%),
-    radial-gradient(760px circle at var(--mx) var(--my), rgba(240,85,35,0.09), transparent 72%),
-    radial-gradient(1000px circle at 50% -200px, rgba(99,40,200,0.18), transparent 65%),
-    radial-gradient(600px circle at 0% 100%, rgba(109,40,217,0.07), transparent 65%);
+    radial-gradient(520px circle at var(--mx) var(--my), rgba(255,255,255,0.06), transparent 74%),
+    radial-gradient(820px circle at var(--mx) var(--my), rgba(139,92,246,0.22), transparent 72%),
+    radial-gradient(900px circle at var(--mx) var(--my), rgba(109,40,217,0.10), transparent 72%),
+    radial-gradient(1100px circle at 50% -200px, rgba(99,40,200,0.22), transparent 66%),
+    radial-gradient(700px circle at 0% 100%, rgba(109,40,217,0.12), transparent 66%);
 }
 
 #root { position: relative; z-index: 1; background: transparent; }

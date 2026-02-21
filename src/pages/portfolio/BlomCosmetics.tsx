@@ -19,8 +19,8 @@ const BlomCosmetics: React.FC = () => {
       title="BLOM Cosmetics"
       subtitle="Full-stack beauty store with automated stock tracking, WhatsApp order updates, and a custom admin dashboard."
       techStack={techStack}
-      heroImageMobileSrc="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771666665/blom_hero-mobile_oidljg.png"
-      heroImageDesktopSrc="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771666665/blom_hero-desktop_ywnwg8.png"
+      heroImageMobileSrc="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771692574/blom_hero-mobile_1_lsp6zo.png"
+      heroImageDesktopSrc="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771692572/blom_hero-desktop_2_u99qeu.png"
     >
       {/* Module 1: The Storefront */}
       <section className="relative py-24">
@@ -55,7 +55,12 @@ const BlomCosmetics: React.FC = () => {
               <img
                 src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771685600/1_b5pc0q.png"
                 alt="Blom Storefront"
-                className="absolute inset-0 w-full h-full object-contain"
+                className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300 ease-out group-hover:opacity-0"
+              />
+              <img
+                src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771696742/1.hover_g2hr39.png"
+                alt="Blom Storefront Hover"
+                className="absolute inset-0 w-full h-full object-contain opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
               />
             </div>
           </div>
@@ -187,16 +192,21 @@ const BlomCosmetics: React.FC = () => {
             {/* Left - Visual (Reversed Order) */}
             <div className="order-2 md:order-1">
               <div className="grid grid-cols-2 gap-4">
-                <div className="relative aspect-square bg-white/5 border border-white/10 rounded-2xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
+                <div className="group relative aspect-square bg-white/5 border border-white/10 rounded-2xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
                   <img
-                    src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771685602/4_cuiojl.png"
+                    src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771692546/4_fkphu6.png"
                     alt="Academy Front"
-                    className="absolute inset-0 w-full h-full object-contain"
+                    className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300 ease-out group-hover:opacity-0"
+                  />
+                  <img
+                    src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771696741/4-hover_oczu9q.png"
+                    alt="Academy Front Hover"
+                    className="absolute inset-0 w-full h-full object-contain opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
                   />
                 </div>
                 <div className="relative aspect-square bg-white/5 border border-white/10 rounded-2xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
                   <img
-                    src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771685601/5_ik8xpa.png"
+                    src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771695196/5.2_dfzoiw.png"
                     alt="Academy Back"
                     className="absolute inset-0 w-full h-full object-contain"
                   />

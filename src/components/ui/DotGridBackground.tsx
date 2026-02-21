@@ -13,7 +13,7 @@ type Activation = {
 
 const PURPLE: [number, number, number] = [139, 92, 246]
 const ORANGE: [number, number, number] = [240, 85, 35]
-const WHITE: [number, number, number] = [255, 255, 255]
+const WHITE: [number, number, number] = [230, 220, 255]
 
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v))
 const smooth01 = (t: number) => t * t * (3 - 2 * t)
@@ -71,12 +71,12 @@ export default function DotGridBackground() {
       const now = performance.now()
       if (now - s.lastMoveAdd < 26) return
       s.lastMoveAdd = now
-      addActivation(e.clientX, e.clientY, 0.18, 1100, 'purple')
+      addActivation(e.clientX, e.clientY, 0.22, 1400, 'purple')
     }
 
     const onPointerDown = (e: PointerEvent) => {
-      const color: Accent = Math.random() < 0.18 ? 'orange' : 'purple'
-      addActivation(e.clientX, e.clientY, 0.45, 1800, color)
+      const color: Accent = Math.random() < 0.10 ? 'orange' : 'purple'
+      addActivation(e.clientX, e.clientY, 0.55, 2000, color)
     }
 
     const onTouchMove = (e: TouchEvent) => {
@@ -87,7 +87,7 @@ export default function DotGridBackground() {
       const now = performance.now()
       if (now - s.lastMoveAdd < 26) return
       s.lastMoveAdd = now
-      addActivation(t.clientX, t.clientY, 0.16, 1100, 'purple')
+      addActivation(t.clientX, t.clientY, 0.22, 1400, 'purple')
     }
 
     const onScroll = () => {
@@ -98,7 +98,7 @@ export default function DotGridBackground() {
       if (dy < 2) return
       const x = s.lastPointer.has ? s.lastPointer.x : Math.random() * (s.w || window.innerWidth)
       const cy = s.lastPointer.has ? s.lastPointer.y : ((y * 0.4) % (s.h || window.innerHeight))
-      addActivation(x, cy, 0.16, 1300, 'purple')
+      addActivation(x, cy, 0.22, 1500, 'purple')
     }
 
     resize()
@@ -127,28 +127,28 @@ export default function DotGridBackground() {
         lastIdlePulse = now
         const x = Math.random() * w
         const y = Math.random() * h
-        const color: Accent = Math.random() < 0.18 ? 'orange' : 'purple'
-        const dx = (Math.random() - 0.5) * 26
-        const dy = (Math.random() - 0.5) * 26
-        const strength = 0.38 + Math.random() * 0.12
-        addActivation(x, y, strength, 1800, color)
-        addActivation(x + dx, y + dy, strength * 0.72, 1600, color)
+        const color: Accent = Math.random() < 0.10 ? 'orange' : 'purple'
+        const dx = (Math.random() - 0.5) * 22
+        const dy = (Math.random() - 0.5) * 22
+        const strength = 0.42 + Math.random() * 0.14
+        addActivation(x, y, strength, 2000, color)
+        addActivation(x + dx, y + dy, strength * 0.72, 1800, color)
       }
 
       ctx.clearRect(0, 0, w, h)
 
       const gap = Math.max(22, Math.min(42, Math.round(w / 38)))
-      const baseR = w < 480 ? 0.85 : 0.95
-      const maxGrow = w < 480 ? 1.8 : 1.45
+      const baseR = w < 480 ? 0.95 : 1.05
+      const maxGrow = w < 480 ? 2.0 : 1.6
       const influenceRadius = w < 480 ? 125 : 110
       const invTwoSigma2 = 1 / (2 * influenceRadius * influenceRadius)
       const drift = !reduced && idle ? 1 : 0
-      const ox = drift ? Math.sin(now / 9000) * 3 : 0
-      const oy = drift ? Math.cos(now / 9800) * 3 : 0
-      const hoverRadius = gap * (w < 480 ? 2.8 : 3.0)
+      const ox = drift ? Math.sin(now / 12000) * 6 : 0
+      const oy = drift ? Math.cos(now / 11000) * 6 : 0
+      const hoverRadius = gap * (w < 480 ? 3.2 : 3.4)
       const hoverGridRadius = 3
-      const hoverGrow = w < 480 ? 1.35 : 1.1
-      const hoverAlphaAdd = 0.12
+      const hoverGrow = w < 480 ? 1.55 : 1.28
+      const hoverAlphaAdd = 0.16
       const cursorX = s.lastPointer.has ? s.lastPointer.x : -99999
       const cursorY = s.lastPointer.has ? s.lastPointer.y : -99999
       const cix = s.lastPointer.has ? Math.round(cursorX / gap) : 0
@@ -192,11 +192,15 @@ export default function DotGridBackground() {
             }
           }
 
-          const iC = clamp(intensity, 0, 0.75)
+          const iC = clamp(intensity, 0, 0.85)
           const r = baseR + iC * maxGrow + hover * hoverGrow
-          const alpha = clamp(0.10 + iC * 0.26 + hover * hoverAlphaAdd, 0.06, 0.34)
+          const alpha = clamp(0.12 + iC * 0.30 + hover * hoverAlphaAdd, 0.08, 0.42)
 
           let cr = WHITE[0], cg = WHITE[1], cb = WHITE[2]
+          const baseTint = 0.25
+          cr = Math.round(cr * (1 - baseTint) + PURPLE[0] * baseTint)
+          cg = Math.round(cg * (1 - baseTint) + PURPLE[1] * baseTint)
+          cb = Math.round(cb * (1 - baseTint) + PURPLE[2] * baseTint)
           const wSum = pW + aW
           if (wSum > 0.001) {
             const t = clamp(aW / wSum, 0, 1)
@@ -205,7 +209,7 @@ export default function DotGridBackground() {
             cb = Math.round(PURPLE[2] * (1 - t) + ORANGE[2] * t)
           }
           if (hover > 0) {
-            const t = clamp(hover * 0.55, 0, 0.55)
+            const t = clamp(hover * 0.65, 0, 0.65)
             cr = Math.round(cr * (1 - t) + PURPLE[0] * t)
             cg = Math.round(cg * (1 - t) + PURPLE[1] * t)
             cb = Math.round(cb * (1 - t) + PURPLE[2] * t)
@@ -216,12 +220,12 @@ export default function DotGridBackground() {
           ctx.arc(px, py, r, 0, Math.PI * 2)
           ctx.fill()
 
-          const glowBasis = Math.max(iC * 0.7, hover * 0.45)
-          if (glowBasis > 0.18) {
-            const glowA = clamp((glowBasis - 0.18) * 0.08, 0.004, 0.03)
+          const glowBasis = Math.max(iC * 0.8, hover * 0.65)
+          if (glowBasis > 0.12) {
+            const glowA = clamp((glowBasis - 0.12) * 0.12, 0.006, 0.06)
             ctx.beginPath()
             ctx.fillStyle = `rgba(${cr},${cg},${cb},${glowA})`
-            ctx.arc(px, py, r * 1.65, 0, Math.PI * 2)
+            ctx.arc(px, py, r * 1.85, 0, Math.PI * 2)
             ctx.fill()
           }
         }
