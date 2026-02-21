@@ -19,6 +19,8 @@ const BlomCosmetics: React.FC = () => {
       title="BLOM Cosmetics"
       subtitle="Full-stack beauty store with automated stock tracking, WhatsApp order updates, and a custom admin dashboard."
       techStack={techStack}
+      heroImageMobileSrc="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771666665/blom_hero-mobile_oidljg.png"
+      heroImageDesktopSrc="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771666665/blom_hero-desktop_ywnwg8.png"
     >
       {/* Module 1: The Storefront */}
       <section className="relative py-24">
@@ -49,8 +51,12 @@ const BlomCosmetics: React.FC = () => {
             </div>
 
             {/* Right - Visual */}
-            <div className="aspect-[4/3] bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
-              <span className="text-gray-500 font-ubuntu text-sm">IMAGE 1: STOREFRONT</span>
+            <div className="group relative aspect-[4/3] bg-white/5 border border-white/10 rounded-2xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
+              <img
+                src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771685600/1_b5pc0q.png"
+                alt="Blom Storefront"
+                className="absolute inset-0 w-full h-full object-contain"
+              />
             </div>
           </div>
         </div>
@@ -116,8 +122,12 @@ const BlomCosmetics: React.FC = () => {
                   </div>
 
                   {/* Right - Visual */}
-                  <div className="aspect-[4/3] bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
-                    <span className="text-gray-500 font-ubuntu text-sm">IMAGE 2: PRODUCT EDITOR FORM</span>
+                  <div className="relative aspect-[4/3] bg-white/5 border border-white/10 rounded-2xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
+                    <img
+                      src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771685600/2_g2i54c.png"
+                      alt="Product Editor Form"
+                      className="absolute inset-0 w-full h-full object-contain"
+                    />
                   </div>
                 </div>
               )}
@@ -156,8 +166,12 @@ const BlomCosmetics: React.FC = () => {
                   </div>
 
                   {/* Right - Visual */}
-                  <div className="aspect-[4/3] bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
-                    <span className="text-gray-500 font-ubuntu text-sm">IMAGE 3: ANALYTICS DASHBOARD</span>
+                  <div className="relative aspect-[4/3] bg-white/5 border border-white/10 rounded-2xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
+                    <img
+                      src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771685600/3_qdkh3g.png"
+                      alt="Analytics Dashboard"
+                      className="absolute inset-0 w-full h-full object-contain"
+                    />
                   </div>
                 </div>
               )}
@@ -173,11 +187,19 @@ const BlomCosmetics: React.FC = () => {
             {/* Left - Visual (Reversed Order) */}
             <div className="order-2 md:order-1">
               <div className="grid grid-cols-2 gap-4">
-                <div className="aspect-square bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
-                  <span className="text-gray-500 font-ubuntu text-xs text-center px-2">IMAGE 4: ACADEMY FRONT</span>
+                <div className="relative aspect-square bg-white/5 border border-white/10 rounded-2xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
+                  <img
+                    src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771685602/4_cuiojl.png"
+                    alt="Academy Front"
+                    className="absolute inset-0 w-full h-full object-contain"
+                  />
                 </div>
-                <div className="aspect-square bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
-                  <span className="text-gray-500 font-ubuntu text-xs text-center px-2">IMAGE 5: ACADEMY BACK</span>
+                <div className="relative aspect-square bg-white/5 border border-white/10 rounded-2xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
+                  <img
+                    src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771685601/5_ik8xpa.png"
+                    alt="Academy Back"
+                    className="absolute inset-0 w-full h-full object-contain"
+                  />
                 </div>
               </div>
             </div>
@@ -240,8 +262,12 @@ const BlomCosmetics: React.FC = () => {
                 <p className="text-gray-300 font-inter leading-relaxed mb-6">
                   Every order generates a branded PDF invoice automatically. Sent via email and stored in the admin portal.
                 </p>
-                <div className="aspect-[4/3] bg-white/5 border border-white/10 rounded-xl flex items-center justify-center hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
-                  <span className="text-gray-500 font-ubuntu text-xs">IMAGE 7: PDF INVOICE</span>
+                <div className="relative aspect-[4/3] bg-white/5 border border-white/10 rounded-xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
+                  <img
+                    src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771685602/7_xqpqys.png"
+                    alt="PDF Invoice"
+                    className="absolute inset-0 w-full h-full object-contain"
+                  />
                 </div>
               </div>
 
@@ -256,8 +282,17 @@ const BlomCosmetics: React.FC = () => {
                 <p className="text-gray-300 font-inter leading-relaxed mb-6">
                   Order confirmations, shipping updates, and Academy reminders—all sent automatically with custom branding.
                 </p>
-                <div className="aspect-[4/3] bg-white/5 border border-white/10 rounded-xl flex items-center justify-center hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
-                  <span className="text-gray-500 font-ubuntu text-xs">IMAGE 6: EMAIL SCREENSHOT</span>
+                <div className="group relative aspect-[4/3] bg-white/5 border border-white/10 rounded-xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden">
+                  <img
+                    src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771685601/6_bqrtys.png"
+                    alt="Email Screenshot"
+                    className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300 ease-out group-hover:opacity-0"
+                  />
+                  <img
+                    src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771685603/6-back_kfy7zd.png"
+                    alt="Email Screenshot Hover"
+                    className="absolute inset-0 w-full h-full object-contain opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
+                  />
                 </div>
               </div>
 

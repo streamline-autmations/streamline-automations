@@ -6,6 +6,8 @@ interface CaseStudyLayoutProps {
   subtitle: string;
   techStack: Array<{ icon: React.ComponentType<{ className?: string }>; label: string }>;
   heroImageSrc?: string;
+  heroImageMobileSrc?: string;
+  heroImageDesktopSrc?: string;
 }
 
 const CaseStudyLayout: React.FC<CaseStudyLayoutProps> = ({
@@ -14,6 +16,8 @@ const CaseStudyLayout: React.FC<CaseStudyLayoutProps> = ({
   subtitle,
   techStack,
   heroImageSrc,
+  heroImageMobileSrc,
+  heroImageDesktopSrc,
 }) => {
   return (
     <div className="min-h-screen">
@@ -49,13 +53,17 @@ const CaseStudyLayout: React.FC<CaseStudyLayoutProps> = ({
             </div>
 
             {/* Hero Image */}
-            {heroImageSrc ? (
+            {heroImageSrc || heroImageMobileSrc || heroImageDesktopSrc ? (
               <div className="mt-12 w-full aspect-video rounded-3xl overflow-hidden border border-[color:var(--border)] shadow-2xl">
-                <img
-                  src={heroImageSrc}
-                  alt={title}
-                  className="w-full h-full object-cover"
-                />
+                <picture>
+                  {heroImageDesktopSrc && <source media="(min-width: 768px)" srcSet={heroImageDesktopSrc} />}
+                  {heroImageMobileSrc && <source media="(max-width: 767px)" srcSet={heroImageMobileSrc} />}
+                  <img
+                    src={heroImageDesktopSrc || heroImageMobileSrc || heroImageSrc || ''}
+                    alt={title}
+                    className="w-full h-full object-cover"
+                  />
+                </picture>
               </div>
             ) : (
               <div className="mt-12 w-full aspect-video bg-[color:var(--surface)] border border-[color:var(--border)] rounded-3xl flex items-center justify-center text-[color:var(--text-low)] font-ubuntu">
