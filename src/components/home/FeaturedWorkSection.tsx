@@ -177,7 +177,7 @@ export default function FeaturedWorkSection() {
       style={{ background: 'linear-gradient(180deg, rgba(5,5,10,1) 0%, rgba(2,2,7,1) 100%)' }}
     >
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(900px_circle_at_20%_10%,rgba(109,40,217,0.12),transparent_60%),radial-gradient(820px_circle_at_80%_20%,rgba(240,85,35,0.08),transparent_62%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(900px_circle_at_20%_10%,rgba(119,76,252,0.12),transparent_60%),radial-gradient(820px_circle_at_80%_20%,rgba(242,106,61,0.10),transparent_62%)]" />
       </div>
       <SectionDotGrid containerRef={sectionRef} />
 

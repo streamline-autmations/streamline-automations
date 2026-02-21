@@ -22,7 +22,7 @@ const Hero: React.FC = () => {
           <div className="text-center lg:text-left">
             <h1 className="h1 mb-8 px-2 lg:px-0">
               Stop Trading Time for Money.{' '}
-              <span className="text-accent">
+              <span className="text-[color:var(--purple)]">
                 Automate It.
               </span>
             </h1>
@@ -34,7 +34,7 @@ const Hero: React.FC = () => {
             </p>
 
             <div className="flex flex-col md:flex-row gap-4 justify-center px-4 lg:px-0">
-              <a href="/contact" className="btn btn-primary btn-xl btn-fw md:w-auto">
+              <a href="/contact" className="btn btn-orange btn-xl btn-fw md:w-auto">
                 Book a Free Strategy Call
               </a>
 

@@ -96,7 +96,7 @@ const ClientMagnetPage: React.FC = () => {
           >
             {/* Left: Text */}
             <motion.div variants={fadeUp}>
-              <span className="inline-block px-4 py-1.5 bg-[color:var(--purple-dim)] text-accent text-xs font-mono tracking-[2px] rounded-full border border-[color:var(--purple-border)] mb-6">
+              <span className="inline-block px-4 py-1.5 bg-[color:var(--orange-dim)] text-[color:var(--orange)] text-xs font-mono tracking-[2px] rounded-full border border-[color:var(--orange-border)] mb-6">
                 TIER 2 — CLIENT MAGNET
               </span>
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-4">
@@ -195,7 +195,7 @@ const ClientMagnetPage: React.FC = () => {
               {processSteps.map((step, i) => (
                 <Card key={i} accent="none" hover={false} className="flex-1">
                   <div className="p-6 text-center flex flex-col items-center">
-                    <div className="w-12 h-12 mb-3 rounded-full bg-[color:var(--purple-dim)] flex items-center justify-center text-accent font-bold text-lg border border-[color:var(--purple-border)] relative z-10">
+                    <div className="w-12 h-12 mb-3 rounded-full bg-[color:var(--orange-dim)] flex items-center justify-center text-[color:var(--orange)] font-bold text-lg border border-[color:var(--orange-border)] relative z-10">
                       {step.number}
                     </div>
                     <h3 className="text-white font-medium mb-0.5">{step.title}</h3>

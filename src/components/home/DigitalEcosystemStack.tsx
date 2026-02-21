@@ -50,15 +50,15 @@ const DigitalEcosystemStack: React.FC = () => {
               <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-white/50 to-transparent animate-beam" style={{ animationDelay: '1.5s' }}></div>
             </div>
 
-            <div className="p-4 rounded-xl bg-brand-purple/10 border border-brand-purple/30 flex items-center gap-4 w-full max-w-md group hover:bg-brand-purple/20 transition-all duration-300">
-              <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-brand-purple/20 flex items-center justify-center">
-                <Cpu className="w-6 h-6 text-accent animate-pulse" style={{ animationDelay: '2s' }} />
+            <div className="p-4 rounded-xl bg-[color:var(--orange-dim)] border border-[color:var(--orange-border)] flex items-center gap-4 w-full max-w-md group hover:bg-[rgba(242,106,61,0.18)] transition-all duration-300">
+              <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-[rgba(242,106,61,0.18)] flex items-center justify-center">
+                <Cpu className="w-6 h-6 text-[color:var(--orange)] animate-pulse" style={{ animationDelay: '2s' }} />
               </div>
               <div className="flex-1">
                 <div className="text-white font-ubuntu font-bold text-base">AI Automation</div>
               </div>
-              <div className="px-3 py-1 bg-brand-purple/20 border border-brand-purple/40 rounded-full">
-                <span className="text-xs font-ubuntu font-medium text-accent">Running</span>
+              <div className="px-3 py-1 bg-[rgba(242,106,61,0.18)] border border-[rgba(242,106,61,0.42)] rounded-full">
+                <span className="text-xs font-ubuntu font-medium text-[color:var(--orange)]">Running</span>
               </div>
             </div>
           </div>
@@ -72,7 +72,7 @@ const DigitalEcosystemStack: React.FC = () => {
 
         <div className="absolute top-1/4 left-8 w-2 h-2 bg-brand-purple rounded-full animate-ping opacity-40"></div>
         <div className="absolute top-1/2 right-8 w-2 h-2 bg-white rounded-full animate-ping opacity-40" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute bottom-1/4 left-12 w-2 h-2 bg-brand-purple rounded-full animate-ping opacity-40" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute bottom-1/4 left-12 w-2 h-2 bg-brand-orange rounded-full animate-ping opacity-40" style={{ animationDelay: '2s' }}></div>
       </div>
     </div>
   );

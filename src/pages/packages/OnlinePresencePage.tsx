@@ -114,7 +114,7 @@ const OnlinePresencePage: React.FC = () => {
                 <ul className="space-y-3">
                   {isForYouIf.map((item, i) => (
                     <li key={i} className="flex items-center gap-3 body">
-                      <Check className="w-5 h-5 text-accent" /> {item}
+                      <Check className="w-5 h-5 text-white/70" /> {item}
                     </li>
                   ))}
                 </ul>
@@ -136,7 +136,7 @@ const OnlinePresencePage: React.FC = () => {
             </div>
             <motion.div className="grid-3 max-w-5xl mx-auto" variants={stagger} initial="hidden" whileInView="visible" viewport={viewport}>
               {whatsIncluded.map((item, i) => (
-                <motion.div key={i} variants={cardItem} className="card card-bar-white card-interactive">
+                <motion.div key={i} variants={cardItem} className="card card-bar-white card-interactive card-interactive-white">
                   <div className="icon-box" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.12)' }}>
                     {item.icon}
                   </div>

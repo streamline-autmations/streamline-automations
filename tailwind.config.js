@@ -6,9 +6,9 @@ export default {
       colors: {
         // New Brand Colors
         'brand-dark': '#050505',
-        'brand-purple': '#8B5CF6',
-        'brand-glow': '#7c3aed',
-        'brand-orange': '#F05523',
+        'brand-purple': '#774CFC',
+        'brand-glow': '#6f3efc',
+        'brand-orange': '#F26A3D',
         'glass-surface': 'rgba(255, 255, 255, 0.03)',
         
         // Legacy colors for gradual migration

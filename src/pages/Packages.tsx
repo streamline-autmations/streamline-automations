@@ -52,7 +52,7 @@ const Packages: React.FC = () => {
             className="grid-3 max-w-6xl mx-auto"
           >
             {/* Card 1: Online Presence */}
-            <motion.div variants={cardItem} className="card card-bar-white card-interactive">
+            <motion.div variants={cardItem} className="card card-bar-white card-interactive card-interactive-white">
               {/* Device Mockup Area */}
               <div className="h-[220px] overflow-hidden rounded-t-2xl bg-gradient-to-br from-white/5 to-transparent">
                 <div className="h-3 w-full bg-white/5 rounded-t-xl"></div>
@@ -72,7 +72,7 @@ const Packages: React.FC = () => {
                 <ul className="mt-4 space-y-2">
                   {['Up to 5 pages', 'Contact form + SEO', 'Delivered in 3–5 days'].map((item, i) => (
                     <li key={i} className="flex items-center gap-2 body">
-                      <Check className="w-4 h-4 text-accent" /> {item}
+                      <Check className="w-4 h-4 text-white/70" /> {item}
                     </li>
                   ))}
                 </ul>
@@ -87,16 +87,16 @@ const Packages: React.FC = () => {
             </motion.div>
 
             {/* Card 2: Client Magnet (Elevated) - Featured */}
-            <motion.div variants={cardItem} className="card card-bar card-featured card-interactive">
+            <motion.div variants={cardItem} className="card card-bar-orange card-featured-orange card-interactive card-interactive-orange">
               {/* Most Popular Badge */}
               <div className="absolute top-4 right-4 z-10">
-                <span className="bg-[color:var(--purple)] text-white text-[10px] font-mono tracking-[2px] uppercase rounded-full px-3 py-1">
+                <span className="bg-[color:var(--orange)] text-white text-[10px] font-mono tracking-[2px] uppercase rounded-full px-3 py-1">
                   Most Popular
                 </span>
               </div>
               
               {/* Device Mockup Area */}
-              <div className="h-[220px] overflow-hidden rounded-t-2xl bg-gradient-to-br from-purple-500/5 to-transparent">
+              <div className="h-[220px] overflow-hidden rounded-t-2xl bg-gradient-to-br from-brand-orange/10 to-transparent">
                 <div className="h-3 w-full bg-white/5 rounded-t-xl"></div>
                 <div className="w-48 h-32 mx-auto mt-6 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
                   <span className="font-mono text-[10px] text-white/20 text-center leading-tight">
@@ -114,14 +114,14 @@ const Packages: React.FC = () => {
                 <ul className="mt-4 space-y-2">
                   {['Booking system + AI chatbot', 'WhatsApp & email alerts', 'Delivered in 5–7 days'].map((item, i) => (
                     <li key={i} className="flex items-center gap-2 body">
-                      <Check className="w-4 h-4 text-accent" /> {item}
+                      <Check className="w-4 h-4 text-[color:var(--orange)]" /> {item}
                     </li>
                   ))}
                 </ul>
                 
                 <Link
                   to="/packages/client-magnet"
-                  className="btn btn-secondary btn-fw mt-6"
+                  className="btn btn-orange btn-fw mt-6"
                 >
                   Learn More →
                 </Link>
@@ -129,7 +129,7 @@ const Packages: React.FC = () => {
             </motion.div>
 
             {/* Card 3: Business Accelerator */}
-            <motion.div variants={cardItem} className="card card-bar card-interactive">
+            <motion.div variants={cardItem} className="card card-bar card-interactive card-interactive-purple">
               {/* Device Mockup Area */}
               <div className="h-[220px] overflow-hidden rounded-t-2xl bg-gradient-to-br from-purple-500/5 to-transparent">
                 <div className="h-3 w-full bg-white/5 rounded-t-xl"></div>
@@ -149,14 +149,14 @@ const Packages: React.FC = () => {
                 <ul className="mt-4 space-y-2">
                   {['Analytics dashboard', 'Advanced automations', 'Monthly optimisation'].map((item, i) => (
                     <li key={i} className="flex items-center gap-2 body">
-                      <Check className="w-4 h-4 text-accent" /> {item}
+                      <Check className="w-4 h-4 text-[color:var(--purple)]" /> {item}
                     </li>
                   ))}
                 </ul>
                 
                 <Link
                   to="/packages/business-accelerator"
-                  className="btn btn-secondary btn-fw mt-6"
+                  className="btn btn-primary btn-fw mt-6"
                 >
                   Learn More →
                 </Link>

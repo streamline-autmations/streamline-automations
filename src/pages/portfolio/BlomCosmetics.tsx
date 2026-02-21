@@ -3,6 +3,7 @@ import { ShoppingCart, Database, GraduationCap, Zap, Mail, FileText, MessageSqua
 import CaseStudyLayout from '../../components/layout/CaseStudyLayout';
 import Tabs from '../../components/ui/Tabs';
 import Button from '../../components/ui/Button';
+import SectionDivider from '../../components/ui/SectionDivider';
 
 const BlomCosmetics: React.FC = () => {
   const [activeAdminTab, setActiveAdminTab] = useState('Product Control');
@@ -22,8 +23,9 @@ const BlomCosmetics: React.FC = () => {
       heroImageMobileSrc="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771692574/blom_hero-mobile_1_lsp6zo.png"
       heroImageDesktopSrc="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771692572/blom_hero-desktop_2_u99qeu.png"
     >
+      <SectionDivider />
       {/* Module 1: The Storefront */}
-      <section className="relative py-24">
+      <section className="relative py-12 md:py-24">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
             {/* Left - Text */}

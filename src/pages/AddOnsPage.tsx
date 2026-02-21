@@ -135,13 +135,19 @@ interface AddonCardProps {
 }
 
 const AddonCard: React.FC<AddonCardProps> = ({ icon, name, price, description, availableOn, accentColor }) => {
-  const cardClass = accentColor === 'white'
-    ? 'card card-sm card-bar-white card-interactive'
-    : 'card card-sm card-bar card-interactive'
+  const cardClass =
+    accentColor === 'white'
+      ? 'card card-sm card-bar-white card-interactive card-interactive-white'
+      : accentColor === 'orange'
+        ? 'card card-sm card-bar-orange card-interactive card-interactive-orange'
+        : 'card card-sm card-bar card-interactive card-interactive-purple'
 
-  const badgeStyles = accentColor === 'white'
-    ? 'bg-[color:var(--surface)] text-[color:var(--text-mid)] border-[color:var(--border)]'
-    : 'bg-[color:var(--purple-dim)] text-[color:var(--text-high)] border-[color:var(--purple-border)]'
+  const badgeStyles =
+    accentColor === 'white'
+      ? 'bg-[color:var(--surface)] text-[color:var(--text-mid)] border-[color:var(--border)]'
+      : accentColor === 'orange'
+        ? 'bg-[color:var(--orange-dim)] text-[color:var(--text-high)] border-[color:var(--orange-border)]'
+        : 'bg-[color:var(--purple-dim)] text-[color:var(--text-high)] border-[color:var(--purple-border)]'
 
   return (
     <motion.div

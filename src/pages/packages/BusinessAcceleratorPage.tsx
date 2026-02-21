@@ -152,7 +152,7 @@ const BusinessAcceleratorPage: React.FC = () => {
                 <ul className="space-y-3">
                   {isForYouIf.map((item, i) => (
                     <li key={i} className="flex items-center gap-3 text-white/55">
-                      <Check className="w-5 h-5 text-purple-400" /> {item}
+                      <Check className="w-5 h-5 text-[color:var(--purple)]" /> {item}
                     </li>
                   ))}
                 </ul>

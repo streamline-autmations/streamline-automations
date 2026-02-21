@@ -59,7 +59,7 @@ const Header: React.FC = () => {
             <img
               src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1765275983/Streamline-White_1_yf5ow5.svg"
               alt="Streamline Automations"
-              className="h-7 w-auto"
+              className="h-9 w-auto"
             />
           </Link>
 
@@ -177,7 +177,7 @@ const Header: React.FC = () => {
           </nav>
 
           {/* Desktop CTA Button */}
-          <Button href="/contact" variant="ghost-purple" size="md" className="btn btn-nav">
+          <Button href="/contact" variant="orange" size="md">
             Book a Free Call
           </Button>
         </div>
@@ -273,7 +273,7 @@ const Header: React.FC = () => {
               </li>
             </ul>
             <div className="mt-8 px-4">
-              <Button href="/contact" variant="ghost-purple" size="lg" className="btn btn-nav w-full">
+              <Button href="/contact" variant="orange" size="lg" className="w-full">
                 Book a Free Call
               </Button>
             </div>

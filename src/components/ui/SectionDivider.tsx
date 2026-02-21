@@ -1,4 +1,5 @@
 import React from 'react';
+import CircuitLine from './CircuitLine';
 
 interface SectionDividerProps {
   className?: string;
@@ -6,9 +7,9 @@ interface SectionDividerProps {
 
 const SectionDivider: React.FC<SectionDividerProps> = ({ className = '' }) => {
   return (
-    <div className={`w-full py-8 md:py-12 ${className}`}>
+    <div className={`w-full py-6 md:py-10 ${className}`}>
       <div className="container">
-        <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-purple via-40% via-purple-400 via-60% to-transparent"></div>
+        <CircuitLine variant="fast" />
       </div>
     </div>
   );

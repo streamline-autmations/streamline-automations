@@ -10,7 +10,7 @@ interface BadgeProps {
 
 const styles: Record<BadgeVariant, string> = {
   purple: 'bg-[color:var(--purple-dim)] text-[color:var(--text-high)] border-[color:var(--purple-border)]',
-  orange: 'bg-[color:var(--purple-dim)] text-[color:var(--text-high)] border-[color:var(--purple-border)]',
+  orange: 'bg-[color:var(--orange-dim)] text-[color:var(--text-high)] border-[color:var(--orange-border)]',
   white:  'bg-[color:var(--surface)] text-[color:var(--text-mid)] border-[color:var(--border)]',
   green:  'bg-[color:var(--surface)] text-[color:var(--text-mid)] border-[color:var(--border)]',
 };

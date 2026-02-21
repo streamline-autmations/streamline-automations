@@ -17,7 +17,7 @@ const WhyChooseUs: React.FC = () => {
 
           <div className="grid-3">
             {/* Card 1 - Reduce Operational Costs */}
-            <div className="card card-bar card-interactive group">
+            <div className="card card-bar card-interactive card-interactive-purple group">
               <div className="mb-6">
                 <div className="icon-box group-hover:scale-110 transition-transform">
                   <TrendingUp className="w-7 h-7" />
@@ -33,7 +33,7 @@ const WhyChooseUs: React.FC = () => {
             </div>
 
             {/* Card 2 - Enterprise Reliability */}
-            <div className="card card-bar-white card-interactive group">
+            <div className="card card-bar-white card-interactive card-interactive-white group">
               <div className="mb-6">
                 <div className="icon-box group-hover:scale-110 transition-transform" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.12)' }}>
                   <ShieldCheck className="w-7 h-7 text-white" />
@@ -49,9 +49,9 @@ const WhyChooseUs: React.FC = () => {
             </div>
 
             {/* Card 3 - Launch in Weeks */}
-            <div className="card card-bar card-interactive group">
+            <div className="card card-bar-orange card-interactive card-interactive-orange group">
               <div className="mb-6">
-                <div className="icon-box group-hover:scale-110 transition-transform">
+                <div className="icon-box bg-[color:var(--orange-dim)] border-[color:var(--orange-border)] text-[color:var(--orange)] group-hover:scale-110 transition-transform">
                   <Zap className="w-7 h-7" />
                 </div>
                 <h3 className="h3 mb-3">

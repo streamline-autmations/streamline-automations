@@ -111,7 +111,7 @@ const Home: React.FC = () => {
             </div>
 
             <motion.div className="grid-3 max-w-5xl mx-auto" variants={stagger} initial="hidden" whileInView="visible" viewport={viewport}>
-              <motion.div variants={cardItem} className="card card-bar card-interactive">
+              <motion.div variants={cardItem} className="card card-bar card-interactive card-interactive-purple">
                 <div className="icon-box">
                   <Zap className="w-5 h-5" />
                 </div>
@@ -121,8 +121,8 @@ const Home: React.FC = () => {
                 </p>
               </motion.div>
 
-              <motion.div variants={cardItem} className="card card-bar card-interactive">
-                <div className="icon-box">
+              <motion.div variants={cardItem} className="card card-bar-white card-interactive card-interactive-white">
+                <div className="icon-box bg-[rgba(255,255,255,0.03)] border-[rgba(255,255,255,0.12)]">
                   <Layers className="w-5 h-5" />
                 </div>
                 <h3 className="h3 mt-4 mb-3">Systems, Not Just Sites</h3>
@@ -131,8 +131,8 @@ const Home: React.FC = () => {
                 </p>
               </motion.div>
 
-              <motion.div variants={cardItem} className="card card-bar-white card-interactive">
-                <div className="icon-box" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.12)' }}>
+              <motion.div variants={cardItem} className="card card-bar-orange card-interactive card-interactive-orange">
+                <div className="icon-box bg-[color:var(--orange-dim)] border-[color:var(--orange-border)] text-[color:var(--orange)]">
                   <ShieldCheck className="w-5 h-5" />
                 </div>
                 <h3 className="h3 mt-4 mb-3">You Own Everything</h3>
@@ -187,15 +187,23 @@ const Home: React.FC = () => {
                 <motion.div 
                   key={i} 
                   variants={cardItem}
-                  className={`card ${pkg.popular ? 'card-featured' : ''} ${pkg.name === 'Online Presence' ? 'card-bar-white' : 'card-bar'} ${pkg.popular ? 'card-interactive' : 'card-interactive'}`}
+                  className={`card ${pkg.popular ? 'card-featured' : ''} ${
+                    pkg.accent === 'white' ? 'card-bar-white card-interactive-white' :
+                    pkg.accent === 'orange' ? 'card-bar-orange card-interactive-orange' :
+                    'card-bar card-interactive-purple'
+                  } card-interactive`}
                 >
                   {pkg.popular && (
                     <div className="absolute -top-3 right-4">
-                      <Badge variant="purple" className="bg-[color:var(--purple)] text-white border-[color:var(--purple)]">Most Popular</Badge>
+                      <Badge variant={pkg.accent === 'orange' ? 'orange' : 'purple'}>Most Popular</Badge>
                     </div>
                   )}
 
-                  <div className="w-2 h-8 mb-4 rounded-full bg-[color:var(--purple)]"></div>
+                  <div className={`w-2 h-8 mb-4 rounded-full ${
+                    pkg.accent === 'white' ? 'bg-white/40' :
+                    pkg.accent === 'orange' ? 'bg-[color:var(--orange)]' :
+                    'bg-[color:var(--purple)]'
+                  }`}></div>
 
                   <h3 className="h3 mb-2">{pkg.name}</h3>
                   <p className="body mb-3">{pkg.outcome}</p>
@@ -204,13 +212,21 @@ const Home: React.FC = () => {
                   <ul className="space-y-2 mb-6">
                     {pkg.bullets.map((bullet, j) => (
                       <li key={j} className="flex items-start gap-2 body">
-                        <Check className="w-4 h-4 mt-0.5 flex-shrink-0 text-accent" />
+                        <Check className={`w-4 h-4 mt-0.5 flex-shrink-0 ${
+                          pkg.accent === 'white' ? 'text-white/70' :
+                          pkg.accent === 'orange' ? 'text-[color:var(--orange)]' :
+                          'text-[color:var(--purple)]'
+                        }`} />
                         <span>{bullet}</span>
                       </li>
                     ))}
                   </ul>
 
-                  <Link to={pkg.link} className="btn btn-secondary btn-fw">
+                  <Link to={pkg.link} className={`btn btn-fw ${
+                    pkg.accent === 'orange' ? 'btn-orange' :
+                    pkg.accent === 'purple' ? 'btn-primary' :
+                    'btn-secondary'
+                  }`}>
                     Learn More
                   </Link>
                 </motion.div>
@@ -257,7 +273,13 @@ const Home: React.FC = () => {
                     </div>
 
                     <div className="relative pt-16">
-                      <div className="w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-lg border-2 bg-[color:var(--purple-dim)] border-[color:var(--purple-border)] text-[color:var(--text-high)]">
+                      <div className={`w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center font-bold text-lg border-2 ${
+                        step.color === 'orange'
+                          ? 'bg-[color:var(--orange-dim)] border-[color:var(--orange-border)] text-[color:var(--text-high)]'
+                          : step.color === 'white'
+                            ? 'bg-[color:var(--surface)] border-[color:var(--border)] text-[color:var(--text-high)]'
+                            : 'bg-[color:var(--purple-dim)] border-[color:var(--purple-border)] text-[color:var(--text-high)]'
+                      }`}>
                         {step.number}
                       </div>
 

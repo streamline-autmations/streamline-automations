@@ -13,7 +13,16 @@ interface CardProps {
 
 const topBarClass = (accent: AccentColor) => {
   if (accent === 'white') return 'card-bar-white'
-  return 'card-bar'
+  if (accent === 'orange') return 'card-bar-orange'
+  if (accent === 'purple') return 'card-bar'
+  return ''
+}
+
+const hoverAccentClass = (accent: AccentColor) => {
+  if (accent === 'purple') return 'card-interactive-purple'
+  if (accent === 'orange') return 'card-interactive-orange'
+  if (accent === 'white') return 'card-interactive-white'
+  return ''
 }
 
 export function Card({
@@ -23,7 +32,7 @@ export function Card({
   return (
     <div
       onClick={onClick}
-      className={`${topBar ? topBarClass(accent) : ''} card ${hover ? 'card-interactive' : ''} ${onClick ? 'cursor-pointer' : ''} ${className}`.trim()}
+      className={`${topBar ? topBarClass(accent) : ''} card ${hover ? `card-interactive ${hoverAccentClass(accent)}` : ''} ${onClick ? 'cursor-pointer' : ''} ${className}`.trim()}
     >
       {children}
     </div>

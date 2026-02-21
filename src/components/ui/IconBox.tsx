@@ -12,8 +12,8 @@ const sizes = { sm: 'w-9 h-9',  md: 'w-11 h-11', lg: 'w-14 h-14' };
 const iconSizes = { sm: 'text-base', md: 'text-xl', lg: 'text-2xl' };
 
 const accents: Record<AccentColor, string> = {
-  purple: '',
-  orange: '',
+  purple: 'bg-[color:var(--purple-dim)] border-[color:var(--purple-border)] text-[color:var(--purple)]',
+  orange: 'bg-[color:var(--orange-dim)] border-[color:var(--orange-border)] text-[color:var(--orange)]',
   white: 'bg-[rgba(255,255,255,0.03)] border-[rgba(255,255,255,0.12)] text-white/80',
 };
 
