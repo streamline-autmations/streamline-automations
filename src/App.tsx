@@ -20,7 +20,7 @@ import WebDevelopment from './pages/services/WebDevelopment';
 import Automation from './pages/services/Automation';
 import BlomCosmetics from './pages/portfolio/BlomCosmetics';
 import AmeliVanZyl from './pages/portfolio/AmeliVanZyl';
-import RecklessBear from './pages/portfolio/RecklessBear';
+import RecklessBearPage from './pages/portfolio/RecklessBearPage';
 
 function App() {
   return (
@@ -45,7 +45,7 @@ function App() {
           <Route path="portfolio" element={<Portfolio />} />
           <Route path="portfolio/ameli-van-zyl-design" element={<AmeliVanZyl />} />
           <Route path="portfolio/blom-cosmetics" element={<BlomCosmetics />} />
-          <Route path="portfolio/reckless-bear" element={<RecklessBear />} />
+          <Route path="portfolio/recklesbear" element={<RecklessBearPage />} />
           <Route path="portfolio/:id" element={<ProjectDetails />} />
           <Route path="contact" element={<Contact />} />
         </Route>

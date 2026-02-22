@@ -16,7 +16,7 @@ export interface PortfolioProject {
 export const portfolioProjects: PortfolioProject[] = [
   // WEB & AUTOMATION (Case Studies)
   {
-    id: 'recklessbear-apparel',
+    id: 'recklesbear',
     title: 'RecklessBear Apparel',
     category: 'development',
     image: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1766552022/Recklessbear-Cover_m7qkde.png',
