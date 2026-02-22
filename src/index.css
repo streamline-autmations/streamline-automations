@@ -94,7 +94,6 @@ body::after {
   border-bottom: 1px solid rgba(255,255,255,0.06);
   height: var(--nav-h);
   display: flex;
-  align-items: center;
   padding-top: env(safe-area-inset-top, 0px);
   padding-left: 32px;
   padding-right: 32px;
