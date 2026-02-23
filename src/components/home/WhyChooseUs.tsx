@@ -19,8 +19,8 @@ const WhyChooseUs: React.FC = () => {
             {/* Card 1 - Reduce Operational Costs */}
             <div className="card card-bar card-interactive card-interactive-purple group">
               <div className="mb-6">
-                <div className="icon-box group-hover:scale-110 transition-transform">
-                  <TrendingUp className="w-7 h-7" />
+                <div className="icon-box bg-[color:var(--purple-dim)] border-[color:var(--purple-border)] text-[color:var(--purple)] group-hover:scale-110 transition-transform">
+                  <TrendingUp className="w-7 h-7 text-[color:var(--purple)]" />
                 </div>
                 <h3 className="h3 mb-3">
                   Reduce Operational Costs
@@ -35,7 +35,7 @@ const WhyChooseUs: React.FC = () => {
             {/* Card 2 - Enterprise Reliability */}
             <div className="card card-bar-white card-interactive card-interactive-white group">
               <div className="mb-6">
-                <div className="icon-box group-hover:scale-110 transition-transform" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.12)' }}>
+                <div className="icon-box bg-[rgba(255,255,255,0.06)] border-[rgba(255,255,255,0.18)] text-white group-hover:scale-110 transition-transform">
                   <ShieldCheck className="w-7 h-7 text-white" />
                 </div>
                 <h3 className="h3 mb-3">
@@ -52,7 +52,7 @@ const WhyChooseUs: React.FC = () => {
             <div className="card card-bar-orange card-interactive card-interactive-orange group">
               <div className="mb-6">
                 <div className="icon-box bg-[color:var(--orange-dim)] border-[color:var(--orange-border)] text-[color:var(--orange)] group-hover:scale-110 transition-transform">
-                  <Zap className="w-7 h-7" />
+                  <Zap className="w-7 h-7 text-[color:var(--orange)]" />
                 </div>
                 <h3 className="h3 mb-3">
                   Launch in Weeks

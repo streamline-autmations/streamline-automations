@@ -415,6 +415,32 @@ body::after {
   box-shadow: 0 0 30px rgba(119, 76, 252, 0.5);
 }
 
+.logo-hover-glow {
+  transition: transform var(--t-normal), filter var(--t-normal);
+}
+
+.logo-hover-glow:hover {
+  transform: translateY(-1px);
+  filter:
+    drop-shadow(-6px 0 14px rgba(119, 76, 252, 0.75))
+    drop-shadow(6px 0 14px rgba(242, 106, 61, 0.8));
+}
+
+.packages-card-white:hover {
+  border-color: rgba(255,255,255,0.3);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.12), 0 0 40px rgba(255,255,255,0.12), 0 16px 40px rgba(0,0,0,0.65);
+}
+
+.packages-card-orange:hover {
+  border-color: var(--orange-border);
+  box-shadow: 0 0 0 1px rgba(242,106,61,0.25), 0 0 46px rgba(242,106,61,0.25), 0 16px 40px rgba(0,0,0,0.65);
+}
+
+.packages-card-purple:hover {
+  border-color: var(--purple-border);
+  box-shadow: 0 0 0 1px rgba(119,76,252,0.22), 0 0 46px rgba(119,76,252,0.24), 0 16px 40px rgba(0,0,0,0.65);
+}
+
 /* Gradient border */
 .gradient-border {
   position: relative;

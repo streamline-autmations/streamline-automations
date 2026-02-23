@@ -112,8 +112,8 @@ const Home: React.FC = () => {
 
             <motion.div className="grid-3 max-w-5xl mx-auto" variants={stagger} initial="hidden" whileInView="visible" viewport={viewport}>
               <motion.div variants={cardItem} className="card card-bar card-interactive card-interactive-purple">
-                <div className="icon-box">
-                  <Zap className="w-5 h-5" />
+                <div className="icon-box bg-[color:var(--purple-dim)] border-[color:var(--purple-border)] text-[color:var(--purple)]">
+                  <Zap className="w-5 h-5 text-[color:var(--purple)]" />
                 </div>
                 <h3 className="h3 mt-4 mb-3">Built for Speed</h3>
                 <p className="body">
@@ -122,8 +122,8 @@ const Home: React.FC = () => {
               </motion.div>
 
               <motion.div variants={cardItem} className="card card-bar-white card-interactive card-interactive-white">
-                <div className="icon-box bg-[rgba(255,255,255,0.03)] border-[rgba(255,255,255,0.12)]">
-                  <Layers className="w-5 h-5" />
+                <div className="icon-box bg-[rgba(255,255,255,0.06)] border-[rgba(255,255,255,0.18)] text-white">
+                  <Layers className="w-5 h-5 text-white" />
                 </div>
                 <h3 className="h3 mt-4 mb-3">Systems, Not Just Sites</h3>
                 <p className="body">
@@ -133,7 +133,7 @@ const Home: React.FC = () => {
 
               <motion.div variants={cardItem} className="card card-bar-orange card-interactive card-interactive-orange">
                 <div className="icon-box bg-[color:var(--orange-dim)] border-[color:var(--orange-border)] text-[color:var(--orange)]">
-                  <ShieldCheck className="w-5 h-5" />
+                  <ShieldCheck className="w-5 h-5 text-[color:var(--orange)]" />
                 </div>
                 <h3 className="h3 mt-4 mb-3">You Own Everything</h3>
                 <p className="body">
@@ -187,23 +187,19 @@ const Home: React.FC = () => {
                 <motion.div 
                   key={i} 
                   variants={cardItem}
-                  className={`card ${pkg.popular ? 'card-featured' : ''} ${
-                    pkg.accent === 'white' ? 'card-bar-white card-interactive-white' :
-                    pkg.accent === 'orange' ? 'card-bar-orange card-interactive-orange' :
-                    'card-bar card-interactive-purple'
-                  } card-interactive`}
+                  className={`card relative overflow-hidden ${
+                    pkg.accent === 'white'
+                      ? 'card-interactive card-interactive-white packages-card-white'
+                      : pkg.accent === 'orange'
+                        ? 'card-featured-orange card-interactive card-interactive-orange packages-card-orange'
+                        : 'card-featured card-interactive card-interactive-purple packages-card-purple'
+                  }`}
                 >
                   {pkg.popular && (
-                    <div className="absolute -top-3 right-4">
+                    <div className="absolute top-3 right-4">
                       <Badge variant={pkg.accent === 'orange' ? 'orange' : 'purple'}>Most Popular</Badge>
                     </div>
                   )}
-
-                  <div className={`w-2 h-8 mb-4 rounded-full ${
-                    pkg.accent === 'white' ? 'bg-white/40' :
-                    pkg.accent === 'orange' ? 'bg-[color:var(--orange)]' :
-                    'bg-[color:var(--purple)]'
-                  }`}></div>
 
                   <h3 className="h3 mb-2">{pkg.name}</h3>
                   <p className="body mb-3">{pkg.outcome}</p>

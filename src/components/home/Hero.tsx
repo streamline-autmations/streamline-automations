@@ -3,15 +3,15 @@ import DigitalEcosystemStack from './DigitalEcosystemStack';
 
 const Hero: React.FC = () => {
   return (
-    <div className="relative min-h-screen flex items-center pt-20 pb-24 overflow-hidden">
+    <div className="relative min-h-screen flex items-center pt-12 pb-24 overflow-hidden">
       <div className="relative z-10">
         {/* Hero Logo - Above Grid */}
-        <div className="mb-12 lg:mb-16 flex justify-center">
+        <div className="mb-10 lg:mb-12 flex justify-center">
           <div className="relative group">
             <img
               src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1765275983/Streamline-White_1_yf5ow5.svg"
               alt="Streamline Automations"
-              className="h-20 md:h-28 lg:h-32 w-auto opacity-90 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-105"
+              className="h-20 md:h-28 lg:h-32 w-auto opacity-90 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-105 logo-hover-glow"
             />
           </div>
         </div>

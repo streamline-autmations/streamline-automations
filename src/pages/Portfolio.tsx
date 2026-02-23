@@ -10,8 +10,7 @@ const Portfolio: React.FC = () => {
 
   const filterCategories = [
     { id: 'all', label: 'All Projects' },
-    { id: 'development', label: 'Web & Systems' },
-    { id: 'branding', label: 'Branding & Design' }
+    { id: 'development', label: 'Web & Systems' }
   ];
 
   const filteredProjects = activeFilter === 'all'

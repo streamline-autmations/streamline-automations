@@ -45,7 +45,7 @@ type FeaturedWorkProject = {
 
 function FeaturedWorkProjectBlock({ project }: { project: FeaturedWorkProject }) {
   return (
-    <article className="relative">
+    <article className="relative group">
       <div className="mx-auto max-w-md md:max-w-4xl">
         <div className="mb-8 md:mb-10 text-center" data-parallax data-speed="0.18">
           <h3 className="text-3xl sm:text-4xl md:text-5xl font-ubuntu font-bold text-white tracking-tight">
@@ -72,35 +72,13 @@ function FeaturedWorkProjectBlock({ project }: { project: FeaturedWorkProject })
         </div>
 
         <div className="relative" data-parallax data-speed="0.34">
-          <div className="relative mx-auto h-[420px] sm:h-[520px] md:h-[560px]">
-            <div className="absolute inset-0 rounded-[32px] border border-white/10 bg-gradient-to-b from-white/[0.03] via-transparent to-black/30" />
-
-            <div className="absolute left-1/2 top-1/2 hidden w-[84%] -translate-x-1/2 -translate-y-1/2 md:block">
-              <DeviceFrame
-                src={project.images.laptop}
-                alt={`${project.title} laptop preview`}
-                className="object-cover"
-                frameClassName="aspect-[3/2]"
-              />
-            </div>
-
-            <div className="absolute left-1/2 top-6 w-[92%] -translate-x-1/2 md:left-[18%] md:top-[12%] md:w-[58%] md:translate-x-0">
-              <DeviceFrame
-                src={project.images.tablet}
-                alt={`${project.title} tablet preview`}
-                className="object-cover"
-                frameClassName="aspect-[4/3]"
-              />
-            </div>
-
-            <div className="absolute left-1/2 bottom-6 w-[70%] -translate-x-1/2 md:left-auto md:right-[10%] md:bottom-[10%] md:w-[22%] md:translate-x-0">
-              <DeviceFrame
-                src={project.images.phone}
-                alt={`${project.title} phone preview`}
-                className="object-cover"
-                frameClassName="aspect-[9/16]"
-              />
-            </div>
+          <div className="relative mx-auto max-w-4xl">
+            <DeviceFrame
+              src={project.images.laptop}
+              alt={`${project.title} preview`}
+              className="object-cover group-hover:scale-[1.03] transition-transform duration-700"
+              frameClassName="w-full aspect-[16/9]"
+            />
           </div>
         </div>
       </div>

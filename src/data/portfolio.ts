@@ -72,31 +72,6 @@ export const portfolioProjects: PortfolioProject[] = [
       'Custom design system',
       'Instant WhatsApp notifications'
     ]
-  },
-  // BRANDING & INFRASTRUCTURE (The Vault)
-  {
-    id: 'tuscany-african-nomad',
-    title: 'Tuscany & African Nomad',
-    category: 'branding',
-    image: 'https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=800',
-    description: 'Complete business infrastructure setup: Corporate identity, domain management, and professional email hosting.',
-    tags: ['Domain Setup', 'Email Hosting', 'Business Cards', 'Email Signatures']
-  },
-  {
-    id: 'seed-master-garlic-co',
-    title: 'Seed Master & Garlic Co',
-    category: 'branding',
-    image: 'https://images.pexels.com/photos/4750274/pexels-photo-4750274.jpeg?auto=compress&cs=tinysrgb&w=800',
-    description: 'Product identity suite including logo design and custom packaging labels.',
-    tags: ['Logo Design', 'Product Label', 'Packaging']
-  },
-  {
-    id: 'hospitality-marketing-suite',
-    title: 'Hospitality Marketing Suite',
-    category: 'branding',
-    image: 'https://images.pexels.com/photos/3184183/pexels-photo-3184183.jpeg?auto=compress&cs=tinysrgb&w=800',
-    description: 'Social media content strategy and audience growth campaigns for local hospitality brands (Jimmy\'s & Thirsty Mexican).',
-    tags: ['Social Media', 'Content Creation', 'Brand Awareness']
   }
 ];
 
