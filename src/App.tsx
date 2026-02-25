@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ScrollToTop from './components/layout/ScrollToTop';
 import CursorHint from './components/ui/CursorHint';
 import MouseTracker from './components/MouseTracker';

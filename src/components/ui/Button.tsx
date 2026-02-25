@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 
 type Variant = 'primary' | 'secondary' | 'ghost' | 'ghost-purple' | 'orange' | 'ghost-orange';
 type Size    = 'sm' | 'md' | 'lg';
@@ -35,6 +36,13 @@ export function Button({
   const classes = `${variantClasses[variant]} ${sizeClasses[size]} ${fullWidth ? 'btn-fw' : ''} ${className}`.trim();
 
   if (href) {
+    if (href.startsWith('/')) {
+      return (
+        <Link to={href} className={classes}>
+          {children}
+        </Link>
+      );
+    }
     return (
       <a href={href} className={classes}>
         {children}

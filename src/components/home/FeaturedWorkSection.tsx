@@ -92,27 +92,39 @@ export default function FeaturedWorkSection() {
   const projects = useMemo<FeaturedWorkProject[]>(
     () => [
       {
-        title: 'E-commerce Command Center',
-        subtitle:
-          'End-to-end digital retail system with inventory synchronization, automated stock alerts, and an admin dashboard for order flow.',
-        tags: ['E-commerce', 'Inventory Automation', 'Admin Dashboard'],
-        linkTo: '/portfolio/blom-cosmetics',
-        images: {
-          laptop: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1766552022/Blom-Cover_tpxo7j.png',
-          tablet: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1766552022/Blom-Cover_tpxo7j.png',
-          phone: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1766552022/Blom-Cover_tpxo7j.png',
-        },
-      },
-      {
         title: 'Ameli van Zyl Design',
         subtitle:
-          'High-performance portfolio focused on gallery speed and visual impact, with streamlined commission enquiries and instant notifications.',
+          'High-performance portfolio that loads fast, showcases the art clearly, and has a contact form wired to send instant notifications to the artist.',
         tags: ['Portfolio', 'Gallery', 'UX Design'],
         linkTo: '/portfolio/ameli-van-zyl-design',
         images: {
-          laptop: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1766552022/Ameli-Cover_dztneq.png',
-          tablet: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1766552022/Ameli-Cover_dztneq.png',
-          phone: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1766552022/Ameli-Cover_dztneq.png',
+          laptop: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851091/Ameli-hero_image_sxtayp.png',
+          tablet: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851091/Ameli-hero_image_sxtayp.png',
+          phone: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851091/Ameli-hero_image_sxtayp.png',
+        },
+      },
+      {
+        title: 'RecklessBear Apparel',
+        subtitle:
+          'A bold service website, back-office admin system, and AI agent that collects all the details from every lead before the team steps in.',
+        tags: ['Service Website', 'Admin System', 'AI Lead Capture'],
+        linkTo: '/portfolio/recklesbear',
+        images: {
+          laptop: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851117/Reckless-hero_image_sbwhoj.png',
+          tablet: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851117/Reckless-hero_image_sbwhoj.png',
+          phone: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851117/Reckless-hero_image_sbwhoj.png',
+        },
+      },
+      {
+        title: 'BLOM Cosmetics',
+        subtitle:
+          'Custom e-commerce store with simple product management, stock tracking, and a clear dashboard for orders.',
+        tags: ['E-commerce', 'Inventory Automation', 'Admin Dashboard'],
+        linkTo: '/portfolio/blom-cosmetics',
+        images: {
+          laptop: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851097/Blom-hero_image_jaqcoz.png',
+          tablet: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851097/Blom-hero_image_jaqcoz.png',
+          phone: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851097/Blom-hero_image_jaqcoz.png',
         },
       },
     ],
