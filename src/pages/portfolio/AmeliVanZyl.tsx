@@ -106,12 +106,13 @@ const AmeliVanZyl: React.FC = () => {
       {/* Hero Image Placeholder - Long Scroll */}
       <section className="relative py-12">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-7xl mx-auto">
-            <div className="relative overflow-hidden rounded-3xl border border-white/10 shadow-2xl">
+          <div className="max-w-[100vw] mx-auto px-0 md:px-0">
+            <div className="relative w-full">
+              <div className="absolute inset-0 bg-white/5 blur-[100px] z-0 opacity-20"></div>
               <img 
                 src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1772136418/ameli_long_scroll_fnptut.png" 
                 alt="Ameli van Zyl Portfolio - Full Page Scroll" 
-                className="w-full h-auto object-cover"
+                className="w-full h-auto object-cover relative z-10 shadow-[0_0_100px_rgba(255,255,255,0.1)]"
               />
             </div>
           </div>
@@ -172,39 +173,22 @@ const AmeliVanZyl: React.FC = () => {
             </div>
 
             {/* Right Column - Images */}
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-12">
               {/* Homepage Screenshot - 4:3 Full Screen */}
-              <div className="aspect-[4/3] bg-transparent flex items-center justify-center transition-all duration-300 overflow-hidden cursor-pointer rounded-2xl"
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.transform = 'scale(1.02)';
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
-                }}
-              >
+              <div className="w-full flex items-center justify-center transition-all duration-500 hover:scale-[1.02]">
                 <img 
                   src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1772136272/Ameli_Portfolio_Mockup_2_l55rg8.png" 
                   alt="Ameli Portfolio Homepage Mockup" 
-                  className="w-full h-full object-contain"
+                  className="w-full h-auto object-contain drop-shadow-2xl"
                 />
               </div>
 
               {/* Mobile Version Image - 3 Phones */}
-              <div className="relative overflow-hidden rounded-2xl border border-white/10 shadow-lg"
-                 style={{ boxShadow: '0 0 0 1px rgba(255,255,255,0.06)' }}
-                 onMouseEnter={e => {
-                   (e.currentTarget as HTMLElement).style.transform = 'scale(1.02)';
-                   (e.currentTarget as HTMLElement).style.boxShadow = '0 0 0 1px rgba(139,92,246,0.3), 0 0 40px rgba(109,40,217,0.2)';
-                 }}
-                 onMouseLeave={e => {
-                   (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
-                   (e.currentTarget as HTMLElement).style.boxShadow = '0 0 0 1px rgba(255,255,255,0.06)';
-                 }}
-              >
+              <div className="w-full flex items-center justify-center transition-all duration-500 hover:scale-[1.02]">
                 <img 
                   src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1772136421/3_phone_jabicu.png" 
                   alt="Ameli Portfolio Mobile View" 
-                  className="w-full h-auto object-cover"
+                  className="w-full h-auto object-contain drop-shadow-2xl"
                 />
               </div>
             </div>
@@ -218,21 +202,24 @@ const AmeliVanZyl: React.FC = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
             {/* Left Side - Image */}
             <div className="order-2 md:order-1">
-              <div className="relative overflow-hidden rounded-2xl border border-white/10 shadow-lg"
-                 style={{ boxShadow: '0 0 0 1px rgba(255,255,255,0.06)' }}
+              <div className="relative overflow-hidden rounded-2xl shadow-lg group cursor-pointer"
                  onMouseEnter={e => {
-                   (e.currentTarget as HTMLElement).style.transform = 'scale(1.02)';
-                   (e.currentTarget as HTMLElement).style.boxShadow = '0 0 0 1px rgba(139,92,246,0.3), 0 0 40px rgba(109,40,217,0.2)';
+                   const img = e.currentTarget.querySelector('img');
+                   if (img) {
+                     img.style.transform = 'scale(1.15)';
+                   }
                  }}
                  onMouseLeave={e => {
-                   (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
-                   (e.currentTarget as HTMLElement).style.boxShadow = '0 0 0 1px rgba(255,255,255,0.06)';
+                   const img = e.currentTarget.querySelector('img');
+                   if (img) {
+                     img.style.transform = 'scale(1)';
+                   }
                  }}
               >
                 <img 
                   src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1772136965/msedge_s6W5xpIiBL_c4jjuf.png" 
                   alt="Ameli Contact Form" 
-                  className="w-full h-auto object-cover"
+                  className="w-full h-auto object-cover transition-transform duration-[1.5s] ease-in-out"
                 />
               </div>
             </div>
