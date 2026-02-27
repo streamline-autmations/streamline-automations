@@ -2,21 +2,12 @@ import React from 'react';
 import { Layout, MessageSquare, Zap } from 'lucide-react';
 import CaseStudyLayout from '../../components/layout/CaseStudyLayout';
 import Button from '../../components/ui/Button';
-import ExpandableGallery from '../../components/ui/ExpandableGallery';
 
 const AmeliVanZyl: React.FC = () => {
   const techStack = [
     { icon: Layout, label: 'Portfolio Site' },
     { icon: MessageSquare, label: 'Contact Form Integration' },
     { icon: Zap, label: 'Built in 3 days' },
-  ];
-
-  // Placeholder images for the expandable gallery
-  // TODO: Replace these with the actual individual phone screen images
-  const galleryImages = [
-    { src: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1772172127/3_phone_u7sdxg.png', alt: 'Ameli Portfolio - Mobile Home' },
-    { src: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1772172127/3_phone_u7sdxg.png', alt: 'Ameli Portfolio - Mobile Projects' },
-    { src: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1772172127/3_phone_u7sdxg.png', alt: 'Ameli Portfolio - Mobile Contact' },
   ];
 
   return (
@@ -30,6 +21,15 @@ const AmeliVanZyl: React.FC = () => {
         <img 
           src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1772172148/Ameli_Portfolio_Mockup_2_r2tj1w.png" 
           alt="Ameli Portfolio Homepage Mockup" 
+          className="w-full h-auto object-cover"
+        />
+      </section>
+
+      {/* Long Scroll Image - Full Screen Raw */}
+      <section className="relative w-full">
+        <img 
+          src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1772170847/ameli_long_scroll_fnptut.png" 
+          alt="Ameli Portfolio Full Page" 
           className="w-full h-auto object-cover"
         />
       </section>
@@ -89,9 +89,13 @@ const AmeliVanZyl: React.FC = () => {
 
             {/* Right Column - Images */}
             <div className="flex flex-col gap-12">
-              {/* Mobile Version Image - Interactive Gallery */}
-              <div className="w-full">
-                <ExpandableGallery images={galleryImages} />
+              {/* Mobile Version Image - 3 Phones */}
+              <div className="w-full flex items-center justify-center transition-all duration-500 hover:scale-[1.02]">
+                <img 
+                  src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1772172127/3_phone_u7sdxg.png" 
+                  alt="Ameli Portfolio Mobile View" 
+                  className="w-full h-auto object-contain drop-shadow-2xl"
+                />
               </div>
             </div>
           </div>
