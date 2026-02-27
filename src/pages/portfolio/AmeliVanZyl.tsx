@@ -16,20 +16,13 @@ const AmeliVanZyl: React.FC = () => {
       subtitle="A personal, original, high-quality graphic design portfolio with seamless booking form integration. Professional, polished, and built to convert."
       techStack={techStack}
     >
-      {/* Hero Image - Full Screen Mockup */}
-      <section className="relative py-12">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-[100vw] mx-auto px-0 md:px-0">
-            <div className="relative w-full">
-              <div className="absolute inset-0 bg-white/5 blur-[100px] z-0 opacity-20"></div>
-              <img 
-                src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1772172148/Ameli_Portfolio_Mockup_2_r2tj1w.png" 
-                alt="Ameli Portfolio Homepage Mockup" 
-                className="w-full h-auto object-cover relative z-10 shadow-[0_0_100px_rgba(255,255,255,0.1)]"
-              />
-            </div>
-          </div>
-        </div>
+      {/* Hero Image - Full Screen Raw */}
+      <section className="relative w-full">
+        <img 
+          src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1772170847/ameli_long_scroll_fnptut.png" 
+          alt="Ameli Portfolio Full Page" 
+          className="w-full h-auto object-cover"
+        />
       </section>
 
       {/* Section A: Visual Identity Gallery */}
