@@ -8,6 +8,7 @@ interface CaseStudyLayoutProps {
   heroImageSrc?: string;
   heroImageMobileSrc?: string;
   heroImageDesktopSrc?: string;
+  disableHeroPlaceholder?: boolean;
 }
 
 const CaseStudyLayout: React.FC<CaseStudyLayoutProps> = ({
@@ -18,6 +19,7 @@ const CaseStudyLayout: React.FC<CaseStudyLayoutProps> = ({
   heroImageSrc,
   heroImageMobileSrc,
   heroImageDesktopSrc,
+  disableHeroPlaceholder = false,
 }) => {
   return (
     <div className="min-h-screen">
@@ -65,7 +67,7 @@ const CaseStudyLayout: React.FC<CaseStudyLayoutProps> = ({
                   />
                 </picture>
               </div>
-            ) : (
+            ) : !disableHeroPlaceholder && (
               <div className="mt-12 w-full aspect-video bg-[color:var(--surface)] border border-[color:var(--border)] rounded-3xl flex items-center justify-center text-[color:var(--text-low)] font-ubuntu">
                 HERO IMAGE PLACEHOLDER
               </div>

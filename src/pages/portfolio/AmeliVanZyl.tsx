@@ -15,9 +15,10 @@ const AmeliVanZyl: React.FC = () => {
       title="Ameli van Zyl: Digital Portfolio"
       subtitle="A personal, original, high-quality graphic design portfolio with seamless booking form integration. Professional, polished, and built to convert."
       techStack={techStack}
+      disableHeroPlaceholder
     >
       {/* Hero Image - Full Screen Raw */}
-      <section className="relative w-full">
+      <section className="relative w-full mb-12">
         <img 
           src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1772172148/Ameli_Portfolio_Mockup_2_r2tj1w.png" 
           alt="Ameli Portfolio Homepage Mockup" 
