@@ -7,9 +7,11 @@ type Activation = {
   life: number
   strength: number
   isDragging?: boolean
+  color?: [number, number, number] // Optional color override
 }
 
 const PURPLE: [number, number, number] = [119, 76, 252]
+const ORANGE: [number, number, number] = [249, 115, 22] // Brand Orange
 
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v))
 // Smoother easing function for more elegant transitions
@@ -52,7 +54,7 @@ export default function DotGridBackground() {
       s.dpr = dpr
     }
 
-    const addActivation = (x: number, y: number, strength: number, life: number, isDragging = false) => {
+    const addActivation = (x: number, y: number, strength: number, life: number, isDragging = false, color?: [number, number, number]) => {
       const s = stateRef.current
       const now = performance.now()
       
@@ -67,10 +69,28 @@ export default function DotGridBackground() {
         }
       }
       
-      s.activations.push({ x, y, start: now, life, strength, isDragging })
+      s.activations.push({ x, y, start: now, life, strength, isDragging, color })
       // Keep array size manageable
       if (s.activations.length > 20) s.activations.splice(0, s.activations.length - 20)
     }
+
+    // Add ambient glows periodically
+    const ambientInterval = setInterval(() => {
+        if (reduced) return;
+        const s = stateRef.current;
+        const w = s.w || window.innerWidth;
+        const h = s.h || window.innerHeight;
+        
+        // Random position
+        const x = Math.random() * w;
+        const y = Math.random() * h;
+        
+        // Random color (Purple or Orange)
+        const color = Math.random() > 0.5 ? PURPLE : ORANGE;
+        
+        // Very subtle strength and long life
+        addActivation(x, y, 0.15, 6000, false, color);
+    }, 4000); // Every 4 seconds
 
     const onPointerMove = (e: PointerEvent) => {
       if (e.pointerType === 'touch') return; // Handled by touch events
@@ -85,8 +105,8 @@ export default function DotGridBackground() {
       const t = e.touches[0]
       stateRef.current.activeTouchId = t.identifier
       // Initial tap strength reduced (0.62 -> 0.3) for less harshness
-      // Life increased (1500 -> 2500) for smoother fade
-      addActivation(t.clientX, t.clientY, 0.3, 2500, true)
+      // Life increased (2500 -> 3000) for slower fade
+      addActivation(t.clientX, t.clientY, 0.3, 3000, true)
     }
 
     const onTouchMove = (e: TouchEvent) => {
@@ -95,7 +115,7 @@ export default function DotGridBackground() {
       // e.preventDefault() // Optional: might block scrolling too much
       
       const t = Array.from(e.touches).find(t => t.identifier === stateRef.current.activeTouchId) || e.touches[0]
-      addActivation(t.clientX, t.clientY, 0.3, 2500, true)
+      addActivation(t.clientX, t.clientY, 0.3, 3000, true)
     }
 
     const onTouchEnd = () => {
@@ -152,7 +172,7 @@ export default function DotGridBackground() {
       
       // Reduced brightness/opacity constants by ~50% as requested
       const baseAlpha = isMobile ? 0.025 : 0.04 
-      const activeAlphaMax = isMobile ? 0.25 : 0.22 
+      const activeAlphaMax = isMobile ? 0.35 : 0.22 // Increased from 0.25 for more vibrancy/sharpness
       
       // Influence radius
       const influenceRadius = isMobile ? 220 : 180 
@@ -179,7 +199,8 @@ export default function DotGridBackground() {
             
             // Proximity falloff - Gaussian-ish
             if (dist < influenceRadius) {
-                const proximityFactor = 1 - smooth01(dist / influenceRadius)
+                // Sharper falloff for clearer "center"
+                const proximityFactor = Math.pow(1 - smooth01(dist / influenceRadius), 1.5)
                 intensity += a.strength * t * proximityFactor
             }
           }
@@ -192,21 +213,43 @@ export default function DotGridBackground() {
           // Alpha calculation: fade in based on intensity
           const alpha = clamp(baseAlpha + iC * activeAlphaMax, 0.02, activeAlphaMax)
 
-          const cr = PURPLE[0]
-          const cg = PURPLE[1]
-          const cb = PURPLE[2]
+          // Determine color based on activations affecting this dot
+          // Simple blend: if mostly orange influence, go orange
+          let orangeInfluence = 0
+          let purpleInfluence = 0
+          
+          if (intensity > 0) {
+             for (let i = 0; i < activations.length; i++) {
+                const a = activations[i]
+                const dx = px - a.x
+                const dy = py - a.y
+                const dist = Math.sqrt(dx * dx + dy * dy)
+                if (dist < influenceRadius) {
+                    const weight = (1 - dist / influenceRadius) * a.strength
+                    if (a.color === ORANGE) orangeInfluence += weight
+                    else purpleInfluence += weight
+                }
+             }
+          }
+          
+          const useOrange = orangeInfluence > purpleInfluence
+          const activeColor = useOrange ? ORANGE : PURPLE
+
+          const cr = activeColor[0]
+          const cg = activeColor[1]
+          const cb = activeColor[2]
 
           ctx.beginPath()
           ctx.fillStyle = `rgba(${cr},${cg},${cb},${alpha})`
           ctx.arc(px, py, r, 0, Math.PI * 2)
           ctx.fill()
           
-          // Optional: Subtle glow for very active dots, but much softer now
-          if (iC > 0.2) {
-            const glowA = clamp((iC - 0.2) * 0.05, 0, 0.03)
+          // Optional: Subtle glow for very active dots, sharper now
+          if (iC > 0.15) {
+            const glowA = clamp((iC - 0.15) * 0.15, 0, 0.08) // Increased glow opacity slightly
             ctx.beginPath()
             ctx.fillStyle = `rgba(${cr},${cg},${cb},${glowA})`
-            ctx.arc(px, py, r * 2.5, 0, Math.PI * 2)
+            ctx.arc(px, py, r * 2.2, 0, Math.PI * 2)
             ctx.fill()
           }
         }
@@ -219,6 +262,7 @@ export default function DotGridBackground() {
 
     return () => {
       cancelAnimationFrame(raf)
+      clearInterval(ambientInterval)
       window.removeEventListener('resize', resize)
       window.removeEventListener('pointermove', onPointerMove)
       window.removeEventListener('touchstart', onTouchStart)
