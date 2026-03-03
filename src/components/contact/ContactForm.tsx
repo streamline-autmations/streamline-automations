@@ -69,7 +69,7 @@ const ContactForm: React.FC = () => {
         <p className="text-gray-300 mb-10 font-inter text-xl leading-relaxed max-w-lg">
           Thanks for reaching out. We'll review your details and get back to you shortly to schedule your consultation.
         </p>
-        <Button to="/" variant="primary" size="lg">
+        <Button href="/" variant="primary" size="lg">
           Return to Home
         </Button>
       </div>
@@ -192,17 +192,6 @@ const ContactForm: React.FC = () => {
             <Calendar className="w-5 h-5 group-hover:scale-110 transition-transform" />
             Open Booking Calendar
           </button>
-        </div>
-
-        {/* Testimonial / Trust */}
-        <div className="glass-card p-8 border border-white/5">
-           <h4 className="text-lg font-ubuntu font-bold text-white mb-4 uppercase tracking-wider text-gray-400">Trusted By Industry Leaders</h4>
-           <div className="flex flex-wrap gap-4 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-              {/* Add logo placeholders here if needed */}
-              <div className="h-8 bg-white/20 w-24 rounded"></div>
-              <div className="h-8 bg-white/20 w-32 rounded"></div>
-              <div className="h-8 bg-white/20 w-20 rounded"></div>
-           </div>
         </div>
       </div>
     </div>
