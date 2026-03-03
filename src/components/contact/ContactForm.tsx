@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronDown, CheckCircle2, Calendar } from 'lucide-react';
+import { getCalApi } from "@calcom/embed-react";
 import { contactFormFields, expectationsList } from '../../data/formFields';
 import Button from '../ui/Button';
 
@@ -7,6 +8,13 @@ const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState<Record<string, string | File>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    (async function () {
+      const cal = await getCalApi({"namespace":"strategy-call"});
+      cal("ui", {"theme":"dark","cssVarsPerTheme":{"dark":{"cal-brand":"#774CFC"}},"hideEventTypeDetails":false,"layout":"month_view"});
+    })();
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
@@ -175,14 +183,15 @@ const ContactForm: React.FC = () => {
             Skip the back-and-forth email tag. Choose a time that works for you on our live calendar.
           </p>
           
-          {/* Embed Placeholder - Replace with Cal.com or Calendly iframe */}
-          <div className="w-full aspect-square md:aspect-[4/3] bg-white rounded-xl overflow-hidden shadow-2xl">
-             <iframe 
-               src="https://cal.com/streamline-automations/30min" 
-               style={{width: "100%", height: "100%", border: "none"}}
-               title="Book a call"
-             ></iframe>
-          </div>
+          <button 
+            data-cal-namespace="strategy-call" 
+            data-cal-link="streamline-automation/strategy-call" 
+            data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true","theme":"dark"}'
+            className="w-full py-4 bg-brand-purple hover:bg-brand-purple/90 text-white font-ubuntu font-bold rounded-xl transition-all duration-300 shadow-lg shadow-brand-purple/20 flex items-center justify-center gap-3 group"
+          >
+            <Calendar className="w-5 h-5 group-hover:scale-110 transition-transform" />
+            Open Booking Calendar
+          </button>
         </div>
 
         {/* Testimonial / Trust */}

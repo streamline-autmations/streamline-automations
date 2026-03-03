@@ -11,6 +11,7 @@ const packageLinks = [
 ];
 
 const moreLinks = [
+  { name: 'Compare All Packages', path: '/packages' },
   { name: 'Add-Ons & Branding', path: '/add-ons' },
 ];
 
