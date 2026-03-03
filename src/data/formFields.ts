@@ -27,42 +27,48 @@ export const contactFormFields: FormField[] = [
     label: 'Company Name',
     type: 'text',
     placeholder: 'Your company name',
-    required: true
+    required: false
   },
   {
     id: 'service',
     label: 'Service Interested In',
     type: 'select',
-    placeholder: 'Select a service',
-    required: true,
+    placeholder: 'Select a service package',
+    required: false,
     options: [
-      { value: 'website-redesign', label: 'Website Redesign' },
-      { value: 'crm-booking', label: 'CRM + Booking System' },
-      { value: 'production-automation', label: 'Production Updates Automation' },
-      { value: 'website-chatbot', label: 'Website Chatbot' },
-      { value: 'ceo-dashboard', label: 'CEO Dashboard & Reporting' },
-      { value: 'social-automation', label: 'Social Media Automation' },
-      { value: 'whatsapp-agent', label: 'WhatsApp AI Agent' },
-      { value: 'voice-ai', label: 'Voice AI Caller' }
+      { value: 'starter', label: 'Starter Automation Package' },
+      { value: 'growth', label: 'Growth & Scaling Package' },
+      { value: 'enterprise', label: 'Enterprise Custom Solution' },
+      { value: 'custom', label: 'Other / Custom Request' }
     ]
   },
   {
-    id: 'contactMethod',
-    label: 'Preferred Contact Method',
-    type: 'select',
-    placeholder: 'Select contact method',
-    required: true,
-    options: [
-      { value: 'email', label: 'Email' },
-      { value: 'phone', label: 'Phone Call' },
-      { value: 'whatsapp', label: 'WhatsApp' }
-    ]
+    id: 'customService',
+    label: 'Custom Service Request',
+    type: 'text',
+    placeholder: 'Describe the specific service you need...',
+    required: false,
+    // Only show if service is 'custom' - logic handled in component
+  },
+  {
+    id: 'message',
+    label: 'Any other information?',
+    type: 'textarea',
+    placeholder: 'Tell us more about your project needs, timeline, or any specific challenges...',
+    required: false
+  },
+  {
+    id: 'file',
+    label: 'Upload File',
+    type: 'file',
+    placeholder: 'Upload relevant documents',
+    required: false
   }
 ];
 
 export const expectationsList = [
-  'Free consultation call',
-  'Custom solution proposal',
-  'Response within 24 hours',
-  'No-pressure discussion'
+  'Free 15-min discovery call',
+  'Tailored automation strategy',
+  'Clear pricing & timeline',
+  'No technical jargon'
 ];

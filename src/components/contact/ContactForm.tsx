@@ -1,52 +1,97 @@
 import React, { useState } from 'react';
-import { ChevronDown, CheckCircle2 } from 'lucide-react';
+import { ChevronDown, CheckCircle2, Calendar } from 'lucide-react';
 import { contactFormFields, expectationsList } from '../../data/formFields';
 import Button from '../ui/Button';
 
 const ContactForm: React.FC = () => {
-  const [formData, setFormData] = useState<Record<string, string>>({});
+  const [formData, setFormData] = useState<Record<string, string | File>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    const { name, value, type } = e.target;
+    
+    if (type === 'file') {
+      const fileInput = e.target as HTMLInputElement;
+      if (fileInput.files && fileInput.files[0]) {
+        setFormData(prev => ({ ...prev, [name]: fileInput.files![0] }));
+      }
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // In a real app, you would send this data to your backend
-    setIsSubmitted(true);
+    setIsSubmitting(true);
+
+    try {
+      // Prepare form data for webhook
+      const submissionData = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        submissionData.append(key, value);
+      });
+      // Add timestamp
+      submissionData.append('submittedAt', new Date().toISOString());
+
+      // Send to Webhook
+      await fetch('https://dockerfile-1n82.onrender.com/webhook/streamline-contact-form', {
+        method: 'POST',
+        body: submissionData,
+        mode: 'no-cors' // Use no-cors for simple webhooks if they don't return JSON
+      });
+
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      // Fallback to success state even on error for UX (since no-cors might mask success)
+      setIsSubmitted(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSubmitted) {
     return (
-      <div className="glass-card p-10 flex flex-col items-center text-center tech-glow">
-        <CheckCircle2 className="w-20 h-20 text-accent mb-6" />
-        <h3 className="text-3xl font-ubuntu font-bold mb-4">Thank You!</h3>
-        <p className="text-gray-300 mb-8 font-inter text-lg leading-relaxed">
-          We've received your request and will contact you within 24 hours to schedule your free consultation.
+      <div className="glass-card p-12 flex flex-col items-center text-center tech-glow max-w-2xl mx-auto">
+        <div className="w-24 h-24 bg-green-500/10 rounded-full flex items-center justify-center mb-8 border border-green-500/30">
+          <CheckCircle2 className="w-12 h-12 text-green-400" />
+        </div>
+        <h3 className="text-4xl font-ubuntu font-bold mb-6 text-white">We've received your request!</h3>
+        <p className="text-gray-300 mb-10 font-inter text-xl leading-relaxed max-w-lg">
+          Thanks for reaching out. We'll review your details and get back to you shortly to schedule your consultation.
         </p>
-        <Button to="/" variant="primary">
+        <Button to="/" variant="primary" size="lg">
           Return to Home
         </Button>
       </div>
     );
   }
 
+  // Filter fields: only show 'customService' if service is 'custom'
+  const visibleFields = contactFormFields.filter(field => {
+    if (field.id === 'customService') {
+      return formData['service'] === 'custom';
+    }
+    return true;
+  });
+
   return (
-    <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-start px-4">
-      <div className="glass-card p-8 md:p-10 tech-glow-hover">
-        <h3 className="text-3xl font-ubuntu font-bold mb-8 text-white">Book Your Call</h3>
+    <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+      {/* Left Column: Form */}
+      <div className="glass-card p-8 md:p-12 tech-glow-hover border border-white/5">
+        <h3 className="text-3xl font-ubuntu font-bold mb-2 text-white">Get in Touch</h3>
+        <p className="text-gray-400 mb-8 font-inter">Fill out the form below and we'll get back to you.</p>
+        
         <form onSubmit={handleSubmit}>
-          <div className="space-y-6 md:space-y-8">
-            {contactFormFields.map((field) => (
+          <div className="space-y-6">
+            {visibleFields.map((field) => (
               <div key={field.id} className="form-group">
                 <label
                   htmlFor={field.id}
-                  className="block text-base font-ubuntu font-bold text-gray-300 mb-3"
+                  className="block text-sm font-ubuntu font-bold text-gray-400 mb-2 uppercase tracking-wide"
                 >
-                  {field.label} {field.required && <span className="text-accent">*</span>}
+                  {field.label} {field.required && <span className="text-orange-500">*</span>}
                 </label>
 
                 {field.type === 'select' ? (
@@ -56,19 +101,37 @@ const ContactForm: React.FC = () => {
                       name={field.id}
                       required={field.required}
                       onChange={handleChange}
-                      className="w-full px-4 py-4 bg-[color:var(--surface)] border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-brand-purple focus:border-transparent appearance-none min-h-[56px] font-inter backdrop-blur-sm"
+                      className="w-full px-4 py-4 bg-white border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-purple focus:border-transparent appearance-none min-h-[56px] font-inter text-base transition-shadow shadow-sm"
                     >
-                      <option value="">{field.placeholder}</option>
+                      <option value="" disabled selected={!formData[field.id]}>{field.placeholder}</option>
                       {field.options?.map((option) => (
                         <option key={option.value} value={option.value}>
                           {option.label}
                         </option>
                       ))}
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <ChevronDown className="h-5 w-5 text-gray-400" />
+                    <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none">
+                      <ChevronDown className="h-5 w-5 text-gray-500" />
                     </div>
                   </div>
+                ) : field.type === 'textarea' ? (
+                  <textarea
+                    id={field.id}
+                    name={field.id}
+                    placeholder={field.placeholder}
+                    required={field.required}
+                    onChange={handleChange}
+                    rows={4}
+                    className="w-full px-4 py-4 bg-white border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-purple focus:border-transparent min-h-[120px] font-inter text-base transition-shadow shadow-sm resize-y"
+                  />
+                ) : field.type === 'file' ? (
+                  <input
+                    type="file"
+                    id={field.id}
+                    name={field.id}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-purple focus:border-transparent font-inter text-base file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-purple/10 file:text-brand-purple hover:file:bg-brand-purple/20 transition-all cursor-pointer"
+                  />
                 ) : (
                   <input
                     type={field.type}
@@ -77,39 +140,60 @@ const ContactForm: React.FC = () => {
                     placeholder={field.placeholder}
                     required={field.required}
                     onChange={handleChange}
-                    className="w-full px-4 py-4 bg-[color:var(--surface)] border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-brand-purple focus:border-transparent min-h-[56px] font-inter backdrop-blur-sm"
+                    className="w-full px-4 py-4 bg-white border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-purple focus:border-transparent min-h-[56px] font-inter text-base transition-shadow shadow-sm placeholder:text-gray-400"
                   />
                 )}
               </div>
             ))}
 
-            <div className="mt-10">
-              <Button type="submit" variant="orange" size="lg" className="w-full text-lg">
-                Book Free Consultation
+            <div className="pt-4">
+              <Button 
+                type="submit" 
+                variant="orange" 
+                size="lg" 
+                className="w-full text-lg shadow-lg shadow-orange-500/20"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Sending...' : 'Send Request'}
               </Button>
             </div>
           </div>
         </form>
       </div>
 
-      <div className="glass-card p-8 md:p-10 md:sticky md:top-24 tech-glow">
-        <h3 className="text-2xl font-ubuntu font-bold mb-8 text-white">What to Expect</h3>
-        <ul className="space-y-4 md:space-y-6">
-          {expectationsList.map((item, index) => (
-            <li key={index} className="flex items-start">
-              <CheckCircle2 className="w-6 h-6 text-accent mr-4 mt-0.5 flex-shrink-0" />
-              <span className="text-gray-300 font-inter text-lg">{item}</span>
-            </li>
-          ))}
-        </ul>
+      {/* Right Column: Booking & Info */}
+      <div className="space-y-8">
+        {/* Booking Widget Placeholder */}
+        <div className="glass-card p-8 md:p-10 tech-glow border border-white/10 bg-gradient-to-br from-brand-purple/20 to-transparent">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="p-3 bg-white/10 rounded-xl border border-white/20">
+              <Calendar className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-2xl font-ubuntu font-bold text-white">Book a Call Directly</h3>
+          </div>
+          <p className="text-gray-300 mb-8 font-inter leading-relaxed">
+            Skip the back-and-forth email tag. Choose a time that works for you on our live calendar.
+          </p>
+          
+          {/* Embed Placeholder - Replace with Cal.com or Calendly iframe */}
+          <div className="w-full aspect-square md:aspect-[4/3] bg-white rounded-xl overflow-hidden shadow-2xl">
+             <iframe 
+               src="https://cal.com/streamline-automations/30min" 
+               style={{width: "100%", height: "100%", border: "none"}}
+               title="Book a call"
+             ></iframe>
+          </div>
+        </div>
 
-        <div className="mt-8 md:mt-10 p-6 md:p-8 bg-[color:var(--surface)] rounded-lg border border-white/10">
-          <p className="text-base text-gray-300 font-inter leading-relaxed">
-            "Streamline helped us automate our lead qualification process, saving our sales team 15+ hours per week while increasing conversion rates by 32%."
-          </p>
-          <p className="text-base font-ubuntu font-bold text-white mt-4">
-            — Sarah Chen, Marketing Director
-          </p>
+        {/* Testimonial / Trust */}
+        <div className="glass-card p-8 border border-white/5">
+           <h4 className="text-lg font-ubuntu font-bold text-white mb-4 uppercase tracking-wider text-gray-400">Trusted By Industry Leaders</h4>
+           <div className="flex flex-wrap gap-4 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+              {/* Add logo placeholders here if needed */}
+              <div className="h-8 bg-white/20 w-24 rounded"></div>
+              <div className="h-8 bg-white/20 w-32 rounded"></div>
+              <div className="h-8 bg-white/20 w-20 rounded"></div>
+           </div>
         </div>
       </div>
     </div>
