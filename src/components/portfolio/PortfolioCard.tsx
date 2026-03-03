@@ -20,7 +20,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, index }) => {
         <img
           src={project.image}
           alt={project.title}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          className="w-full h-full object-cover md:object-cover object-[center_top] scale-90 md:scale-100 transition-transform duration-500 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/50 to-transparent opacity-60 group-hover:opacity-40 transition-opacity"></div>
 

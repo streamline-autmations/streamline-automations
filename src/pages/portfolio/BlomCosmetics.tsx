@@ -9,10 +9,10 @@ const BlomCosmetics: React.FC = () => {
   const [activeAdminTab, setActiveAdminTab] = useState('Product Control');
 
   const techStack = [
-    { icon: ShoppingCart, label: 'React E-commerce' },
-    { icon: Database, label: 'Supabase' },
+    { icon: ShoppingCart, label: 'E-commerce Store' },
+    { icon: MessageSquare, label: 'WhatsApp Integration' },
+    { icon: GraduationCap, label: 'Blom Academy' },
     { icon: Zap, label: 'Custom Admin' },
-    { icon: Mail, label: 'Email Automation' },
   ];
 
   return (
@@ -53,16 +53,11 @@ const BlomCosmetics: React.FC = () => {
             </div>
 
             {/* Right - Visual */}
-            <div className="group relative aspect-[4/3] bg-white/5 border border-white/10 rounded-2xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden tech-glow-hover">
+            <div className="flex items-center justify-center">
               <img
-                src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771685600/1_b5pc0q.png"
-                alt="Blom Storefront"
-                className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300 ease-out group-hover:opacity-0 group-hover:scale-[1.03]"
-              />
-              <img
-                src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771696742/1.hover_g2hr39.png"
-                alt="Blom Storefront Hover"
-                className="absolute inset-0 w-full h-full object-contain opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 group-hover:scale-[1.03]"
+                src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1772366335/M003T1514_C_long_scroll_Macbook_Mockup_08Agu25_gkqqad.png"
+                alt="Blom Storefront MacBook Mockup"
+                className="w-full h-auto object-contain scale-110"
               />
             </div>
           </div>
@@ -192,28 +187,12 @@ const BlomCosmetics: React.FC = () => {
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
             {/* Left - Visual (Reversed Order) */}
-            <div className="order-2 md:order-1">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="group relative aspect-square bg-white/5 border border-white/10 rounded-2xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden tech-glow-hover">
-                  <img
-                    src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771692546/4_fkphu6.png"
-                    alt="Academy Front"
-                    className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300 ease-out group-hover:opacity-0 group-hover:scale-[1.03]"
-                  />
-                  <img
-                    src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771696741/4-hover_oczu9q.png"
-                    alt="Academy Front Hover"
-                    className="absolute inset-0 w-full h-full object-contain opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 group-hover:scale-[1.03]"
-                  />
-                </div>
-                <div className="relative aspect-square bg-white/5 border border-white/10 rounded-2xl hover:border-brand-purple/50 transition-all duration-300 overflow-hidden tech-glow-hover group">
-                  <img
-                    src="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771695196/5.2_dfzoiw.png"
-                    alt="Academy Back"
-                    className="absolute inset-0 w-full h-full object-contain transition-transform duration-300 group-hover:scale-[1.03]"
-                  />
-                </div>
-              </div>
+            <div className="order-2 md:order-1 flex items-center justify-center">
+              <img
+                src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1772518479/3_phone-blom-academy_chau8b.png"
+                alt="Blom Academy Mobile Mockup"
+                className="w-full h-auto object-contain scale-110"
+              />
             </div>
 
             {/* Right - Text */}
