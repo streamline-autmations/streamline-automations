@@ -85,7 +85,8 @@ const WORD_COLORS = [
 ]
 
 const WORDS = ["WEBSITES", "SYSTEMS", "AUTOMATION", "WE DO IT ALL"]
-const PIXEL_STEPS = 2  // Lower = more particles for solid words
+// Dynamic pixel steps - will be set in component
+const BASE_PIXEL_STEPS = 2  
 
 const HOLD_FRAMES = [135, 135, 135, 150]
 
@@ -163,9 +164,9 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
 
     // Bold, large — fills the canvas width
     // Responsive: larger on mobile for readability
-    const isMobile = canvas.width < 640
+    const isMobile = canvas.width < 768 // Standard mobile breakpoint
     const fontSize = isMobile 
-      ? Math.min(canvas.width * 0.12, 56)  // Mobile: 12% of width, max 56px
+      ? Math.min(canvas.width * 0.15, 60)  // Mobile: Increased to 15% width, max 60px
       : Math.min(canvas.width * 0.14, 130)  // Desktop: 14% of width, max 130px
     octx.fillStyle    = "white"
     octx.font         = `900 ${fontSize}px 'Inter', 'Helvetica Neue', Arial, sans-serif`
@@ -180,7 +181,9 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
     let pIdx = 0
 
     const coords: number[] = []
-    for (let i = 0; i < pixels.length; i += PIXEL_STEPS * 4) coords.push(i)
+    // Adjust pixel steps for mobile to reduce particle count (higher steps = fewer particles)
+    const pixelSteps = isMobile ? 3 : BASE_PIXEL_STEPS
+    for (let i = 0; i < pixels.length; i += pixelSteps * 4) coords.push(i)
     // Shuffle for fluid assembly
     for (let i = coords.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1))
@@ -199,10 +202,10 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
           const spawn = spawnFromEdge(canvas)
           p.pos.x = spawn.x; p.pos.y = spawn.y
           // Smaller particles on mobile for better performance
-          const isMobile = canvas.width < 640
+          const isMobile = canvas.width < 768
           p.maxSpeed     = isMobile ? Math.random() * 6 + 5 : Math.random() * 10 + 8
           p.maxForce     = p.maxSpeed * 0.1
-          p.particleSize = isMobile ? Math.random() * 4 + 4 : Math.random() * 4 + 4
+          p.particleSize = isMobile ? Math.random() * 3 + 3 : Math.random() * 4 + 4
           p.colorBlendRate = Math.random() * 0.06 + 0.03
           particles.push(p)
         }
