@@ -263,14 +263,16 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
           const particles = particlesRef.current
           for (const p of particles) {
             const angle = Math.atan2(p.pos.y - canvas.height/2, p.pos.x - canvas.width/2)
-            const speed = Math.random() * 8 + 6
-            p.target.x = p.pos.x + Math.cos(angle) * speed * 40
-            p.target.y = p.pos.y + Math.sin(angle) * speed * 40
-            p.targetColor = { r: 255, g: 255, b: 255 }
-            p.colorBlendRate = 0.08
+            // Faster explosion speed for premium feel
+            const speed = Math.random() * 12 + 10
+            p.target.x = p.pos.x + Math.cos(angle) * speed * 60
+            p.target.y = p.pos.y + Math.sin(angle) * speed * 60
+            // Flash to white/purple then fade
+            p.targetColor = { r: 139, g: 92, b: 246 } // Brand purple flash
+            p.colorBlendRate = 0.15 // Fast flash
           }
-          // Wait for exit animation then complete
-          setTimeout(() => { onComplete?.() }, 800)
+          // Reduced wait time before unmounting to match the faster exit
+          setTimeout(() => { onComplete?.() }, 600)
         }
       } else {
         wordIdxRef.current = nextIdx

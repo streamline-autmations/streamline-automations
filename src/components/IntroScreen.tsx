@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { ParticleTextEffect } from "./ui/ParticleTextEffect"
+import DotGridBackground from "./ui/DotGridBackground"
 
 const DEVICE_KEY = "sa_intro_seen_device"
 
@@ -58,13 +59,22 @@ export function IntroScreen({ children }: IntroScreenProps) {
             initial={{ opacity: 1 }}
             animate={{ opacity: introExiting ? 0 : 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
+            transition={{ duration: 0.8, ease: "easeInOut" }} // Slower fade out for smoother exit
             className="fixed inset-0 z-[999] bg-[#050508] flex items-center justify-center overflow-hidden"
           >
+            {/* Background DotGrid for smooth transition */}
+            <motion.div 
+              className="absolute inset-0 opacity-0"
+              animate={{ opacity: introExiting ? 1 : 0 }}
+              transition={{ duration: 0.4 }}
+            >
+               <DotGridBackground />
+            </motion.div>
+
             {/* The full-screen particle canvas */}
             <ParticleTextEffect
               onComplete={handleComplete}
-              className="absolute inset-0 w-full h-full"
+              className="absolute inset-0 w-full h-full z-10"
             />
           </motion.div>
         )}
