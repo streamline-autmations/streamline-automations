@@ -79,9 +79,13 @@ const RecklessBearPage: React.FC = () => {
 
           {/* Hero Image */}
           <motion.div variants={fadeUp} className="max-w-5xl mx-auto">
-            <ImageWrapper label="hero — website on laptop mockup">
-              <ImgPlaceholder label="hero — website on laptop mockup" aspect="aspect-[16/9]" />
-            </ImageWrapper>
+            <div className="relative w-full aspect-[16/9] flex items-center justify-center">
+              <img 
+                src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1772612036/Recklessbear_Home_Page_Mockup_gzktrh.png" 
+                alt="Reckless Bear Homepage Mockup" 
+                className="w-full h-full object-contain"
+              />
+            </div>
           </motion.div>
         </motion.div>
       </section>
@@ -157,9 +161,14 @@ const RecklessBearPage: React.FC = () => {
               viewport={viewport}
               variants={fadeUp}
             >
-              <ImageWrapper label="website — homepage">
-                <ImgPlaceholder label="website — homepage" />
-              </ImageWrapper>
+              <div className="relative w-full aspect-[16/9] flex items-center justify-center">
+                <div className="absolute inset-0 bg-orange-500/5 blur-[50px] z-0"></div>
+                <img 
+                  src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1772612035/Reckless_long_scroll_uwe4be.png" 
+                  alt="Reckless Bear Long Scroll Mockup" 
+                  className="w-full h-full object-contain relative z-10 scale-110"
+                />
+              </div>
             </motion.div>
           </div>
 
@@ -172,9 +181,13 @@ const RecklessBearPage: React.FC = () => {
               viewport={viewport}
               variants={fadeUp}
             >
-              <ImageWrapper label="website — order request form">
-                <ImgPlaceholder label="website — order request form" />
-              </ImageWrapper>
+              <div className="relative w-full aspect-[4/3] flex items-center justify-center">
+                <img 
+                  src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1772612037/3_phone_reckless-home-chabot_yifgcr.png" 
+                  alt="Reckless Bear Mobile Order Flow" 
+                  className="w-full h-full object-contain scale-110"
+                />
+              </div>
             </motion.div>
             <motion.div 
               className="order-1 md:order-2"
@@ -274,130 +287,43 @@ const RecklessBearPage: React.FC = () => {
         </div>
       </section>
 
-      {/* SECTION 5 — THE ADMIN SYSTEM */}
-      <section className="py-24 bg-[#0d0b1a]">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-ubuntu font-bold mb-4">The Admin System</h2>
-            <p className="text-lg text-gray-400">One dashboard that runs the whole operation.</p>
+      {/* SECTION 5 — THE ADMIN SYSTEM (Simplified) */}
+      <section className="py-24 relative overflow-hidden bg-[#0d0b1a]">
+        <div className="absolute inset-0 bg-brand-dark/50"></div>
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-ubuntu font-bold text-white mb-6">
+              Backend Administration
+            </h2>
+            <p className="text-gray-300 font-inter text-lg leading-relaxed">
+              A powerful, custom-built admin panel allows the Reckless Bear team to manage orders, track enquiries, and update product details without needing any technical knowledge.
+            </p>
           </div>
-
-          {/* TABS */}
-          <div className="flex justify-center mb-12 overflow-x-auto pb-4 md:pb-0">
-            <div className="inline-flex p-1 bg-white/5 rounded-xl border border-white/10 whitespace-nowrap">
-              {adminTabs.map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveAdminTab(tab)}
-                  className={`px-6 py-3 rounded-lg font-ubuntu font-medium transition-all duration-300 ${
-                    activeAdminTab === tab
-                      ? 'bg-brand-purple/20 text-white shadow-sm'
-                      : 'text-gray-400 hover:text-white'
-                  }`}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* TAB CONTENT */}
-          <div className="max-w-6xl mx-auto bg-[#13111f] border border-white/10 rounded-2xl p-8 md:p-12">
-            {activeAdminTab === 'Leads' && (
-              <div className="grid md:grid-cols-2 gap-12 items-center animate-fadeIn">
-                <div>
-                  <h3 className="text-2xl font-ubuntu font-bold mb-4">Every lead, ready to action</h3>
-                  <p className="text-gray-300 mb-6 leading-relaxed">AI-qualified leads land here with the full brief attached. Track each one from first contact to closed deal. Nothing slips through.</p>
-                  <ul className="space-y-3">
-                    {["Status tracking", "Full brief attached", "Quote from here", "Auto-assigned on arrival"].map((item, i) => (
-                      <li key={i} className="flex items-center gap-3 text-gray-400">
-                        <div className="w-1.5 h-1.5 rounded-full bg-brand-purple"></div>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+             <div className="bg-white/5 border border-white/10 p-8 rounded-2xl text-center hover:bg-white/10 transition-colors">
+                <div className="w-16 h-16 bg-orange-500/10 rounded-xl flex items-center justify-center mx-auto mb-6">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#F97316" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                 </div>
-                <ImageWrapper label="admin — leads page">
-                  <ImgPlaceholder label="admin — leads page" />
-                </ImageWrapper>
-              </div>
-            )}
-            {activeAdminTab === 'Jobs' && (
-              <div className="grid md:grid-cols-2 gap-12 items-center animate-fadeIn">
-                <div>
-                  <h3 className="text-2xl font-ubuntu font-bold mb-4">From quote to delivery</h3>
-                  <p className="text-gray-300 mb-6 leading-relaxed">When a lead is accepted it becomes a job automatically. Track every order through production and delivery with full visibility.</p>
-                  <ul className="space-y-3">
-                    {["Quote to job in one click", "Production status", "Delivery tracking", "Client notes attached"].map((item, i) => (
-                      <li key={i} className="flex items-center gap-3 text-gray-400">
-                        <div className="w-1.5 h-1.5 rounded-full bg-brand-purple"></div>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
+                <h3 className="text-xl font-bold text-white mb-3">Order Management</h3>
+                <p className="text-gray-400 text-sm">View, track, and update custom order statuses in real-time.</p>
+             </div>
+             
+             <div className="bg-white/5 border border-white/10 p-8 rounded-2xl text-center hover:bg-white/10 transition-colors">
+                <div className="w-16 h-16 bg-purple-500/10 rounded-xl flex items-center justify-center mx-auto mb-6">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#A855F7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" x2="20" y1="8" y2="14"/><line x1="23" x2="17" y1="11" y2="11"/></svg>
                 </div>
-                <ImageWrapper label="admin — jobs page">
-                  <ImgPlaceholder label="admin — jobs page" />
-                </ImageWrapper>
-              </div>
-            )}
-            {activeAdminTab === 'Stock' && (
-              <div className="grid md:grid-cols-2 gap-12 items-center animate-fadeIn">
-                <div>
-                  <h3 className="text-2xl font-ubuntu font-bold mb-4">Always know what you have</h3>
-                  <p className="text-gray-300 mb-6 leading-relaxed">Materials inventory tracked in one place. Low stock alerts fire automatically so nothing runs out mid-job.</p>
-                  <ul className="space-y-3">
-                    {["Live inventory counts", "Low stock alerts", "Per-material tracking", "Synced with jobs"].map((item, i) => (
-                      <li key={i} className="flex items-center gap-3 text-gray-400">
-                        <div className="w-1.5 h-1.5 rounded-full bg-brand-purple"></div>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
+                <h3 className="text-xl font-bold text-white mb-3">Customer Database</h3>
+                <p className="text-gray-400 text-sm">Securely store and manage customer details and history.</p>
+             </div>
+             
+             <div className="bg-white/5 border border-white/10 p-8 rounded-2xl text-center hover:bg-white/10 transition-colors">
+                <div className="w-16 h-16 bg-blue-500/10 rounded-xl flex items-center justify-center mx-auto mb-6">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg>
                 </div>
-                <ImageWrapper label="admin — stock page">
-                  <ImgPlaceholder label="admin — stock page" />
-                </ImageWrapper>
-              </div>
-            )}
-            {activeAdminTab === 'WhatsApp' && (
-              <div className="grid md:grid-cols-2 gap-12 items-center animate-fadeIn">
-                <div>
-                  <h3 className="text-2xl font-ubuntu font-bold mb-4">All messages. One place.</h3>
-                  <p className="text-gray-300 mb-6 leading-relaxed">Every customer WhatsApp message is pulled into the admin system. No switching between phones and apps. The whole team sees everything.</p>
-                  <ul className="space-y-3">
-                    {["Centralised inbox", "Full conversation history", "Linked to lead records", "Team-wide visibility"].map((item, i) => (
-                      <li key={i} className="flex items-center gap-3 text-gray-400">
-                        <div className="w-1.5 h-1.5 rounded-full bg-brand-purple"></div>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <ImageWrapper label="admin — whatsapp inbox">
-                  <ImgPlaceholder label="admin — whatsapp inbox" />
-                </ImageWrapper>
-              </div>
-            )}
-            {activeAdminTab === 'Analytics' && (
-              <div className="grid md:grid-cols-2 gap-12 items-center animate-fadeIn">
-                <div>
-                  <h3 className="text-2xl font-ubuntu font-bold mb-4">See how the business is doing</h3>
-                  <p className="text-gray-300 mb-6 leading-relaxed">Lead volume, job completion rate, revenue trends — visible at a glance. No spreadsheets. No guessing.</p>
-                  <ul className="space-y-3">
-                    {["Lead volume over time", "Job completion rate", "Revenue tracking", "Exportable reports"].map((item, i) => (
-                      <li key={i} className="flex items-center gap-3 text-gray-400">
-                        <div className="w-1.5 h-1.5 rounded-full bg-brand-purple"></div>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <ImageWrapper label="admin — analytics dashboard">
-                  <ImgPlaceholder label="admin — analytics dashboard" />
-                </ImageWrapper>
-              </div>
-            )}
+                <h3 className="text-xl font-bold text-white mb-3">Export & Reports</h3>
+                <p className="text-gray-400 text-sm">Download order data for accounting and shipping processing.</p>
+             </div>
           </div>
         </div>
       </section>
