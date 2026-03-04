@@ -15,7 +15,7 @@ class Particle {
   startColor = { r: 0, g: 0, b: 0 }
   targetColor = { r: 0, g: 0, b: 0 }
   colorWeight = 0
-  colorBlendRate = 0.01
+  colorBlendRate = 0.02 // Increased blend rate for faster color transition
 
   move() {
     let proximityMult = 1
@@ -27,14 +27,16 @@ class Particle {
     const towards = { x: this.target.x - this.pos.x, y: this.target.y - this.pos.y }
     const mag = Math.sqrt(towards.x ** 2 + towards.y ** 2)
     if (mag > 0) {
-      towards.x = (towards.x / mag) * this.maxSpeed * proximityMult
-      towards.y = (towards.y / mag) * this.maxSpeed * proximityMult
+      // Increased speed multiplier for faster formation
+      towards.x = (towards.x / mag) * this.maxSpeed * proximityMult * 1.5
+      towards.y = (towards.y / mag) * this.maxSpeed * proximityMult * 1.5
     }
     const steer = { x: towards.x - this.vel.x, y: towards.y - this.vel.y }
     const steerMag = Math.sqrt(steer.x ** 2 + steer.y ** 2)
     if (steerMag > 0) {
-      steer.x = (steer.x / steerMag) * this.maxForce
-      steer.y = (steer.y / steerMag) * this.maxForce
+      // Increased force for snappier movement
+      steer.x = (steer.x / steerMag) * this.maxForce * 1.5
+      steer.y = (steer.y / steerMag) * this.maxForce * 1.5
     }
     this.acc.x += steer.x; this.acc.y += steer.y
     this.vel.x += this.acc.x; this.vel.y += this.acc.y
@@ -88,7 +90,8 @@ const WORDS = ["WEBSITES", "SYSTEMS", "AUTOMATION", "WE DO IT ALL"]
 // Dynamic pixel steps - will be set in component
 const BASE_PIXEL_STEPS = 2  
 
-const HOLD_FRAMES = [135, 135, 135, 150]
+// Reduced hold frames for faster pacing (was [135, 135, 135, 150])
+const HOLD_FRAMES = [90, 90, 90, 110]
 
 interface ParticleTextEffectProps {
   onComplete?: () => void  // called after last word hold
@@ -182,7 +185,9 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
 
     const coords: number[] = []
     // Adjust pixel steps for mobile to reduce particle count (higher steps = fewer particles)
-    const pixelSteps = isMobile ? 3 : BASE_PIXEL_STEPS
+    // LOWER steps = MORE particles = SHARPER text
+    // Mobile was 3, changing to 2 for better clarity (same as base)
+    const pixelSteps = isMobile ? 2 : BASE_PIXEL_STEPS
     for (let i = 0; i < pixels.length; i += pixelSteps * 4) coords.push(i)
     // Shuffle for fluid assembly
     for (let i = coords.length - 1; i > 0; i--) {
@@ -202,10 +207,12 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
           const spawn = spawnFromEdge(canvas)
           p.pos.x = spawn.x; p.pos.y = spawn.y
           // Smaller particles on mobile for better performance
+          // Adjusted for mobile clarity: slightly larger and uniform
           const isMobile = canvas.width < 768
           p.maxSpeed     = isMobile ? Math.random() * 6 + 5 : Math.random() * 10 + 8
           p.maxForce     = p.maxSpeed * 0.1
-          p.particleSize = isMobile ? Math.random() * 3 + 3 : Math.random() * 4 + 4
+          // Mobile size: 3.5 min + 1 random variance (tighter range for consistency)
+          p.particleSize = isMobile ? Math.random() * 1 + 3.5 : Math.random() * 4 + 4
           p.colorBlendRate = Math.random() * 0.06 + 0.03
           particles.push(p)
         }
