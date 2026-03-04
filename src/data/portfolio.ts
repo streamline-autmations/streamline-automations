@@ -16,6 +16,22 @@ export interface PortfolioProject {
 export const portfolioProjects: PortfolioProject[] = [
   // WEB & AUTOMATION (Case Studies)
   {
+    id: 'ameli-van-zyl-design',
+    title: 'Ameli van Zyl Design',
+    category: 'development',
+    image: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851091/Ameli-hero_image_sxtayp.png',
+    description: 'High-performance digital portfolio for a graphic designer, focusing on gallery speed and visual impact.',
+    tags: ['Portfolio', 'Gallery', 'UX Design'],
+    challenge: 'Artist needed a sleek, fast-loading portfolio that showcases artwork beautifully while maintaining a seamless inquiry process.',
+    solution: 'Built a custom digital portfolio with optimized gallery performance, custom color synthesis based on art style, and automated WhatsApp lead capture via n8n.',
+    results: [
+      'Zero-friction commission inquiries',
+      'Optimized gallery performance',
+      'Custom design system',
+      'Instant WhatsApp notifications'
+    ]
+  },
+  {
     id: 'recklesbear',
     title: 'RecklessBear Apparel',
     category: 'development',
@@ -57,22 +73,6 @@ export const portfolioProjects: PortfolioProject[] = [
       'https://images.pexels.com/photos/5632402/pexels-photo-5632402.jpeg?auto=compress&cs=tinysrgb&w=800'
     ]
   },
-  {
-    id: 'ameli-van-zyl-design',
-    title: 'Ameli van Zyl Design',
-    category: 'development',
-    image: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851091/Ameli-hero_image_sxtayp.png',
-    description: 'High-performance digital portfolio for a graphic designer, focusing on gallery speed and visual impact.',
-    tags: ['Portfolio', 'Gallery', 'UX Design'],
-    challenge: 'Artist needed a sleek, fast-loading portfolio that showcases artwork beautifully while maintaining a seamless inquiry process.',
-    solution: 'Built a custom digital portfolio with optimized gallery performance, custom color synthesis based on art style, and automated WhatsApp lead capture via n8n.',
-    results: [
-      'Zero-friction commission inquiries',
-      'Optimized gallery performance',
-      'Custom design system',
-      'Instant WhatsApp notifications'
-    ]
-  }
 ];
 
 export const testimonials = [

@@ -78,12 +78,12 @@ const RecklessBearPage: React.FC = () => {
           </motion.p>
 
           {/* Hero Image */}
-          <motion.div variants={fadeUp} className="max-w-5xl mx-auto">
+          <motion.div variants={fadeUp} className="max-w-[100vw] w-full mx-auto px-0 md:px-4">
             <div className="relative w-full aspect-[16/9] flex items-center justify-center">
               <img 
                 src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1772612036/Recklessbear_Home_Page_Mockup_gzktrh.png" 
                 alt="Reckless Bear Homepage Mockup" 
-                className="w-full h-full object-contain"
+                className="w-full h-full object-contain scale-110 md:scale-100"
               />
             </div>
           </motion.div>
@@ -160,13 +160,14 @@ const RecklessBearPage: React.FC = () => {
               whileInView="visible"
               viewport={viewport}
               variants={fadeUp}
+              className="w-full"
             >
               <div className="relative w-full aspect-[16/9] flex items-center justify-center">
                 <div className="absolute inset-0 bg-orange-500/5 blur-[50px] z-0"></div>
                 <img 
                   src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1772612035/Reckless_long_scroll_uwe4be.png" 
                   alt="Reckless Bear Long Scroll Mockup" 
-                  className="w-full h-full object-contain relative z-10 scale-110"
+                  className="w-full h-full object-contain relative z-10 scale-125"
                 />
               </div>
             </motion.div>
@@ -175,18 +176,19 @@ const RecklessBearPage: React.FC = () => {
           {/* SPLIT BLOCK B */}
           <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
             <motion.div 
-              className="order-2 md:order-1"
+              className="order-2 md:order-1 flex items-center justify-center"
               initial="hidden"
               whileInView="visible"
               viewport={viewport}
               variants={fadeUp}
             >
-              <div className="relative w-full aspect-[4/3] flex items-center justify-center">
-                <img 
-                  src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1772612037/3_phone_reckless-home-chabot_yifgcr.png" 
-                  alt="Reckless Bear Mobile Order Flow" 
-                  className="w-full h-full object-contain scale-110"
-                />
+              {/* Icon Card replacing the placeholder */}
+              <div className="bg-white/5 border border-white/10 p-8 rounded-2xl text-center hover:bg-white/10 transition-colors w-full max-w-sm shadow-[0_0_60px_rgba(119,76,252,0.1)]">
+                <div className="w-16 h-16 bg-brand-purple/10 rounded-xl flex items-center justify-center mx-auto mb-6 border border-brand-purple/20">
+                  <MessageSquare className="w-8 h-8 text-brand-purple" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">Live Chat & Support</h3>
+                <p className="text-gray-400 text-sm">Instant connection with customers for real-time assistance.</p>
               </div>
             </motion.div>
             <motion.div 
