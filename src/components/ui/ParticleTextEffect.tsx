@@ -90,8 +90,9 @@ const WORDS = ["WEBSITES", "SYSTEMS", "AUTOMATION", "WE DO IT ALL"]
 // Dynamic pixel steps - will be set in component
 const BASE_PIXEL_STEPS = 2  
 
-// Reduced hold frames for faster pacing (was [135, 135, 135, 150])
-const HOLD_FRAMES = [90, 90, 90, 110]
+// Slowed down slightly for better readability (was [90, 90, 90, 110])
+// Added ~0.1s worth of frames (approx 6-10 frames at 60fps)
+const HOLD_FRAMES = [100, 100, 100, 120]
 
 interface ParticleTextEffectProps {
   onComplete?: () => void  // called after last word hold

@@ -71,29 +71,20 @@ const OnlinePresencePage: React.FC = () => {
             className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto"
           >
             {/* Left: Text */}
-            <motion.div variants={fadeUp}>
+            <motion.div variants={fadeUp} className="text-center lg:text-left mx-auto lg:mx-0">
               <span className="inline-block px-4 py-1.5 bg-white/10 text-white text-xs font-mono tracking-[2px] rounded-full border border-white/20 mb-6">
                 TIER 1 — ONLINE PRESENCE
               </span>
               <h1 className="h1 mb-4">
                 Get Found. Look Professional.
               </h1>
-              <p className="body mb-6 max-w-md">
+              <p className="body mb-6 max-w-md mx-auto lg:mx-0">
                 Clean, fast website live in 3–5 days.
               </p>
               <p className="price mb-6">From R7,500</p>
               <Link to="/contact" className="btn btn-primary btn-lg">
                 Start Your Presence <ArrowRight className="w-5 h-5" />
               </Link>
-            </motion.div>
-
-            {/* Right: Mockup */}
-            <motion.div variants={fadeUp} className="hidden lg:block">
-              <div className="w-full max-w-sm h-64 mx-auto rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
-                <span className="font-mono text-[10px] text-white/20 text-center leading-tight">
-                  WEBSITE PREVIEW<br />Placeholder
-                </span>
-              </div>
             </motion.div>
           </motion.div>
         </div>

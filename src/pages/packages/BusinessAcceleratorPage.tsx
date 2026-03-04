@@ -107,29 +107,20 @@ const BusinessAcceleratorPage: React.FC = () => {
             className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto"
           >
             {/* Left: Text */}
-            <motion.div variants={fadeUp}>
+            <motion.div variants={fadeUp} className="text-center lg:text-left mx-auto lg:mx-0">
               <span className="inline-block px-4 py-1.5 bg-purple-500/10 text-purple-400 text-xs font-mono tracking-[2px] rounded-full border border-purple-500/20 mb-6">
                 TIER 3 — BUSINESS ACCELERATOR
               </span>
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-4">
                 Scale with Systems.
               </h1>
-              <p className="text-base md:text-lg text-white/55 mb-6 max-w-md leading-relaxed">
+              <p className="text-base md:text-lg text-white/55 mb-6 max-w-md leading-relaxed mx-auto lg:mx-0">
                 Full infrastructure with dashboard, analytics, and monthly growth partner.
               </p>
               <p className="text-2xl md:text-3xl font-bold font-mono text-purple-400 mb-6">From R30,000</p>
               <Button variant="primary" size="lg" href="/contact">
                 Scale Your Business <ArrowRight className="w-5 h-5" />
               </Button>
-            </motion.div>
-
-            {/* Right: Mockup */}
-            <motion.div variants={fadeUp} className="hidden lg:block">
-              <div className="w-full max-w-sm h-64 mx-auto rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
-                <span className="font-mono text-[10px] text-white/20 text-center leading-tight">
-                  DASHBOARD<br />Placeholder
-                </span>
-              </div>
             </motion.div>
           </motion.div>
         </div>
