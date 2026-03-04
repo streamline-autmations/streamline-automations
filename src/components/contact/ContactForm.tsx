@@ -109,11 +109,11 @@ const ContactForm: React.FC = () => {
                       name={field.id}
                       required={field.required}
                       onChange={handleChange}
-                      className="w-full px-4 py-4 bg-white border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-purple focus:border-transparent appearance-none min-h-[56px] font-inter text-base transition-shadow shadow-sm"
+                      className="w-full px-4 py-4 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-brand-purple focus:border-transparent appearance-none min-h-[56px] font-inter text-base transition-shadow shadow-sm"
                     >
-                      <option value="" disabled selected={!formData[field.id]}>{field.placeholder}</option>
+                      <option value="" disabled selected={!formData[field.id]} className="bg-[#13111f] text-gray-400">{field.placeholder}</option>
                       {field.options?.map((option) => (
-                        <option key={option.value} value={option.value}>
+                        <option key={option.value} value={option.value} className="bg-[#13111f] text-white">
                           {option.label}
                         </option>
                       ))}
@@ -130,7 +130,7 @@ const ContactForm: React.FC = () => {
                     required={field.required}
                     onChange={handleChange}
                     rows={4}
-                    className="w-full px-4 py-4 bg-white border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-purple focus:border-transparent min-h-[120px] font-inter text-base transition-shadow shadow-sm resize-y"
+                    className="w-full px-4 py-4 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-brand-purple focus:border-transparent min-h-[120px] font-inter text-base transition-shadow shadow-sm resize-y placeholder:text-gray-500"
                   />
                 ) : field.type === 'file' ? (
                   <input
@@ -138,7 +138,7 @@ const ContactForm: React.FC = () => {
                     id={field.id}
                     name={field.id}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-purple focus:border-transparent font-inter text-base file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-purple/10 file:text-brand-purple hover:file:bg-brand-purple/20 transition-all cursor-pointer"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-brand-purple focus:border-transparent font-inter text-base file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-purple/10 file:text-brand-purple hover:file:bg-brand-purple/20 transition-all cursor-pointer"
                   />
                 ) : (
                   <input
@@ -148,7 +148,7 @@ const ContactForm: React.FC = () => {
                     placeholder={field.placeholder}
                     required={field.required}
                     onChange={handleChange}
-                    className="w-full px-4 py-4 bg-white border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-purple focus:border-transparent min-h-[56px] font-inter text-base transition-shadow shadow-sm placeholder:text-gray-400"
+                    className="w-full px-4 py-4 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-brand-purple focus:border-transparent min-h-[56px] font-inter text-base transition-shadow shadow-sm placeholder:text-gray-500"
                   />
                 )}
               </div>

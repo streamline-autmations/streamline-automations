@@ -1,12 +1,88 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Quote } from 'lucide-react';
+import { Quote, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import SectionHeading from '../components/ui/SectionHeading';
-import PortfolioCard from '../components/portfolio/PortfolioCard';
-import { portfolioProjects, testimonials, PortfolioCategory } from '../data/portfolio';
+import { portfolioProjects, testimonials, PortfolioCategory, PortfolioProject } from '../data/portfolio';
+import { DeviceFrame } from '../components/ui/DeviceFrame';
+
+const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
+
+function PortfolioProjectBlock({ project }: { project: PortfolioProject }) {
+  return (
+    <article className="relative group">
+      <div className="mx-auto max-w-md md:max-w-4xl">
+        <div className="mb-8 md:mb-10 text-center" data-parallax data-speed="0.18">
+          <h3 className="text-3xl sm:text-4xl md:text-5xl font-ubuntu font-bold text-white tracking-tight">
+            {project.title}
+          </h3>
+          <p className="mt-4 text-base sm:text-lg md:text-xl text-white/70 font-inter leading-relaxed max-w-2xl mx-auto">
+            {project.description}
+          </p>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+            {project.tags.map((t) => (
+              <span
+                key={t}
+                className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs font-mono tracking-[0.16em] uppercase text-white/60"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+          <div className="mt-8 flex justify-center">
+            <Link to={`/portfolio/${project.id}`} className="btn btn-primary btn-lg">
+              View Case Study <ArrowRight className="w-5 h-5" />
+            </Link>
+          </div>
+        </div>
+
+        <div className="relative" data-parallax data-speed="0.34">
+          <div className="relative mx-auto max-w-4xl">
+            <DeviceFrame
+              src={project.image}
+              alt={`${project.title} preview`}
+              className="object-cover group-hover:scale-[1.03] transition-transform duration-700"
+              frameClassName="w-full aspect-[16/9]"
+            />
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
 
 const Portfolio: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState<PortfolioCategory | 'all'>('all');
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const isMobile = window.matchMedia?.('(hover: none), (pointer: coarse)')?.matches || window.innerWidth < 768;
+    if (!isMobile) return;
+
+    const layers = Array.from(section.querySelectorAll<HTMLElement>('[data-parallax][data-speed]'));
+    for (const el of layers) el.style.willChange = 'transform';
+
+    let raf = 0;
+    const tick = () => {
+      raf = requestAnimationFrame(tick);
+      const rect = section.getBoundingClientRect();
+      const vh = Math.max(1, window.innerHeight);
+      const total = vh + rect.height;
+      const p = clamp((vh - rect.top) / total, 0, 1);
+      const base = (p - 0.5) * 110;
+      for (const el of layers) {
+        const speed = Number(el.dataset.speed || '0');
+        const y = -base * speed;
+        el.style.transform = `translate3d(0, ${y.toFixed(2)}px, 0)`;
+      }
+    };
+
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
   // Removed filter buttons as requested
   const filteredProjects = activeFilter === 'all'
@@ -14,7 +90,7 @@ const Portfolio: React.FC = () => {
     : portfolioProjects.filter(project => project.category === activeFilter);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" ref={sectionRef}>
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-purple/20 rounded-full filter blur-3xl"></div>
@@ -40,20 +116,14 @@ const Portfolio: React.FC = () => {
         <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand-purple/50 to-transparent"></div>
       </section>
 
-      {/* Projects Grid */}
+      {/* Projects List */}
       <section className="py-20">
         <div className="container mx-auto px-4 md:px-6">
-          <motion.div
-            key={activeFilter}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto"
-          >
-            {filteredProjects.map((project, index) => (
-              <PortfolioCard key={project.id} project={project} index={index} />
+          <div className="space-y-24 md:space-y-32">
+            {filteredProjects.map((project) => (
+              <PortfolioProjectBlock key={project.id} project={project} />
             ))}
-          </motion.div>
+          </div>
 
           {filteredProjects.length === 0 && (
             <div className="text-center py-20">

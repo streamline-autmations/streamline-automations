@@ -12,6 +12,10 @@ interface IntroScreenProps {
 export function IntroScreen({ children }: IntroScreenProps) {
   const [showIntro, setShowIntro] = useState(() => {
     try {
+      // Skip on mobile devices (< 768px)
+      if (typeof window !== "undefined" && window.innerWidth < 768) {
+        return false
+      }
       return localStorage.getItem(DEVICE_KEY) !== "true"
     } catch {
       return true

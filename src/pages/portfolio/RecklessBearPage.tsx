@@ -83,7 +83,7 @@ const RecklessBearPage: React.FC = () => {
               <img 
                 src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1772612036/Recklessbear_Home_Page_Mockup_gzktrh.png" 
                 alt="Reckless Bear Homepage Mockup" 
-                className="w-full h-full object-contain scale-110 md:scale-100"
+                className="w-full h-full object-contain scale-[1.6] md:scale-100"
               />
             </div>
           </motion.div>
@@ -167,7 +167,7 @@ const RecklessBearPage: React.FC = () => {
                 <img 
                   src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1772612035/Reckless_long_scroll_uwe4be.png" 
                   alt="Reckless Bear Long Scroll Mockup" 
-                  className="w-full h-full object-contain relative z-10 scale-125"
+                  className="w-full h-full object-contain relative z-10 scale-[1.4]"
                 />
               </div>
             </motion.div>
@@ -247,9 +247,9 @@ const RecklessBearPage: React.FC = () => {
                 A customer lands on the site and starts an order request. The AI responds immediately — no wait, no missed messages, any time of day.
               </p>
               <div className="mt-auto">
-                <ImageWrapper label="chatbot — widget on website">
-                  <ImgPlaceholder label="chatbot — widget on website" aspect="aspect-[4/3]" />
-                </ImageWrapper>
+                <div className="h-32 bg-brand-orange/5 rounded-lg border border-brand-orange/20 flex items-center justify-center">
+                  <MessageSquare className="w-12 h-12 text-brand-orange/40" />
+                </div>
               </div>
             </motion.div>
 
@@ -280,8 +280,8 @@ const RecklessBearPage: React.FC = () => {
                 A fully structured lead arrives in the dashboard with the brief attached. The team can quote straight away. No chasing. No clarifying messages.
               </p>
               <div className="mt-auto">
-                 <div className="h-32 bg-white/5 rounded-lg border border-white/10 flex items-center justify-center">
-                    <CheckCircle className="w-12 h-12 text-white/20" />
+                 <div className="h-32 bg-brand-orange/5 rounded-lg border border-brand-orange/20 flex items-center justify-center">
+                    <CheckCircle className="w-12 h-12 text-brand-orange/40" />
                  </div>
               </div>
             </motion.div>

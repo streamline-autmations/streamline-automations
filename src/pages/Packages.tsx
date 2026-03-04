@@ -85,7 +85,7 @@ const Packages: React.FC = () => {
                   ))}
                 </ul>
                 
-                <Button to="/packages/online-presence" variant="outline" className="w-full justify-center border-white/20 text-gray-300 hover:text-white hover:border-white hover:bg-white/5 transition-all">
+                <Button href="/packages/online-presence" variant="primary" className="w-full justify-center">
                   View Details
                 </Button>
               </div>
@@ -127,7 +127,7 @@ const Packages: React.FC = () => {
                   ))}
                 </ul>
                 
-                <Button to="/packages/client-magnet" variant="orange" className="w-full justify-center shadow-lg shadow-orange-500/20">
+                <Button href="/packages/client-magnet" variant="orange" className="w-full justify-center shadow-lg shadow-orange-500/20">
                   View Details
                 </Button>
               </div>
@@ -160,7 +160,7 @@ const Packages: React.FC = () => {
                   ))}
                 </ul>
                 
-                <Button to="/packages/business-accelerator" variant="primary" className="w-full justify-center">
+                <Button href="/packages/business-accelerator" variant="primary" className="w-full justify-center">
                   View Details
                 </Button>
               </div>

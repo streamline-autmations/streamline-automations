@@ -86,12 +86,19 @@ const WORD_COLORS = [
   { r: 255, g: 255, b: 255 },  // white — final word, clean arrival
 ]
 
-const WORDS = ["WEBSITES", "SYSTEMS", "AUTOMATION", "WE DO IT ALL"]
+const WORDS_DESKTOP = ["WEBSITES", "SYSTEMS", "AUTOMATION", "WE DO IT ALL"]
+// Mobile sequence: Stack words vertically
+const WORDS_MOBILE = [
+  "WEBSITES", 
+  "WEBSITES\nAUTOMATION", 
+  "WEBSITES\nAUTOMATION\nSYSTEMS", 
+  "WE DO\nIT ALL"
+]
+
 // Dynamic pixel steps - will be set in component
 const BASE_PIXEL_STEPS = 2  
 
-// Slowed down slightly for better readability (was [90, 90, 90, 110])
-// Added ~0.1s worth of frames (approx 6-10 frames at 60fps)
+// Slowed down slightly for better readability
 const HOLD_FRAMES = [100, 100, 100, 120]
 
 interface ParticleTextEffectProps {
@@ -170,25 +177,61 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
     // Responsive: larger on mobile for readability
     const isMobile = canvas.width < 768 // Standard mobile breakpoint
     const fontSize = isMobile 
-      ? Math.min(canvas.width * 0.15, 60)  // Mobile: Increased to 15% width, max 60px
+      ? Math.min(canvas.width * 0.15, 60)  // Mobile: Adjusted for multi-line fitting
       : Math.min(canvas.width * 0.14, 130)  // Desktop: 14% of width, max 130px
-    octx.fillStyle    = "white"
+    
     octx.font         = `900 ${fontSize}px 'Inter', 'Helvetica Neue', Arial, sans-serif`
     octx.textAlign    = "center"
     octx.textBaseline = "middle"
-    octx.fillText(word, canvas.width / 2, canvas.height / 2)
+
+    // Helper to get color for a specific line/word
+    const getLineColor = (line: string) => {
+      if (line.includes("WEBSITES")) return `rgb(${WORD_COLORS[0].r},${WORD_COLORS[0].g},${WORD_COLORS[0].b})`
+      if (line.includes("SYSTEMS")) return `rgb(${WORD_COLORS[1].r},${WORD_COLORS[1].g},${WORD_COLORS[1].b})`
+      if (line.includes("AUTOMATION")) return `rgb(${WORD_COLORS[2].r},${WORD_COLORS[2].g},${WORD_COLORS[2].b})`
+      return `rgb(${WORD_COLORS[3].r},${WORD_COLORS[3].g},${WORD_COLORS[3].b})`
+    }
+
+    // DRAWING LOGIC
+    const lines = word.split('\n')
+    lines.forEach((line) => {
+      let y = canvas.height / 2
+      
+      if (isMobile) {
+        // Custom stacking logic for mobile
+        if (line.includes("WEBSITES")) y = canvas.height * 0.35
+        else if (line.includes("AUTOMATION")) y = canvas.height * 0.50
+        else if (line.includes("SYSTEMS")) y = canvas.height * 0.65
+        else if (word.includes("WE DO") && word.includes("IT ALL")) {
+           // Final phrase centering
+           if (line === "WE DO") y = canvas.height / 2 - fontSize * 0.6
+           if (line === "IT ALL") y = canvas.height / 2 + fontSize * 0.6
+        }
+      } else {
+        // Desktop centering logic
+        if (lines.length > 1) {
+           const lineHeight = fontSize * 1.2
+           const totalHeight = lines.length * lineHeight
+           const startY = (canvas.height - totalHeight) / 2 + lineHeight / 2
+           const index = lines.indexOf(line)
+           y = startY + index * lineHeight
+        }
+      }
+
+      octx.fillStyle = getLineColor(line)
+      octx.fillText(line, canvas.width / 2, y)
+    })
 
     const imageData = octx.getImageData(0, 0, canvas.width, canvas.height)
     const pixels    = imageData.data
-    const newColor  = WORD_COLORS[colorIndex % WORD_COLORS.length]
     const particles = particlesRef.current
     let pIdx = 0
 
     const coords: number[] = []
     // Adjust pixel steps for mobile to reduce particle count (higher steps = fewer particles)
     // LOWER steps = MORE particles = SHARPER text
-    // Mobile was 3, changing to 2 for better clarity (same as base)
-    const pixelSteps = isMobile ? 2 : BASE_PIXEL_STEPS
+    // Mobile changed to 1 for MAXIMUM CLARITY (premium feel)
+    const pixelSteps = isMobile ? 1 : BASE_PIXEL_STEPS
     for (let i = 0; i < pixels.length; i += pixelSteps * 4) coords.push(i)
     // Shuffle for fluid assembly
     for (let i = coords.length - 1; i > 0; i--) {
@@ -200,6 +243,13 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
       if (pixels[ci + 3] > 0) {
         const x = (ci / 4) % canvas.width
         const y = Math.floor(ci / 4 / canvas.width)
+        
+        // Extract color from the source pixel directly
+        // This allows different words to have different colors in the same frame
+        const targetR = pixels[ci]
+        const targetG = pixels[ci+1]
+        const targetB = pixels[ci+2]
+
         let p: Particle
         if (pIdx < particles.length) {
           p = particles[pIdx]; p.isKilled = false; pIdx++
@@ -212,17 +262,20 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
           const isMobile = canvas.width < 768
           p.maxSpeed     = isMobile ? Math.random() * 6 + 5 : Math.random() * 10 + 8
           p.maxForce     = p.maxSpeed * 0.1
-          // Mobile size: 3.5 min + 1 random variance (tighter range for consistency)
-          p.particleSize = isMobile ? Math.random() * 1 + 3.5 : Math.random() * 4 + 4
+          // Mobile size: Larger particles (3.5) with high density (step=1) for solid look
+          p.particleSize = isMobile ? 3.5 : Math.random() * 4 + 4
           p.colorBlendRate = Math.random() * 0.06 + 0.03
           particles.push(p)
         }
+        
         p.startColor = {
           r: p.startColor.r + (p.targetColor.r - p.startColor.r) * p.colorWeight,
           g: p.startColor.g + (p.targetColor.g - p.startColor.g) * p.colorWeight,
           b: p.startColor.b + (p.targetColor.b - p.startColor.b) * p.colorWeight,
         }
-        p.targetColor = newColor
+        
+        // Use the pixel color as target
+        p.targetColor = { r: targetR, g: targetG, b: targetB }
         p.colorWeight = 0
         p.target.x = x; p.target.y = y
       }
@@ -236,13 +289,23 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
     const ctx = canvas.getContext("2d")!
 
     // Motion blur trail — lighter for smoother look
-    ctx.fillStyle = "rgba(5, 5, 8, 0.08)"
+    ctx.fillStyle = "rgba(5, 5, 8, 0.15)" // Increased trail opacity for less "glitchy" trails
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
     const particles = particlesRef.current
     for (let i = particles.length - 1; i >= 0; i--) {
       const p = particles[i]
-      p.move(); p.draw(ctx)
+      p.move(); 
+      // Draw circular particles on mobile for premium look
+      if (canvas.width < 768) {
+         ctx.fillStyle = `rgb(${Math.round(p.startColor.r + (p.targetColor.r - p.startColor.r) * p.colorWeight)},${Math.round(p.startColor.g + (p.targetColor.g - p.startColor.g) * p.colorWeight)},${Math.round(p.startColor.b + (p.targetColor.b - p.startColor.b) * p.colorWeight)})`
+         ctx.beginPath();
+         ctx.arc(p.pos.x, p.pos.y, p.particleSize / 2, 0, Math.PI * 2);
+         ctx.fill();
+      } else {
+         p.draw(ctx)
+      }
+      
       if (p.isKilled && (
         p.pos.x < -30 || p.pos.x > canvas.width + 30 ||
         p.pos.y < -30 || p.pos.y > canvas.height + 30
@@ -251,12 +314,13 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
 
     frameRef.current++
     const holdFrames = HOLD_FRAMES[wordIdxRef.current]
+    const activeWords = canvas.width < 768 ? WORDS_MOBILE : WORDS_DESKTOP
 
     if (frameRef.current >= holdFrames) {
       frameRef.current = 0
       const nextIdx = wordIdxRef.current + 1
 
-      if (nextIdx >= WORDS.length) {
+      if (nextIdx >= activeWords.length) {
         // All words shown — trigger exit animation then completion
         if (!completedRef.current) {
           completedRef.current = true
@@ -277,7 +341,7 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
         }
       } else {
         wordIdxRef.current = nextIdx
-        showWord(WORDS[nextIdx], canvas, nextIdx)
+        showWord(activeWords[nextIdx], canvas, nextIdx)
       }
     }
 
@@ -291,15 +355,17 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
     // Fill viewport
     canvas.width  = window.innerWidth
     canvas.height = window.innerHeight
-
-    showWord(WORDS[0], canvas, 0)
+    
+    const activeWords = window.innerWidth < 768 ? WORDS_MOBILE : WORDS_DESKTOP
+    showWord(activeWords[0], canvas, 0)
     animate()
 
     const handleResize = () => {
       if (completedRef.current) return
       canvas.width  = window.innerWidth
       canvas.height = window.innerHeight
-      showWord(WORDS[wordIdxRef.current], canvas, wordIdxRef.current)
+      const currentWords = window.innerWidth < 768 ? WORDS_MOBILE : WORDS_DESKTOP
+      showWord(currentWords[wordIdxRef.current], canvas, wordIdxRef.current)
     }
     
     // Handle 'R' key for recording
