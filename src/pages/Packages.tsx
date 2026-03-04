@@ -4,10 +4,12 @@ import { motion } from 'framer-motion';
 import { Check, Zap, Globe, Search, MessageSquare, Layout, Rocket, BarChart } from 'lucide-react';
 import { fadeUp, stagger, cardItem, viewport } from '../lib/motion';
 import Button from '../components/ui/Button';
+import DotGridBackground from '../components/ui/DotGridBackground';
 
 const Packages: React.FC = () => {
   return (
-    <div className="min-h-screen bg-[#0d0b1a] pt-20 md:pt-24 font-inter text-white">
+    <div className="min-h-screen bg-[#0d0b1a] pt-20 md:pt-24 font-inter text-white relative">
+      <DotGridBackground />
       {/* SECTION 1 — HERO */}
       <section className="relative pb-24 px-4 overflow-hidden">
         {/* Background Atmosphere */}
@@ -83,7 +85,7 @@ const Packages: React.FC = () => {
                   ))}
                 </ul>
                 
-                <Button to="/packages/online-presence" variant="outline" className="w-full justify-center">
+                <Button to="/packages/online-presence" variant="outline" className="w-full justify-center border-white/20 text-gray-300 hover:text-white hover:border-white hover:bg-white/5 transition-all">
                   View Details
                 </Button>
               </div>

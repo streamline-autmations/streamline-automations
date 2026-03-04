@@ -8,11 +8,7 @@ import { portfolioProjects, testimonials, PortfolioCategory } from '../data/port
 const Portfolio: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState<PortfolioCategory | 'all'>('all');
 
-  const filterCategories = [
-    { id: 'all', label: 'All Projects' },
-    { id: 'development', label: 'Web & Systems' }
-  ];
-
+  // Removed filter buttons as requested
   const filteredProjects = activeFilter === 'all'
     ? portfolioProjects
     : portfolioProjects.filter(project => project.category === activeFilter);
@@ -26,27 +22,18 @@ const Portfolio: React.FC = () => {
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <SectionHeading
-            title="Our Work"
+            title="Our Featured Projects"
             subtitle="From custom code to corporate identity — real projects, real results."
             centered={true}
             className="max-w-4xl mx-auto"
           />
 
-          {/* Filter Tabs */}
-          <div className="flex flex-wrap justify-center gap-3 md:gap-4 mt-12">
-            {filterCategories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setActiveFilter(category.id as PortfolioCategory | 'all')}
-                className={`px-6 md:px-8 py-3 md:py-4 rounded-full font-ubuntu font-medium transition-all duration-300 text-sm md:text-base min-h-[48px] ${
-                  activeFilter === category.id
-                    ? 'bg-brand-purple text-white shadow-glow border border-brand-purple/50'
-                    : 'glass-card text-gray-300 hover:bg-white/10 border border-white/10 hover:border-brand-purple/30'
-                }`}
-              >
-                {category.label}
-              </button>
-            ))}
+          {/* Badges */}
+          <div className="flex flex-wrap justify-center gap-3 mt-8">
+            <span className="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-gray-400 text-sm font-mono tracking-wide uppercase">Web Apps</span>
+            <span className="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-gray-400 text-sm font-mono tracking-wide uppercase">Admin Systems</span>
+            <span className="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-gray-400 text-sm font-mono tracking-wide uppercase">Websites</span>
+            <span className="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-gray-400 text-sm font-mono tracking-wide uppercase">E-Commerce</span>
           </div>
         </div>
 

@@ -1,11 +1,13 @@
 import React from 'react';
 import ContactForm from '../components/contact/ContactForm';
 import SectionHeading from '../components/ui/SectionHeading';
+import DotGridBackground from '../components/ui/DotGridBackground';
 
 const Contact: React.FC = () => {
   return (
-    <div className="py-12 md:py-20 bg-gradient-to-b from-dark-950 to-dark-900">
-      <div className="container mx-auto px-4 md:px-6">
+    <div className="py-12 md:py-20 bg-[#0d0b1a] relative min-h-screen">
+      <DotGridBackground />
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
         <SectionHeading
           title="Let's Automate Your Success"
           subtitle="Book your free consultation call and discover how our AI solutions can transform your business."
