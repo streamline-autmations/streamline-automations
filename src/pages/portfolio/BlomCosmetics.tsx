@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ShoppingCart, Database, GraduationCap, Zap, Mail, FileText, MessageSquare } from 'lucide-react';
 import CaseStudyLayout from '../../components/layout/CaseStudyLayout';
+import SEO from '../../components/seo/SEO';
 import Tabs from '../../components/ui/Tabs';
 import Button from '../../components/ui/Button';
 import SectionDivider from '../../components/ui/SectionDivider';
@@ -23,6 +24,10 @@ const BlomCosmetics: React.FC = () => {
       heroImageMobileSrc="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771692574/blom_hero-mobile_1_lsp6zo.png"
       heroImageDesktopSrc="https://res.cloudinary.com/dtkiwrm6u/image/upload/v1771692572/blom_hero-desktop_2_u99qeu.png"
     >
+      <SEO 
+        title="BLOM Cosmetics Case Study"
+        description="A full-stack beauty store with automated stock tracking and WhatsApp order updates."
+      />
       <SectionDivider />
       {/* Module 1: The Storefront */}
       <section className="relative py-12 md:py-24">

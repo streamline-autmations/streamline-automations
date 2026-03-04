@@ -1,6 +1,7 @@
 import React from 'react';
 import { Layout, MessageSquare, Zap } from 'lucide-react';
 import CaseStudyLayout from '../../components/layout/CaseStudyLayout';
+import SEO from '../../components/seo/SEO';
 import Button from '../../components/ui/Button';
 
 const AmeliVanZyl: React.FC = () => {
@@ -17,6 +18,10 @@ const AmeliVanZyl: React.FC = () => {
       techStack={techStack}
       disableHeroPlaceholder
     >
+      <SEO 
+        title="Ameli van Zyl Case Study"
+        description="High-performance portfolio website with instant loading and automated lead capture."
+      />
       {/* Hero Image - Full Screen Raw */}
       <section className="relative w-full mb-12">
         <img 

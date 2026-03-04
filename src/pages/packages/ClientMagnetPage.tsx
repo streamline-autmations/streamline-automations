@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PackagePageLayout from '../../components/layout/PackagePageLayout';
+import SEO from '../../components/seo/SEO';
 import { Button, Card, SectionLabel, IconBox, Divider } from '../../components/ui';
 import {
   Monitor,
@@ -85,6 +86,10 @@ const ClientMagnetPage: React.FC = () => {
       packagePrice="Starting from R15,000"
       accentColor="purple"
     >
+      <SEO 
+        title="Client Magnet Package"
+        description="Automate your bookings and leads with our Client Magnet package. AI Chatbot, CRM integration, and instant alerts for R15,000."
+      />
       {/* SECTION 1: Hero */}
       <section className="pt-12 pb-16 md:pt-16 md:pb-24 px-4">
         <div className="container mx-auto">

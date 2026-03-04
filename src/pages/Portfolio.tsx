@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Quote, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SectionHeading from '../components/ui/SectionHeading';
+import SEO from '../components/seo/SEO';
 import { portfolioProjects, testimonials, PortfolioCategory, PortfolioProject } from '../data/portfolio';
 import { DeviceFrame } from '../components/ui/DeviceFrame';
 
@@ -91,6 +92,10 @@ const Portfolio: React.FC = () => {
 
   return (
     <div className="min-h-screen" ref={sectionRef}>
+      <SEO 
+        title="Portfolio"
+        description="See how we've helped businesses like RecklessBear and BLOM Cosmetics scale with custom web and automation systems."
+      />
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-purple/20 rounded-full filter blur-3xl"></div>

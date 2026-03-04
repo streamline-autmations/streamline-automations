@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import SEO from '../components/seo/SEO';
 import { fadeUp, stagger, cardItem, viewport } from '../lib/motion';
+import DotGridBackground from '../components/ui/DotGridBackground';
 
 // Add-on data
 const automationAddons = [
@@ -178,9 +180,14 @@ const AddonCard: React.FC<AddonCardProps> = ({ icon, name, price, description, a
 
 const AddOnsPage: React.FC = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[#0d0b1a] pt-20 md:pt-24 font-inter text-white relative">
+      <SEO 
+        title="Add-Ons & Branding"
+        description="Enhance your package with SEO, Logo Design, Social Media, and more."
+      />
+      <DotGridBackground />
       {/* Breadcrumb */}
-      <div className="container pt-24 pb-4">
+      <div className="container relative z-10 pt-4 pb-4">
         <nav className="flex items-center gap-2 text-sm text-white/40 font-mono">
           <Link to="/" className="hover:text-white transition-colors">Home</Link>
           <span>→</span>

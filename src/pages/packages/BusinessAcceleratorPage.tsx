@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PackagePageLayout from '../../components/layout/PackagePageLayout';
+import SEO from '../../components/seo/SEO';
 import { Button, Card, SectionLabel, IconBox, Divider } from '../../components/ui';
 import {
   Monitor,
@@ -97,6 +98,10 @@ const BusinessAcceleratorPage: React.FC = () => {
       packagePrice="Starting from R30,000"
       accentColor="purple"
     >
+      <SEO 
+        title="Business Accelerator Package"
+        description="Custom web apps, advanced automation, and monthly optimization for scaling businesses. Starting from R30,000."
+      />
       {/* SECTION 1: Hero */}
       <section className="pt-12 pb-16 md:pt-16 md:pb-24 px-4">
         <div className="container mx-auto">

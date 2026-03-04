@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Zap, Search, LayoutDashboard, ShieldCheck } from 'lucide-react';
 import Button from '../../components/ui/Button';
 import CircuitLine from '../../components/ui/CircuitLine';
+import SEO from '../../components/seo/SEO';
 
 const WebDevelopment: React.FC = () => {
   const fadeInUp = {
@@ -69,6 +70,10 @@ const WebDevelopment: React.FC = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
+      <SEO 
+        title="Web Development Services"
+        description="Custom web development services. High-performance websites, e-commerce stores, and web apps built with React."
+      />
       {/* Animated Background Orbs */}
 
       {/* Section A: The Hero */}

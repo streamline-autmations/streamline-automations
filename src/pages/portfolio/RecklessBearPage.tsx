@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ShoppingBag, LayoutDashboard, Bot, CheckCircle, MessageSquare, ArrowRight, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import SEO from '../../components/seo/SEO';
 import { fadeUp, stagger, cardItem, viewport } from '../../lib/motion';
 import Button from '../../components/ui/Button';
 import SectionDivider from '../../components/ui/SectionDivider';
@@ -40,6 +41,10 @@ const RecklessBearPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#0d0b1a] pt-20 md:pt-24 text-white font-inter">
+      <SEO 
+        title="RecklessBear Case Study"
+        description="How we built a custom clothing brand website with AI lead qualification and an automated admin system."
+      />
       {/* SECTION 1 — HERO */}
       <section className="relative pb-24 px-4 overflow-hidden">
         {/* Background Atmosphere */}

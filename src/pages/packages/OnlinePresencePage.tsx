@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import PackagePageLayout from '../../components/layout/PackagePageLayout';
+import SEO from '../../components/seo/SEO';
 import {
   Monitor,
   Smartphone,
@@ -60,6 +61,10 @@ const OnlinePresencePage: React.FC = () => {
       packagePrice="Starting from R7,500"
       accentColor="white"
     >
+      <SEO 
+        title="Online Presence Package"
+        description="Get a professional 5-page website in 3-5 days for R7,500. Perfect for businesses needing a clean, fast online start."
+      />
       {/* SECTION 1: Hero - s */}
       <section className="section">
         <div className="container">

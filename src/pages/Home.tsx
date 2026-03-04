@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import SEO from '../components/seo/SEO';
 import Hero from '../components/home/Hero';
 import LogoMarquee from '../components/ui/LogoMarquee';
 import FeaturedWorkSection from '../components/home/FeaturedWorkSection';
@@ -84,6 +85,10 @@ const howItWorks = [
 const Home: React.FC = () => {
   return (
     <div className="relative overflow-hidden">
+      <SEO 
+        title="Home"
+        description="Streamline Automations helps service businesses scale with custom websites, AI agents, and automated admin systems."
+      />
       {/* HERO */}
       <section className="section">
         <div className="container">

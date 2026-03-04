@@ -2,10 +2,15 @@ import React from 'react';
 import ContactForm from '../components/contact/ContactForm';
 import SectionHeading from '../components/ui/SectionHeading';
 import DotGridBackground from '../components/ui/DotGridBackground';
+import SEO from '../components/seo/SEO';
 
 const Contact: React.FC = () => {
   return (
     <div className="py-12 md:py-20 bg-[#0d0b1a] relative min-h-screen">
+      <SEO 
+        title="Contact"
+        description="Book a free strategy call with Streamline Automations. Let's discuss your custom website and AI needs."
+      />
       <DotGridBackground />
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <SectionHeading

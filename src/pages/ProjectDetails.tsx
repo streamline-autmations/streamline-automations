@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, CheckCircle2, Target, Lightbulb, TrendingUp } from 'lucide-react';
+import SEO from '../components/seo/SEO';
 import { portfolioProjects } from '../data/portfolio';
 import Button from '../components/ui/Button';
 
@@ -39,6 +40,11 @@ const ProjectDetails: React.FC = () => {
 
   return (
     <div className="min-h-screen">
+      <SEO 
+        title={project.title}
+        description={project.description}
+        image={project.image}
+      />
       {/* Hero Header */}
       <section className="relative h-[60vh] md:h-[70vh] overflow-hidden">
         <div className="absolute inset-0">

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Check, Zap, Globe, Search, MessageSquare, Layout, Rocket, BarChart } from 'lucide-react';
+import SEO from '../components/seo/SEO';
 import { fadeUp, stagger, cardItem, viewport } from '../lib/motion';
 import Button from '../components/ui/Button';
 import DotGridBackground from '../components/ui/DotGridBackground';
@@ -9,6 +10,10 @@ import DotGridBackground from '../components/ui/DotGridBackground';
 const Packages: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#0d0b1a] pt-20 md:pt-24 font-inter text-white relative">
+      <SEO 
+        title="Packages"
+        description="Choose your system: Online Presence, Client Magnet, or Business Accelerator. Websites and AI agents starting from R7,500."
+      />
       <DotGridBackground />
       {/* SECTION 1 — HERO */}
       <section className="relative pb-24 px-4 overflow-hidden">

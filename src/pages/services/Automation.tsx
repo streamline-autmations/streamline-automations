@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Bot, Zap, Database, BarChart } from 'lucide-react';
 import Button from '../../components/ui/Button';
 import CircuitLine from '../../components/ui/CircuitLine';
+import SEO from '../../components/seo/SEO';
 
 const Automation: React.FC = () => {
   const fadeInUp = {
@@ -69,6 +70,10 @@ const Automation: React.FC = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
+      <SEO 
+        title="AI & Automation Services"
+        description="Automate your business with AI chatbots, workflow automation, and lead capture systems."
+      />
       {/* Animated Background Orbs */}
 
       {/* Section A: The Hero */}

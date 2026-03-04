@@ -1,4 +1,5 @@
 import React from 'react';
+import SEO from '../../components/seo/SEO';
 import { motion } from 'framer-motion';
 import { Scale, Moon, Zap, Folder } from 'lucide-react';
 import Button from '../../components/ui/Button';
@@ -69,6 +70,10 @@ const Branding: React.FC = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
+      <SEO 
+        title="Branding & Design Services"
+        description="Premium branding and design services. Logo design, brand identity systems, and marketing materials."
+      />
       {/* Animated Background Orbs */}
 
       {/* Section A: The Hero */}
