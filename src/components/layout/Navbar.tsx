@@ -73,10 +73,13 @@ const Header: React.FC = () => {
           {/* Logo Section */}
           <Link to="/" className="flex items-center space-x-3">
             <img
-              src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1771959592/Untitled_design_49_mxxpip.png"
+              src="https://res.cloudinary.com/dnlgohkcc/image/upload/v1765275983/Streamline-White_1_yf5ow5.svg"
               alt="Streamline Automations"
-              className="h-10 lg:h-12 w-auto"
+              className="h-6 lg:h-7 w-auto"
             />
+            <span className="hidden lg:block font-ubuntu font-bold text-lg text-white">
+              Streamline Automations
+            </span>
           </Link>
 
           {/* Desktop Nav */}

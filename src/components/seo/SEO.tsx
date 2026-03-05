@@ -14,7 +14,19 @@ const SEO: React.FC<SEOProps> = ({
   description = "Streamline Automations builds custom websites, AI agents, and admin systems that automate your business.", 
   image = "https://res.cloudinary.com/dnlgohkcc/image/upload/v1771959592/Untitled_design_49_mxxpip.png", 
   url,
-  keywords = ["web design", "automation", "AI agents", "business systems", "software development"]
+  keywords = [
+    "web design", 
+    "automation", 
+    "AI agents", 
+    "business systems", 
+    "software development",
+    "web design gauteng",
+    "web design vaal triangle",
+    "web design vereeniging",
+    "web design risiville",
+    "web design three rivers",
+    "automation gauteng"
+  ]
 }) => {
   const siteTitle = "Streamline Automations";
   const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
