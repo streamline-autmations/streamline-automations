@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, Instagram, Facebook, Linkedin } from 'lucide-react';
+import { Mail, Phone, MapPin, Instagram, Facebook, Linkedin, MessageSquare } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -103,6 +103,35 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="text-[color:var(--text-low)] font-ubuntu font-bold mb-4">Contact</h4>
             <ul className="space-y-4">
+              <li>
+                <a
+                  href="mailto:christian@streamline-automations.agency"
+                  className="text-[color:var(--text-low)] hover:text-[color:var(--text-mid)] transition-colors duration-300 flex items-start gap-2"
+                >
+                  <Mail size={16} className="mt-1 flex-shrink-0" />
+                  <span className="text-sm">christian@streamline-automations.agency</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="tel:+27633063861"
+                  className="text-[color:var(--text-low)] hover:text-[color:var(--text-mid)] transition-colors duration-300 flex items-start gap-2"
+                >
+                  <Phone size={16} className="mt-1 flex-shrink-0" />
+                  <span className="text-sm">+27 63 306 3861</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://wa.me/27633063861"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[color:var(--text-low)] hover:text-[color:var(--text-mid)] transition-colors duration-300 flex items-start gap-2"
+                >
+                  <MessageSquare size={16} className="mt-1 flex-shrink-0" />
+                  <span className="text-sm">Chat on WhatsApp</span>
+                </a>
+              </li>
               <li>
                 <a
                   href="mailto:streamline.automations.hq@gmail.com"
@@ -227,6 +256,32 @@ const Footer: React.FC = () => {
           <div className="text-center">
             <h4 className="text-[color:var(--text-low)] font-ubuntu font-bold mb-4">Contact</h4>
             <ul className="space-y-3">
+              <li>
+                <a
+                  href="mailto:christian@streamline-automations.agency"
+                  className="text-[color:var(--text-low)] hover:text-[color:var(--text-mid)] transition-colors duration-300 text-sm"
+                >
+                  christian@streamline-automations.agency
+                </a>
+              </li>
+              <li>
+                <a
+                  href="tel:+27633063861"
+                  className="text-[color:var(--text-low)] hover:text-[color:var(--text-mid)] transition-colors duration-300 text-sm"
+                >
+                  +27 63 306 3861
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://wa.me/27633063861"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[color:var(--text-low)] hover:text-[color:var(--text-mid)] transition-colors duration-300 text-sm"
+                >
+                  Chat on WhatsApp
+                </a>
+              </li>
               <li>
                 <a
                   href="mailto:streamline.automations.hq@gmail.com"
