@@ -112,7 +112,7 @@ export function getAnimationSettings(capabilities: DeviceCapabilities) {
         trail: true,
         effects: true,
         pixelSteps: hasTouch ? 2 : 1,
-        particleSize: hasTouch ? 3 : 4,
+        particleSize: hasTouch ? 4 : 5, // Increased for better visibility
         enabled: true
       };
     case 'medium':
@@ -122,7 +122,7 @@ export function getAnimationSettings(capabilities: DeviceCapabilities) {
         trail: true,
         effects: false,
         pixelSteps: hasTouch ? 3 : 2,
-        particleSize: hasTouch ? 2.5 : 3,
+        particleSize: hasTouch ? 3.5 : 4, // Increased for better visibility
         enabled: true
       };
     case 'low':
@@ -132,7 +132,7 @@ export function getAnimationSettings(capabilities: DeviceCapabilities) {
         trail: false,
         effects: false,
         pixelSteps: hasTouch ? 5 : 4,
-        particleSize: 2,
+        particleSize: 3, // Increased for better visibility
         enabled: true
       };
     default:

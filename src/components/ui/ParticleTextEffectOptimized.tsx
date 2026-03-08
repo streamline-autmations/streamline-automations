@@ -36,12 +36,13 @@ class Particle {
 
   updatePhysics() {
     if (this.isKilled) {
-      // Smooth exit physics
-      this.vel.x *= 0.98
-      this.vel.y *= 0.98
+      // Smooth exit physics with swirl effect
+      this.vel.x *= 0.96
+      this.vel.y *= 0.96
       this.pos.x += this.vel.x
       this.pos.y += this.vel.y
-      this.currentColor.a = Math.max(0, this.currentColor.a - 8)
+      // Slower fade out for smoother exit
+      this.currentColor.a = Math.max(0, this.currentColor.a - 4)
       return
     }
 
@@ -50,9 +51,9 @@ class Particle {
     const dy = this.target.y - this.pos.y
     const dist = Math.sqrt(dx * dx + dy * dy)
     
-    // Apply spring force
-    this.acc.x = dx * this.spring
-    this.acc.y = dy * this.spring
+    // Apply spring force - increased for faster formation
+    this.acc.x = dx * this.spring * 1.5
+    this.acc.y = dy * this.spring * 1.5
     
     // Update velocity with friction
     this.vel.x = (this.vel.x + this.acc.x) * this.friction
@@ -69,11 +70,13 @@ class Particle {
     this.pos.x += this.vel.x
     this.pos.y += this.vel.y
     
-    // Smooth color blending
-    this.currentColor.r += (this.targetColor.r - this.currentColor.r) * this.colorBlendRate
-    this.currentColor.g += (this.targetColor.g - this.currentColor.g) * this.colorBlendRate
-    this.currentColor.b += (this.targetColor.b - this.currentColor.b) * this.colorBlendRate
-    this.currentColor.a = Math.min(255, this.currentColor.a + 15)
+    // Faster color blending for clearer word formation
+    const colorSpeed = dist < 10 ? 0.2 : 0.12
+    this.currentColor.r += (this.targetColor.r - this.currentColor.r) * colorSpeed
+    this.currentColor.g += (this.targetColor.g - this.currentColor.g) * colorSpeed
+    this.currentColor.b += (this.targetColor.b - this.currentColor.b) * colorSpeed
+    // Faster opacity increase for clearer visibility
+    this.currentColor.a = Math.min(255, this.currentColor.a + 25)
   }
 
   draw(ctx: CanvasRenderingContext2D, settings: any) {
@@ -100,20 +103,33 @@ class Particle {
     ctx.restore()
   }
 
+  fadeOut() {
+    if (!this.isKilled) {
+      // Gentle fade out instead of explosion
+      this.vel.x *= 0.5
+      this.vel.y = -Math.random() * 2 - 1 // Gentle upward drift
+      this.targetColor = { r: 139, g: 92, b: 246, a: 0 } // Fade to transparent purple
+      this.colorBlendRate = 0.05
+      this.isKilled = true
+    }
+  }
+  
   explode(canvasWidth: number, canvasHeight: number) {
     if (!this.isKilled) {
-      const angle = Math.atan2(this.pos.y - canvasHeight/2, this.pos.x - canvasWidth/2)
-      const force = 15 + Math.random() * 20
+      // More controlled exit with swirl pattern
+      const centerX = canvasWidth / 2
+      const centerY = canvasHeight / 2
+      const angle = Math.atan2(this.pos.y - centerY, this.pos.x - centerX)
       
-      this.vel.x = Math.cos(angle) * force
-      this.vel.y = Math.sin(angle) * force
+      // Add swirl effect
+      const swirl = angle + Math.PI / 4
+      const force = 8 + Math.random() * 6
       
-      // Add some rotation
-      const rotationForce = (Math.random() - 0.5) * 5
-      this.vel.x += rotationForce
+      this.vel.x = Math.cos(swirl) * force
+      this.vel.y = Math.sin(swirl) * force
       
       this.targetColor = { r: 139, g: 92, b: 246, a: 255 } // Purple flash
-      this.colorBlendRate = 0.3
+      this.colorBlendRate = 0.15
       this.isKilled = true
     }
   }
@@ -283,16 +299,16 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
       particle.origin = { ...pos }
       particle.targetColor = { ...color }
       particle.particleSize = animationSettings.particleSize || 3
-      particle.spring = 0.02 + Math.random() * 0.04
-      particle.friction = 0.85 + Math.random() * 0.1
-      particle.maxSpeed = 8 + Math.random() * 8
+      particle.spring = 0.03 + Math.random() * 0.05 // Increased for faster formation
+      particle.friction = 0.88 + Math.random() * 0.08
+      particle.maxSpeed = 10 + Math.random() * 10 // Faster movement
       
       particleIndex++
     }
     
-    // Kill excess particles
+    // Gently fade excess particles for smoother transition
     for (let i = particleIndex; i < particles.length; i++) {
-      particles[i].explode(canvas.width, canvas.height)
+      particles[i].fadeOut()
     }
   }, [createTextBitmap, animationSettings, getParticle, returnParticle])
 
@@ -308,9 +324,9 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
     // Update FPS
     fpsMonitor.update()
     
-    // Clear or trail effect
+    // Clear or trail effect - lighter trail for better visibility
     if (animationSettings.trail) {
-      ctx.fillStyle = 'rgba(5, 5, 8, 0.08)'
+      ctx.fillStyle = 'rgba(5, 5, 8, 0.05)'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
     } else {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -326,8 +342,8 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
     
     frameRef.current++
     
-    // Word timing
-    const holdFrames = deviceCapabilities.hasTouch ? 80 : 90
+    // Word timing - hold words for 2.5 seconds on all devices
+    const holdFrames = 150 // ~2.5 seconds at 60fps
     
     if (frameRef.current >= holdFrames && !isCompletingRef.current) {
       frameRef.current = 0
@@ -338,15 +354,17 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
         if (!isCompletingRef.current) {
           isCompletingRef.current = true
           
-          // Explode all particles
-          for (const particle of particles) {
-            particle.explode(canvas.width, canvas.height)
-          }
+          // Gentle fade out with staggered timing
+          particles.forEach((particle, index) => {
+            setTimeout(() => {
+              particle.fadeOut()
+            }, index * 0.5) // Stagger the fade out
+          })
           
-          // Complete after explosion
+          // Complete after fade
           setTimeout(() => {
             onComplete?.()
-          }, 800)
+          }, 1500)
         }
       } else {
         wordIdxRef.current = nextIdx
@@ -396,10 +414,11 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
       if (!isCompletingRef.current) {
         isCompletingRef.current = true
         const particles = particlesRef.current
-        for (const particle of particles) {
-          particle.explode(canvas.width, canvas.height)
-        }
-        setTimeout(() => onComplete?.(), 400)
+        // Gentle fade on skip
+        particles.forEach((particle) => {
+          particle.fadeOut()
+        })
+        setTimeout(() => onComplete?.(), 600)
       }
     }
     

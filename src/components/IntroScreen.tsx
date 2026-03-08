@@ -31,13 +31,13 @@ export function IntroScreen({ children }: IntroScreenProps) {
 
   const handleComplete = () => {
     setIntroExiting(true)
-    // Fade out takes 500ms, then unmount
+    // Smoother fade out transition
     setTimeout(() => {
       setShowIntro(false)
       try {
         localStorage.setItem(DEVICE_KEY, "true")
       } catch {}
-    }, 600)
+    }, 800)
   }
 
   // Escape key skips intro
@@ -69,7 +69,7 @@ export function IntroScreen({ children }: IntroScreenProps) {
             initial={{ opacity: 1 }}
             animate={{ opacity: introExiting ? 0 : 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }} // Slower fade out for smoother exit
+            transition={{ duration: 1.2, ease: "easeInOut" }} // Much smoother fade out
             className="fixed inset-0 z-[999] bg-[#050508] flex items-center justify-center overflow-hidden"
           >
             {/* Background DotGrid for smooth transition */}
