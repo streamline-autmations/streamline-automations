@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
 import { AnimatePresence, motion } from "framer-motion"
-import { ParticleTextEffect } from "./ui/ParticleTextEffect"
+import { ParticleTextEffect } from "./ui/ParticleTextEffectOptimized"
 import DotGridBackground from "./ui/DotGridBackground"
+import { getDeviceCapabilities, getAnimationSettings } from "../utils/deviceCapabilities"
 
 const DEVICE_KEY = "sa_intro_seen_device"
 
@@ -12,13 +13,18 @@ interface IntroScreenProps {
 export function IntroScreen({ children }: IntroScreenProps) {
   const [showIntro, setShowIntro] = useState(() => {
     try {
-      // Skip on mobile devices (< 768px)
-      if (typeof window !== "undefined" && window.innerWidth < 768) {
+      // Check device capabilities instead of just screen width
+      const capabilities = getDeviceCapabilities()
+      const settings = getAnimationSettings(capabilities)
+      
+      // Skip if device doesn't support animation or user has seen it
+      if (!settings.enabled || localStorage.getItem(DEVICE_KEY) === "true") {
         return false
       }
-      return localStorage.getItem(DEVICE_KEY) !== "true"
-    } catch {
+      
       return true
+    } catch {
+      return false
     }
   })
   const [introExiting, setIntroExiting] = useState(false)

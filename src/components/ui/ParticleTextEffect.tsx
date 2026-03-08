@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
+import { getDeviceCapabilities, getAnimationSettings, fpsMonitor } from "../../utils/deviceCapabilities"
 
 interface Vector2D { x: number; y: number }
 
@@ -86,20 +87,12 @@ const WORD_COLORS = [
   { r: 255, g: 255, b: 255 },  // white — final word, clean arrival
 ]
 
-const WORDS_DESKTOP = ["WEBSITES", "SYSTEMS", "AUTOMATION", "WE DO IT ALL"]
-// Mobile sequence: Stack words vertically
-const WORDS_MOBILE = [
-  "WEBSITES", 
-  "WEBSITES\nAUTOMATION", 
-  "WEBSITES\nAUTOMATION\nSYSTEMS", 
-  "WE DO\nIT ALL"
-]
+// Unified word sequences for all devices
+const WORDS = ["WEBSITES", "SYSTEMS", "AUTOMATION", "WE DO IT ALL"]
+const WORDS_MOBILE_DISPLAY = ["WEBSITES", "SYSTEMS", "AUTOMATION", "WE DO\nIT ALL"]
 
-// Dynamic pixel steps - will be set in component
-const BASE_PIXEL_STEPS = 2  
-
-// Slowed down slightly for better readability
-const HOLD_FRAMES = [100, 100, 100, 120]
+// Dynamic settings based on device
+let HOLD_FRAMES = [90, 90, 90, 110]
 
 interface ParticleTextEffectProps {
   onComplete?: () => void  // called after last word hold
