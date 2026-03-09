@@ -29,8 +29,13 @@ const SEO: React.FC<SEOProps> = ({
   ]
 }) => {
   const siteTitle = "Streamline Automations";
+  const siteUrl = "https://streamline-automations.agency";
   const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
-  const currentUrl = url || (typeof window !== 'undefined' ? window.location.href : '');
+  
+  // Construct canonical URL
+  // If url prop is provided, use it (assuming it's full URL)
+  // Otherwise, construct from siteUrl + current pathname (stripping query params)
+  const currentUrl = url || (typeof window !== 'undefined' ? `${siteUrl}${window.location.pathname}` : siteUrl);
 
   return (
     <Helmet>
@@ -53,6 +58,9 @@ const SEO: React.FC<SEOProps> = ({
       <meta property="twitter:title" content={fullTitle} />
       <meta property="twitter:description" content={description} />
       <meta property="twitter:image" content={image} />
+
+      {/* Canonical URL */}
+      {currentUrl && <link rel="canonical" href={currentUrl} />}
     </Helmet>
   );
 };
