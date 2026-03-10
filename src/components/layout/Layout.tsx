@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import FloatingWhatsApp from '../ui/FloatingWhatsApp';
+import ExitIntentPopup from '../ui/ExitIntentPopup';
 
 const Layout: React.FC = () => {
   return (
@@ -13,6 +14,7 @@ const Layout: React.FC = () => {
       </main>
       <Footer />
       <FloatingWhatsApp />
+      <ExitIntentPopup />
     </div>
   );
 };

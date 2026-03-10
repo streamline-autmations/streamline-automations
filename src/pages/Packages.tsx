@@ -247,6 +247,57 @@ const Packages: React.FC = () => {
         </div>
       </section>
 
+      {/* FAQ SECTION */}
+      <section className="py-24 bg-white/[0.02]">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-ubuntu font-bold mb-4">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-gray-400">
+              Everything you need to know before getting started.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {[
+              {
+                question: "What if I need changes after launch?",
+                answer: "Every package includes 30 days of post-launch support. After that, you can purchase additional support hours or add-ons as needed. We want to make sure you're completely satisfied."
+              },
+              {
+                question: "Do I own the code and assets?",
+                answer: "100% yes. You own everything we build - the code, the design, the content. There are no ongoing licensing fees. You can take your site anywhere or hire another developer to maintain it."
+              },
+              {
+                question: "How long does setup take?",
+                answer: "Online Presence packages are typically ready in 7 days. Client Magnet and Business Accelerator packages take 14-21 days depending on complexity. We work fast so you can start capturing leads quickly."
+              },
+              {
+                question: "What if I outgrow my package?",
+                answer: "No problem! You can upgrade to a higher package at any time. We'll credit what you've already paid and just charge the difference. Your system scales with your business."
+              },
+              {
+                question: "Do you offer payment plans?",
+                answer: "Yes! We offer 50% upfront and 50% on completion. For larger packages, we can discuss monthly payment options. The goal is to make automation accessible for businesses at any stage."
+              }
+            ].map((faq, index) => (
+              <div 
+                key={index} 
+                className="bg-white/5 border border-white/10 rounded-xl p-6 hover:border-brand-purple/30 transition-colors"
+              >
+                <h3 className="text-lg font-ubuntu font-bold text-white mb-2">
+                  {faq.question}
+                </h3>
+                <p className="text-gray-400 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* SECTION 4 — ADD-ONS TEASER */}
       <section className="py-24">
         <div className="container mx-auto px-4">
@@ -303,16 +354,24 @@ const Packages: React.FC = () => {
             viewport={viewport}
             variants={stagger}
           >
+            <motion.div variants={fadeUp} className="inline-flex items-center gap-2 bg-brand-orange/10 border border-brand-orange/20 rounded-full px-4 py-1.5 mb-6">
+              <span className="w-2 h-2 bg-brand-orange rounded-full animate-pulse" />
+              <span className="text-sm font-mono text-brand-orange">Only 2 spots available this month</span>
+            </motion.div>
             <motion.h2 variants={fadeUp} className="text-3xl md:text-5xl font-ubuntu font-bold mb-6">
-              Not sure which fits you?
+              Ready to automate your business?
             </motion.h2>
             <motion.p variants={fadeUp} className="text-xl text-gray-400 mb-10">
-              Book a free 20-minute call. We'll tell you exactly which package makes sense.
+              Get your custom automation blueprint in a free 20-minute call. 
+              Usually R2,500 value — free for first 10 inquiries.
             </motion.p>
             <motion.div variants={fadeUp}>
               <Button href="/contact" variant="primary" size="xl" className="px-12">
-                Book a Free Strategy Call
+                Book Your Free Automation Audit
               </Button>
+              <p className="text-sm text-gray-500 mt-4">
+                Next available: March 12th or earlier
+              </p>
             </motion.div>
           </motion.div>
         </div>
