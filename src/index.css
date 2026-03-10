@@ -499,6 +499,63 @@ body.intro-active {
   overflow: hidden;
 }
 
+/* Premium animation performance - reduce motion */
+* {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Disable smooth scroll on mobile for performance */
+@media (max-width: 768px) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Mobile touch optimizations */
+@media (max-width: 768px) {
+  /* Disable heavy animations on mobile */
+  .animate-on-scroll {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  
+  /* Remove parallax on mobile */
+  [data-parallax] {
+    transform: none !important;
+  }
+}
+
+/* Premium cursor trail - disabled on mobile */
+@media (hover: none) {
+  .cursor-glow {
+    display: none !important;
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Premium selection */
+::selection {
+  background: #8B5CF6;
+  color: white;
+}
+
+::-moz-selection {
+  background: #8B5CF6;
+  color: white;
+}
+
 /* Fade in animation */
 @keyframes fadeIn {
   from {
