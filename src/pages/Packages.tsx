@@ -19,16 +19,16 @@ const Packages: React.FC = () => {
       <DotGridBackground />
       
       {/* URGENCY BANNER */}
-      <div className="bg-brand-orange/10 border-b border-brand-orange/20 py-2">
+      <div className="bg-brand-orange/10 border-b border-brand-orange/20 py-3">
         <div className="container mx-auto px-4 flex items-center justify-center gap-2 text-sm md:text-base">
-          <Clock className="w-4 h-4 text-brand-orange animate-pulse" />
+          <Clock className="w-4 h-4 text-brand-orange animate-pulse flex-shrink-0" />
           <span className="text-brand-orange font-bold uppercase tracking-wide">Limited Availability:</span>
           <span className="text-gray-300">Only 2 spots left for new projects in March.</span>
         </div>
       </div>
 
       {/* SECTION 1 — HERO */}
-      <section className="relative pb-24 px-4 overflow-hidden">
+      <section className="relative pt-20 md:pt-24 pb-16 md:pb-24 px-4 overflow-hidden">
         {/* Background Atmosphere */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-[#0d0b1a] to-[#0d0b1a] -z-10" />
         

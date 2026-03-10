@@ -39,12 +39,14 @@ function PortfolioProjectBlock({ project }: { project: PortfolioProject }) {
 
         <div className="relative" data-parallax data-speed="0.34">
           <div className="relative mx-auto max-w-4xl">
-            <DeviceFrame
-              src={project.image}
-              alt={`${project.title} preview`}
-              className="object-cover group-hover:scale-[1.03] transition-transform duration-700"
-              frameClassName="w-full aspect-[16/9]"
-            />
+            <Link to={`/portfolio/${project.id}`} className="block cursor-pointer">
+              <DeviceFrame
+                src={project.image}
+                alt={`${project.title} preview`}
+                className="object-cover group-hover:scale-[1.03] transition-transform duration-700"
+                frameClassName="w-full aspect-[16/9]"
+              />
+            </Link>
           </div>
         </div>
       </div>

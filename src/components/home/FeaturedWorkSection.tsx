@@ -44,12 +44,14 @@ function FeaturedWorkProjectBlock({ project }: { project: FeaturedWorkProject })
 
         <div className="relative" data-parallax data-speed="0.34">
           <div className="relative mx-auto max-w-4xl">
-            <DeviceFrame
-              src={project.images.laptop}
-              alt={`${project.title} preview`}
-              className="object-cover group-hover:scale-[1.03] transition-transform duration-700"
-              frameClassName="w-full aspect-[16/9]"
-            />
+            <Link to={project.linkTo} className="block cursor-pointer">
+              <DeviceFrame
+                src={project.images.laptop}
+                alt={`${project.title} preview`}
+                className="object-cover group-hover:scale-[1.03] transition-transform duration-700"
+                frameClassName="w-full aspect-[16/9]"
+              />
+            </Link>
           </div>
         </div>
       </div>

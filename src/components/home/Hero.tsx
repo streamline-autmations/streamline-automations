@@ -56,7 +56,7 @@ const Hero: React.FC = () => {
         </motion.div>
 
         {/* Two Column Grid */}
-        <div className="grid lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Left Column - Content */}
           <div className="text-center lg:text-left">
             <motion.div
@@ -155,12 +155,12 @@ const Hero: React.FC = () => {
             </motion.div>
           </div>
 
-          {/* Right Column - Digital Ecosystem Stack */}
+          {/* Right Column - Digital Ecosystem Stack - Hidden on mobile */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="relative"
+            className="hidden md:block relative"
           >
             <motion.div
               animate={{
