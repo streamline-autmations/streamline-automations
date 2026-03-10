@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import SEO from '../components/seo/SEO';
 import Hero from '../components/home/Hero';
+import MetricsTicker from '../components/home/MetricsTicker';
 import LogoMarquee from '../components/ui/LogoMarquee';
 import FeaturedWorkSection from '../components/home/FeaturedWorkSection';
 import FinalCTA from '../components/home/FinalCTA';
@@ -90,11 +91,19 @@ const Home: React.FC = () => {
         description="Streamline Automations helps service businesses scale with custom websites, AI agents, and automated admin systems."
       />
       {/* HERO */}
-      <section className="section">
+      <section className="section !pb-0">
         <div className="container">
           <Hero />
         </div>
       </section>
+
+      {/* METRICS TICKER */}
+      <MetricsTicker />
+
+      {/* SECTION 3: FEATURED BUILDS (Moved Up) */}
+      <div className="pt-20">
+        <FeaturedWorkSection />
+      </div>
 
       {/* SECTION 2: WHY STREAMLINE */}
       <section className="section section-panel section-line">
@@ -149,9 +158,6 @@ const Home: React.FC = () => {
           </motion.div>
         </div>
       </section>
-
-      {/* SECTION 3: FEATURED BUILDS */}
-      <FeaturedWorkSection />
 
       {/* SECTION 4: TECH STACK */}
       <section className="section section-panel section-line">

@@ -3,8 +3,13 @@ import { Layout, MessageSquare, Zap } from 'lucide-react';
 import CaseStudyLayout from '../../components/layout/CaseStudyLayout';
 import SEO from '../../components/seo/SEO';
 import Button from '../../components/ui/Button';
+import SectionDivider from '../../components/ui/SectionDivider';
+import CaseStudyMetrics from '../../components/portfolio/CaseStudyMetrics';
+import { portfolioProjects } from '../../data/portfolio';
 
 const AmeliVanZyl: React.FC = () => {
+  const project = portfolioProjects.find(p => p.id === 'ameli-van-zyl-design');
+
   const techStack = [
     { icon: Layout, label: 'Portfolio Site' },
     { icon: MessageSquare, label: 'Contact Form Integration' },
@@ -22,6 +27,62 @@ const AmeliVanZyl: React.FC = () => {
         title="Ameli van Zyl Case Study"
         description="High-performance portfolio website with instant loading and automated lead capture."
       />
+
+      <SectionDivider />
+      
+      {/* METRICS */}
+      <section className="py-12 border-b border-white/5 bg-[#0d0b1a]">
+        <div className="container mx-auto px-4">
+          {project?.metrics && <CaseStudyMetrics metrics={project.metrics} />}
+        </div>
+      </section>
+
+      {/* BEFORE VS AFTER */}
+      <section className="py-20 bg-[#0d0b1a]">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <div className="grid md:grid-cols-2 gap-12">
+            <div className="bg-red-900/5 border border-red-500/20 p-8 rounded-2xl">
+              <h3 className="text-xl font-bold text-red-400 mb-6 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-red-500"/> Before Streamline
+              </h3>
+              <ul className="space-y-4 text-gray-400">
+                <li className="flex gap-3">
+                  <span className="text-red-500/50">✕</span>
+                  Slow loading PDF portfolio (lost mobile traffic)
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-red-500/50">✕</span>
+                  Manual email back-and-forth for inquiries
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-red-500/50">✕</span>
+                  No analytics on who viewed the work
+                </li>
+              </ul>
+            </div>
+            <div className="bg-green-900/5 border border-green-500/20 p-8 rounded-2xl">
+              <h3 className="text-xl font-bold text-green-400 mb-6 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-green-500"/> After Automation
+              </h3>
+              <ul className="space-y-4 text-gray-300">
+                <li className="flex gap-3">
+                  <span className="text-green-500">✓</span>
+                  Instant load times (Global CDN)
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-green-500">✓</span>
+                  Instant WhatsApp notification for every lead
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-green-500">✓</span>
+                  Professional, mobile-optimized experience
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Hero Image - Full Screen Raw */}
       <section className="relative w-full mb-12">
         <img 

@@ -1,11 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Check, Zap, Globe, Search, MessageSquare, Layout, Rocket, BarChart } from 'lucide-react';
+import { Check, Zap, Globe, Search, MessageSquare, Layout, Rocket, BarChart, Clock } from 'lucide-react';
 import SEO from '../components/seo/SEO';
 import { fadeUp, stagger, cardItem, viewport } from '../lib/motion';
 import Button from '../components/ui/Button';
 import DotGridBackground from '../components/ui/DotGridBackground';
+import PricingComparisonTable from '../components/packages/PricingComparisonTable';
+import ROICalculator from '../components/packages/ROICalculator';
 
 const Packages: React.FC = () => {
   return (
@@ -15,6 +17,16 @@ const Packages: React.FC = () => {
         description="Choose your system: Online Presence, Client Magnet, or Business Accelerator. Websites and AI agents starting from R7,500."
       />
       <DotGridBackground />
+      
+      {/* URGENCY BANNER */}
+      <div className="bg-brand-orange/10 border-b border-brand-orange/20 py-2">
+        <div className="container mx-auto px-4 flex items-center justify-center gap-2 text-sm md:text-base">
+          <Clock className="w-4 h-4 text-brand-orange animate-pulse" />
+          <span className="text-brand-orange font-bold uppercase tracking-wide">Limited Availability:</span>
+          <span className="text-gray-300">Only 2 spots left for new projects in March.</span>
+        </div>
+      </div>
+
       {/* SECTION 1 — HERO */}
       <section className="relative pb-24 px-4 overflow-hidden">
         {/* Background Atmosphere */}
@@ -201,6 +213,37 @@ const Packages: React.FC = () => {
               <div className="text-xs font-mono uppercase tracking-widest text-gray-500">Ownership</div>
             </motion.div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* ROI CALCULATOR SECTION */}
+      <section className="py-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-brand-purple/5 -z-10" />
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-5xl font-ubuntu font-bold mb-6">
+              How much is manual admin costing you?
+            </h2>
+            <p className="text-xl text-gray-400">
+              Stop guessing. See exactly how much revenue you're losing to slow follow-ups and manual tasks.
+            </p>
+          </div>
+          <ROICalculator />
+        </div>
+      </section>
+
+      {/* COMPARISON TABLE SECTION */}
+      <section className="py-24">
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-4xl font-ubuntu font-bold mb-6">
+              Compare Packages
+            </h2>
+            <p className="text-lg text-gray-400">
+              Find the perfect fit for your business stage.
+            </p>
+          </div>
+          <PricingComparisonTable />
         </div>
       </section>
 

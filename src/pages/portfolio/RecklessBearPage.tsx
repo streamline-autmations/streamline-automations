@@ -6,6 +6,8 @@ import SEO from '../../components/seo/SEO';
 import { fadeUp, stagger, cardItem, viewport } from '../../lib/motion';
 import Button from '../../components/ui/Button';
 import SectionDivider from '../../components/ui/SectionDivider';
+import CaseStudyMetrics from '../../components/portfolio/CaseStudyMetrics';
+import { portfolioProjects } from '../../data/portfolio';
 
 const ImgPlaceholder = ({ label, aspect = "aspect-video" }: { label: string; aspect?: string }) => (
   <div className={`w-full ${aspect} rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center`}>
@@ -36,6 +38,7 @@ const ImageWrapper = ({ children, label }: { children: React.ReactNode, label: s
 
 const RecklessBearPage: React.FC = () => {
   const [activeAdminTab, setActiveAdminTab] = useState('Leads');
+  const project = portfolioProjects.find(p => p.id === 'recklesbear');
 
   const adminTabs = ['Leads', 'Jobs', 'Stock', 'WhatsApp', 'Analytics'];
 
@@ -100,26 +103,53 @@ const RecklessBearPage: React.FC = () => {
       {/* SECTION 2 — OVERVIEW STATS */}
       <section className="py-12 border-b border-white/5 bg-[#0d0b1a]">
         <div className="container mx-auto px-4">
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            variants={stagger}
-            className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/10 max-w-4xl mx-auto"
-          >
-            <motion.div variants={cardItem} className="text-center py-4 md:py-0 px-4">
-              <div className="text-3xl md:text-4xl font-ubuntu font-bold text-white mb-2">2</div>
-              <div className="text-sm font-mono uppercase tracking-widest text-gray-500">Products Built</div>
-            </motion.div>
-            <motion.div variants={cardItem} className="text-center py-4 md:py-0 px-4">
-              <div className="text-3xl md:text-4xl font-ubuntu font-bold text-white mb-2">&lt; 7 Days</div>
-              <div className="text-sm font-mono uppercase tracking-widest text-gray-500">Delivered In</div>
-            </motion.div>
-            <motion.div variants={cardItem} className="text-center py-4 md:py-0 px-4">
-              <div className="text-3xl md:text-4xl font-ubuntu font-bold text-white mb-2">100%</div>
-              <div className="text-sm font-mono uppercase tracking-widest text-gray-500">Leads Automated</div>
-            </motion.div>
-          </motion.div>
+          {project?.metrics && <CaseStudyMetrics metrics={project.metrics} />}
+        </div>
+      </section>
+
+      {/* BEFORE VS AFTER */}
+      <section className="py-20 bg-[#0d0b1a]">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <div className="grid md:grid-cols-2 gap-12">
+            <div className="bg-red-900/5 border border-red-500/20 p-8 rounded-2xl">
+              <h3 className="text-xl font-bold text-red-400 mb-6 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-red-500"/> Before Streamline
+              </h3>
+              <ul className="space-y-4 text-gray-400">
+                <li className="flex gap-3">
+                  <span className="text-red-500/50">✕</span>
+                  Manual quote follow-up taking 4 hours/day
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-red-500/50">✕</span>
+                  30% of leads ignored due to capacity
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-red-500/50">✕</span>
+                  Limited visibility on sales pipeline
+                </li>
+              </ul>
+            </div>
+            <div className="bg-green-900/5 border border-green-500/20 p-8 rounded-2xl">
+              <h3 className="text-xl font-bold text-green-400 mb-6 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-green-500"/> After Automation
+              </h3>
+              <ul className="space-y-4 text-gray-300">
+                <li className="flex gap-3">
+                  <span className="text-green-500">✓</span>
+                  Automated quotes sent in 4 minutes/day
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-green-500">✓</span>
+                  94% lead capture rate (24/7 coverage)
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-green-500">✓</span>
+                  100% visibility via custom admin dashboard
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </section>
 

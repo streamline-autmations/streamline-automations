@@ -5,9 +5,12 @@ import SEO from '../../components/seo/SEO';
 import Tabs from '../../components/ui/Tabs';
 import Button from '../../components/ui/Button';
 import SectionDivider from '../../components/ui/SectionDivider';
+import CaseStudyMetrics from '../../components/portfolio/CaseStudyMetrics';
+import { portfolioProjects } from '../../data/portfolio';
 
 const BlomCosmetics: React.FC = () => {
   const [activeAdminTab, setActiveAdminTab] = useState('Product Control');
+  const project = portfolioProjects.find(p => p.id === 'blom-cosmetics');
 
   const techStack = [
     { icon: ShoppingCart, label: 'E-commerce Store' },
@@ -29,6 +32,60 @@ const BlomCosmetics: React.FC = () => {
         description="A full-stack beauty store with automated stock tracking and WhatsApp order updates."
       />
       <SectionDivider />
+      
+      {/* METRICS */}
+      <section className="py-12 border-b border-white/5 bg-[#0d0b1a]">
+        <div className="container mx-auto px-4">
+          {project?.metrics && <CaseStudyMetrics metrics={project.metrics} />}
+        </div>
+      </section>
+
+      {/* BEFORE VS AFTER */}
+      <section className="py-20 bg-[#0d0b1a]">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <div className="grid md:grid-cols-2 gap-12">
+            <div className="bg-red-900/5 border border-red-500/20 p-8 rounded-2xl">
+              <h3 className="text-xl font-bold text-red-400 mb-6 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-red-500"/> Before Streamline
+              </h3>
+              <ul className="space-y-4 text-gray-400">
+                <li className="flex gap-3">
+                  <span className="text-red-500/50">✕</span>
+                  Manual stock updates across spreadsheets
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-red-500/50">✕</span>
+                  Overselling "out of stock" items
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-red-500/50">✕</span>
+                  High monthly fees for Shopify plugins
+                </li>
+              </ul>
+            </div>
+            <div className="bg-green-900/5 border border-green-500/20 p-8 rounded-2xl">
+              <h3 className="text-xl font-bold text-green-400 mb-6 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-green-500"/> After Automation
+              </h3>
+              <ul className="space-y-4 text-gray-300">
+                <li className="flex gap-3">
+                  <span className="text-green-500">✓</span>
+                  Real-time sync between store and warehouse
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-green-500">✓</span>
+                  Automated low-stock alerts via WhatsApp
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-green-500">✓</span>
+                  Zero platform fees (Custom Supabase Backend)
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Module 1: The Storefront */}
       <section className="relative py-12 md:py-24">
         <div className="container mx-auto px-4 md:px-6">

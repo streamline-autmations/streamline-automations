@@ -10,6 +10,7 @@ export interface PortfolioProject {
   challenge?: string;
   solution?: string;
   results?: string[];
+  metrics?: { label: string; value: string; subtext?: string }[];
   gallery?: string[];
 }
 
@@ -29,6 +30,11 @@ export const portfolioProjects: PortfolioProject[] = [
       'Optimized gallery performance',
       'Custom design system',
       'Instant WhatsApp notifications'
+    ],
+    metrics: [
+      { label: 'Load Time', value: '< 0.5s', subtext: 'Global CDN Performance' },
+      { label: 'Mobile Score', value: '100%', subtext: 'Google Lighthouse' },
+      { label: 'Inquiry Rate', value: '+45%', subtext: 'vs. previous site' }
     ]
   },
   {
@@ -45,6 +51,11 @@ export const portfolioProjects: PortfolioProject[] = [
       '100% Lead visibility via CEO Dashboard',
       'Automated Booking Reminders',
       'Seamless Quote-to-Order flow'
+    ],
+    metrics: [
+      { label: 'Quote Conv.', value: '3x', subtext: 'Increase in closed deals' },
+      { label: 'Lead Capture', value: '100%', subtext: 'No missed inquiries' },
+      { label: 'Admin Time', value: '-15hrs', subtext: 'Saved per week' }
     ],
     gallery: [
       'https://images.pexels.com/photos/4065876/pexels-photo-4065876.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -66,6 +77,11 @@ export const portfolioProjects: PortfolioProject[] = [
       'Automated WhatsApp Order Updates',
       'Custom Discount Logic',
       'Zero monthly platform fees'
+    ],
+    metrics: [
+      { label: 'Stock Sync', value: 'Real-time', subtext: 'Across all channels' },
+      { label: 'Platform Fees', value: 'R0', subtext: 'Custom built solution' },
+      { label: 'Time Saved', value: '20hrs+', subtext: 'Monthly manual work' }
     ],
     gallery: [
       'https://images.pexels.com/photos/4968630/pexels-photo-4968630.jpeg?auto=compress&cs=tinysrgb&w=800',
