@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
             </p>
             <div className="flex gap-3">
               <a
-                href="#"
+                href="https://www.instagram.com/streamline_automations/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[color:var(--text-low)] hover:text-[color:var(--text-mid)] transition-colors duration-300"
@@ -36,7 +36,7 @@ const Footer: React.FC = () => {
                 <Instagram size={20} />
               </a>
               <a
-                href="#"
+                href="https://www.facebook.com/people/Streamline-Automations/61587739632609/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[color:var(--text-low)] hover:text-[color:var(--text-mid)] transition-colors duration-300"
@@ -45,7 +45,7 @@ const Footer: React.FC = () => {
                 <Facebook size={20} />
               </a>
               <a
-                href="#"
+                href="https://www.linkedin.com/in/christiaan-steffen-703805177/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[color:var(--text-low)] hover:text-[color:var(--text-mid)] transition-colors duration-300"
