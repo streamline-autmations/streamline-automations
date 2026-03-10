@@ -167,6 +167,16 @@ const Header: React.FC = () => {
 
               <li>
                 <Link
+                  to="/results"
+                  className="inline-block px-3 py-2 text-base font-ubuntu font-medium border-b-2 transition-all duration-300 text-[color:var(--text-mid)] hover:text-white"
+                  style={{ borderBottomColor: location.pathname === '/results' ? 'var(--purple)' : 'transparent', color: location.pathname === '/results' ? 'white' : 'var(--text-mid)' }}
+                >
+                  Results
+                </Link>
+              </li>
+
+              <li>
+                <Link
                   to="/contact"
                   className="inline-block px-3 py-2 text-base font-ubuntu font-medium border-b-2 transition-all duration-300 text-[color:var(--text-mid)] hover:text-white"
                   style={{ borderBottomColor: location.pathname === '/contact' ? 'var(--purple)' : 'transparent', color: location.pathname === '/contact' ? 'white' : 'var(--text-mid)' }}
@@ -260,6 +270,16 @@ const Header: React.FC = () => {
                   style={{ borderLeftColor: location.pathname === '/portfolio' ? 'var(--purple)' : 'transparent', color: location.pathname === '/portfolio' ? 'white' : 'var(--text-mid)' }}
                 >
                   Portfolio
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/results"
+                  className="block py-3 px-4 text-base font-ubuntu font-medium transition-all duration-300 border-l-2"
+                  style={{ borderLeftColor: location.pathname === '/results' ? 'var(--purple)' : 'transparent', color: location.pathname === '/results' ? 'white' : 'var(--text-mid)' }}
+                >
+                  Results
                 </Link>
               </li>
 

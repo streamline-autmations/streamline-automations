@@ -14,6 +14,7 @@ import PageTransition from './components/layout/PageTransition';
 const Home = lazy(() => import('./pages/Home'));
 const Services = lazy(() => import('./pages/Services'));
 const Packages = lazy(() => import('./pages/Packages'));
+const Results = lazy(() => import('./pages/Results'));
 const AddOnsPage = lazy(() => import('./pages/AddOnsPage'));
 const OnlinePresencePage = lazy(() => import('./pages/packages/OnlinePresencePage'));
 const ClientMagnetPage = lazy(() => import('./pages/packages/ClientMagnetPage'));
@@ -44,6 +45,9 @@ function AnimatedRoutes() {
           } />
           <Route path="packages" element={
             <PageTransition><Packages /></PageTransition>
+          } />
+          <Route path="results" element={
+            <PageTransition><Results /></PageTransition>
           } />
           <Route path="add-ons" element={
             <PageTransition><AddOnsPage /></PageTransition>

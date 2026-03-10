@@ -42,12 +42,20 @@ const Hero: React.FC = () => {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10">
-                <a href="/contact" className="btn btn-orange btn-xl btn-fw sm:w-auto group">
+                <a 
+                  href="/contact" 
+                  className="btn btn-orange btn-xl btn-fw sm:w-auto group"
+                  aria-label="Get Your Automation Audit - Book a free consultation"
+                >
                   Get Your Automation Audit
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </a>
 
-                <a href="/portfolio" className="btn btn-secondary btn-xl btn-fw sm:w-auto">
+                <a 
+                  href="/portfolio" 
+                  className="btn btn-secondary btn-xl btn-fw sm:w-auto"
+                  aria-label="See Real Results - View our portfolio"
+                >
                   See Real Results
                 </a>
               </div>
