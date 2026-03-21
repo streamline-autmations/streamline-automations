@@ -231,7 +231,7 @@ const AmeliVanZyl: React.FC = () => {
             <p className="text-lg md:text-xl text-gray-300 mb-10 font-inter leading-relaxed">
               Let's create a stunning digital presence that showcases your work beautifully.
             </p>
-            <Button href="/contact" variant="orange" size="lg" className="text-lg">
+            <Button href="/contact" variant="orange" size="lg" className="text-lg" trackingLocation="portfolio">
               Start Your Project
             </Button>
           </div>

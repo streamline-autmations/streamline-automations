@@ -3,6 +3,7 @@ import { ChevronDown, CheckCircle2, Calendar } from 'lucide-react';
 import { getCalApi } from "@calcom/embed-react";
 import { contactFormFields, expectationsList } from '../../data/formFields';
 import Button from '../ui/Button';
+import { trackFormSubmitted } from '../../lib/analytics';
 
 const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState<Record<string, string | File>>({});
@@ -50,6 +51,7 @@ const ContactForm: React.FC = () => {
       });
 
       setIsSubmitted(true);
+      trackFormSubmitted('contact');
     } catch (error) {
       console.error('Error submitting form:', error);
       // Fallback to success state even on error for UX (since no-cors might mask success)

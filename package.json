@@ -12,8 +12,10 @@
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",
     "@fontsource/space-grotesk": "^5.0.16",
+    "@posthog/react": "^1.8.2",
     "framer-motion": "^12.23.25",
     "lucide-react": "^0.344.0",
+    "posthog-js": "^1.363.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-helmet-async": "^3.0.0",

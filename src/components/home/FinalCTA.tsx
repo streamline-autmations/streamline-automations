@@ -1,4 +1,5 @@
 import React from 'react';
+import { trackCtaClick } from '../../lib/analytics';
 
 const FinalCTA: React.FC = () => {
   return (
@@ -14,7 +15,7 @@ const FinalCTA: React.FC = () => {
           Book a free 20-minute strategy call. We'll map out exactly what your business needs — no pitch, no pressure.
         </p>
 
-        <a href="/contact" className="btn btn-orange btn-xl btn-fw sm:w-auto">
+        <a href="/contact" className="btn btn-orange btn-xl btn-fw sm:w-auto" onClick={() => trackCtaClick('Book a Free Strategy Call', 'home')}>
           Book a Free Strategy Call →
         </a>
 

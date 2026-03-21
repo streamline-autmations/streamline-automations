@@ -102,7 +102,7 @@ const Packages: React.FC = () => {
                   ))}
                 </ul>
                 
-                <Button href="/packages/online-presence" variant="primary" className="w-full justify-center">
+                <Button href="/packages/online-presence" variant="primary" className="w-full justify-center" trackingLocation="packages">
                   View Details
                 </Button>
               </div>
@@ -144,7 +144,7 @@ const Packages: React.FC = () => {
                   ))}
                 </ul>
                 
-                <Button href="/packages/client-magnet" variant="orange" className="w-full justify-center shadow-lg shadow-orange-500/20">
+                <Button href="/packages/client-magnet" variant="orange" className="w-full justify-center shadow-lg shadow-orange-500/20" trackingLocation="packages">
                   View Details
                 </Button>
               </div>
@@ -177,7 +177,7 @@ const Packages: React.FC = () => {
                   ))}
                 </ul>
                 
-                <Button href="/packages/business-accelerator" variant="primary" className="w-full justify-center">
+                <Button href="/packages/business-accelerator" variant="primary" className="w-full justify-center" trackingLocation="packages">
                   View Details
                 </Button>
               </div>
@@ -366,7 +366,7 @@ const Packages: React.FC = () => {
               Usually R2,500 value — free for first 10 inquiries.
             </motion.p>
             <motion.div variants={fadeUp}>
-              <Button href="/contact" variant="primary" size="xl" className="px-12">
+              <Button href="/contact" variant="primary" size="xl" className="px-12" trackingLocation="packages">
                 Book Your Free Automation Audit
               </Button>
               <p className="text-sm text-gray-500 mt-4">

@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { HelmetProvider } from 'react-helmet-async';
@@ -9,6 +9,7 @@ import DotGridBackground from './components/ui/DotGridBackground';
 import Layout from './components/layout/Layout';
 import { IntroScreen } from './components/IntroScreen';
 import PageTransition from './components/layout/PageTransition';
+import { trackScrollDepth, resetScrollTracking, initOutboundLinkTracking, initBounceDetection, resetSessionTiming } from './lib/analytics';
 
 // Lazy load pages for performance
 const Home = lazy(() => import('./pages/Home'));
@@ -32,6 +33,28 @@ const RecklessBearPage = lazy(() => import('./pages/portfolio/RecklessBearPage')
 // Animated Routes Component
 function AnimatedRoutes() {
   const location = useLocation();
+
+  // Track scroll depth and handle bounce on route change
+  useEffect(() => {
+    const currentPath = location.pathname;
+    
+    // Reset scroll tracking for new page
+    resetScrollTracking();
+    resetSessionTiming();
+    
+    // Track scroll depth only on homepage
+    if (currentPath === '/') {
+      trackScrollDepth(currentPath);
+    }
+    
+    // Initialize bounce detection for each page
+    initBounceDetection(currentPath);
+  }, [location.pathname]);
+
+  // Initialize outbound link tracking once
+  useEffect(() => {
+    initOutboundLinkTracking();
+  }, []);
 
   return (
     <AnimatePresence mode="wait">

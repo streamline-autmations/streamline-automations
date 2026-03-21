@@ -394,7 +394,7 @@ const RecklessBearPage: React.FC = () => {
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-5xl font-ubuntu font-bold mb-6">Want a system like this?</h2>
             <p className="text-xl text-gray-400 mb-10">Book a free strategy call. We'll scope exactly what your business needs.</p>
-            <Button href="/contact" variant="primary" size="xl" className="px-12">
+            <Button href="/contact" variant="primary" size="xl" className="px-12" trackingLocation="portfolio">
               Book a Free Strategy Call
             </Button>
           </div>

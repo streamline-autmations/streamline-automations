@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
+import { trackCtaClick } from '../lib/analytics';
 
 type Variant = 'primary' | 'secondary' | 'ghost' | 'ghost-purple' | 'orange' | 'ghost-orange';
 type Size    = 'sm' | 'md' | 'lg';
@@ -12,6 +13,7 @@ interface ButtonProps {
   href?: string;
   className?: string;
   fullWidth?: boolean;
+  trackingLocation?: string;
 }
 
 const variantClasses: Record<Variant, string> = {
@@ -31,27 +33,35 @@ const sizeClasses: Record<Size, string> = {
 
 export function Button({
   children, variant = 'primary', size = 'md',
-  onClick, href, className = '', fullWidth = false,
+  onClick, href, className = '', fullWidth = false, trackingLocation,
 }: ButtonProps) {
   const classes = `${variantClasses[variant]} ${sizeClasses[size]} ${fullWidth ? 'btn-fw' : ''} ${className}`.trim();
+
+  const handleClick = () => {
+    if (trackingLocation) {
+      const buttonText = typeof children === 'string' ? children : 'button';
+      trackCtaClick(buttonText, trackingLocation);
+    }
+    onClick?.();
+  };
 
   if (href) {
     if (href.startsWith('/')) {
       return (
-        <Link to={href} className={classes}>
+        <Link to={href} className={classes} onClick={handleClick}>
           {children}
         </Link>
       );
     }
     return (
-      <a href={href} className={classes}>
+      <a href={href} className={classes} onClick={handleClick}>
         {children}
       </a>
     );
   }
 
   return (
-    <button onClick={onClick} className={classes}>
+    <button onClick={handleClick} className={classes}>
       {children}
     </button>
   );

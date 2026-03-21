@@ -111,7 +111,7 @@ const ClientMagnetPage: React.FC = () => {
                 System that captures, qualifies, and books clients 24/7.
               </p>
               <p className="text-2xl md:text-3xl font-bold font-mono text-accent mb-6">From R15,000</p>
-              <Button variant="primary" size="lg" href="/contact">
+              <Button variant="primary" size="lg" href="/contact" trackingLocation="packages">
                 Automate Your Business <ArrowRight className="w-5 h-5" />
               </Button>
             </motion.div>
@@ -285,7 +285,7 @@ const ClientMagnetPage: React.FC = () => {
             <SectionLabel>Get Started</SectionLabel>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">Ready to automate?</h2>
             <p className="text-base md:text-lg text-white/55 mb-8 leading-relaxed">Book more clients while you sleep.</p>
-            <Button variant="primary" size="lg" href="/contact">
+            <Button variant="primary" size="lg" href="/contact" trackingLocation="packages">
               Book a Free Strategy Call →
             </Button>
           </motion.div>

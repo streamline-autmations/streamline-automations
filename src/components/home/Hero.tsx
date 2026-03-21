@@ -1,9 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import posthog from 'posthog-js';
 import DigitalEcosystemStack from './DigitalEcosystemStack';
 import { ArrowRight } from 'lucide-react';
+import { trackCtaClick } from '../../lib/analytics';
 
 const Hero: React.FC = () => {
+  const [heroVariant, setHeroVariant] = useState<'control' | 'test' | null>(null);
+
+  useEffect(() => {
+    // Get the feature flag variant - defaults to 'control' if not set
+    const variant = posthog.getFeatureFlag('hero-cta-test') as 'control' | 'test' | boolean;
+    if (variant === 'test') {
+      setHeroVariant('test');
+    } else {
+      setHeroVariant('control');
+    }
+  }, []);
+
+  const handleCtaClick = () => {
+    const variant = heroVariant || 'control';
+    // Fire the A/B test specific event
+    posthog.capture('hero_cta_clicked', { variant });
+    // Also fire the general CTA click event
+    const buttonText = heroVariant === 'test' ? 'See How It Works' : 'Get Your Automation Audit';
+    trackCtaClick(buttonText, 'hero');
+  };
+
+  // Headline content based on variant
+  const headline = heroVariant === 'test' 
+    ? "Your Business Should Be Booking Jobs While You Sleep." 
+    : "Automate Your Business.\n                  Scale Without Burnout.";
+
+  const ctaText = heroVariant === 'test' ? 'See How It Works →' : 'Get Your Automation Audit';
+
+  // Don't render until we have the variant to avoid flash
+  if (heroVariant === null) {
+    return null;
+  }
+
   return (
     <div className="relative min-h-screen flex items-center pt-12 pb-24 overflow-hidden">
       {/* Ambient background glow */}
@@ -65,10 +100,18 @@ const Hero: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.1 }}
             >
               <h1 className="h1 mb-6 leading-tight">
-                Automate Your Business.{' '}
-                <span className="text-[color:var(--purple)] block mt-2">
-                  Scale Without Burnout.
-                </span>
+                {heroVariant === 'test' ? (
+                  <>
+                    Your Business Should Be Booking Jobs While You Sleep.
+                  </>
+                ) : (
+                  <>
+                    Automate Your Business.{' '}
+                    <span className="text-[color:var(--purple)] block mt-2">
+                      Scale Without Burnout.
+                    </span>
+                  </>
+                )}
               </h1>
             </motion.div>
 
@@ -95,12 +138,13 @@ const Hero: React.FC = () => {
                 <motion.a 
                   href="/contact" 
                   className="btn btn-orange btn-xl btn-fw sm:w-auto group relative overflow-hidden"
-                  aria-label="Get Your Automation Audit - Book a free consultation"
+                  aria-label={heroVariant === 'test' ? 'See How It Works' : 'Get Your Automation Audit'}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
+                  onClick={handleCtaClick}
                 >
                   <span className="relative z-10 flex items-center">
-                    Get Your Automation Audit
+                    {heroVariant === 'test' ? 'See How It Works' : 'Get Your Automation Audit'}
                     <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </span>
                   {/* Shine effect */}
@@ -118,6 +162,7 @@ const Hero: React.FC = () => {
                   aria-label="See Real Results - View our portfolio"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
+                  onClick={() => trackCtaClick('See Real Results', 'hero')}
                 >
                   See Real Results
                 </motion.a>

@@ -6,10 +6,21 @@ export default {
       colors: {
         // New Brand Colors
         'brand-dark': '#050505',
-        'brand-purple': '#774CFC',
+        'brand-purple': '#7C3AED',
         'brand-glow': '#6f3efc',
-        'brand-orange': '#F26A3D',
+        'brand-orange': '#F97316',
         'glass-surface': 'rgba(255, 255, 255, 0.03)',
+        
+        // New Design System
+        'surface-1': '#0d0d0d',
+        'surface-2': '#111111',
+        'border-subtle': 'rgba(255,255,255,0.08)',
+        'text-primary': '#ffffff',
+        'text-muted': 'rgba(255,255,255,0.45)',
+        'text-label': 'rgba(255,255,255,0.3)',
+        'accent-orange': '#f97316',
+        'accent-purple': '#a855f7',
+        'accent-white': '#ffffff',
         
         // Legacy colors for gradual migration
         primary: {
@@ -50,8 +61,11 @@ export default {
         'ubuntu': ['Ubuntu', 'sans-serif'],
         'inter': ['Inter', 'sans-serif'],
         'roboto': ['Roboto', 'sans-serif'],
-        sans: ['Inter', 'sans-serif'],
-        mono: ['Ubuntu', 'monospace'],
+        sans: ['DM Sans', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+        syne: ['Syne', 'sans-serif'],
+        'bebas': ['Bebas Neue', 'sans-serif'],
+        'dm-sans': ['DM Sans', 'sans-serif'],
       },
       boxShadow: {
         glow: '0 0 20px rgba(139, 92, 246, 0.4)',

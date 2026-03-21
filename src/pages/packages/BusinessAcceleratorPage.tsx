@@ -123,7 +123,7 @@ const BusinessAcceleratorPage: React.FC = () => {
                 Full infrastructure with dashboard, analytics, and monthly growth partner.
               </p>
               <p className="text-2xl md:text-3xl font-bold font-mono text-purple-400 mb-6">From R30,000</p>
-              <Button variant="primary" size="lg" href="/contact">
+              <Button variant="primary" size="lg" href="/contact" trackingLocation="packages">
                 Scale Your Business <ArrowRight className="w-5 h-5" />
               </Button>
             </motion.div>
@@ -297,7 +297,7 @@ const BusinessAcceleratorPage: React.FC = () => {
             <SectionLabel>Get Started</SectionLabel>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">Ready to scale?</h2>
             <p className="text-base md:text-lg text-white/55 mb-8 leading-relaxed">Your long-term growth partner awaits.</p>
-            <Button variant="primary" size="lg" href="/contact">
+            <Button variant="primary" size="lg" href="/contact" trackingLocation="packages">
               Book a Free Strategy Call →
             </Button>
           </motion.div>
