@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { trackCtaClick } from '../lib/analytics';
+import { trackCtaClick } from '../../lib/analytics';
 
 type Variant = 'primary' | 'secondary' | 'ghost' | 'ghost-purple' | 'orange' | 'ghost-orange';
 type Size    = 'sm' | 'md' | 'lg';
@@ -14,6 +14,8 @@ interface ButtonProps {
   className?: string;
   fullWidth?: boolean;
   trackingLocation?: string;
+  disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 const variantClasses: Record<Variant, string> = {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronDown, CheckCircle2, Calendar } from 'lucide-react';
 import { getCalApi } from "@calcom/embed-react";
-import { contactFormFields, expectationsList } from '../../data/formFields';
+import { contactFormFields } from '../../data/formFields';
 import Button from '../ui/Button';
 import { trackFormSubmitted } from '../../lib/analytics';
 
@@ -13,7 +13,7 @@ const ContactForm: React.FC = () => {
   useEffect(() => {
     (async function () {
       const cal = await getCalApi({"namespace":"strategy-call"});
-      cal("ui", {"theme":"dark","cssVarsPerTheme":{"dark":{"cal-brand":"#774CFC"}},"hideEventTypeDetails":false,"layout":"month_view"});
+      cal("ui", {"theme":"dark","cssVarsPerTheme":{"dark":{"cal-brand":"#774CFC"},"light":{"cal-brand":"#774CFC"}},"hideEventTypeDetails":false,"layout":"month_view"});
     })();
   }, []);
 
@@ -158,11 +158,11 @@ const ContactForm: React.FC = () => {
 
             <div className="pt-4">
               <Button 
-                type="submit" 
                 variant="orange" 
                 size="lg" 
                 className="w-full text-lg shadow-lg shadow-orange-500/20"
                 disabled={isSubmitting}
+                onClick={() => {}}
               >
                 {isSubmitting ? 'Sending...' : 'Send Request'}
               </Button>
