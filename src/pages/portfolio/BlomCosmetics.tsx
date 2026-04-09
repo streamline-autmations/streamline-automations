@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingCart, Database, GraduationCap, Zap, Mail, FileText, MessageSquare } from 'lucide-react';
+import { ShoppingCart, GraduationCap, Zap, Mail, FileText, MessageSquare } from 'lucide-react';
 import CaseStudyLayout from '../../components/layout/CaseStudyLayout';
 import SEO from '../../components/seo/SEO';
 import Tabs from '../../components/ui/Tabs';

@@ -126,8 +126,23 @@ export const heroTextReveal = {
 }
 
 export const bentoCard = {
-  hidden: { opacity: 0, y: 20, scale: 0.98 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring', stiffness: 100, damping: 20 } }
+  hidden: { opacity: 0, y: 30, rotateX: 8, scale: 0.97 },
+  visible: { opacity: 1, y: 0, rotateX: 0, scale: 1, transition: { type: 'spring', stiffness: 85, damping: 22 } }
+}
+
+export const flipUp = {
+  hidden: { opacity: 0, y: 40, rotateX: 12 },
+  visible: { opacity: 1, y: 0, rotateX: 0, transition: { type: 'spring', stiffness: 85, damping: 22 } }
+}
+
+export const slideLeft = {
+  hidden: { opacity: 0, x: -40 },
+  visible: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 90, damping: 22 } }
+}
+
+export const slideRight = {
+  hidden: { opacity: 0, x: 40 },
+  visible: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 90, damping: 22 } }
 }
 
 export const nodePulse = {

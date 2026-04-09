@@ -59,6 +59,7 @@ export function getDeviceCapabilities(): DeviceCapabilities {
   const gpuTier = detectGPUTier();
   
   // Simple performance scoring
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const memoryGB = (navigator as any).deviceMemory || 4;
   const cores = navigator.hardwareConcurrency || 4;
   

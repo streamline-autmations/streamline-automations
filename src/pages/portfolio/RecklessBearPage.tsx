@@ -9,6 +9,7 @@ import SectionDivider from '../../components/ui/SectionDivider';
 import CaseStudyMetrics from '../../components/portfolio/CaseStudyMetrics';
 import { portfolioProjects } from '../../data/portfolio';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ImgPlaceholder = ({ label, aspect = "aspect-video" }: { label: string; aspect?: string }) => (
   <div className={`w-full ${aspect} rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center`}>
     <span style={{ fontFamily: 'monospace', fontSize: 11, letterSpacing: 2, textTransform: 'uppercase', color: 'rgba(255,255,255,0.2)' }}>
@@ -17,6 +18,7 @@ const ImgPlaceholder = ({ label, aspect = "aspect-video" }: { label: string; asp
   </div>
 );
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ImageWrapper = ({ children, label }: { children: React.ReactNode, label: string }) => {
   return (
     <div className="rounded-xl overflow-hidden transition-all duration-500 cursor-pointer group relative"
@@ -37,9 +39,11 @@ const ImageWrapper = ({ children, label }: { children: React.ReactNode, label: s
 };
 
 const RecklessBearPage: React.FC = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [activeAdminTab, setActiveAdminTab] = useState('Leads');
   const project = portfolioProjects.find(p => p.id === 'recklesbear');
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const adminTabs = ['Leads', 'Jobs', 'Stock', 'WhatsApp', 'Analytics'];
 
   return (

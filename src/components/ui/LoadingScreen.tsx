@@ -6,7 +6,7 @@ interface LoadingScreenProps {
   onComplete?: () => void;
 }
 
-const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onComplete }) => {
+const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading }) => {
   return (
     <AnimatePresence>
       {isLoading && (

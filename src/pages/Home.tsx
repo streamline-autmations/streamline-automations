@@ -57,7 +57,7 @@ export default function Home() {
             <span className="label">Featured Builds</span>
           </div>
           <h2 className="h2 text-center mb-0">
-            Real systems. <GradientText>Real businesses.</GradientText>
+            Real systems. Real results.
           </h2>
           <FeaturedCaseStudies />
         </div>
@@ -82,7 +82,7 @@ export default function Home() {
             <span className="label">The Process</span>
           </div>
           <h2 className="h2 text-center mb-0">
-            Live in under <GradientText>two weeks.</GradientText>
+            Live in under two weeks.
           </h2>
           <HowItWorks />
         </div>

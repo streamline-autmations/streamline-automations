@@ -41,6 +41,7 @@ export default function ServicesBentoGrid() {
   return (
     <motion.div
       className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-12"
+      style={{ perspective: '1200px' }}
       variants={springStagger}
       initial="hidden"
       whileInView="visible"

@@ -6,7 +6,7 @@ import {
   Workflow, FileText, Filter, Mail, Check, ChevronDown, ArrowRight,
 } from 'lucide-react';
 import SEO from '../components/seo/SEO';
-import GradientText from '../components/ui/GradientText';
+
 import GlowDivider from '../components/ui/GlowDivider';
 import BracketCard from '../components/ui/BracketCard';
 import FinalCTA from '../components/home/FinalCTA';
@@ -112,7 +112,7 @@ export default function Systems() {
         <div className="container">
           <div className="text-center mb-2"><span className="label">What's Included</span></div>
           <h2 className="h2 text-center mb-12">
-            The full stack. <GradientText>Ready to deploy.</GradientText>
+            The full stack. Ready to deploy.
           </h2>
           <motion.div
             className="grid grid-cols-2 md:grid-cols-4 gap-4"
@@ -150,7 +150,7 @@ export default function Systems() {
         <div className="container max-w-3xl">
           <div className="mb-2"><span className="label">Is This For You?</span></div>
           <h2 className="h2 mb-10">
-            This is built for you <GradientText>if...</GradientText>
+            This is built for you if...
           </h2>
           <motion.ul
             className="flex flex-col gap-5"
@@ -178,7 +178,7 @@ export default function Systems() {
         <div className="container max-w-3xl">
           <div className="mb-2"><span className="label">Example Project</span></div>
           <h2 className="h2 mb-10">
-            4-minute quotes. Was <GradientText>2 days.</GradientText>
+            4-minute quotes. Was 2 days.
           </h2>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -225,7 +225,7 @@ export default function Systems() {
         <div className="container max-w-2xl">
           <div className="mb-2"><span className="label">FAQ</span></div>
           <h2 className="h2 mb-10">
-            Common <GradientText>questions.</GradientText>
+            Common questions.
           </h2>
           <div className="flex flex-col gap-3">
             {faqs.map((faq, i) => (

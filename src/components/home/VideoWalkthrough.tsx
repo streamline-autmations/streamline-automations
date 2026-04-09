@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Play, Loader } from 'lucide-react';
 import { springStagger, bentoCard, viewport } from '../../lib/motion';
-import GradientText from '../ui/GradientText';
+
 
 const videos = [
   {
@@ -28,7 +28,7 @@ export default function VideoWalkthrough() {
           <span className="label">See It In Action</span>
         </div>
         <h2 className="h2 text-center mb-12">
-          Watch how we <GradientText>build.</GradientText>
+          Watch how we build.
         </h2>
 
         <motion.div

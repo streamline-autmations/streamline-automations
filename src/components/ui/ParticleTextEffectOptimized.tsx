@@ -79,7 +79,7 @@ class Particle {
     this.currentColor.a = Math.min(255, this.currentColor.a + 25)
   }
 
-  draw(ctx: CanvasRenderingContext2D, settings: any) {
+  draw(ctx: CanvasRenderingContext2D, settings: { effects?: boolean; particleSize?: number }) {
     const alpha = this.currentColor.a / 255
     
     if (alpha <= 0) return

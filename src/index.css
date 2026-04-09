@@ -193,27 +193,27 @@ body::after {
 }
 
 .btn-orange {
-  border-color: var(--orange-border);
+  border-color: rgba(119,76,252,0.70);
   color: #fff;
-  background: var(--orange-dim);
+  background: #774CFC;
 }
 .btn-orange:hover {
-  border-color: rgba(242,106,61,0.55);
-  background: rgba(242,106,61,0.18);
-  box-shadow: 0 0 0 1px rgba(242,106,61,0.18), 0 0 28px rgba(242,106,61,0.25), 0 8px 28px rgba(0,0,0,0.45);
+  border-color: rgba(119,76,252,0.90);
+  background: #8B5CF6;
+  box-shadow: 0 0 0 1px rgba(119,76,252,0.25), 0 0 32px rgba(119,76,252,0.30), 0 8px 28px rgba(0,0,0,0.40);
   transform: translateY(-2px);
 }
 
 .btn-ghost-orange {
-  border-color: rgba(242,106,61,0.35);
-  color: rgba(242,106,61,0.95);
+  border-color: rgba(119,76,252,0.35);
+  color: rgba(167,139,250,0.90);
   background: transparent;
 }
 .btn-ghost-orange:hover {
-  border-color: rgba(242,106,61,0.65);
-  color: #ffd1b4;
-  background: rgba(242,106,61,0.10);
-  box-shadow: 0 0 20px rgba(242,106,61,0.18);
+  border-color: rgba(119,76,252,0.65);
+  color: #c4b5fd;
+  background: rgba(119,76,252,0.08);
+  box-shadow: 0 0 20px rgba(119,76,252,0.18);
   transform: translateY(-2px);
 }
 

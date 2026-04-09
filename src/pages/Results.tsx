@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+
 import { TrendingUp, Clock, Users, Award, ArrowRight } from 'lucide-react';
 import SEO from '../components/seo/SEO';
 import DotGridBackground from '../components/ui/DotGridBackground';

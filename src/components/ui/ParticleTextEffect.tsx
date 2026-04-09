@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useCallback, useEffect, useRef, useState } from "react"
 import { getDeviceCapabilities, getAnimationSettings, fpsMonitor } from "../../utils/deviceCapabilities"
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 interface Vector2D { x: number; y: number }
 
@@ -88,11 +90,13 @@ const WORD_COLORS = [
 ]
 
 // Unified word sequences for all devices
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const WORDS = ["WEBSITES", "SYSTEMS", "AUTOMATION", "WE DO IT ALL"]
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const WORDS_MOBILE_DISPLAY = ["WEBSITES", "SYSTEMS", "AUTOMATION", "WE DO\nIT ALL"]
 
 // Dynamic settings based on device
-let HOLD_FRAMES = [90, 90, 90, 110]
+const HOLD_FRAMES = [90, 90, 90, 110]
 
 interface ParticleTextEffectProps {
   onComplete?: () => void  // called after last word hold
@@ -160,7 +164,8 @@ export function ParticleTextEffect({ onComplete, className = "" }: ParticleTextE
     }
   }, [])
 
-  const showWord = useCallback((word: string, canvas: HTMLCanvasElement, colorIndex: number) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+const showWord = useCallback((word: string, canvas: HTMLCanvasElement, _colorIndex: number) => {
     const offscreen = document.createElement("canvas")
     offscreen.width  = canvas.width
     offscreen.height = canvas.height

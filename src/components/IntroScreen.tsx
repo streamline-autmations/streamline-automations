@@ -36,7 +36,10 @@ export function IntroScreen({ children }: IntroScreenProps) {
       setShowIntro(false)
       try {
         localStorage.setItem(DEVICE_KEY, "true")
-      } catch {}
+      } catch (e) {
+        // localStorage not available
+        console.debug('localStorage not available:', e)
+      }
     }, 800)
   }
 

@@ -55,7 +55,7 @@ function PortfolioProjectBlock({ project }: { project: PortfolioProject }) {
 }
 
 const Portfolio: React.FC = () => {
-  const [activeFilter, setActiveFilter] = useState<PortfolioCategory | 'all'>('all');
+  const [activeFilter] = useState<PortfolioCategory | 'all'>('all');
   const sectionRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
