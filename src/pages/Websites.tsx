@@ -1,0 +1,270 @@
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import {
+  Globe, Smartphone, Mail, MapPin, Zap, Search,
+  Palette, Shield, Check, ChevronDown, ArrowRight,
+} from 'lucide-react';
+import SEO from '../components/seo/SEO';
+import GradientText from '../components/ui/GradientText';
+import GlowDivider from '../components/ui/GlowDivider';
+import BracketCard from '../components/ui/BracketCard';
+import FinalCTA from '../components/home/FinalCTA';
+import { springStagger, springFadeUp, heroTextReveal, bentoCard, viewport } from '../lib/motion';
+
+const included = [
+  { icon: Globe,      title: '5 Pages',              desc: 'Home, About, Services, Portfolio, Contact' },
+  { icon: Smartphone, title: 'Mobile-First',          desc: 'Perfect on every screen, every device' },
+  { icon: Mail,       title: 'Contact Form',          desc: 'Enquiries delivered straight to your inbox' },
+  { icon: MapPin,     title: 'Google Maps & Socials', desc: 'Embedded, linked and verified' },
+  { icon: Zap,        title: 'Fast Load',             desc: 'Optimised performance from day one' },
+  { icon: Search,     title: 'Basic SEO',             desc: 'Meta tags, titles and structured data' },
+  { icon: Palette,    title: 'Custom Design',         desc: 'No Wix. No Squarespace. Fully yours.' },
+  { icon: Shield,     title: 'SSL Included',          desc: 'Secure by default — HTTPS on launch day' },
+];
+
+const forYouIf = [
+  'You have no website, or your current one embarrasses you',
+  'You want to rank on Google without paying ongoing ads',
+  'You need something fast, clean and professional within 5–7 days',
+];
+
+const faqs = [
+  {
+    q: 'How long does it take?',
+    a: '5–7 working days from strategy call to launch. We move fast so you do too.',
+  },
+  {
+    q: 'Do you use WordPress or Wix?',
+    a: 'No. We build custom in React — faster, more secure and fully yours. No licensing fees, no vendor lock-in.',
+  },
+  {
+    q: 'What do you need from me?',
+    a: 'Your logo, brand colours, copy and any photos. Don\'t have these yet? We can help sort them before we build.',
+  },
+  {
+    q: 'Is SEO included?',
+    a: 'Basic SEO is included — meta tags, titles, descriptions and a sitemap. For advanced SEO (keyword strategy, backlinks, monthly reporting), that\'s an add-on.',
+  },
+];
+
+export default function Websites() {
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  return (
+    <div className="relative overflow-hidden">
+      <SEO
+        title="Web Design & Creation"
+        description="Custom websites for local SA businesses. Built to convert. No templates. 5–7 day delivery. Mobile-first, fast and fully yours."
+      />
+
+      {/* ── Hero ───────────────────────────────────────── */}
+      <section className="relative min-h-[80vh] flex items-center py-24 overflow-hidden noise-overlay">
+        <div
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[500px] pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse at top, rgba(119,76,252,0.16), transparent 70%)' }}
+        />
+        <div className="container relative z-10">
+          <motion.div initial="hidden" animate="visible" variants={springStagger}>
+            <motion.p custom={0} variants={heroTextReveal} className="label mb-6">
+              Service · Web Design & Creation
+            </motion.p>
+            <motion.h1
+              custom={1}
+              variants={heroTextReveal}
+              className="font-bebas leading-[0.9] text-white mb-2"
+              style={{ fontSize: 'clamp(48px, 8vw, 100px)' }}
+            >
+              Built to convert.
+            </motion.h1>
+            <motion.div custom={2} variants={heroTextReveal}>
+              <span
+                className="font-bebas leading-[0.9] bg-gradient-to-r from-[#774CFC] to-[#F26A3D] bg-clip-text text-transparent block mb-8"
+                style={{ fontSize: 'clamp(48px, 8vw, 100px)' }}
+              >
+                Designed to impress.
+              </span>
+            </motion.div>
+            <motion.p custom={3} variants={heroTextReveal} className="text-white/60 max-w-[500px] mb-10 text-base leading-relaxed">
+              Custom websites for SA businesses. No templates. No Wix. No Squarespace.
+              Fast, mobile-first and fully yours from day one.
+            </motion.p>
+            <motion.div custom={4} variants={heroTextReveal} className="flex flex-wrap gap-4">
+              <Link to="/contact" className="btn btn-orange inline-flex items-center gap-2">
+                Book a Free Strategy Call <ArrowRight size={16} />
+              </Link>
+              <Link to="/portfolio" className="btn btn-ghost-orange inline-flex items-center gap-2">
+                See Our Work <ArrowRight size={16} />
+              </Link>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      <GlowDivider />
+
+      {/* ── What's included ────────────────────────────── */}
+      <section className="section">
+        <div className="container">
+          <div className="text-center mb-2"><span className="label">What's Included</span></div>
+          <h2 className="h2 text-center mb-12">
+            Everything you need. <GradientText>Nothing you don't.</GradientText>
+          </h2>
+          <motion.div
+            className="grid grid-cols-2 md:grid-cols-4 gap-4"
+            variants={springStagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
+            {included.map((item) => {
+              const Icon = item.icon;
+              return (
+                <motion.div
+                  key={item.title}
+                  variants={bentoCard}
+                  className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-5 flex flex-col gap-3 hover:border-white/20 transition-colors"
+                >
+                  <div className="w-9 h-9 rounded-lg bg-[#774CFC]/12 border border-[#774CFC]/25 flex items-center justify-center">
+                    <Icon size={16} className="text-[#774CFC]" />
+                  </div>
+                  <div>
+                    <p className="text-white text-sm font-medium mb-1">{item.title}</p>
+                    <p className="text-white/45 text-xs leading-relaxed">{item.desc}</p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
+      </section>
+
+      <GlowDivider color="white" />
+
+      {/* ── Built for you if ───────────────────────────── */}
+      <section className="section">
+        <div className="container max-w-3xl">
+          <div className="mb-2"><span className="label">Is This For You?</span></div>
+          <h2 className="h2 mb-10">
+            This is built for you <GradientText>if...</GradientText>
+          </h2>
+          <motion.ul
+            className="flex flex-col gap-5"
+            variants={springStagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
+            {forYouIf.map((item, i) => (
+              <motion.li key={i} variants={springFadeUp} className="flex items-start gap-4">
+                <div className="w-6 h-6 rounded-full bg-[#774CFC]/15 border border-[#774CFC]/35 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <Check size={12} className="text-[#774CFC]" />
+                </div>
+                <p className="text-white/75 text-base leading-relaxed">{item}</p>
+              </motion.li>
+            ))}
+          </motion.ul>
+        </div>
+      </section>
+
+      <GlowDivider />
+
+      {/* ── Example project ────────────────────────────── */}
+      <section className="section">
+        <div className="container max-w-3xl">
+          <div className="mb-2"><span className="label">Example Project</span></div>
+          <h2 className="h2 mb-10">
+            See it in <GradientText>action.</GradientText>
+          </h2>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={viewport}
+            transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+          >
+            <BracketCard color="purple">
+              <Link to="/portfolio/ameli-van-zyl-design" className="group block">
+                <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-300">
+                  <div className="relative aspect-video overflow-hidden">
+                    <img
+                      src="https://images.pexels.com/photos/3997989/pexels-photo-3997989.jpeg?auto=compress&cs=tinysrgb&w=1200"
+                      alt="Ameli Studio"
+                      className="w-full h-full object-cover opacity-40 group-hover:opacity-55 transition-opacity duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                    <div className="absolute top-4 left-4">
+                      <span className="text-xs font-mono uppercase tracking-widest px-3 py-1 rounded-full border text-[#774CFC] border-[#774CFC]/40 bg-[#774CFC]/12">
+                        Online Presence
+                      </span>
+                    </div>
+                  </div>
+                  <div className="p-6 flex items-center justify-between">
+                    <div>
+                      <h3 className="font-bebas text-2xl text-white mb-1">Ameli Studio</h3>
+                      <p className="text-white/50 text-sm">Portfolio site for skin & brow studio — contact form + email notifications</p>
+                    </div>
+                    <div className="flex items-center gap-2 text-[#774CFC] text-sm group-hover:gap-3 transition-all">
+                      View <ArrowRight size={14} />
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </BracketCard>
+          </motion.div>
+        </div>
+      </section>
+
+      <GlowDivider color="white" />
+
+      {/* ── FAQ ────────────────────────────────────────── */}
+      <section className="section">
+        <div className="container max-w-2xl">
+          <div className="mb-2"><span className="label">FAQ</span></div>
+          <h2 className="h2 mb-10">
+            Common <GradientText>questions.</GradientText>
+          </h2>
+          <div className="flex flex-col gap-3">
+            {faqs.map((faq, i) => (
+              <div
+                key={i}
+                className="bg-white/5 border border-white/10 rounded-xl overflow-hidden hover:border-white/20 transition-colors"
+              >
+                <button
+                  className="w-full flex items-center justify-between p-5 text-left"
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                >
+                  <span className="text-white font-medium text-sm pr-4">{faq.q}</span>
+                  <ChevronDown
+                    size={16}
+                    className={`text-white/40 flex-shrink-0 transition-transform duration-200 ${openFaq === i ? 'rotate-180' : ''}`}
+                  />
+                </button>
+                <AnimatePresence initial={false}>
+                  {openFaq === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <p className="px-5 pb-5 text-white/55 text-sm leading-relaxed">{faq.a}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <GlowDivider />
+
+      {/* ── Final CTA ──────────────────────────────────── */}
+      <section className="section">
+        <div className="container">
+          <FinalCTA />
+        </div>
+      </section>
+    </div>
+  );
+}

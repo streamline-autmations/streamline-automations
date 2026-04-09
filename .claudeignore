@@ -1,0 +1,73 @@
+# .claudeignore — Claude Code will skip these files/folders
+# Drop this in your project root alongside CLAUDE.md
+
+# Dependencies
+node_modules/
+.pnp/
+.yarn/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+.output/
+.vercel/
+.cache/
+
+# Environment & secrets
+.env
+.env.local
+.env.development
+.env.production
+.env.*.local
+
+# Lock files (rarely useful for Claude to read)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
+
+# Generated & compiled
+*.min.js
+*.min.css
+*.map
+*.d.ts
+
+# Media (Claude can't read these anyway)
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.webp
+*.avif
+*.svg
+*.ico
+*.mp4
+*.mov
+*.mp3
+*.woff
+*.woff2
+*.ttf
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Supabase local
+supabase/.branches/
+supabase/.temp/

@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { HelmetProvider } from 'react-helmet-async';
 import ScrollToTop from './components/layout/ScrollToTop';
@@ -29,6 +29,9 @@ const Automation = lazy(() => import('./pages/services/Automation'));
 const BlomCosmetics = lazy(() => import('./pages/portfolio/BlomCosmetics'));
 const AmeliVanZyl = lazy(() => import('./pages/portfolio/AmeliVanZyl'));
 const RecklessBearPage = lazy(() => import('./pages/portfolio/RecklessBearPage'));
+const WebsitesPage = lazy(() => import('./pages/Websites'));
+const SystemsPage = lazy(() => import('./pages/Systems'));
+const HostingPage = lazy(() => import('./pages/Hosting'));
 
 // Animated Routes Component
 function AnimatedRoutes() {
@@ -66,23 +69,27 @@ function AnimatedRoutes() {
           <Route path="services" element={
             <PageTransition><Services /></PageTransition>
           } />
-          <Route path="packages" element={
-            <PageTransition><Packages /></PageTransition>
+          {/* New service pages */}
+          <Route path="websites" element={
+            <PageTransition><WebsitesPage /></PageTransition>
           } />
+          <Route path="systems" element={
+            <PageTransition><SystemsPage /></PageTransition>
+          } />
+          <Route path="hosting" element={
+            <PageTransition><HostingPage /></PageTransition>
+          } />
+          {/* Redirects for old package routes */}
+          <Route path="packages" element={<Navigate to="/websites" replace />} />
+          <Route path="packages/online-presence" element={<Navigate to="/websites" replace />} />
+          <Route path="packages/client-magnet" element={<Navigate to="/systems" replace />} />
+          <Route path="packages/business-accelerator" element={<Navigate to="/systems" replace />} />
+          {/* Keep old pages accessible but not in nav */}
           <Route path="results" element={
             <PageTransition><Results /></PageTransition>
           } />
           <Route path="add-ons" element={
             <PageTransition><AddOnsPage /></PageTransition>
-          } />
-          <Route path="packages/online-presence" element={
-            <PageTransition><OnlinePresencePage /></PageTransition>
-          } />
-          <Route path="packages/client-magnet" element={
-            <PageTransition><ClientMagnetPage /></PageTransition>
-          } />
-          <Route path="packages/business-accelerator" element={
-            <PageTransition><BusinessAcceleratorPage /></PageTransition>
           } />
           <Route path="services/branding" element={
             <PageTransition><Branding /></PageTransition>

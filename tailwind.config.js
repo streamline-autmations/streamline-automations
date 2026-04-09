@@ -76,6 +76,7 @@ export default {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'circuit-pattern': 'linear-gradient(90deg, rgba(139, 92, 246, 0.1) 1px, transparent 1px), linear-gradient(rgba(139, 92, 246, 0.1) 1px, transparent 1px)',
+        'gradient-brand': 'linear-gradient(to right, #774CFC, #F26A3D)',
       },
       backgroundSize: {
         'circuit': '20px 20px',

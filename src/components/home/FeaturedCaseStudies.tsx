@@ -1,83 +1,88 @@
-import React from 'react';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import Section from '../ui/Section';
-import SectionHeading from '../ui/SectionHeading';
+import { springStagger, bentoCard, viewport } from '../../lib/motion';
+import BracketCard from '../ui/BracketCard';
+import GradientText from '../ui/GradientText';
 
-const FeaturedCaseStudies: React.FC = () => {
-  const projects = [
-    {
-      id: 1,
-      tag: 'E-commerce Infrastructure',
-      tagColor: 'text-brand-purple',
-      title: 'BLOM Cosmetics',
-      description: 'Full-stack inventory command center & custom store.',
-      image: 'https://images.pexels.com/photos/3962285/pexels-photo-3962285.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    },
-    {
-      id: 2,
-      tag: 'AI Automation System',
-      tagColor: 'text-accent',
-      title: 'RecklessBear Apparel',
-      description: 'Automated quote-engine with 24/7 AI booking agent.',
-      image: 'https://images.pexels.com/photos/3588365/pexels-photo-3588365.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    },
-  ];
+const projects = [
+  {
+    id: 1,
+    tag: 'E-commerce Infrastructure',
+    title: 'BLOM Cosmetics',
+    description: 'Full e-commerce store, admin dashboard, BLOM Academy, email + WhatsApp automation and monthly retainer.',
+    image: 'https://images.pexels.com/photos/3962285/pexels-photo-3962285.jpeg?auto=compress&cs=tinysrgb&w=1200',
+    path: '/portfolio/blom-cosmetics',
+    color: 'purple' as const,
+    accentColor: '#774CFC',
+  },
+  {
+    id: 2,
+    tag: 'Systems & Automation',
+    title: 'RecklessBear Apparel',
+    description: 'Website, CRM, 12-stage order tracking, inventory management, WhatsApp automation and monthly retainer.',
+    image: 'https://images.pexels.com/photos/3588365/pexels-photo-3588365.jpeg?auto=compress&cs=tinysrgb&w=1200',
+    path: '/portfolio/recklesbear',
+    color: 'orange' as const,
+    accentColor: '#F26A3D',
+  },
+];
 
+export default function FeaturedCaseStudies() {
   return (
-    <Section className="py-20 md:py-32 relative overflow-hidden">
-      <div className="absolute -left-40 top-1/2 w-[800px] h-[800px] bg-gradient-to-r from-brand-purple/20 to-transparent rounded-full blur-[120px] pointer-events-none"></div>
-
-      <div className="max-w-6xl mx-auto relative z-10">
-        <SectionHeading
-          title="Featured Builds"
-          subtitle="Real systems solving real business problems"
-        />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
-          {projects.map((project) => (
-            <Link
-              key={project.id}
-              to="/portfolio"
-              className="group"
-            >
-              <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-300 h-full flex flex-col">
-                {/* Image */}
-                <div className="relative w-full aspect-video overflow-hidden bg-gradient-to-br from-brand-purple/20 to-transparent">
+    <motion.div
+      className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12"
+      variants={springStagger}
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewport}
+    >
+      {projects.map((project) => (
+        <motion.div key={project.id} variants={bentoCard}>
+          <BracketCard color={project.color} className="h-full">
+            <Link to={project.path} className="group block h-full">
+              <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-300 h-full flex flex-col">
+                {/* Image with strong gradient overlay */}
+                <div className="relative w-full aspect-video overflow-hidden">
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-300"
+                    className="w-full h-full object-cover opacity-40 group-hover:opacity-55 transition-opacity duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                  {/* Tag overlay on image */}
+                  <div className="absolute top-4 left-4">
+                    <span
+                      className="text-xs font-mono uppercase tracking-widest px-3 py-1 rounded-full border"
+                      style={{
+                        color: project.accentColor,
+                        borderColor: `${project.accentColor}40`,
+                        backgroundColor: `${project.accentColor}12`,
+                      }}
+                    >
+                      {project.tag}
+                    </span>
+                  </div>
                 </div>
 
                 {/* Content */}
-                <div className="p-6 md:p-8 flex-1 flex flex-col">
-                  <div className={`text-xs font-ubuntu font-bold uppercase tracking-wider mb-3 ${project.tagColor}`}>
-                    {project.tag}
-                  </div>
-
-                  <h3 className="text-2xl md:text-3xl font-ubuntu font-bold text-white mb-3 group-hover:text-brand-purple transition-colors duration-300">
-                    {project.title}
+                <div className="p-6 flex-1 flex flex-col gap-3">
+                  <h3 className="font-bebas text-3xl text-white group-hover:text-white/90 transition-colors">
+                    <GradientText>{project.title}</GradientText>
                   </h3>
-
-                  <p className="text-gray-400 mb-6 flex-1">
-                    {project.description}
-                  </p>
-
-                  <div className="flex items-center gap-2 text-brand-purple group-hover:gap-3 transition-all duration-300">
-                    <span className="text-sm font-ubuntu font-bold">View Case Study</span>
-                    <ArrowRight size={16} />
+                  <p className="text-white/55 text-sm leading-relaxed flex-1">{project.description}</p>
+                  <div
+                    className="inline-flex items-center gap-2 text-sm font-medium group-hover:gap-3 transition-all duration-300"
+                    style={{ color: project.accentColor }}
+                  >
+                    View Case Study <ArrowRight size={14} />
                   </div>
                 </div>
               </div>
             </Link>
-          ))}
-        </div>
-      </div>
-    </Section>
+          </BracketCard>
+        </motion.div>
+      ))}
+    </motion.div>
   );
-};
-
-export default FeaturedCaseStudies;
+}

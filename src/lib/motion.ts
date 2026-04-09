@@ -105,3 +105,35 @@ export const breathing = {
     transition: { duration: 2, repeat: Infinity, ease: 'easeInOut' }
   }
 }
+
+// Spring-based variants for redesign
+export const springFadeUp = {
+  hidden: { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 100, damping: 18 } }
+}
+
+export const springStagger = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } }
+}
+
+export const heroTextReveal = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i: number) => ({
+    opacity: 1, y: 0,
+    transition: { type: 'spring', stiffness: 90, damping: 20, delay: i * 0.12 }
+  })
+}
+
+export const bentoCard = {
+  hidden: { opacity: 0, y: 20, scale: 0.98 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring', stiffness: 100, damping: 20 } }
+}
+
+export const nodePulse = {
+  animate: {
+    scale: [1, 1.15, 1],
+    opacity: [0.4, 0.9, 0.4],
+    transition: { duration: 2.8, repeat: Infinity, ease: 'easeInOut' }
+  }
+}

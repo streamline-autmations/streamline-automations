@@ -61,10 +61,12 @@ const Footer: React.FC = () => {
             <h4 className="text-[color:var(--text-low)] font-ubuntu font-bold mb-4">Quick Links</h4>
             <ul className="space-y-3">
               {[
-                { name: 'Home', path: '/' },
-                { name: 'Services', path: '/services' },
+                { name: 'Home',      path: '/' },
+                { name: 'Websites',  path: '/websites' },
+                { name: 'Systems',   path: '/systems' },
+                { name: 'Hosting',   path: '/hosting' },
                 { name: 'Portfolio', path: '/portfolio' },
-                { name: 'Contact', path: '/contact' },
+                { name: 'Contact',   path: '/contact' },
               ].map((link) => (
                 <li key={link.path}>
                   <Link
@@ -83,9 +85,9 @@ const Footer: React.FC = () => {
             <h4 className="text-[color:var(--text-low)] font-ubuntu font-bold mb-4">Services</h4>
             <ul className="space-y-3">
               {[
-                { name: 'Branding', path: '/services/branding' },
-                { name: 'Web Development', path: '/services/development' },
-                { name: 'Automation', path: '/services/automation' },
+                { name: 'Web Design & Creation', path: '/websites' },
+                { name: 'Systems & Automation',  path: '/systems' },
+                { name: 'Hosting & Maintenance', path: '/hosting' },
               ].map((service) => (
                 <li key={service.path}>
                   <Link
@@ -214,10 +216,12 @@ const Footer: React.FC = () => {
               <h4 className="text-[color:var(--text-low)] font-ubuntu font-bold mb-4">Quick Links</h4>
               <ul className="space-y-3">
                 {[
-                  { name: 'Home', path: '/' },
-                  { name: 'Services', path: '/services' },
+                  { name: 'Home',      path: '/' },
+                  { name: 'Websites',  path: '/websites' },
+                  { name: 'Systems',   path: '/systems' },
+                  { name: 'Hosting',   path: '/hosting' },
                   { name: 'Portfolio', path: '/portfolio' },
-                  { name: 'Contact', path: '/contact' },
+                  { name: 'Contact',   path: '/contact' },
                 ].map((link) => (
                   <li key={link.path}>
                     <Link
@@ -235,9 +239,9 @@ const Footer: React.FC = () => {
               <h4 className="text-[color:var(--text-low)] font-ubuntu font-bold mb-4">Services</h4>
               <ul className="space-y-3">
                 {[
-                  { name: 'Branding', path: '/services/branding' },
-                  { name: 'Web Development', path: '/services/development' },
-                  { name: 'Automation', path: '/services/automation' },
+                  { name: 'Web Design',  path: '/websites' },
+                  { name: 'Automation',  path: '/systems' },
+                  { name: 'Hosting',     path: '/hosting' },
                 ].map((service) => (
                   <li key={service.path}>
                     <Link
