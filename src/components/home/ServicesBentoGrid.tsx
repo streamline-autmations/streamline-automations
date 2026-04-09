@@ -2,26 +2,28 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Globe, Zap, Shield, ArrowRight } from 'lucide-react';
 import { springStagger, bentoCard, viewport } from '../../lib/motion';
-import GradientText from '../ui/GradientText';
+
 
 const services = [
-  {
-    icon: Globe,
-    name: 'Web Design & Creation',
-    tagline: 'Built to convert. Designed to impress.',
-    description: 'Custom websites for SA businesses. No templates. No Wix. Yours from day one.',
-    path: '/websites',
-    color: '#774CFC',
-    colSpan: 'md:col-span-1',
-  },
   {
     icon: Zap,
     name: 'Systems & Automation',
     tagline: 'Stop doing it manually.',
-    description: 'CRMs, WhatsApp bots, booking systems, admin dashboards and n8n workflows. The backend of your business, automated.',
+    description: 'CRMs, WhatsApp bots, booking systems, admin dashboards and n8n workflows. The backend of your business, automated. Built for businesses that want to scale without hiring more people.',
     path: '/systems',
     color: '#F26A3D',
     colSpan: 'md:col-span-2',
+    featured: true,
+  },
+  {
+    icon: Globe,
+    name: 'Web Design & Creation',
+    tagline: 'Built to convert.',
+    description: 'Custom websites for SA businesses. No templates. No Wix. Yours from day one.',
+    path: '/websites',
+    color: '#774CFC',
+    colSpan: 'md:col-span-1',
+    featured: false,
   },
   {
     icon: Shield,
@@ -30,7 +32,8 @@ const services = [
     description: 'Domain, professional email, SSL, DNS and monthly maintenance. Locked in and looked after.',
     path: '/hosting',
     color: '#774CFC',
-    colSpan: 'md:col-span-3',
+    colSpan: 'md:col-span-1',
+    featured: false,
   },
 ];
 
@@ -69,7 +72,7 @@ export default function ServicesBentoGrid() {
               {/* Name + tagline */}
               <div>
                 <h3 className="font-bebas text-2xl text-white mb-1">
-                  <GradientText>{service.name}</GradientText>
+                  {service.name}
                 </h3>
                 <p className="text-white/50 text-sm font-mono tracking-wide">{service.tagline}</p>
               </div>

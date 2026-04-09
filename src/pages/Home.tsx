@@ -1,8 +1,11 @@
 import SEO from '../components/seo/SEO';
 import HeroSection from '../components/home/HeroSection';
 import SocialProofBar from '../components/home/SocialProofBar';
+import ResultsBar from '../components/home/ResultsBar';
 import ServicesBentoGrid from '../components/home/ServicesBentoGrid';
 import FeaturedCaseStudies from '../components/home/FeaturedCaseStudies';
+import TestimonialsSection from '../components/home/TestimonialsSection';
+import VideoWalkthrough from '../components/home/VideoWalkthrough';
 import HowItWorks from '../components/home/HowItWorks';
 import TechStack from '../components/home/TechStack';
 import FinalCTA from '../components/home/FinalCTA';
@@ -14,7 +17,7 @@ export default function Home() {
     <div className="relative overflow-hidden">
       <SEO
         title="Streamline Automations — Websites & Automation for SA Businesses"
-        description="We build websites, CRMs, WhatsApp automations and booking systems for local South African businesses. 7-day delivery. You own everything."
+        description="We build websites, CRMs, WhatsApp automations and booking systems for Johannesburg & Pretoria businesses. 7-day delivery. You own everything."
       />
 
       {/* 1. Hero */}
@@ -22,12 +25,17 @@ export default function Home() {
 
       <GlowDivider />
 
-      {/* 2. Social proof */}
+      {/* 2. Social proof marquee */}
       <SocialProofBar />
 
       <GlowDivider color="white" />
 
-      {/* 3. Services preview */}
+      {/* 3. Real results */}
+      <ResultsBar />
+
+      <GlowDivider />
+
+      {/* 4. Services */}
       <section className="section">
         <div className="container">
           <div className="text-center mb-2">
@@ -42,7 +50,7 @@ export default function Home() {
 
       <GlowDivider />
 
-      {/* 4. Featured builds */}
+      {/* 5. Featured builds */}
       <section className="section">
         <div className="container">
           <div className="text-center mb-2">
@@ -55,9 +63,19 @@ export default function Home() {
         </div>
       </section>
 
+      <GlowDivider color="white" />
+
+      {/* 6. Testimonials */}
+      <TestimonialsSection />
+
       <GlowDivider />
 
-      {/* 5. How it works */}
+      {/* 7. Video walkthroughs */}
+      <VideoWalkthrough />
+
+      <GlowDivider color="white" />
+
+      {/* 8. How it works */}
       <section className="section">
         <div className="container">
           <div className="text-center mb-2">
@@ -70,14 +88,14 @@ export default function Home() {
         </div>
       </section>
 
-      <GlowDivider color="white" />
+      <GlowDivider />
 
-      {/* 6. Tech stack */}
+      {/* 9. Tech stack */}
       <TechStack />
 
       <GlowDivider />
 
-      {/* 7. Final CTA */}
+      {/* 10. Final CTA */}
       <section className="section">
         <div className="container">
           <FinalCTA />
