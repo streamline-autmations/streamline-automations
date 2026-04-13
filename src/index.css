@@ -33,7 +33,13 @@
   --nav-h: 64px;
 }
 
-html { scroll-behavior: smooth; }
+/* Lenis handles smooth scroll — native smooth-scroll conflicts with it */
+html { scroll-behavior: auto; }
+
+/* Hide native cursor when custom cursor is active (desktop only) */
+@media (pointer: fine) {
+  html, html * { cursor: none !important; }
+}
 
 body {
   background-color: var(--bg);
@@ -97,6 +103,14 @@ body::after {
   padding-top: env(safe-area-inset-top, 0px);
   padding-left: 32px;
   padding-right: 32px;
+}
+
+/* After scrolling 80px — frosted glass overlay */
+.navbar-scrolled {
+  background: rgba(4, 4, 11, 0.80) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom-color: rgba(255,255,255,0.10) !important;
 }
 
 @media (max-width: 768px) {
@@ -570,6 +584,20 @@ body.intro-active {
 
 .animate-fadeIn {
   animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* ─── GSAP split-type text reveal ────────────────────────────── */
+/* Each .word clips its chars so they slide up from below the line */
+.hero-split-line .word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  /* Small gap fix between words after split */
+  margin-right: 0.22em;
+}
+.hero-split-line .char {
+  display: inline-block;
+  will-change: transform, opacity;
 }
 
 /* ─── Redesign utilities ─────────────────────────────────────── */

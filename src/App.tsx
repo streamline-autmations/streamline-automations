@@ -3,12 +3,13 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'r
 import { AnimatePresence } from 'framer-motion';
 import { HelmetProvider } from 'react-helmet-async';
 import ScrollToTop from './components/layout/ScrollToTop';
-import CursorHint from './components/ui/CursorHint';
 import MouseTracker from './components/MouseTracker';
 import DotGridBackground from './components/ui/DotGridBackground';
 import Layout from './components/layout/Layout';
 import { IntroScreen } from './components/IntroScreen';
 import PageTransition from './components/layout/PageTransition';
+import LenisProvider from './components/providers/LenisProvider';
+import CustomCursor from './components/ui/CustomCursor';
 import { trackScrollDepth, resetScrollTracking, initOutboundLinkTracking, initBounceDetection, resetSessionTiming } from './lib/analytics';
 
 // Lazy load pages for performance
@@ -128,17 +129,19 @@ function App() {
   return (
     <HelmetProvider>
       <IntroScreen>
-        <Router>
-          <MouseTracker />
-          <ScrollToTop />
-          <CursorHint />
-          <DotGridBackground />
-          <div className="relative min-h-screen">
-            <Suspense fallback={<div className="min-h-screen bg-[#050508]" />}>
-              <AnimatedRoutes />
-            </Suspense>
-          </div>
-        </Router>
+        <LenisProvider>
+          <Router>
+            <CustomCursor />
+            <MouseTracker />
+            <ScrollToTop />
+            <DotGridBackground />
+            <div className="relative min-h-screen">
+              <Suspense fallback={<div className="min-h-screen bg-[#050508]" />}>
+                <AnimatedRoutes />
+              </Suspense>
+            </div>
+          </Router>
+        </LenisProvider>
       </IntroScreen>
     </HelmetProvider>
   );
