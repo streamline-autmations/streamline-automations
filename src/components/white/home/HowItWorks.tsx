@@ -44,12 +44,30 @@ export default function HowItWorks() {
           }}
           className="relative grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-4"
         >
-          {/* Dashed connector on desktop */}
-          <div
+          {/* Dashed connector on desktop — draws itself in on viewport enter */}
+          <svg
             aria-hidden="true"
-            className="hidden md:block absolute top-7 left-[12%] right-[12%]
-                       border-t border-dashed border-[#E8E8EC]"
-          />
+            className="hidden md:block absolute top-7 left-[12%] right-[12%] h-[2px] w-[76%]"
+            viewBox="0 0 1000 2"
+            preserveAspectRatio="none"
+          >
+            <motion.line
+              x1="0"
+              y1="1"
+              x2="1000"
+              y2="1"
+              stroke="#D4D4DA"
+              strokeWidth="1.5"
+              strokeDasharray="6 6"
+              initial={{ pathLength: 0, opacity: 0 }}
+              whileInView={{ pathLength: 1, opacity: 1 }}
+              viewport={{ once: true, margin: '-100px' }}
+              transition={{
+                pathLength: { duration: 1.4, ease: EASE, delay: 0.15 },
+                opacity: { duration: 0.4, ease: 'linear' },
+              }}
+            />
+          </svg>
 
           {STEPS.map((s) => (
             <motion.li

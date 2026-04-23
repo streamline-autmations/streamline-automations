@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import SEO from '../components/seo/SEO';
 import WhiteNavbar from '../components/white/Navbar';
 import WhiteFooter from '../components/white/Footer';
+import CustomCursor from '../components/white/ui/CustomCursor';
 import Hero from '../components/white/home/Hero';
 import ClientBar from '../components/white/home/ClientBar';
 import Services from '../components/white/home/Services';
@@ -31,6 +32,7 @@ export default function HomeWhite() {
         description="Custom websites and automation systems for South African businesses. Fast, clean, and ready to go. Based in the Vaal Triangle, serving all of SA."
       />
 
+      <CustomCursor />
       <WhiteNavbar />
 
       <main>

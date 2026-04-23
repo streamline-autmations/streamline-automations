@@ -24,12 +24,21 @@ export default function ServiceCard({
       transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -2 }}
       className={`relative p-8 md:p-10 rounded-2xl bg-white flex flex-col gap-6
-                  transition-all duration-300 group
+                  transition-all duration-300 group overflow-hidden
                   ${featured
                     ? 'border border-[#D4D4DA] shadow-[0_2px_20px_rgba(0,0,0,0.04)]'
                     : 'border border-[#E8E8EC]'}
                   hover:border-[#C4C4CB] hover:shadow-[0_4px_28px_rgba(0,0,0,0.06)]`}
     >
+      {/* Purple accent bar — slides in from top on hover */}
+      <span
+        aria-hidden="true"
+        className="absolute left-0 top-0 bottom-0 w-[2px] bg-[#7B3FE4]
+                   origin-top scale-y-0 group-hover:scale-y-100
+                   transition-transform duration-[450ms]
+                   ease-[cubic-bezier(0.22,1,0.36,1)]"
+      />
+
       {featured && (
         <span
           className="absolute top-5 right-5 text-[10px] font-['DM_Sans'] font-medium
