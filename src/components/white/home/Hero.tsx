@@ -29,22 +29,44 @@ export default function Hero() {
 
   return (
     <section className="relative pt-36 md:pt-44 pb-24 md:pb-32 overflow-hidden">
-      {/* Layer 1 — soft radial wash, drifts up slightly on scroll */}
+      {/* Layer 1a — top aurora sweep, two-tone purple, drifts up on scroll */}
       <motion.div
         aria-hidden="true"
         style={{ y: washY }}
         className="absolute inset-0 pointer-events-none"
       >
         <div
-          className="absolute inset-0 opacity-[0.55]"
+          className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(900px 500px at 50% -10%, rgba(123,63,228,0.07), transparent 70%)',
+              'radial-gradient(1100px 600px at 50% -8%, rgba(123,63,228,0.18), transparent 65%)',
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(700px 380px at 88% 12%, rgba(167,123,255,0.14), transparent 70%)',
           }}
         />
       </motion.div>
 
-      {/* Layer 2 — slow-floating ambient blob, parallax + endless drift */}
+      {/* Layer 1b — fine grid wash, very faint, only the upper half */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-[60%] pointer-events-none opacity-[0.35]"
+        style={{
+          backgroundImage:
+            'linear-gradient(to right, rgba(123,63,228,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(123,63,228,0.06) 1px, transparent 1px)',
+          backgroundSize: '56px 56px',
+          maskImage:
+            'linear-gradient(to bottom, rgba(0,0,0,0.6), transparent 85%)',
+          WebkitMaskImage:
+            'linear-gradient(to bottom, rgba(0,0,0,0.6), transparent 85%)',
+        }}
+      />
+
+      {/* Layer 2 — slow-floating ambient blobs, parallax + endless drift */}
       <motion.div
         aria-hidden="true"
         style={{ y: blobY }}
@@ -52,30 +74,34 @@ export default function Hero() {
       >
         <motion.div
           animate={{
-            x: [0, 24, -10, 0],
-            y: [0, -18, 12, 0],
-            scale: [1, 1.04, 0.98, 1],
+            x: [0, 28, -12, 0],
+            y: [0, -22, 14, 0],
+            scale: [1, 1.06, 0.97, 1],
           }}
-          transition={{
-            duration: 22,
-            ease: 'easeInOut',
-            repeat: Infinity,
-          }}
-          className="absolute -top-10 left-[58%] w-[520px] h-[520px] rounded-full
-                     blur-[80px] opacity-[0.06] bg-[#7B3FE4]"
+          transition={{ duration: 22, ease: 'easeInOut', repeat: Infinity }}
+          className="absolute -top-20 left-[54%] w-[700px] h-[700px] rounded-full
+                     blur-[110px] opacity-[0.18] bg-[#7B3FE4]"
         />
         <motion.div
           animate={{
-            x: [0, -20, 14, 0],
-            y: [0, 10, -16, 0],
+            x: [0, -22, 16, 0],
+            y: [0, 12, -18, 0],
+            scale: [1, 0.96, 1.05, 1],
           }}
-          transition={{
-            duration: 28,
-            ease: 'easeInOut',
-            repeat: Infinity,
+          transition={{ duration: 28, ease: 'easeInOut', repeat: Infinity }}
+          className="absolute top-32 -left-10 w-[480px] h-[480px] rounded-full
+                     blur-[100px] opacity-[0.13] bg-[#7B3FE4]"
+        />
+        {/* Lower-right warm purple bloom — anchors the bottom of the hero */}
+        <motion.div
+          animate={{
+            x: [0, 18, -14, 0],
+            y: [0, -14, 10, 0],
+            scale: [1, 1.05, 0.98, 1],
           }}
-          className="absolute top-40 left-[6%] w-[380px] h-[380px] rounded-full
-                     blur-[90px] opacity-[0.045] bg-[#7B3FE4]"
+          transition={{ duration: 32, ease: 'easeInOut', repeat: Infinity }}
+          className="absolute bottom-[-120px] right-[-80px] w-[560px] h-[560px] rounded-full
+                     blur-[120px] opacity-[0.16] bg-[#A77BFF]"
         />
       </motion.div>
 
@@ -86,7 +112,15 @@ export default function Hero() {
           transition={{ duration: 0.55, ease: EASE }}
           className="flex items-center gap-3 mb-7"
         >
-          <span className="inline-flex h-1.5 w-1.5 rounded-full bg-[#7B3FE4]" />
+          <span className="relative inline-flex h-2 w-2">
+            <motion.span
+              aria-hidden="true"
+              className="absolute inset-0 rounded-full bg-[#7B3FE4]"
+              animate={{ scale: [1, 2.4, 1], opacity: [0.45, 0, 0.45] }}
+              transition={{ duration: 2.2, ease: 'easeOut', repeat: Infinity }}
+            />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#7B3FE4]" />
+          </span>
           <span
             className="text-[11px] font-['DM_Sans'] font-medium uppercase
                        tracking-[0.14em] text-[#9E9EA8]"
