@@ -1,48 +1,55 @@
 import React from 'react';
-import ContactForm from '../components/contact/ContactForm';
-import SectionHeading from '../components/ui/SectionHeading';
-import DotGridBackground from '../components/ui/DotGridBackground';
+import WhiteNavbar from '../components/white/Navbar';
+import WhiteFooter from '../components/white/Footer';
 import SEO from '../components/seo/SEO';
-import { Clock, CheckCircle, TrendingUp } from 'lucide-react';
+import SectionHeader from '../components/white/ui/SectionHeader';
+import StatBlock from '../components/white/ui/StatBlock';
+import ContactFormWhite from '../components/white/contact/ContactFormWhite';
+import FinalCTA from '../components/white/home/FinalCTA';
 
-const Contact: React.FC = () => {
+const stats = [
+  { value: "127+", label: "Businesses automated" },
+  { value: "4hrs",  label: "Avg response time" },
+  { value: "94%",   label: "Lead capture rate" }
+];
+
+export default function ContactPage() {
   return (
-    <div className="py-12 md:py-20 bg-[#0d0b1a] relative min-h-screen">
-      <SEO 
-        title="Contact" 
-        description="Book a free strategy call with Streamline Automations. Let's discuss your custom website and AI needs."
+    <>
+      <WhiteNavbar />
+      <SEO
+        title="Contact"
+        description="Book a free 30-minute strategy call with Streamline Automations. Let's discuss your custom website and automation needs."
       />
-      <DotGridBackground />
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <SectionHeading
-          title="Let's Automate Your Success"
-          subtitle="Book your free consultation call and discover how our AI solutions can transform your business."
-          centered={true}
-          className="max-w-3xl mx-auto mb-8 md:mb-12"
-        />
+      <main className="bg-white min-h-screen font-['DM_Sans']">
+        <section className="py-24 md:py-32">
+          <div className="max-w-5xl mx-auto px-6">
+            <SectionHeader
+              eyebrow="Contact"
+              headline="Let's talk."
+              subtext="Book a free 30-minute call or send a message. No pitch deck — just a plan."
+              align="center"
+            />
 
-        {/* Trust Signals */}
-        <div className="flex flex-wrap justify-center gap-6 md:gap-12 mb-12">
-          <div className="flex items-center gap-2 text-gray-400">
-            <CheckCircle className="w-5 h-5 text-brand-purple" />
-            <span className="text-sm"><span className="text-white font-bold">127</span> businesses automated</span>
-          </div>
-          <div className="flex items-center gap-2 text-gray-400">
-            <Clock className="w-5 h-5 text-brand-purple" />
-            <span className="text-sm">Avg. response: <span className="text-white font-bold">4 hours</span></span>
-          </div>
-          <div className="flex items-center gap-2 text-gray-400">
-            <TrendingUp className="w-5 h-5 text-brand-purple" />
-            <span className="text-sm"><span className="text-white font-bold">94%</span> lead capture rate</span>
-          </div>
-        </div>
+            {/* Trust stats */}
+            <div className="flex flex-wrap justify-center gap-8 md:gap-16 mt-8 mb-12">
+              {stats.map((stat) => (
+                <StatBlock key={stat.label} value={stat.value} label={stat.label} />
+              ))}
+            </div>
 
-        <div className="mt-8 md:mt-12">
-          <ContactForm />
-        </div>
-      </div>
-    </div>
+            {/* Contact form */}
+            <ContactFormWhite />
+          </div>
+        </section>
+
+        <section className="py-16 bg-[#FAFAFA]">
+          <div className="max-w-5xl mx-auto px-6">
+            <FinalCTA />
+          </div>
+        </section>
+      </main>
+      <WhiteFooter />
+    </>
   );
-};
-
-export default Contact;
+}

@@ -26,12 +26,13 @@ const STEPS = [
 
 export default function HowItWorks() {
   return (
-    <section className="py-24 md:py-32">
+    <section className="py-24 md:py-32 bg-[#F5F0FF]">
       <div className="max-w-5xl mx-auto px-6">
         <SectionHeader
           eyebrow="The process"
           headline="Simple. Fast. No surprises."
           subtext="Three steps from 'we should talk' to 'it's live and running without me.'"
+          align="center"
         />
 
         <motion.ol

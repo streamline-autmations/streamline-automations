@@ -7,10 +7,12 @@
  */
 import { useEffect, useRef } from 'react';
 import { gsap } from '../../lib/gsap-setup';
+// Note: cursor-text-set / cursor-text-clear custom events dispatched by WorkSection
 
 export default function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     // Only activate on fine-pointer (mouse) devices
@@ -18,6 +20,7 @@ export default function CustomCursor() {
 
     const dot = dotRef.current;
     const ring = ringRef.current;
+    const text = textRef.current;
     if (!dot || !ring) return;
 
     // Hide the native OS cursor
@@ -70,8 +73,25 @@ export default function CustomCursor() {
 
     window.addEventListener('mousemove', onMove);
 
+    // Cursor text label — fired by WorkSection image hover
+    const onTextSet = (e: Event) => {
+      const label = (e as CustomEvent<string>).detail;
+      if (text) text.textContent = label;
+      gsap.to(ring, { scale: 2.8, duration: 0.2, ease: 'power2.out', overwrite: 'auto' });
+      gsap.to(dot, { scale: 0.3, duration: 0.2, overwrite: 'auto' });
+    };
+    const onTextClear = () => {
+      if (text) text.textContent = '';
+      gsap.to(ring, { scale: 1, borderColor: 'rgba(255,255,255,0.25)', duration: 0.25, ease: 'power3.out', overwrite: 'auto' });
+      gsap.to(dot, { scale: 1, backgroundColor: 'rgba(255,255,255,0.9)', duration: 0.25, overwrite: 'auto' });
+    };
+    window.addEventListener('cursor-text-set', onTextSet);
+    window.addEventListener('cursor-text-clear', onTextClear);
+
     return () => {
       window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('cursor-text-set', onTextSet);
+      window.removeEventListener('cursor-text-clear', onTextClear);
       observer.disconnect();
       document.documentElement.style.cursor = '';
       document.querySelectorAll<HTMLElement>('a, button, [role="button"]').forEach(el => {
@@ -93,10 +113,15 @@ export default function CustomCursor() {
       {/* Ring — lagged position */}
       <div
         ref={ringRef}
-        className="fixed top-0 left-0 z-[9999] w-10 h-10 rounded-full pointer-events-none opacity-0 will-change-transform"
+        className="fixed top-0 left-0 z-[9999] w-10 h-10 rounded-full pointer-events-none opacity-0 will-change-transform flex items-center justify-center"
         style={{ border: '1px solid rgba(255,255,255,0.25)' }}
         aria-hidden="true"
-      />
+      >
+        <span
+          ref={textRef}
+          className="text-[8px] font-mono text-white/80 select-none leading-none tracking-wider"
+        />
+      </div>
     </>
   );
 }

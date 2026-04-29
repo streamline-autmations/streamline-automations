@@ -1,16 +1,15 @@
+import { motion } from 'framer-motion';
 import SEO from '../components/seo/SEO';
-import HeroSection from '../components/home/HeroSection';
-import SocialProofBar from '../components/home/SocialProofBar';
-import ResultsBar from '../components/home/ResultsBar';
+import Hero from '../components/home/Hero';
+import MarqueeSection from '../components/home/MarqueeSection';
 import ServicesBentoGrid from '../components/home/ServicesBentoGrid';
-import FeaturedCaseStudies from '../components/home/FeaturedCaseStudies';
-import TestimonialsSection from '../components/home/TestimonialsSection';
-import VideoWalkthrough from '../components/home/VideoWalkthrough';
+import FeaturedBuilds from '../components/home/FeaturedBuilds';
 import HowItWorks from '../components/home/HowItWorks';
-import TechStack from '../components/home/TechStack';
+import PackagePreview from '../components/home/PackagePreview';
 import FinalCTA from '../components/home/FinalCTA';
 import GlowDivider from '../components/ui/GlowDivider';
 import GradientText from '../components/ui/GradientText';
+import { springFadeUp, viewport } from '../lib/motion';
 
 export default function Home() {
   return (
@@ -21,81 +20,72 @@ export default function Home() {
       />
 
       {/* 1. Hero */}
-      <HeroSection />
+      <Hero />
 
-      <GlowDivider />
+      {/* 2. Client name marquee */}
+      <MarqueeSection />
 
-      {/* 2. Social proof marquee */}
-      <SocialProofBar />
-
-      <GlowDivider color="white" />
-
-      {/* 3. Real results */}
-      <ResultsBar />
-
-      <GlowDivider />
-
-      {/* 4. Services */}
+      {/* 3. Services bento */}
       <section className="section">
         <div className="container">
-          <div className="text-center mb-2">
+          <motion.div variants={springFadeUp} initial="hidden" whileInView="visible" viewport={viewport} className="text-center mb-2">
             <span className="label">What We Build</span>
-          </div>
-          <h2 className="h2 text-center mb-0">
+          </motion.div>
+          <motion.h2 variants={springFadeUp} initial="hidden" whileInView="visible" viewport={viewport} className="h2 text-center mb-0">
             Three pillars. <GradientText>One agency.</GradientText>
-          </h2>
+          </motion.h2>
           <ServicesBentoGrid />
         </div>
       </section>
 
       <GlowDivider />
 
-      {/* 5. Featured builds */}
+      {/* 4. Featured builds */}
       <section className="section">
         <div className="container">
-          <div className="text-center mb-2">
+          <motion.div variants={springFadeUp} initial="hidden" whileInView="visible" viewport={viewport} className="text-center mb-2">
             <span className="label">Featured Builds</span>
-          </div>
-          <h2 className="h2 text-center mb-0">
+          </motion.div>
+          <motion.h2 variants={springFadeUp} initial="hidden" whileInView="visible" viewport={viewport} className="h2 text-center mb-0">
             Real systems. Real results.
-          </h2>
-          <FeaturedCaseStudies />
+          </motion.h2>
+          <FeaturedBuilds />
         </div>
       </section>
 
-      <GlowDivider color="white" />
-
-      {/* 6. Testimonials */}
-      <TestimonialsSection />
-
       <GlowDivider />
 
-      {/* 7. Video walkthroughs */}
-      <VideoWalkthrough />
-
-      <GlowDivider color="white" />
-
-      {/* 8. How it works */}
+      {/* 5. How it works */}
       <section className="section">
         <div className="container">
-          <div className="text-center mb-2">
+          <motion.div variants={springFadeUp} initial="hidden" whileInView="visible" viewport={viewport} className="text-center mb-2">
             <span className="label">The Process</span>
-          </div>
-          <h2 className="h2 text-center mb-0">
+          </motion.div>
+          <motion.h2 variants={springFadeUp} initial="hidden" whileInView="visible" viewport={viewport} className="h2 text-center mb-0">
             Live in under two weeks.
-          </h2>
+          </motion.h2>
           <HowItWorks />
         </div>
       </section>
 
       <GlowDivider />
 
-      {/* 9. Tech stack */}
-      <TechStack />
+      {/* 6. Package preview */}
+      <section className="section">
+        <div className="container">
+          <motion.div variants={springFadeUp} initial="hidden" whileInView="visible" viewport={viewport} className="text-center mb-2">
+            <span className="label">What It Costs</span>
+          </motion.div>
+          <motion.h2 variants={springFadeUp} initial="hidden" whileInView="visible" viewport={viewport} className="h2 text-center mb-0">
+            Pick your package.
+          </motion.h2>
+          <PackagePreview />
+        </div>
+      </section>
 
       <GlowDivider />
 
-      {/* 10. Final CTA */}
+      {/* 7. Final CTA */}
       <section className="section">
         <div className="container">
           <FinalCTA />

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 const INTERACTIVE =
@@ -9,6 +9,8 @@ export default function CustomCursor() {
   const [hovering, setHovering] = useState(false);
   const [pressed, setPressed] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [inverted, setInverted] = useState(false);
+  const invertedRef = useRef(false);
 
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
@@ -35,6 +37,13 @@ export default function CustomCursor() {
       x.set(e.clientX);
       y.set(e.clientY);
       if (!visible) setVisible(true);
+
+      const el = document.elementFromPoint(e.clientX, e.clientY);
+      const next = el ? !!el.closest('[data-cursor-invert]') : false;
+      if (next !== invertedRef.current) {
+        invertedRef.current = next;
+        setInverted(next);
+      }
     };
     const over = (e: MouseEvent) => {
       if (isInteractive(e.target)) setHovering(true);
@@ -82,7 +91,7 @@ export default function CustomCursor() {
 
   if (!enabled) return null;
 
-  const size = hovering ? 40 : 8;
+  const size = hovering ? 52 : 14;
   const offset = -size / 2;
 
   return (
@@ -97,13 +106,17 @@ export default function CustomCursor() {
           height: size,
           x: offset,
           y: offset,
-          backgroundColor: hovering ? 'rgba(123, 63, 228, 0.10)' : '#7B3FE4',
-          borderColor: hovering ? '#7B3FE4' : 'rgba(123, 63, 228, 0)',
+          backgroundColor: hovering
+            ? (inverted ? 'rgba(255,255,255,0.12)' : 'rgba(123,63,228,0.10)')
+            : (inverted ? '#FFFFFF' : '#7B3FE4'),
+          borderColor: hovering
+            ? (inverted ? 'rgba(255,255,255,0.7)' : '#7B3FE4')
+            : 'rgba(0,0,0,0)',
           scale: pressed ? 0.85 : 1,
           opacity: visible ? 1 : 0,
         }}
         transition={{
-          duration: 0.22,
+          duration: 0.28,
           ease: [0.22, 1, 0.36, 1],
           opacity: { duration: 0.18 },
         }}

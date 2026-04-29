@@ -1,17 +1,9 @@
-/**
- * Navbar
- * - Hides on scroll down, reappears on scroll up (GSAP)
- * - Gains backdrop blur after scrolling 80px (CSS class swap)
- * - CTA button wrapped in MagneticButton for the premium pull effect
- */
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import Button from '../ui/Button';
-import MagneticButton from '../ui/MagneticButton';
-import { gsap } from '../../lib/gsap-setup';
 
-const navLinks = [
+const NAV_LINKS = [
   { name: 'Home',      path: '/' },
   { name: 'Websites',  path: '/websites' },
   { name: 'Systems',   path: '/systems' },
@@ -23,50 +15,25 @@ const navLinks = [
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const headerRef = useRef<HTMLElement>(null);
+  const [hidden, setHidden] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
     setIsMenuOpen(false);
   }, [location]);
 
-  // GSAP scroll hide/show + blur effect
   useEffect(() => {
-    let lastY = 0;
-    let ticking = false;
+    let lastY = window.scrollY;
 
     const onScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          const currentY = window.scrollY;
-          const header = headerRef.current;
-          if (!header) { ticking = false; return; }
-
-          // Add blur backdrop after 80px
-          setScrolled(currentY > 80);
-
-          // Hide on scroll down (past 120px), show on scroll up
-          if (currentY > lastY && currentY > 120) {
-            gsap.to(header, {
-              y: -80,
-              duration: 0.45,
-              ease: 'power3.inOut',
-              overwrite: 'auto',
-            });
-          } else {
-            gsap.to(header, {
-              y: 0,
-              duration: 0.45,
-              ease: 'power3.out',
-              overwrite: 'auto',
-            });
-          }
-
-          lastY = currentY;
-          ticking = false;
-        });
-        ticking = true;
+      const currentY = window.scrollY;
+      setScrolled(currentY > 80);
+      if (currentY > lastY && currentY > 120) {
+        setHidden(true);
+      } else {
+        setHidden(false);
       }
+      lastY = currentY;
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -78,10 +45,10 @@ const Header: React.FC = () => {
 
   return (
     <header
-      ref={headerRef}
-      className={`navbar transition-[background,border-color,backdrop-filter] duration-300 will-change-transform ${
+      className={`navbar transition-[background,border-color,backdrop-filter,transform] duration-300 ${
         scrolled ? 'navbar-scrolled' : ''
       }`}
+      style={{ transform: hidden ? 'translateY(-100%)' : 'translateY(0)' }}
     >
       <div className="w-full">
         {/* ── Mobile layout ─────────────────────────────── */}
@@ -120,7 +87,7 @@ const Header: React.FC = () => {
 
           <nav>
             <ul className="flex items-center space-x-1 lg:space-x-2">
-              {navLinks.map((link) => (
+              {NAV_LINKS.map((link) => (
                 <li key={link.path}>
                   <Link
                     to={link.path}
@@ -137,11 +104,9 @@ const Header: React.FC = () => {
             </ul>
           </nav>
 
-          <MagneticButton strength={0.25}>
-            <Button href="/contact" variant="orange" size="md">
-              Book a Free Call
-            </Button>
-          </MagneticButton>
+          <Button href="/contact" variant="orange" size="md">
+            Book a Free Call
+          </Button>
         </div>
 
         {/* ── Mobile menu ─────────────────────────────── */}
@@ -154,7 +119,7 @@ const Header: React.FC = () => {
         >
           <nav className="py-6 px-2">
             <ul className="flex flex-col space-y-1">
-              {navLinks.map((link) => (
+              {NAV_LINKS.map((link) => (
                 <li key={link.path}>
                   <Link
                     to={link.path}

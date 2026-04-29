@@ -1,50 +1,51 @@
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 const CLIENTS = [
-  'BLOM Cosmetics',
-  'RecklessBear Apparel',
-  'Ameli Designs',
-  'NSA Mining',
-  'Madiega Trading',
-  'JJ Glasswork',
-  'Tuscany SA',
-  'African Nomad',
+  "BLOM Cosmetics",
+  "RecklessBear Apparel",
+  "Ameli Designs",
+  "NSA Mining",
+  "Madiega Trading",
+  "JJ Glasswork",
+  "Tuscany SA",
+  "African Nomad",
 ];
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-// Curved path for the rotating badge text — full circle, started at top, swept clockwise.
 const CIRCLE_PATH =
-  'M 100,100 m -78,0 a 78,78 0 1,1 156,0 a 78,78 0 1,1 -156,0';
+  "M 100,100 m -78,0 a 78,78 0 1,1 156,0 a 78,78 0 1,1 -156,0";
 
-const BADGE_TEXT = 'TRUSTED ACROSS SOUTH AFRICA · TRUSTED ACROSS SOUTH AFRICA · ';
+const BADGE_TEXT = "TRUSTED ACROSS SOUTH AFRICA · TRUSTED ACROSS SOUTH AFRICA · ";
 
 export default function ClientBar() {
-  // Duplicate the list so the CSS marquee can loop seamlessly at -50%.
-  const marqueeItems = [...CLIENTS, ...CLIENTS];
+  const items = [...CLIENTS, ...CLIENTS, ...CLIENTS];
 
   return (
-    <section
-      className="relative py-20 md:py-24 bg-[#FAFAFA] border-y border-[#E8E8EC] overflow-hidden"
-    >
-      {/* Soft purple radial wash behind the badge — gives the section life */}
+    <section className="relative bg-[#FAFAFA] border-y border-[#E8E8EC] overflow-hidden">
+      {/* Soft purple radial behind the badge */}
       <div
         aria-hidden="true"
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'radial-gradient(520px 320px at 50% 38%, rgba(123,63,228,0.10), transparent 70%)',
+            "radial-gradient(480px 280px at 50% 40%, rgba(123,63,228,0.09), transparent 70%)",
         }}
       />
 
-      <div className="relative max-w-5xl mx-auto px-6">
-        {/* Rotating circular badge — the "spinning thing" */}
+      <div className="relative max-w-5xl mx-auto px-6 pt-12 md:pt-16 pb-0">
+        {/* Circular rotating badge with hover scale + glow */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.92 }}
+          initial={{ opacity: 0, scale: 0.88 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.7, ease: EASE }}
-          className="relative mx-auto w-[170px] h-[170px] md:w-[190px] md:h-[190px] mb-12 md:mb-14"
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.75, ease: EASE }}
+          whileHover={{
+            scale: 1.1,
+            filter: "drop-shadow(0 0 22px rgba(123,63,228,0.35))",
+          }}
+          style={{ transition: "filter 0.35s ease" }}
+          className="relative mx-auto w-[150px] h-[150px] md:w-[170px] md:h-[170px] mb-10 md:mb-12 cursor-default"
         >
           {/* Spinning text ring */}
           <motion.svg
@@ -52,87 +53,80 @@ export default function ClientBar() {
             aria-hidden="true"
             className="absolute inset-0 w-full h-full"
             animate={{ rotate: 360 }}
-            transition={{ duration: 26, ease: 'linear', repeat: Infinity }}
+            transition={{ duration: 28, ease: "linear", repeat: Infinity }}
           >
             <defs>
-              <path id="badge-circle" d={CIRCLE_PATH} />
+              <path id="cb-circle" d={CIRCLE_PATH} />
             </defs>
             <text
               fill="#6B6B7A"
               style={{
-                fontFamily: 'DM Sans, sans-serif',
-                fontSize: '11px',
+                fontFamily: "DM Sans, sans-serif",
+                fontSize: "10.5px",
                 fontWeight: 500,
-                letterSpacing: '0.22em',
-                textTransform: 'uppercase',
+                letterSpacing: "0.24em",
               }}
             >
-              <textPath href="#badge-circle" startOffset="0">
+              <textPath href="#cb-circle" startOffset="0">
                 {BADGE_TEXT}
               </textPath>
             </text>
           </motion.svg>
 
-          {/* Static center mark — purple dot with pulsing ring */}
-          <div className="absolute inset-0 flex items-center justify-center">
+          {/* Center pulsing dot */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <span className="relative inline-flex items-center justify-center">
               <motion.span
                 aria-hidden="true"
-                className="absolute inline-flex w-5 h-5 rounded-full bg-[#7B3FE4]"
-                animate={{ scale: [1, 2.6, 1], opacity: [0.35, 0, 0.35] }}
-                transition={{ duration: 2.4, ease: 'easeOut', repeat: Infinity }}
+                className="absolute inline-flex w-6 h-6 rounded-full bg-[#7B3FE4]"
+                animate={{ scale: [1, 2.8, 1], opacity: [0.3, 0, 0.3] }}
+                transition={{ duration: 2.6, ease: "easeOut", repeat: Infinity }}
               />
-              <span className="relative inline-flex w-2.5 h-2.5 rounded-full bg-[#7B3FE4]" />
+              <span className="relative inline-flex w-3 h-3 rounded-full bg-[#7B3FE4]" />
             </span>
           </div>
 
-          {/* Subtle hairline circle frame */}
+          {/* Hairline frame */}
           <span
             aria-hidden="true"
-            className="absolute inset-0 rounded-full border border-[#E8E8EC]"
+            className="absolute inset-0 rounded-full border border-[#E0E0E8]"
           />
         </motion.div>
-
-        <motion.p
-          initial={{ opacity: 0, y: 8 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.5, ease: EASE }}
-          className="text-[11px] font-['DM_Sans'] font-medium uppercase tracking-[0.16em]
-                     text-[#9E9EA8] text-center mb-10"
-        >
-          Real businesses · Real systems · Built across SA
-        </motion.p>
       </div>
 
-      {/* Edge-to-edge marquee, faded at both edges */}
+      {/* Thin scrolling strip — edge-to-edge, faded at edges */}
       <div
-        className="relative"
+        className="relative border-t border-[#E8E8EC]"
         style={{
           maskImage:
-            'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
+            "linear-gradient(to right, transparent, black 5%, black 95%, transparent)",
           WebkitMaskImage:
-            'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
+            "linear-gradient(to right, transparent, black 5%, black 95%, transparent)",
         }}
       >
         <div
-          className="flex items-center"
+          className="flex items-center py-3.5"
           style={{
-            width: 'max-content',
-            animation: 'marquee-text 38s linear infinite',
+            width: "max-content",
+            animation: "marquee-text 42s linear infinite",
           }}
         >
-          {marqueeItems.map((name, i) => (
+          {items.map((name, i) => (
             <span
               key={`${name}-${i}`}
-              className="flex items-center gap-8 px-6 whitespace-nowrap
-                         text-[15px] md:text-[17px] font-['DM_Sans'] font-medium
-                         text-[#3D3D47]"
+              className="flex items-center gap-6 px-6 whitespace-nowrap"
             >
-              {name}
-              <span aria-hidden="true" className="text-[#7B3FE4] text-[12px]">
-                ◆
+              <span className="text-[11.5px] md:text-[12.5px] font-['DM_Sans'] font-medium uppercase tracking-[0.13em] text-[#6B6B7A]">
+                {name}
               </span>
+              <motion.span
+                aria-hidden="true"
+                className="inline-block text-[#7B3FE4] text-[10px] flex-shrink-0"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 8, ease: "linear", repeat: Infinity }}
+              >
+                &#10022;
+              </motion.span>
             </span>
           ))}
         </div>

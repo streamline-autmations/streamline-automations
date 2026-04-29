@@ -1,12 +1,16 @@
-import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+
+const ORANGE_LOGO = "https://res.cloudinary.com/dnlgohkcc/image/upload/v1777354607/Untitled_design_81_wmcnee.png";
 
 const LINKS = [
-  { label: 'Services', href: '/websites' },
-  { label: 'Portfolio', href: '/portfolio' },
-  { label: 'About', href: '/about' },
+  { label: "Services", href: "/services" },
+  { label: "Portfolio", href: "/portfolio" },
+  { label: "About", href: "/about" },
 ];
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 export default function WhiteNavbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -16,8 +20,8 @@ export default function WhiteNavbar() {
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 20);
     fn();
-    window.addEventListener('scroll', fn, { passive: true });
-    return () => window.removeEventListener('scroll', fn);
+    window.addEventListener("scroll", fn, { passive: true });
+    return () => window.removeEventListener("scroll", fn);
   }, []);
 
   useEffect(() => {
@@ -25,23 +29,26 @@ export default function WhiteNavbar() {
   }, [location]);
 
   const isActive = (href: string) =>
-    href === '/' ? location.pathname === '/' : location.pathname.startsWith(href);
+    href === "/" ? location.pathname === "/" : location.pathname.startsWith(href);
 
   return (
     <header
+      data-cursor-invert
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-white/80 backdrop-blur-xl border-b border-[#E8E8EC]'
-          : 'bg-transparent border-b border-transparent'
+          ? "bg-[#7B3FE4]/95 backdrop-blur-xl border-b border-white/15 shadow-[0_1px_24px_rgba(123,63,228,0.3)]"
+          : "bg-[#7B3FE4] border-b border-white/15"
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link
           to="/"
-          className="text-[15px] font-['DM_Sans'] font-semibold text-[#0A0A0F]
-                     tracking-[-0.02em] hover:opacity-70 transition-opacity duration-200"
+          className="flex items-center gap-2.5 hover:opacity-80 transition-opacity duration-200"
         >
-          Streamline<span className="text-[#7B3FE4]">.</span>
+          <img src={ORANGE_LOGO} alt="" aria-hidden="true" className="h-7 w-auto" />
+          <span className="text-[15px] font-['DM_Sans'] font-semibold text-white tracking-[-0.02em]">
+            Streamline<span className="text-white/60">.</span>
+          </span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-9">
@@ -50,7 +57,7 @@ export default function WhiteNavbar() {
               key={l.href}
               to={l.href}
               className={`text-[14px] font-['DM_Sans'] transition-colors duration-200 ${
-                isActive(l.href) ? 'text-[#0A0A0F]' : 'text-[#6B6B7A] hover:text-[#0A0A0F]'
+                isActive(l.href) ? "text-white" : "text-white/60 hover:text-white"
               }`}
             >
               {l.label}
@@ -62,9 +69,9 @@ export default function WhiteNavbar() {
           <Link
             to="/contact"
             className="inline-flex items-center justify-center px-5 py-2.5
-                       bg-[#0A0A0F] hover:bg-[#1a1a24] text-white text-[13.5px]
-                       font-['DM_Sans'] font-medium rounded-full transition-colors
-                       duration-200 min-h-[40px]"
+                       bg-white hover:bg-white/90 text-[#7B3FE4] text-[13.5px]
+                       font-['DM_Sans'] font-semibold rounded-full transition-colors
+                       duration-200 min-h-[40px] shadow-[0_2px_12px_rgba(0,0,0,0.15)]"
           >
             Book a Free Call
           </Link>
@@ -72,27 +79,15 @@ export default function WhiteNavbar() {
 
         <button
           onClick={() => setOpen(!open)}
-          className="md:hidden p-2 text-[#0A0A0F] min-h-[44px] min-w-[44px]
+          className="md:hidden p-2 text-white min-h-[44px] min-w-[44px]
                      flex items-center justify-center"
-          aria-label={open ? 'Close menu' : 'Open menu'}
+          aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
         >
           <div className="flex flex-col gap-[5px] w-5">
-            <span
-              className={`h-px bg-current transition-all duration-200 ${
-                open ? 'rotate-45 translate-y-[6px]' : ''
-              }`}
-            />
-            <span
-              className={`h-px bg-current transition-all duration-200 ${
-                open ? 'opacity-0' : ''
-              }`}
-            />
-            <span
-              className={`h-px bg-current transition-all duration-200 ${
-                open ? '-rotate-45 -translate-y-[6px]' : ''
-              }`}
-            />
+            <span className={`h-px bg-current transition-all duration-200 ${open ? "rotate-45 translate-y-[6px]" : ""}`} />
+            <span className={`h-px bg-current transition-all duration-200 ${open ? "opacity-0" : ""}`} />
+            <span className={`h-px bg-current transition-all duration-200 ${open ? "-rotate-45 -translate-y-[6px]" : ""}`} />
           </div>
         </button>
       </div>
@@ -101,17 +96,17 @@ export default function WhiteNavbar() {
         {open && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="md:hidden bg-white border-b border-[#E8E8EC] overflow-hidden"
+            transition={{ duration: 0.22, ease: EASE }}
+            className="md:hidden bg-[#7B3FE4] border-b border-white/15 overflow-hidden"
           >
             <div className="px-6 py-6 flex flex-col gap-1">
               {LINKS.map((l) => (
                 <Link
                   key={l.href}
                   to={l.href}
-                  className="py-3 text-[16px] font-['DM_Sans'] font-medium text-[#0A0A0F]"
+                  className="py-3 text-[16px] font-['DM_Sans'] font-medium text-white/80 hover:text-white transition-colors"
                 >
                   {l.label}
                 </Link>
@@ -119,8 +114,8 @@ export default function WhiteNavbar() {
               <Link
                 to="/contact"
                 className="mt-4 inline-flex items-center justify-center px-6 py-3.5
-                           bg-[#0A0A0F] text-white text-sm font-['DM_Sans'] font-medium
-                           rounded-full min-h-[48px]"
+                           bg-white text-[#7B3FE4] text-sm font-['DM_Sans'] font-semibold
+                           rounded-full min-h-[48px] transition-colors duration-200 hover:bg-white/90"
               >
                 Book a Free Call
               </Link>

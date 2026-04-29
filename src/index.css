@@ -33,13 +33,8 @@
   --nav-h: 64px;
 }
 
-/* Lenis handles smooth scroll — native smooth-scroll conflicts with it */
-html { scroll-behavior: auto; }
-
-/* Hide native cursor when custom cursor is active (desktop only) */
-@media (pointer: fine) {
-  html, html * { cursor: none !important; }
-}
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 body {
   background-color: var(--bg);
@@ -491,12 +486,14 @@ body::after {
 
 /* Logo Marquee Animation */
 @keyframes scroll-marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Client name text marquee */
+@keyframes marquee-text {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 .animate-scroll-marquee {

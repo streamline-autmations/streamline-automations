@@ -1,131 +1,44 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import SEO from '../components/seo/SEO';
-import { fadeUp, stagger, cardItem, viewport } from '../lib/motion';
-import DotGridBackground from '../components/ui/DotGridBackground';
+import WhiteNavbar from '../components/white/Navbar';
+import WhiteFooter from '../components/white/Footer';
+import SectionHeader from '../components/white/ui/SectionHeader';
+import Button from '../components/white/ui/Button';
+import Divider from '../components/white/ui/Divider';
 
-// Add-on data
-const automationAddons = [
-  {
-    icon: '🤖',
-    name: 'Advanced AI Chatbot',
-    price: 'R2,000 – R5,000',
-    description: 'Multi-step conversation flows, objection handling, lead qualification and custom personality.',
-    availableOn: 'Client Magnet, Business Accelerator'
-  },
-  {
-    icon: '📅',
-    name: 'Advanced Booking Logic',
-    price: 'R1,500 – R3,000',
-    description: 'Complex scheduling rules, multi-staff calendars, service-based availability and buffer times.',
-    availableOn: 'Client Magnet, Business Accelerator'
-  },
-  {
-    icon: '🗄️',
-    name: 'CRM Expansion',
-    price: 'R2,000 – R6,000',
-    description: 'Full pipeline view, deal stages, client notes, tags, and automated status updates.',
-    availableOn: 'All packages'
-  },
-  {
-    icon: '🔍',
-    name: 'SEO Upgrade',
-    price: 'R2,500 – R8,000',
-    description: 'Keyword research, on-page optimisation, schema markup, and Google Search Console setup.',
-    availableOn: 'All packages'
-  },
-  {
-    icon: '📧',
-    name: 'Email Marketing Setup',
-    price: 'R1,500 – R3,500',
-    description: 'Welcome sequence, newsletter template, list segmentation and automation triggers.',
-    availableOn: 'Client Magnet, Business Accelerator'
-  },
-  {
-    icon: '📊',
-    name: 'Analytics Dashboard',
-    price: 'R2,000 – R4,000',
-    description: 'Custom reporting view showing leads, bookings, conversions and revenue trends.',
-    availableOn: 'Online Presence, Client Magnet'
-  }
+interface AddonItem {
+  icon: string;
+  name: string;
+  price: string;
+  description: string;
+  availableOn: string;
+}
+
+const automationAddons: AddonItem[] = [
+  { icon: '🤖',  name: 'Advanced AI Chatbot',     price: 'R2,000 – R5,000',   availableOn: 'Client Magnet, Business Accelerator', description: 'Multi-step conversation flows, objection handling, and custom personality.' },
+  { icon: '📅',  name: 'Advanced Booking Logic',  price: 'R1,500 – R3,000',   availableOn: 'Client Magnet, Business Accelerator', description: 'Complex scheduling rules, multi-staff calendars, and buffer times.' },
+  { icon: '🗄️',  name: 'CRM Expansion',           price: 'R2,000 – R6,000',   availableOn: 'All packages', description: 'Full pipeline view, deal stages, client notes, and tags.' },
+  { icon: '🔍',  name: 'SEO Upgrade',             price: 'R2,500 – R8,000',   availableOn: 'All packages', description: 'Keyword research, on-page optimisation, and schema markup.' },
+  { icon: '📧',  name: 'Email Marketing Setup',   price: 'R1,500 – R3,500',   availableOn: 'Client Magnet, Business Accelerator', description: 'Welcome sequences, list segmentation, and automation triggers.' },
+  { icon: '📊',  name: 'Analytics Dashboard',     price: 'R2,000 – R4,000',   availableOn: 'Online Presence, Client Magnet', description: 'Custom reporting for leads, bookings, conversions, and revenue.' }
 ];
 
-const brandingAddons = [
-  {
-    icon: '✏️',
-    name: 'Logo Design',
-    price: 'R2,000 – R5,000',
-    description: 'Primary logo, alternate version, favicon, and all file formats (SVG, PNG, PDF).',
-    availableOn: 'All packages'
-  },
-  {
-    icon: '🎨',
-    name: 'Brand Guidelines',
-    price: 'R1,500 – R3,000',
-    description: 'Color palette, typography system, logo usage rules, and a one-page brand reference sheet.',
-    availableOn: 'All packages'
-  },
-  {
-    icon: '🖨️',
-    name: 'Business Card Design',
-    price: 'R500 – R1,200',
-    description: 'Front and back design, print-ready files, digital version for WhatsApp sharing.',
-    availableOn: 'All packages'
-  },
-  {
-    icon: '📄',
-    name: 'Proposal / Pitch Deck',
-    price: 'R2,000 – R4,000',
-    description: 'Branded PDF or slide deck for presenting your business, services, or offers to clients.',
-    availableOn: 'All packages'
-  },
-  {
-    icon: '🏷️',
-    name: 'Brand Stationery Pack',
-    price: 'R1,500 – R3,500',
-    description: 'Email signature, letterhead, invoice template and document cover — all branded consistently.',
-    availableOn: 'All packages'
-  }
+const brandingAddons: AddonItem[] = [
+  { icon: '✏️', name: 'Logo Design',           price: 'R2,000 – R5,000', availableOn: 'All packages', description: 'Primary logo, alternate version, favicon, and all formats (SVG, PNG, PDF).' },
+  { icon: '🎨', name: 'Brand Guidelines',       price: 'R1,500 – R3,000', availableOn: 'All packages', description: 'Color palette, typography, logo usage rules, and reference sheet.' },
+  { icon: '🖨️', name: 'Business Card Design',   price: 'R500 – R1,200',   availableOn: 'All packages', description: 'Front and back design, print-ready files, and digital version.' },
+  { icon: '📄', name: 'Proposal / Pitch Deck',  price: 'R2,000 – R4,000', availableOn: 'All packages', description: 'Branded PDF or slide deck for presenting your business.' },
+  { icon: '🏷️', name: 'Brand Stationery Pack',  price: 'R1,500 – R3,500', availableOn: 'All packages', description: 'Email signature, letterhead, invoice template and document cover.' }
 ];
 
-const socialMediaAddons = [
-  {
-    icon: '📱',
-    name: 'Profile Setup & Optimisation',
-    price: 'R750 – R1,500',
-    description: 'Instagram and LinkedIn bios, profile photos, link-in-bio setup and highlight structure.',
-    availableOn: 'All packages'
-  },
-  {
-    icon: '🖼️',
-    name: 'Branded Post Templates',
-    price: 'R1,500 – R3,000',
-    description: '10 Canva templates in your brand colors — tips, promos, quotes, and announcements.',
-    availableOn: 'All packages'
-  },
-  {
-    icon: '⭕',
-    name: 'Instagram Highlight Covers',
-    price: 'R500 – R800',
-    description: '5–8 custom branded highlight covers matching your site and brand identity.',
-    availableOn: 'All packages'
-  },
-  {
-    icon: '📋',
-    name: 'Content Strategy Document',
-    price: 'R1,500 – R2,500',
-    description: '30-day posting plan, content pillars, caption formulas and hashtag sets for your niche.',
-    availableOn: 'All packages'
-  },
-  {
-    icon: '🎬',
-    name: 'Reel / Short-Form Templates',
-    price: 'R1,000 – R2,000',
-    description: '5 CapCut or Canva video templates with your branding for consistent Reels and TikToks.',
-    availableOn: 'All packages'
-  }
+const socialAddons: AddonItem[] = [
+  { icon: '📱', name: 'Profile Setup & Optimisation', price: 'R750 – R1,500', availableOn: 'All packages', description: 'Instagram and LinkedIn bios, profile photos, and link-in-bio setup.' },
+  { icon: '🖼️', name: 'Branded Post Templates',      price: 'R1,500 – R3,000', availableOn: 'All packages', description: '10 Canva templates in your brand colors — tips, promos, quotes.' },
+  { icon: '⭕',  name: 'Instagram Highlight Covers',  price: 'R500 – R800',   availableOn: 'All packages', description: '5–8 custom branded covers matching your site and brand identity.' },
+  { icon: '📋',  name: 'Content Strategy Document',   price: 'R1,500 – R2,500', availableOn: 'All packages', description: '30-day posting plan, content pillars, caption formulas and hashtags.' },
+  { icon: '🎬',  name: 'Reel / Short-Form Templates', price: 'R1,000 – R2,000', availableOn: 'All packages', description: '5 CapCut or Canva video templates with your branding.' }
 ];
+
+type AccentColor = 'purple' | 'orange' | 'white';
 
 interface AddonCardProps {
   icon: string;
@@ -133,290 +46,109 @@ interface AddonCardProps {
   price: string;
   description: string;
   availableOn: string;
-  accentColor: 'purple' | 'orange' | 'white';
+  accentColor: AccentColor;
 }
 
 const AddonCard: React.FC<AddonCardProps> = ({ icon, name, price, description, availableOn, accentColor }) => {
-  const cardClass =
-    accentColor === 'white'
-      ? 'card card-sm card-bar-white card-interactive card-interactive-white'
-      : accentColor === 'orange'
-        ? 'card card-sm card-bar-orange card-interactive card-interactive-orange'
-        : 'card card-sm card-bar card-interactive card-interactive-purple'
-
-  const badgeStyles =
-    accentColor === 'white'
-      ? 'bg-[color:var(--surface)] text-[color:var(--text-mid)] border-[color:var(--border)]'
-      : accentColor === 'orange'
-        ? 'bg-[color:var(--orange-dim)] text-[color:var(--text-high)] border-[color:var(--orange-border)]'
-        : 'bg-[color:var(--purple-dim)] text-[color:var(--text-high)] border-[color:var(--purple-border)]'
+  const accentStyles = {
+    purple: 'bg-[#F0EBFF] text-[#7B3FE4] border-[#E8E8EC]',
+    orange: 'bg-[#FFF7ED] text-[#F26A3D] border-[#E8E8EC]',
+    white:  'bg-[#F5F5F7] text-[#6B6B7A] border-[#E8E8EC]'
+  }[accentColor];
 
   return (
-    <motion.div
-      variants={cardItem}
-      className={cardClass}
-    >
-      {/* Top row: icon + name + price */}
-      <div className="flex items-start justify-between gap-3">
+    <div className={`p-6 rounded-2xl border border-[#E8E8EC] bg-white hover:border-[#D4D4DA] transition-colors`}>
+      <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex items-center gap-3">
-          <span className="text-2xl filter drop-shadow-lg">{icon}</span>
-          <h3 className="h3">{name}</h3>
+          <span className="text-2xl filter drop-shadow-md">{icon}</span>
+          <h4 className="text-base font-semibold text-[#0A0A0F]">{name}</h4>
         </div>
-        <span className={`font-mono text-xs rounded-full px-3 py-1 border ${badgeStyles} whitespace-nowrap`}>
+        <span className={`text-xs font-medium px-3 py-1 rounded-full border whitespace-nowrap ${accentStyles}`}>
           {price}
         </span>
       </div>
-
-      {/* Description */}
-      <p className="body mt-3">{description}</p>
-
-      {/* Available on */}
-      <div className="mt-4 pt-4 border-t border-[color:var(--border)]">
-        <span className="font-mono text-[10px] text-[color:var(--text-muted)]">Available on: {availableOn}</span>
-      </div>
-    </motion.div>
-  );
-};
-
-const AddOnsPage: React.FC = () => {
-  return (
-    <div className="min-h-screen bg-[#0d0b1a] pt-20 md:pt-24 font-inter text-white relative">
-      <SEO 
-        title="Add-Ons & Branding"
-        description="Enhance your package with SEO, Logo Design, Social Media, and more."
-      />
-      <DotGridBackground />
-      {/* Breadcrumb */}
-      <div className="container relative z-10 pt-4 pb-4">
-        <nav className="flex items-center gap-2 text-sm text-white/40 font-mono">
-          <Link to="/" className="hover:text-white transition-colors">Home</Link>
-          <span>→</span>
-          <span className="text-white">Add-Ons & Branding</span>
-        </nav>
-      </div>
-
-      {/* HERO SECTION - s */}
-      <section className="section">
-        <div className="container">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            variants={stagger}
-          >
-            {/* Top Badge */}
-            <motion.div variants={fadeUp} className="inline-flex mb-8">
-              <span className="border border-purple-500/30 bg-purple-500/10 rounded-full px-4 py-1.5 font-mono text-xs tracking-[3px] uppercase text-purple-400">
-                POWER-UPS · ADD-ONS & BRANDING
-              </span>
-            </motion.div>
-
-            {/* Headline */}
-            <motion.h1 variants={fadeUp} className="h1">
-              Enhance Your
-              <br />
-              <span className="bg-gradient-to-r from-purple-400 to-transparent bg-clip-text text-transparent">
-                Package.
-              </span>
-            </motion.h1>
-
-            {/* Subtext */}
-            <motion.p variants={fadeUp} className="body max-w-xl mx-auto mt-6">
-              Every add-on is only available when combined with a core package.
-              <br className="hidden md:block" />
-              Pick what your business actually needs — nothing more.
-            </motion.p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* SECTION 2 — AUTOMATION ADD-ONS - s-panel s-line-purple */}
-      <section className="section section-panel section-line">
-        <div className="container">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            variants={stagger}
-          >
-            {/* Section label */}
-            <motion.div variants={fadeUp} className="mb-2">
-              <span className="label">01 — AUTOMATION</span>
-            </motion.div>
-
-            {/* Section title */}
-            <motion.h2 variants={fadeUp} className="h2 mb-3">
-            Automation Add-Ons
-            </motion.h2>
-
-            {/* Section subtitle */}
-            <motion.p variants={fadeUp} className="body-text mb-10">
-              Extend your system with advanced logic, integrations, and AI.
-            </motion.p>
-
-            {/* Grid */}
-            <motion.div 
-              variants={stagger}
-              className="grid-3"
-            >
-              {automationAddons.map((addon, index) => (
-                <AddonCard
-                  key={index}
-                  icon={addon.icon}
-                  name={addon.name}
-                  price={addon.price}
-                  description={addon.description}
-                  availableOn={addon.availableOn}
-                  accentColor="purple"
-                />
-              ))}
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* SECTION 3 — BRANDING & IDENTITY - s-line-orange */}
-      <section className="section section-line">
-        <div className="container">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            variants={stagger}
-          >
-            {/* Section label */}
-            <motion.div variants={fadeUp} className="mb-2">
-              <span className="label">02 — BRANDING</span>
-            </motion.div>
-
-            {/* Section title */}
-            <motion.h2 variants={fadeUp} className="h2 mb-3">
-              Branding & Identity
-            </motion.h2>
-
-            {/* Section subtitle */}
-            <motion.p variants={fadeUp} className="body-text mb-10">
-              Look the part before you say a word.
-            </motion.p>
-
-            {/* Grid */}
-            <motion.div 
-              variants={stagger}
-              className="grid-3"
-            >
-              {brandingAddons.map((addon, index) => (
-                <AddonCard
-                  key={index}
-                  icon={addon.icon}
-                  name={addon.name}
-                  price={addon.price}
-                  description={addon.description}
-                  availableOn={addon.availableOn}
-                  accentColor="orange"
-                />
-              ))}
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* SECTION 4 — SOCIAL MEDIA - s-panel s-line-white */}
-      <section className="section section-panel section-line-white">
-        <div className="container">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            variants={stagger}
-          >
-            {/* Section label */}
-            <motion.div variants={fadeUp} className="mb-2">
-              <span className="label" style={{ color: 'rgba(255,255,255,0.35)' }}>03 — SOCIAL MEDIA</span>
-            </motion.div>
-
-            {/* Section title */}
-            <motion.h2 variants={fadeUp} className="h2 mb-3">
-              Social Media Setup
-            </motion.h2>
-
-            {/* Section subtitle */}
-            <motion.p variants={fadeUp} className="body-text mb-10">
-              Show up consistently. Look like you mean it.
-            </motion.p>
-
-            {/* Grid */}
-            <motion.div 
-              variants={stagger}
-              className="grid-3"
-            >
-              {socialMediaAddons.map((addon, index) => (
-                <AddonCard
-                  key={index}
-                  icon={addon.icon}
-                  name={addon.name}
-                  price={addon.price}
-                  description={addon.description}
-                  availableOn={addon.availableOn}
-                  accentColor="white"
-                />
-              ))}
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* SECTION 5 — PRICING NOTE BANNER - s-line-orange */}
-      <section className="section section-line">
-        <div className="container">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            variants={fadeUp}
-            className="card max-w-3xl mx-auto text-center"
-          >
-            <p className="font-mono text-[10px] tracking-[3px] text-accent uppercase mb-3">
-              IMPORTANT NOTE
-            </p>
-            <p className="body">
-              Add-ons are only available when combined with a core package — 
-              they are never sold as standalone services. 
-              Pricing varies based on complexity and scope. 
-              All quotes are confirmed on your free strategy call.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* SECTION 6 — FINAL CTA BANNER - s-panel s-line-orange */}
-      <section className="section section-panel section-line">
-        <div className="container text-center">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            variants={stagger}
-          >
-            <motion.h2 variants={fadeUp} className="h2">
-              Not sure what you need?
-            </motion.h2>
-            <motion.p variants={fadeUp} className="body mt-4 max-w-lg mx-auto">
-              Book a free 20-minute strategy call. We'll scope your 
-              package and add-ons together — no guessing.
-            </motion.p>
-            <motion.div variants={fadeUp} className="mt-8">
-              <Link
-                to="/contact"
-                className="btn btn-primary btn-lg"
-              >
-                Book a Free Strategy Call →
-              </Link>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
+      <p className="text-sm text-[#6B6B7A] leading-relaxed mb-2">{description}</p>
+      <p className="text-[11px] text-[#9E9EA8]">Available on: {availableOn}</p>
     </div>
-  );
-};
+   );
+ };
 
-export default AddOnsPage;
+ export default function AddOnsPage() {
+  return (
+    <>
+      <WhiteNavbar />
+      <main className="bg-white min-h-screen font-['DM_Sans']">
+        <section className="py-24 md:py-32">
+          <div className="max-w-5xl mx-auto px-6">
+            <SectionHeader
+              eyebrow="Add-ons"
+              headline="Need more?"
+              subtext="Extend any package with add-ons. Only available when combined with a core package."
+            />
+
+            {/* Automation */}
+            <div className="mt-16">
+              <SectionHeader
+                eyebrow="01 — Automation"
+                headline="Automation Add-Ons"
+                subtext="Extend your system with advanced logic, integrations, and AI."
+              />
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                {automationAddons.map((addon, i) => (
+                  <AddonCard key={i} {...addon} accentColor="purple" />
+                ))}
+              </div>
+            </div>
+
+            {/* Branding */}
+            <Divider className="my-16 md:my-24" />
+            <div className="mt-16">
+              <SectionHeader
+                eyebrow="02 — Branding"
+                headline="Branding & Identity"
+                subtext="Look the part before you say a word."
+              />
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                {brandingAddons.map((addon, i) => (
+                  <AddonCard key={i} {...addon} accentColor="orange" />
+                ))}
+              </div>
+            </div>
+
+            {/* Social Media */}
+            <Divider className="my-16 md:my-24" />
+            <div className="mt-16">
+              <SectionHeader
+                eyebrow="03 — Social Media"
+                headline="Social Media Setup"
+                subtext="Show up consistently. Look like you mean it."
+              />
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                {socialAddons.map((addon, i) => (
+                  <AddonCard key={i} {...addon} accentColor="white" />
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <Divider className="my-16 md:my-24" />
+
+        <section className="py-16 bg-[#FAFAFA]">
+          <div className="max-w-5xl mx-auto px-6 text-center">
+            <h3 className="text-xl font-semibold text-[#0A0A0F] mb-3">
+              Not sure what you need?
+            </h3>
+            <p className="text-[#6B6B7A] mb-6 max-w-lg mx-auto">
+              Book a free 20-minute strategy call. We'll scope your package and add-ons together — no guessing.
+            </p>
+            <Button href="/contact" variant="primary" size="lg">
+              Book a Free Call
+            </Button>
+          </div>
+        </section>
+      </main>
+      <WhiteFooter />
+    </>
+  );
+}
