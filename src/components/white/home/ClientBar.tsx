@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 const CLIENTS = [
@@ -19,6 +20,7 @@ const CIRCLE_PATH =
 const BADGE_TEXT = "TRUSTED ACROSS SOUTH AFRICA · TRUSTED ACROSS SOUTH AFRICA · ";
 
 export default function ClientBar() {
+  const [paused, setPaused] = useState(false);
   const items = [...CLIENTS, ...CLIENTS, ...CLIENTS];
 
   return (
@@ -94,9 +96,11 @@ export default function ClientBar() {
         </motion.div>
       </div>
 
-      {/* Thin scrolling strip — edge-to-edge, faded at edges */}
+      {/* Thin scrolling strip — edge-to-edge, faded at edges, pauses on hover */}
       <div
         className="relative border-t border-[#E8E8EC]"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
         style={{
           maskImage:
             "linear-gradient(to right, transparent, black 5%, black 95%, transparent)",
@@ -109,6 +113,7 @@ export default function ClientBar() {
           style={{
             width: "max-content",
             animation: "marquee-text 42s linear infinite",
+            animationPlayState: paused ? "paused" : "running",
           }}
         >
           {items.map((name, i) => (
@@ -116,7 +121,7 @@ export default function ClientBar() {
               key={`${name}-${i}`}
               className="flex items-center gap-6 px-6 whitespace-nowrap"
             >
-              <span className="text-[11.5px] md:text-[12.5px] font-['DM_Sans'] font-medium uppercase tracking-[0.13em] text-[#6B6B7A]">
+              <span className="text-[11.5px] md:text-[12.5px] font-['DM_Sans'] font-medium uppercase tracking-[0.13em] text-[#6B6B7A] hover:text-[#7B3FE4] transition-colors duration-200">
                 {name}
               </span>
               <motion.span

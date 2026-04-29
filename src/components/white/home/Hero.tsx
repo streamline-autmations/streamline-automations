@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Button from '../ui/Button';
 import AnimatedNumber from '../ui/AnimatedNumber';
+import MagneticCTA from '../ui/MagneticCTA';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -26,6 +27,7 @@ export default function Hero() {
   const { scrollY } = useScroll();
   const blobY = useTransform(scrollY, [0, 800], [0, -120]);
   const washY = useTransform(scrollY, [0, 800], [0, -60]);
+  const gridY = useTransform(scrollY, [0, 800], [0, -40]);
 
   return (
     <section className="relative pt-36 md:pt-44 pb-24 md:pb-32 overflow-hidden">
@@ -52,17 +54,37 @@ export default function Hero() {
       </motion.div>
 
       {/* Layer 1b — fine grid wash, very faint, only the upper half */}
+      <motion.div
+        aria-hidden="true"
+        style={{ y: gridY }}
+        className="absolute inset-x-0 top-0 h-[70%] pointer-events-none opacity-[0.4]"
+      >
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              'linear-gradient(to right, rgba(123,63,228,0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(123,63,228,0.08) 1px, transparent 1px)',
+            backgroundSize: '56px 56px',
+            maskImage:
+              'linear-gradient(to bottom, rgba(0,0,0,0.6), transparent 85%)',
+            WebkitMaskImage:
+              'linear-gradient(to bottom, rgba(0,0,0,0.6), transparent 85%)',
+          }}
+        />
+      </motion.div>
+
+      {/* Layer 1c — denser dot grid for tactile depth, fades quickly */}
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-[60%] pointer-events-none opacity-[0.35]"
+        className="absolute inset-x-0 top-0 h-[55%] pointer-events-none opacity-[0.45]"
         style={{
           backgroundImage:
-            'linear-gradient(to right, rgba(123,63,228,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(123,63,228,0.06) 1px, transparent 1px)',
-          backgroundSize: '56px 56px',
+            'radial-gradient(rgba(123,63,228,0.18) 1px, transparent 1px)',
+          backgroundSize: '22px 22px',
           maskImage:
-            'linear-gradient(to bottom, rgba(0,0,0,0.6), transparent 85%)',
+            'radial-gradient(ellipse 90% 70% at 50% 30%, rgba(0,0,0,0.5), transparent 80%)',
           WebkitMaskImage:
-            'linear-gradient(to bottom, rgba(0,0,0,0.6), transparent 85%)',
+            'radial-gradient(ellipse 90% 70% at 50% 30%, rgba(0,0,0,0.5), transparent 80%)',
         }}
       />
 
@@ -80,7 +102,7 @@ export default function Hero() {
           }}
           transition={{ duration: 22, ease: 'easeInOut', repeat: Infinity }}
           className="absolute -top-20 left-[54%] w-[700px] h-[700px] rounded-full
-                     blur-[110px] opacity-[0.18] bg-[#7B3FE4]"
+                     blur-[110px] opacity-[0.2] bg-[#7B3FE4]"
         />
         <motion.div
           animate={{
@@ -90,7 +112,7 @@ export default function Hero() {
           }}
           transition={{ duration: 28, ease: 'easeInOut', repeat: Infinity }}
           className="absolute top-32 -left-10 w-[480px] h-[480px] rounded-full
-                     blur-[100px] opacity-[0.13] bg-[#7B3FE4]"
+                     blur-[100px] opacity-[0.14] bg-[#7B3FE4]"
         />
         {/* Lower-right warm purple bloom — anchors the bottom of the hero */}
         <motion.div
@@ -101,7 +123,7 @@ export default function Hero() {
           }}
           transition={{ duration: 32, ease: 'easeInOut', repeat: Infinity }}
           className="absolute bottom-[-120px] right-[-80px] w-[560px] h-[560px] rounded-full
-                     blur-[120px] opacity-[0.16] bg-[#A77BFF]"
+                     blur-[120px] opacity-[0.18] bg-[#A77BFF]"
         />
       </motion.div>
 
@@ -177,9 +199,11 @@ export default function Hero() {
             variants={fadeUp}
             className="mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-4"
           >
-            <Button href="/contact" size="lg">
-              Book a Free Call
-            </Button>
+            <MagneticCTA strength={10}>
+              <Button href="/contact" size="lg">
+                Book a Free Call
+              </Button>
+            </MagneticCTA>
             <Link
               to="/portfolio"
               className="group inline-flex items-center gap-1.5 px-2 py-3 text-sm
@@ -228,7 +252,31 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      <div className="relative max-w-6xl mx-auto px-6 mt-24 md:mt-32">
+      {/* Scroll cue — subtle, animated, sits below the stats row */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, ease: EASE, delay: 1.4 }}
+        className="relative max-w-5xl mx-auto px-6 mt-16 md:mt-20 hidden md:flex items-center gap-3"
+      >
+        <span className="text-[10px] font-['DM_Sans'] font-medium uppercase tracking-[0.18em] text-[#9E9EA8]">
+          Scroll
+        </span>
+        <div className="relative w-12 h-px overflow-hidden">
+          <span aria-hidden="true" className="absolute inset-0 bg-[#E8E8EC]" />
+          <motion.span
+            aria-hidden="true"
+            className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-transparent via-[#7B3FE4] to-transparent"
+            animate={{ x: ['-100%', '100%'] }}
+            transition={{ duration: 2.2, ease: 'easeInOut', repeat: Infinity }}
+          />
+        </div>
+        <span className="text-[10px] font-['DM_Sans'] font-medium uppercase tracking-[0.18em] text-[#9E9EA8]">
+          to explore
+        </span>
+      </motion.div>
+
+      <div className="relative max-w-6xl mx-auto px-6 mt-16 md:mt-20">
         <div className="h-px bg-[#E8E8EC]" />
       </div>
     </section>
