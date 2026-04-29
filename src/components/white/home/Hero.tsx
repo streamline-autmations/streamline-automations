@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Button from '../ui/Button';
 import AnimatedNumber from '../ui/AnimatedNumber';
 import MagneticCTA from '../ui/MagneticCTA';
+import EnergyField from '../ui/EnergyField';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -31,6 +32,15 @@ export default function Hero() {
 
   return (
     <section className="relative pt-36 md:pt-44 pb-24 md:pb-32 overflow-hidden">
+      {/* Layer 0 — interactive purple energy field. Sits behind ambient layers
+          so the orbs feel like they live inside the aurora, not on top of it. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none"
+      >
+        <EnergyField className="absolute inset-0 w-full h-full opacity-90" />
+      </div>
+
       {/* Layer 1a — top aurora sweep, two-tone purple, drifts up on scroll */}
       <motion.div
         aria-hidden="true"

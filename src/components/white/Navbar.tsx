@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
-const ORANGE_LOGO = "https://res.cloudinary.com/dnlgohkcc/image/upload/v1777354607/Untitled_design_81_wmcnee.png";
+const LOGO =
+  "https://res.cloudinary.com/dnlgohkcc/image/upload/v1777354607/Untitled_design_80_bcjybe.png";
 
 const LINKS = [
   { label: "Services", href: "/services" },
@@ -11,6 +12,10 @@ const LINKS = [
 ];
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+// Reused across Navbar / Footer / ClientBar so the dark sections stay in sync.
+const DARK_PURPLE_GRADIENT =
+  "bg-gradient-to-r from-[#2E1065] via-[#4C1D95] to-[#6B21A8]";
 
 export default function WhiteNavbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -34,18 +39,27 @@ export default function WhiteNavbar() {
   return (
     <header
       data-cursor-invert
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${DARK_PURPLE_GRADIENT} ${
         scrolled
-          ? "bg-[#7B3FE4]/95 backdrop-blur-xl border-b border-white/15 shadow-[0_1px_24px_rgba(123,63,228,0.3)]"
-          : "bg-[#7B3FE4] border-b border-white/15"
+          ? "backdrop-blur-xl border-b border-white/15 shadow-[0_1px_24px_rgba(46,16,101,0.4)]"
+          : "border-b border-white/10"
       }`}
+      style={
+        scrolled
+          ? {
+              // Frosted-on-scroll look: same gradient but slightly translucent so
+              // page content shows through faintly behind the blur.
+              backgroundColor: "rgba(46,16,101,0.85)",
+            }
+          : undefined
+      }
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link
           to="/"
           className="flex items-center gap-2.5 hover:opacity-80 transition-opacity duration-200"
         >
-          <img src={ORANGE_LOGO} alt="" aria-hidden="true" className="h-7 w-auto" />
+          <img src={LOGO} alt="" aria-hidden="true" className="h-7 w-auto" />
           <span className="text-[15px] font-['DM_Sans'] font-semibold text-white tracking-[-0.02em]">
             Streamline<span className="text-white/60">.</span>
           </span>
@@ -69,9 +83,9 @@ export default function WhiteNavbar() {
           <Link
             to="/contact"
             className="inline-flex items-center justify-center px-5 py-2.5
-                       bg-white hover:bg-white/90 text-[#7B3FE4] text-[13.5px]
+                       bg-white hover:bg-white/95 text-[#4C1D95] text-[13.5px]
                        font-['DM_Sans'] font-semibold rounded-full transition-colors
-                       duration-200 min-h-[40px] shadow-[0_2px_12px_rgba(0,0,0,0.15)]"
+                       duration-200 min-h-[40px] shadow-[0_2px_14px_rgba(0,0,0,0.18)]"
           >
             Book a Free Call
           </Link>
@@ -99,7 +113,7 @@ export default function WhiteNavbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.22, ease: EASE }}
-            className="md:hidden bg-[#7B3FE4] border-b border-white/15 overflow-hidden"
+            className={`md:hidden ${DARK_PURPLE_GRADIENT} border-b border-white/15 overflow-hidden`}
           >
             <div className="px-6 py-6 flex flex-col gap-1">
               {LINKS.map((l) => (
@@ -114,8 +128,8 @@ export default function WhiteNavbar() {
               <Link
                 to="/contact"
                 className="mt-4 inline-flex items-center justify-center px-6 py-3.5
-                           bg-white text-[#7B3FE4] text-sm font-['DM_Sans'] font-semibold
-                           rounded-full min-h-[48px] transition-colors duration-200 hover:bg-white/90"
+                           bg-white text-[#4C1D95] text-sm font-['DM_Sans'] font-semibold
+                           rounded-full min-h-[48px] transition-colors duration-200 hover:bg-white/95"
               >
                 Book a Free Call
               </Link>
