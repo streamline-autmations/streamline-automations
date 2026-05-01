@@ -23,6 +23,10 @@ const About = lazy(() => import('./pages/About'));
 const BlomCosmetics = lazy(() => import('./pages/portfolio/BlomCosmetics'));
 const RecklessBearPage = lazy(() => import('./pages/portfolio/RecklessBearPage'));
 const AmeliVanZyl = lazy(() => import('./pages/portfolio/AmeliVanZyl'));
+const HomeVariant1 = lazy(() => import('./pages/HomeVariant1'));
+const HomeVariant2 = lazy(() => import('./pages/HomeVariant2'));
+const HomeVariant3 = lazy(() => import('./pages/HomeVariant3'));
+const HomeVariant4 = lazy(() => import('./pages/HomeVariant4'));
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -46,6 +50,12 @@ function AnimatedRoutes() {
       <Routes location={location} key={location.pathname}>
         {/* Homepage */}
         <Route path="/" element={<PageTransition><Home /></PageTransition>} />
+
+        {/* Homepage variants — design exploration */}
+        <Route path="/v1" element={<PageTransition><HomeVariant1 /></PageTransition>} />
+        <Route path="/v2" element={<PageTransition><HomeVariant2 /></PageTransition>} />
+        <Route path="/v3" element={<PageTransition><HomeVariant3 /></PageTransition>} />
+        <Route path="/v4" element={<PageTransition><HomeVariant4 /></PageTransition>} />
 
         {/* All other pages — self-contained with their own WhiteNavbar/WhiteFooter */}
         <Route path="/websites" element={<PageTransition><WebsitesPage /></PageTransition>} />
