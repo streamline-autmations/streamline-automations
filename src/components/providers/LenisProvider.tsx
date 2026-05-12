@@ -22,6 +22,8 @@ export default function LenisProvider({ children }: { children: ReactNode }) {
   const [lenis, setLenis] = useState<Lenis | null>(null);
 
   useEffect(() => {
+    // Respect user motion preference — fall back to native scroll
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     // Keep native scroll on touch / small screens
     if (window.matchMedia('(max-width: 768px)').matches) return;
 

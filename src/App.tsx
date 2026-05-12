@@ -6,6 +6,7 @@ import ScrollToTop from './components/layout/ScrollToTop';
 import FloatingWhatsApp from './components/ui/FloatingWhatsApp';
 import BackToTop from './components/ui/BackToTop';
 import PageTransition from './components/layout/PageTransition';
+import LenisProvider from './components/providers/LenisProvider';
 import { trackScrollDepth, resetScrollTracking, initOutboundLinkTracking, initBounceDetection, resetSessionTiming } from './lib/analytics';
 
 // Lazy load pages for performance
@@ -88,14 +89,16 @@ function App() {
   return (
     <HelmetProvider>
       <Router>
-        <ScrollToTop />
-        <div className="relative min-h-screen">
-          <Suspense fallback={<div className="min-h-screen" />}>
-            <AnimatedRoutes />
-          </Suspense>
-        </div>
-        <FloatingWhatsApp />
-        <BackToTop />
+        <LenisProvider>
+          <ScrollToTop />
+          <div className="relative min-h-screen">
+            <Suspense fallback={<div className="min-h-screen" />}>
+              <AnimatedRoutes />
+            </Suspense>
+          </div>
+          <FloatingWhatsApp />
+          <BackToTop />
+        </LenisProvider>
       </Router>
     </HelmetProvider>
   );

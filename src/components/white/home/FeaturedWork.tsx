@@ -1,127 +1,69 @@
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import PortfolioCard from "../ui/PortfolioCard";
-import AnimatedUnderline from "../ui/AnimatedUnderline";
-
-const FEATURED = [
-  {
-    title: "BLOM Cosmetics",
-    description:
-      "Full e-commerce platform, CRM, BLOM Academy course portal, and WhatsApp + email automation — all on one Supabase backend.",
-    category: "E-commerce + Automation",
-    tech: ["React", "Supabase", "n8n"],
-    imageSrc:
-      "https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851097/Blom-hero_image_jaqcoz.png",
-    href: "/portfolio/blom-cosmetics",
-  },
-  {
-    title: "RecklessBear Apparel",
-    description:
-      "Website, CRM, inventory tracking, 12-stage production pipeline, and WhatsApp automation for order updates.",
-    category: "Full Business System",
-    tech: ["React", "Supabase", "WhatsApp API"],
-    imageSrc:
-      "https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851117/Reckless-hero_image_sbwhoj.png",
-    href: "/portfolio/recklesbear",
-  },
-];
+import { motion } from 'framer-motion';
+import VideoCard from '../ui/VideoCard';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
+// Replace these placeholder Cloudinary URLs once the real walkthroughs are uploaded.
+// See ASSET_MANIFEST.md at repo root for the upload checklist.
+const BLOM_WALKTHROUGH_VIDEO =
+  'https://res.cloudinary.com/dnlgohkcc/video/upload/v0/streamline-site/showreel/blom-walkthrough.mp4';
+const BLOM_WALKTHROUGH_POSTER =
+  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/showreel/blom-walkthrough-poster.jpg';
+const AMELI_WALKTHROUGH_VIDEO =
+  'https://res.cloudinary.com/dnlgohkcc/video/upload/v0/streamline-site/showreel/ameli-walkthrough.mp4';
+const AMELI_WALKTHROUGH_POSTER =
+  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/showreel/ameli-walkthrough-poster.jpg';
+
+/**
+ * FeaturedWork — two silent looping walkthroughs (BLOM + Ameli) that
+ * auto-play when each card enters the viewport and pause when it
+ * leaves. Reduced-motion users see the poster image instead. Lives on
+ * white background — sits between StatsStrip and RentalCallout on the
+ * homepage.
+ */
 export default function FeaturedWork() {
   return (
-    <section
-      data-cursor-invert
-      className="relative py-24 md:py-32 overflow-hidden"
-      style={{
-        // Layered deep-purple gradient — premium without going pure black.
-        // Top blends from the section above; bottom anchors with violet tone.
-        background:
-          "linear-gradient(180deg, #1A0B30 0%, #240F45 50%, #160826 100%)",
-      }}
-    >
-      {/* Aurora purple blooms */}
-      <div
-        aria-hidden="true"
-        className="absolute -top-40 -right-40 w-[640px] h-[640px] rounded-full
-                   bg-[#7B3FE4] blur-[150px] opacity-[0.28] pointer-events-none"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute -bottom-40 -left-40 w-[520px] h-[520px] rounded-full
-                   bg-[#A77BFF] blur-[140px] opacity-[0.18] pointer-events-none"
-      />
-
-      {/* Subtle grid wash for depth */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none opacity-[0.5]"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
-          maskImage:
-            "radial-gradient(ellipse 80% 70% at 50% 50%, rgba(0,0,0,0.85), transparent 75%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 80% 70% at 50% 50%, rgba(0,0,0,0.85), transparent 75%)",
-        }}
-      />
-
-      <div className="relative max-w-5xl mx-auto px-6">
-        {/* Inverted header — center aligned, white text */}
+    <section className="relative bg-white py-24 md:py-32" aria-label="Featured walkthroughs">
+      <div className="max-w-6xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
+          viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.6, ease: EASE }}
-          className="mb-12 md:mb-16 text-center"
+          className="text-center mb-14 md:mb-20"
         >
-          <span className="block text-[11px] font-['DM_Sans'] font-medium uppercase tracking-[0.14em] text-white/45 mb-5">
-            Selected work
+          <span className="block text-[11px] font-['DM_Sans'] font-medium uppercase tracking-[0.16em] text-[#7B3FE4] mb-4">
+            See it move
           </span>
-          <h2 className="text-[32px] leading-[1.1] sm:text-4xl md:text-5xl font-['DM_Sans'] font-semibold text-white tracking-[-0.02em] max-w-2xl mx-auto">
-            Not just websites.{" "}
-            <span className="font-['Instrument_Serif'] italic font-normal text-[#C8A8FF]">
-              Whole systems.
+          <h2 className="text-[32px] sm:text-[42px] md:text-[52px] font-['DM_Sans'] font-semibold text-[#0A0A0F] tracking-[-0.03em] leading-[1.06] max-w-[22ch] mx-auto">
+            Not screenshots.{' '}
+            <span className="font-['Instrument_Serif'] italic font-normal">
+              Live walkthroughs.
             </span>
           </h2>
-          <div className="mt-5 flex justify-center">
-            <AnimatedUnderline
-              width={140}
-              color="#A77BFF"
-              strokeWidth={2}
-              className="w-[140px] h-[6px]"
-            />
-          </div>
-          <p className="mt-5 text-[16px] md:text-[17px] font-['DM_Sans'] text-white/60 leading-[1.65] max-w-xl mx-auto">
-            Real SA businesses. Real client screenshots. No stock photos.
+          <p className="mt-5 text-[15.5px] md:text-[16.5px] font-['DM_Sans'] text-[#3D3D47] leading-[1.55] max-w-[52ch] mx-auto">
+            Two short tours of real client builds — recorded straight off the live sites.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {FEATURED.map((p) => (
-            <PortfolioCard key={p.title} {...p} inverted />
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-8">
+          <VideoCard
+            videoSrc={BLOM_WALKTHROUGH_VIDEO}
+            posterSrc={BLOM_WALKTHROUGH_POSTER}
+            label="Walkthrough"
+            headline="BLOM Cosmetics — the full stack."
+            body="Store, admin, course platform, automations. One unified system."
+            linkHref="/portfolio#blom"
+          />
+          <VideoCard
+            videoSrc={AMELI_WALKTHROUGH_VIDEO}
+            posterSrc={AMELI_WALKTHROUGH_POSTER}
+            label="Walkthrough"
+            headline="Ameli Designs — 4 days from brief to live."
+            body="Clean portfolio, automated lead capture, ready to convert."
+            linkHref="/portfolio#ameli"
+          />
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.55, ease: EASE, delay: 0.1 }}
-          className="mt-14 flex justify-center"
-        >
-          <Link
-            to="/portfolio"
-            className="group inline-flex items-center gap-1.5 text-sm font-['DM_Sans']
-                       font-medium text-white/60 hover:text-white transition-colors duration-200"
-          >
-            See all work
-            <span className="transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1">
-              &rarr;
-            </span>
-          </Link>
-        </motion.div>
       </div>
     </section>
   );

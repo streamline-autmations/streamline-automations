@@ -1,15 +1,82 @@
-import React from 'react';
 import {
   Database, LayoutDashboard, MessageSquare, Calendar,
   Workflow, FileText, Filter, Mail
 } from 'lucide-react';
 import SEO from '../components/seo/SEO';
-import Navbar from '../components/layout/Navbar';
-import Footer from '../components/layout/Footer';
+import WhiteNavbar from '../components/white/Navbar';
+import WhiteFooter from '../components/white/Footer';
 import SectionHeader from '../components/white/ui/SectionHeader';
 import Button from '../components/white/ui/Button';
 import Divider from '../components/white/ui/Divider';
 import FinalCTA from '../components/white/home/FinalCTA';
+import AutomationFlow from '../components/white/home/AutomationFlow';
+import type { AutomationStage } from '../types/case-study';
+
+// Replace these placeholder Cloudinary URLs once the real screens are uploaded.
+// See ASSET_MANIFEST.md at repo root for the upload checklist.
+const STAGE_1_SCREEN =
+  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/automation/stage-1-quote-form.png';
+const STAGE_2_SCREEN =
+  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/automation/stage-2-ai-quote.png';
+const STAGE_3_SCREEN =
+  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/automation/stage-3-crm.png';
+const STAGE_4_SCREEN =
+  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/automation/stage-4-trello.png';
+const STAGE_5_SCREEN =
+  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/automation/stage-5-whatsapp.png';
+const STAGE_6_SCREEN =
+  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/automation/stage-6-summary.png';
+
+const STAGES: AutomationStage[] = [
+  {
+    indicator: 'Step 01 / 06',
+    title: 'Customer requests a quote',
+    caption:
+      'Visitor lands on recklessbear.co.za, opens the quote form, fills in product, quantity, deadline, and uploads a design reference.',
+    screenSrc: STAGE_1_SCREEN,
+    screenAlt: 'Quote form on the RecklessBear website',
+  },
+  {
+    indicator: 'Step 02 / 06',
+    title: 'AI generates the quote',
+    caption:
+      'Voiceflow chatbot handles edge cases, asks clarifying questions, generates an instant pricing estimate, and routes the lead based on category.',
+    screenSrc: STAGE_2_SCREEN,
+    screenAlt: 'AI quote chatbot generating a price estimate',
+  },
+  {
+    indicator: 'Step 03 / 06',
+    title: 'Lead lands in the CRM',
+    caption:
+      'Airtable captures the lead. n8n auto-assigns it to the rep with the fewest active orders. Email + WhatsApp alerts fire to that rep instantly.',
+    screenSrc: STAGE_3_SCREEN,
+    screenAlt: 'Airtable CRM with a new lead auto-assigned to a sales rep',
+  },
+  {
+    indicator: 'Step 04 / 06',
+    title: 'Production starts',
+    caption:
+      'On confirmation, a Trello card is auto-created and moved through the 12-stage production pipeline. Stock is auto-deducted from the inventory system.',
+    screenSrc: STAGE_4_SCREEN,
+    screenAlt: 'Trello production board with a new card moving through stages',
+  },
+  {
+    indicator: 'Step 05 / 06',
+    title: 'Customer stays in the loop',
+    caption:
+      'Every Trello card move triggers an automated WhatsApp message to the customer. No follow-up phone calls. No customers chasing updates.',
+    screenSrc: STAGE_5_SCREEN,
+    screenAlt: 'WhatsApp conversation with automated order updates',
+  },
+  {
+    indicator: 'Step 06 / 06',
+    title: 'Order ships, CEO reports up',
+    caption:
+      'Customer gets delivery confirmation. CEO gets a weekly summary email — total leads, conversion rate, rep performance, production bottlenecks. The whole system reports on itself.',
+    screenSrc: STAGE_6_SCREEN,
+    screenAlt: 'Weekly performance summary email for the CEO',
+  },
+];
 
 const features = [
   { icon: Database,        title: 'CRM Setup',          desc: 'Contacts, pipeline stages, deal tracking' },
@@ -25,18 +92,31 @@ const features = [
 export default function SystemsPage() {
   return (
     <>
-      <Navbar />
+      <WhiteNavbar />
       <SEO
         title="Systems & Automation"
         description="CRMs, WhatsApp bots, dashboards, workflows — I automate the work that's eating your time."
       />
-      <main className="bg-white min-h-screen font-['DM_Sans']">
+      <main className="bg-white min-h-[100svh] font-['DM_Sans']">
         <section className="py-24 md:py-32">
           <div className="max-w-5xl mx-auto px-6">
             <SectionHeader
               eyebrow="Systems & Automation"
               headline="Your business runs on systems. I build them."
               subtext="CRMs, WhatsApp bots, dashboards, workflows — I automate the work that's eating your time."
+            />
+          </div>
+        </section>
+
+        {/* Pinned 6-stage automation flow — RecklessBear quote-to-production */}
+        <AutomationFlow stages={STAGES} />
+
+        <section className="py-24 md:py-32">
+          <div className="max-w-5xl mx-auto px-6">
+            <SectionHeader
+              eyebrow="What's included"
+              headline="Everything that runs your business."
+              subtext="Eight building blocks. Mix and match what you need."
             />
 
             {/* Simple bullet list */}
@@ -84,7 +164,7 @@ export default function SystemsPage() {
           </div>
         </section>
       </main>
-      <Footer />
+      <WhiteFooter />
     </>
   );
 }
