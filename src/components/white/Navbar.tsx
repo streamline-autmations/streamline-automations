@@ -1,12 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 const LOGO =
   "https://res.cloudinary.com/dnlgohkcc/image/upload/v1777354607/Untitled_design_80_bcjybe.png";
 
-const LINKS = [
-  { label: "Services", href: "/services" },
+const SERVICES_DROPDOWN = [
+  { label: "Web Design", href: "/websites", desc: "Custom sites that convert" },
+  { label: "Systems & Automation", href: "/systems", desc: "Workflows on autopilot" },
+  { label: "Hosting & Maintenance", href: "/hosting", desc: "Pay monthly, own after 18 months" },
+];
+
+const TOP_LINKS = [
+  { label: "Portfolio", href: "/portfolio" },
+  { label: "About", href: "/about" },
+];
+
+const MOBILE_LINKS = [
+  { label: "Web Design", href: "/websites" },
+  { label: "Systems & Automation", href: "/systems" },
+  { label: "Hosting & Maintenance", href: "/hosting" },
   { label: "Portfolio", href: "/portfolio" },
   { label: "About", href: "/about" },
 ];
@@ -20,6 +33,8 @@ const DARK_PURPLE_GRADIENT =
 export default function WhiteNavbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const servicesRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -31,10 +46,25 @@ export default function WhiteNavbar() {
 
   useEffect(() => {
     setOpen(false);
+    setServicesOpen(false);
   }, [location]);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (servicesRef.current && !servicesRef.current.contains(e.target as Node)) {
+        setServicesOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
 
   const isActive = (href: string) =>
     href === "/" ? location.pathname === "/" : location.pathname.startsWith(href);
+
+  const servicesActive = ["/websites", "/systems", "/hosting"].some((p) =>
+    location.pathname.startsWith(p)
+  );
 
   return (
     <header
@@ -46,11 +76,7 @@ export default function WhiteNavbar() {
       }`}
       style={
         scrolled
-          ? {
-              // Frosted-on-scroll look: same gradient but slightly translucent so
-              // page content shows through faintly behind the blur.
-              backgroundColor: "rgba(46,16,101,0.85)",
-            }
+          ? { backgroundColor: "rgba(46,16,101,0.85)" }
           : undefined
       }
     >
@@ -65,8 +91,60 @@ export default function WhiteNavbar() {
           </span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-9">
-          {LINKS.map((l) => (
+        <nav className="hidden md:flex items-center gap-7">
+          {/* Services dropdown */}
+          <div ref={servicesRef} className="relative">
+            <button
+              onClick={() => setServicesOpen((v) => !v)}
+              className={`flex items-center gap-1.5 text-[14px] font-['DM_Sans'] transition-colors duration-200 ${
+                servicesActive ? "text-white" : "text-white/60 hover:text-white"
+              }`}
+            >
+              Services
+              <svg
+                aria-hidden="true"
+                className={`w-3.5 h-3.5 transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`}
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            <AnimatePresence>
+              {servicesOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 4 }}
+                  transition={{ duration: 0.18, ease: EASE }}
+                  className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-64 bg-white rounded-2xl
+                             border border-[#E8E8EC] shadow-[0_16px_48px_rgba(0,0,0,0.12)] overflow-hidden"
+                >
+                  {SERVICES_DROPDOWN.map((item) => (
+                    <Link
+                      key={item.href}
+                      to={item.href}
+                      className={`block px-5 py-3.5 hover:bg-[#FAFAFA] transition-colors ${
+                        isActive(item.href) ? "bg-[#F0EBFF]" : ""
+                      }`}
+                    >
+                      <span className="block text-[13.5px] font-['DM_Sans'] font-semibold text-[#0A0A0F]">
+                        {item.label}
+                      </span>
+                      <span className="block text-[12px] font-['DM_Sans'] text-[#9E9EA8] mt-0.5">
+                        {item.desc}
+                      </span>
+                    </Link>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {TOP_LINKS.map((l) => (
             <Link
               key={l.href}
               to={l.href}
@@ -116,11 +194,13 @@ export default function WhiteNavbar() {
             className={`md:hidden ${DARK_PURPLE_GRADIENT} border-b border-white/15 overflow-hidden`}
           >
             <div className="px-6 py-6 flex flex-col gap-1">
-              {LINKS.map((l) => (
+              {MOBILE_LINKS.map((l) => (
                 <Link
                   key={l.href}
                   to={l.href}
-                  className="py-3 text-[16px] font-['DM_Sans'] font-medium text-white/80 hover:text-white transition-colors"
+                  className={`py-3 text-[16px] font-['DM_Sans'] font-medium transition-colors ${
+                    isActive(l.href) ? "text-white" : "text-white/70 hover:text-white"
+                  }`}
                 >
                   {l.label}
                 </Link>

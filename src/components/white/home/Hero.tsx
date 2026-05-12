@@ -1,5 +1,8 @@
+import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { gsap, useGSAP } from '../../../lib/gsap-setup';
+import usePrefersReducedMotion from '../../../hooks/usePrefersReducedMotion';
 import Button from '../ui/Button';
 import AnimatedNumber from '../ui/AnimatedNumber';
 import MagneticCTA from '../ui/MagneticCTA';
@@ -7,41 +10,71 @@ import EnergyField from '../ui/EnergyField';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const stagger = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
-  },
-};
-
-const lineRise = {
-  hidden: { y: '110%' },
-  visible: { y: '0%', transition: { duration: 0.85, ease: EASE } },
-};
-
 const fadeUp = {
   hidden: { opacity: 0, y: 14 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: EASE } },
 };
 
+// The headline split into per-word tokens.
+// The word "scale" gets Instrument Serif italic in accent purple.
+// The trailing "." stays DM Sans near-black.
+const WORDS: { text: string; serif?: boolean }[] = [
+  { text: 'Websites' },
+  { text: 'that' },
+  { text: 'work.' },
+  { text: 'Systems' },
+  { text: 'that' },
+  { text: 'scale', serif: true },
+  { text: '.' },
+];
+
 export default function Hero() {
+  const reduced = usePrefersReducedMotion();
+  const headlineRef = useRef<HTMLHeadingElement>(null);
+
   const { scrollY } = useScroll();
   const blobY = useTransform(scrollY, [0, 800], [0, -120]);
   const washY = useTransform(scrollY, [0, 800], [0, -60]);
   const gridY = useTransform(scrollY, [0, 800], [0, -40]);
 
+  // Word-by-word GSAP reveal on first load.
+  // gsap.fromTo immediately locks words to opacity 0 before the first paint
+  // (runs synchronously inside useGSAP), so there is no visible flash.
+  // Reduced-motion: gsap.set makes all words visible immediately — no animation.
+  useGSAP(
+    () => {
+      const words = headlineRef.current?.querySelectorAll<HTMLElement>('.word');
+      if (!words?.length) return;
+
+      if (reduced) {
+        gsap.set(words, { opacity: 1, y: 0 });
+        return;
+      }
+
+      gsap.fromTo(
+        words,
+        { opacity: 0, y: 24 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.08,
+          duration: 0.7,
+          ease: 'power3.out',
+          delay: 0.15,
+        }
+      );
+    },
+    { scope: headlineRef, dependencies: [reduced] }
+  );
+
   return (
     <section className="relative pt-36 md:pt-44 pb-24 md:pb-32 overflow-hidden">
-      {/* Layer 0 — interactive purple energy field. Sits behind ambient layers
-          so the orbs feel like they live inside the aurora, not on top of it. */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none"
-      >
+      {/* Layer 0 — interactive purple energy field */}
+      <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
         <EnergyField className="absolute inset-0 w-full h-full opacity-90" />
       </div>
 
-      {/* Layer 1a — top aurora sweep, two-tone purple, drifts up on scroll */}
+      {/* Layer 1a — top aurora sweep */}
       <motion.div
         aria-hidden="true"
         style={{ y: washY }}
@@ -63,7 +96,7 @@ export default function Hero() {
         />
       </motion.div>
 
-      {/* Layer 1b — fine grid wash, very faint, only the upper half */}
+      {/* Layer 1b — fine grid wash */}
       <motion.div
         aria-hidden="true"
         style={{ y: gridY }}
@@ -75,21 +108,18 @@ export default function Hero() {
             backgroundImage:
               'linear-gradient(to right, rgba(123,63,228,0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(123,63,228,0.08) 1px, transparent 1px)',
             backgroundSize: '56px 56px',
-            maskImage:
-              'linear-gradient(to bottom, rgba(0,0,0,0.6), transparent 85%)',
-            WebkitMaskImage:
-              'linear-gradient(to bottom, rgba(0,0,0,0.6), transparent 85%)',
+            maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.6), transparent 85%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.6), transparent 85%)',
           }}
         />
       </motion.div>
 
-      {/* Layer 1c — denser dot grid for tactile depth, fades quickly */}
+      {/* Layer 1c — denser dot grid */}
       <div
         aria-hidden="true"
         className="absolute inset-x-0 top-0 h-[55%] pointer-events-none opacity-[0.45]"
         style={{
-          backgroundImage:
-            'radial-gradient(rgba(123,63,228,0.18) 1px, transparent 1px)',
+          backgroundImage: 'radial-gradient(rgba(123,63,228,0.18) 1px, transparent 1px)',
           backgroundSize: '22px 22px',
           maskImage:
             'radial-gradient(ellipse 90% 70% at 50% 30%, rgba(0,0,0,0.5), transparent 80%)',
@@ -98,46 +128,31 @@ export default function Hero() {
         }}
       />
 
-      {/* Layer 2 — slow-floating ambient blobs, parallax + endless drift */}
+      {/* Layer 2 — slow-floating ambient blobs */}
       <motion.div
         aria-hidden="true"
         style={{ y: blobY }}
         className="absolute inset-0 pointer-events-none"
       >
         <motion.div
-          animate={{
-            x: [0, 28, -12, 0],
-            y: [0, -22, 14, 0],
-            scale: [1, 1.06, 0.97, 1],
-          }}
+          animate={{ x: [0, 28, -12, 0], y: [0, -22, 14, 0], scale: [1, 1.06, 0.97, 1] }}
           transition={{ duration: 22, ease: 'easeInOut', repeat: Infinity }}
-          className="absolute -top-20 left-[54%] w-[700px] h-[700px] rounded-full
-                     blur-[110px] opacity-[0.2] bg-[#7B3FE4]"
+          className="absolute -top-20 left-[54%] w-[700px] h-[700px] rounded-full blur-[110px] opacity-[0.2] bg-[#7B3FE4]"
         />
         <motion.div
-          animate={{
-            x: [0, -22, 16, 0],
-            y: [0, 12, -18, 0],
-            scale: [1, 0.96, 1.05, 1],
-          }}
+          animate={{ x: [0, -22, 16, 0], y: [0, 12, -18, 0], scale: [1, 0.96, 1.05, 1] }}
           transition={{ duration: 28, ease: 'easeInOut', repeat: Infinity }}
-          className="absolute top-32 -left-10 w-[480px] h-[480px] rounded-full
-                     blur-[100px] opacity-[0.14] bg-[#7B3FE4]"
+          className="absolute top-32 -left-10 w-[480px] h-[480px] rounded-full blur-[100px] opacity-[0.14] bg-[#7B3FE4]"
         />
-        {/* Lower-right warm purple bloom — anchors the bottom of the hero */}
         <motion.div
-          animate={{
-            x: [0, 18, -14, 0],
-            y: [0, -14, 10, 0],
-            scale: [1, 1.05, 0.98, 1],
-          }}
+          animate={{ x: [0, 18, -14, 0], y: [0, -14, 10, 0], scale: [1, 1.05, 0.98, 1] }}
           transition={{ duration: 32, ease: 'easeInOut', repeat: Infinity }}
-          className="absolute bottom-[-120px] right-[-80px] w-[560px] h-[560px] rounded-full
-                     blur-[120px] opacity-[0.18] bg-[#A77BFF]"
+          className="absolute bottom-[-120px] right-[-80px] w-[560px] h-[560px] rounded-full blur-[120px] opacity-[0.18] bg-[#A77BFF]"
         />
       </motion.div>
 
       <div className="relative max-w-5xl mx-auto px-6">
+        {/* Status pill */}
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
@@ -153,52 +168,48 @@ export default function Hero() {
             />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-[#7B3FE4]" />
           </span>
-          <span
-            className="text-[11px] font-['DM_Sans'] font-medium uppercase
-                       tracking-[0.14em] text-[#9E9EA8]"
-          >
+          <span className="text-[11px] font-['DM_Sans'] font-medium uppercase tracking-[0.14em] text-[#9E9EA8]">
             Web Design &amp; Automation · Vaal Triangle, SA
           </span>
         </motion.div>
 
-        {/* Clip-mask line reveal */}
-        <motion.h1
-          initial="hidden"
-          animate="visible"
-          variants={stagger}
-          className="text-[44px] leading-[1.05] sm:text-[56px] md:text-[76px]
-                     lg:text-[88px] font-['DM_Sans'] font-semibold text-[#0A0A0F]
-                     tracking-[-0.035em] max-w-4xl"
+        {/* Headline — word-by-word GSAP reveal */}
+        <h1
+          ref={headlineRef}
+          className="text-[44px] leading-[1.05] sm:text-[56px] md:text-[76px] lg:text-[88px]
+                     font-['DM_Sans'] font-semibold text-[#0A0A0F] tracking-[-0.035em] max-w-4xl"
         >
-          <span className="block overflow-hidden pb-[0.12em]">
-            <motion.span variants={lineRise} className="block">
-              Websites that work.
-            </motion.span>
-          </span>
-          <span className="block overflow-hidden pb-[0.12em]">
-            <motion.span variants={lineRise} className="block">
-              <span className="font-['Instrument_Serif'] italic font-normal">
-                Systems
-              </span>{' '}
-              that scale.
-            </motion.span>
-          </span>
-        </motion.h1>
+          {WORDS.map((w, i) => (
+            <span
+              key={i}
+              className={[
+                'word',
+                'inline-block',
+                w.text !== '.' ? 'mr-[0.22em]' : '',
+                w.serif
+                  ? "font-['Instrument_Serif'] italic font-normal text-[#7B3FE4] tracking-tight"
+                  : '',
+              ]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              {w.text}
+            </span>
+          ))}
+        </h1>
 
+        {/* Sub-content — staggered Framer Motion as before */}
         <motion.div
           initial="hidden"
           animate="visible"
           variants={{
             hidden: {},
-            visible: {
-              transition: { staggerChildren: 0.1, delayChildren: 0.55 },
-            },
+            visible: { transition: { staggerChildren: 0.1, delayChildren: 0.55 } },
           }}
         >
           <motion.p
             variants={fadeUp}
-            className="mt-7 text-[17px] md:text-[19px] font-['DM_Sans']
-                       text-[#3D3D47] leading-[1.6] max-w-2xl"
+            className="mt-7 text-[17px] md:text-[19px] font-['DM_Sans'] text-[#3D3D47] leading-[1.6] max-w-2xl"
           >
             I build custom websites and automation systems for South African
             businesses that are done doing everything manually. Fast, clean,
@@ -217,14 +228,11 @@ export default function Hero() {
             <Link
               to="/portfolio"
               className="group inline-flex items-center gap-1.5 px-2 py-3 text-sm
-                         font-['DM_Sans'] font-medium text-[#0A0A0F]
-                         hover:text-[#7B3FE4] transition-colors duration-200"
+                         font-['DM_Sans'] font-medium text-[#0A0A0F] hover:text-[#7B3FE4]
+                         transition-colors duration-200"
             >
               See the work
-              <span
-                className="transition-transform duration-300
-                           ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1"
-              >
+              <span className="transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1">
                 →
               </span>
             </Link>
@@ -232,37 +240,21 @@ export default function Hero() {
 
           <motion.div
             variants={fadeUp}
-            className="mt-16 md:mt-20 flex flex-wrap items-center gap-x-2 gap-y-3
-                       text-[13px] font-['DM_Sans'] text-[#6B6B7A]"
+            className="mt-16 md:mt-20 flex flex-wrap items-center gap-x-2 gap-y-3 text-[13px] font-['DM_Sans'] text-[#6B6B7A]"
           >
-            <AnimatedNumber
-              to={8}
-              suffix="+"
-              duration={1.4}
-              className="font-medium text-[#0A0A0F]"
-            />
+            <AnimatedNumber to={8} suffix="+" duration={1.4} className="font-medium text-[#0A0A0F]" />
             <span>clients delivered</span>
             <span className="text-[#D4D4DA] mx-2">·</span>
-            <AnimatedNumber
-              to={3}
-              duration={1.2}
-              delay={0.15}
-              className="font-medium text-[#0A0A0F]"
-            />
+            <AnimatedNumber to={3} duration={1.2} delay={0.15} className="font-medium text-[#0A0A0F]" />
             <span>years building in SA</span>
             <span className="text-[#D4D4DA] mx-2">·</span>
-            <AnimatedNumber
-              to={2}
-              duration={1.2}
-              delay={0.3}
-              className="font-medium text-[#0A0A0F]"
-            />
+            <AnimatedNumber to={2} duration={1.2} delay={0.3} className="font-medium text-[#0A0A0F]" />
             <span>weeks average turnaround</span>
           </motion.div>
         </motion.div>
       </div>
 
-      {/* Scroll cue — subtle, animated, sits below the stats row */}
+      {/* Scroll cue */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
