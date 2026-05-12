@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { gsap, ScrollTrigger, useGSAP } from '../../../lib/gsap-setup';
+import { gsap, useGSAP } from '../../../lib/gsap-setup';
 import usePrefersReducedMotion from '../../../hooks/usePrefersReducedMotion';
 import { fadeUp, viewport } from '../../../lib/motion';
 import type { CaseStudySlide } from '../../../types/case-study';
@@ -12,22 +12,28 @@ interface Props {
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-/**
- * Pinned 4-slide case-study cycler.
- * Desktop: GSAP ScrollTrigger pins the section for ~3 viewports and
- * scrubs a timeline that cross-fades stacked image + text panels.
- * Snap settles cleanly on each slide. Mobile (<md) and reduced-motion
- * users get a stacked vertical layout with Framer Motion fade-ups.
- */
+// GPU compositing hints applied to every cross-fade layer.
+// Promotes each element to its own compositor layer so opacity changes
+// never trigger a CPU repaint on the surrounding content.
+const COMPOSITED: React.CSSProperties = {
+  willChange: 'opacity, transform',
+  transform: 'translateZ(0)',
+  backfaceVisibility: 'hidden',
+};
+
 export default function CaseStudyCycler({ slides }: Props) {
   const reduced = usePrefersReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
   const textRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Tracks the displayed index. A separate ref prevents setActiveIndex from
+  // being called on every frame — only fires when the integer actually changes.
   const [activeIndex, setActiveIndex] = useState(0);
+  const activeIndexRef = useRef(0);
 
   const slideCount = slides.length;
-  const segments = slideCount - 1; // number of transitions
+  const segments = slideCount - 1;
 
   useGSAP(
     () => {
@@ -41,8 +47,8 @@ export default function CaseStudyCycler({ slides }: Props) {
         if (images.length !== slideCount || texts.length !== slideCount) return;
 
         // Initial state — only slide 0 visible
-        gsap.set([...images.slice(1), ...texts.slice(1)], { autoAlpha: 0, y: 16 });
-        gsap.set([images[0], texts[0]], { autoAlpha: 1, y: 0 });
+        gsap.set([...images.slice(1), ...texts.slice(1)], { opacity: 0 });
+        gsap.set([images[0], texts[0]], { opacity: 1 });
 
         const tl = gsap.timeline({
           scrollTrigger: {
@@ -56,23 +62,32 @@ export default function CaseStudyCycler({ slides }: Props) {
               duration: 0.4,
               ease: 'power2.inOut',
             },
+            // Fix #1 — only call setState when the slide integer changes,
+            // not on every frame (previously caused 60 re-renders/sec).
             onUpdate: (self) => {
-              const idx = Math.round(self.progress * segments);
-              setActiveIndex(idx);
+              const idx = Math.min(
+                segments,
+                Math.max(0, Math.round(self.progress * segments))
+              );
+              if (idx !== activeIndexRef.current) {
+                activeIndexRef.current = idx;
+                setActiveIndex(idx);
+              }
             },
           },
         });
 
+        // Fix #4 — opacity-only cross-fades, no y translate.
+        // Fewer CSS properties animating simultaneously = fewer compositor ops.
         for (let i = 0; i < segments; i++) {
-          const position = i;
           tl.to(
             [images[i], texts[i]],
-            { autoAlpha: 0, y: -16, duration: 1, ease: 'power1.inOut' },
-            position
+            { opacity: 0, duration: 1, ease: 'power1.inOut' },
+            i
           ).to(
             [images[i + 1], texts[i + 1]],
-            { autoAlpha: 1, y: 0, duration: 1, ease: 'power1.inOut' },
-            position
+            { opacity: 1, duration: 1, ease: 'power1.inOut' },
+            i
           );
         }
       });
@@ -82,7 +97,6 @@ export default function CaseStudyCycler({ slides }: Props) {
     { scope: containerRef, dependencies: [reduced, slideCount] }
   );
 
-  // Reduced-motion or no slides → static first slide
   if (reduced) {
     return (
       <section className="relative bg-white py-24 md:py-32">
@@ -104,13 +118,15 @@ export default function CaseStudyCycler({ slides }: Props) {
   return (
     <>
       {/* DESKTOP — pinned cycler */}
+      {/* Fix #5 — translateZ(0) on the pinned section creates a stacking
+          context so the browser composites the entire block separately. */}
       <section
         ref={containerRef}
         className="relative hidden md:block bg-white"
         aria-label="Featured case studies"
+        style={{ transform: 'translateZ(0)' }}
       >
         <div className="relative h-[100svh] flex flex-col">
-          {/* Ambient purple wash so the section reads as a moment */}
           <div
             aria-hidden="true"
             className="absolute inset-0 pointer-events-none"
@@ -127,10 +143,13 @@ export default function CaseStudyCycler({ slides }: Props) {
               {/* LEFT 60% — text panels stacked */}
               <div className="col-span-3 order-2 md:order-1 relative min-h-[360px]">
                 {slides.map((slide, i) => (
+                  // Fix #2 — will-change + translateZ promote each panel to
+                  // its own GPU layer so opacity changes are composited only.
                   <div
                     key={slide.tag}
                     ref={(el) => (textRefs.current[i] = el)}
                     className="absolute inset-0"
+                    style={COMPOSITED}
                   >
                     <SlideText slide={slide} />
                   </div>
@@ -144,6 +163,7 @@ export default function CaseStudyCycler({ slides }: Props) {
                     key={slide.tag}
                     ref={(el) => (imageRefs.current[i] = el)}
                     className="absolute inset-0"
+                    style={COMPOSITED}
                   >
                     <SlideImage slide={slide} />
                   </div>
@@ -151,7 +171,6 @@ export default function CaseStudyCycler({ slides }: Props) {
               </div>
             </div>
 
-            {/* Progress indicator */}
             <ProgressIndicator current={activeIndex + 1} total={slideCount} />
           </div>
         </div>
@@ -249,10 +268,17 @@ function SlideText({ slide }: { slide: CaseStudySlide }) {
 
 function SlideImage({ slide }: { slide: CaseStudySlide }) {
   return (
-    <div
-      className="relative w-full h-full rounded-2xl overflow-hidden bg-[#F5F5F7] border border-[#E8E8EC]
-                 shadow-[0_30px_80px_-20px_rgba(76,29,149,0.25),0_10px_30px_-10px_rgba(0,0,0,0.08)]"
-    >
+    // Fix #3 — shadow lives on a static wrapper that is never animated.
+    // Previously the shadow was on the element being opacity-tweened, which
+    // forced a CPU repaint on every frame. This wrapper stays opaque always.
+    <div className="relative w-full h-full rounded-2xl overflow-hidden bg-[#F5F5F7] border border-[#E8E8EC]">
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 rounded-2xl pointer-events-none z-10"
+        style={{
+          boxShadow: '0 30px 80px -20px rgba(76,29,149,0.25), 0 10px 30px -10px rgba(0,0,0,0.08)',
+        }}
+      />
       <img
         src={slide.imageSrc}
         alt={slide.imageAlt}

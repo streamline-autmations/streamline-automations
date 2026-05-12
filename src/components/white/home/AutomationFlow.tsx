@@ -11,19 +11,21 @@ interface Props {
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-/**
- * Pinned 6-stage automation flow.
- * Desktop: a static phone frame stays pinned while its screen contents
- * and the caption beside it cross-fade through six stages, driven by
- * scroll progress via GSAP ScrollTrigger + snap. Mobile / reduced
- * motion: stacked vertical cards with Framer Motion fade-ups.
- */
+// GPU compositing hints for every cross-fade layer.
+const COMPOSITED: React.CSSProperties = {
+  willChange: 'opacity, transform',
+  transform: 'translateZ(0)',
+  backfaceVisibility: 'hidden',
+};
+
 export default function AutomationFlow({ stages }: Props) {
   const reduced = usePrefersReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const screenRefs = useRef<(HTMLDivElement | null)[]>([]);
   const captionRefs = useRef<(HTMLDivElement | null)[]>([]);
+
   const [activeIndex, setActiveIndex] = useState(0);
+  const activeIndexRef = useRef(0);
 
   const stageCount = stages.length;
   const segments = stageCount - 1;
@@ -39,8 +41,8 @@ export default function AutomationFlow({ stages }: Props) {
         const captions = captionRefs.current.filter(Boolean) as HTMLDivElement[];
         if (screens.length !== stageCount || captions.length !== stageCount) return;
 
-        gsap.set([...screens.slice(1), ...captions.slice(1)], { autoAlpha: 0, y: 16 });
-        gsap.set([screens[0], captions[0]], { autoAlpha: 1, y: 0 });
+        gsap.set([...screens.slice(1), ...captions.slice(1)], { opacity: 0 });
+        gsap.set([screens[0], captions[0]], { opacity: 1 });
 
         const tl = gsap.timeline({
           scrollTrigger: {
@@ -54,21 +56,29 @@ export default function AutomationFlow({ stages }: Props) {
               duration: 0.4,
               ease: 'power2.inOut',
             },
+            // Fix #1 — only setState when the integer index changes.
             onUpdate: (self) => {
-              const idx = Math.round(self.progress * segments);
-              setActiveIndex(idx);
+              const idx = Math.min(
+                segments,
+                Math.max(0, Math.round(self.progress * segments))
+              );
+              if (idx !== activeIndexRef.current) {
+                activeIndexRef.current = idx;
+                setActiveIndex(idx);
+              }
             },
           },
         });
 
+        // Fix #4 — pure opacity cross-fades, no y translate.
         for (let i = 0; i < segments; i++) {
           tl.to(
             [screens[i], captions[i]],
-            { autoAlpha: 0, y: -16, duration: 1, ease: 'power1.inOut' },
+            { opacity: 0, duration: 1, ease: 'power1.inOut' },
             i
           ).to(
             [screens[i + 1], captions[i + 1]],
-            { autoAlpha: 1, y: 0, duration: 1, ease: 'power1.inOut' },
+            { opacity: 1, duration: 1, ease: 'power1.inOut' },
             i
           );
         }
@@ -98,10 +108,12 @@ export default function AutomationFlow({ stages }: Props) {
   return (
     <>
       {/* DESKTOP — pinned phone-frame cycler */}
+      {/* Fix #5 — translateZ(0) promotes the pinned block to its own layer. */}
       <section
         ref={containerRef}
         className="relative hidden md:block bg-white"
         aria-label="How a Streamline automation runs end to end"
+        style={{ transform: 'translateZ(0)' }}
       >
         <div className="relative h-[100svh] flex flex-col">
           <div
@@ -117,14 +129,16 @@ export default function AutomationFlow({ stages }: Props) {
             <SectionHeader />
 
             <div className="mt-10 grid grid-cols-2 gap-12 items-center flex-1">
-              {/* LEFT — pinned phone with cross-fading screen content */}
+              {/* LEFT — phone frame with cross-fading screens inside */}
               <div className="flex justify-center">
                 <PhoneFrame>
                   {stages.map((stage, i) => (
+                    // Fix #2 — will-change + translateZ on each screen panel.
                     <div
                       key={stage.indicator}
                       ref={(el) => (screenRefs.current[i] = el)}
                       className="absolute inset-0"
+                      style={COMPOSITED}
                     >
                       <img
                         src={stage.screenSrc}
@@ -145,6 +159,7 @@ export default function AutomationFlow({ stages }: Props) {
                     key={stage.indicator}
                     ref={(el) => (captionRefs.current[i] = el)}
                     className="absolute inset-0"
+                    style={COMPOSITED}
                   >
                     <StageCaption stage={stage} />
                   </div>
@@ -227,8 +242,12 @@ function StageCaption({ stage }: { stage: AutomationStage }) {
 
 /**
  * Static phone frame. Two modes:
- *  - `children` (cycler mode): stack screen panels inside the screen
- *  - `screenSrc` (single mode): render one screenshot
+ *  - children (cycler): stacked screen panels composited inside
+ *  - screenSrc (single): one static screenshot
+ *
+ * Fix #3 — shadow lives on the outer frame wrapper (never animated).
+ * The inner screen div is the animated surface; painting the shadow there
+ * would have forced a CPU repaint on every opacity change.
  */
 function PhoneFrame({
   children,
@@ -241,16 +260,18 @@ function PhoneFrame({
 }) {
   return (
     <div
-      className="relative w-[260px] md:w-[300px] aspect-[9/19.5] rounded-[44px] bg-[#0A0A0F] p-[10px]
-                 shadow-[0_40px_80px_-30px_rgba(76,29,149,0.45),0_10px_30px_-10px_rgba(0,0,0,0.18)]
-                 ring-1 ring-black/10"
+      className="relative w-[260px] md:w-[300px] aspect-[9/19.5] rounded-[44px] bg-[#0A0A0F] p-[10px] ring-1 ring-black/10"
+      style={{
+        boxShadow:
+          '0 40px 80px -30px rgba(76,29,149,0.45), 0 10px 30px -10px rgba(0,0,0,0.18)',
+      }}
     >
-      {/* Notch / dynamic island */}
+      {/* Dynamic island notch */}
       <div
         aria-hidden="true"
         className="absolute top-2.5 left-1/2 -translate-x-1/2 w-[88px] h-[24px] rounded-full bg-black z-10"
       />
-      {/* Screen */}
+      {/* Screen — this is the compositing surface; no shadow here */}
       <div className="relative w-full h-full rounded-[34px] overflow-hidden bg-[#F5F5F7]">
         {children}
         {screenSrc && (
