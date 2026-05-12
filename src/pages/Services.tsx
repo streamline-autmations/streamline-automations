@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import WhiteNavbar from '../components/white/Navbar';
-import WhiteFooter from '../components/white/Footer';
+import Navbar from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer';
 import SEO from '../components/seo/SEO';
 import FinalCTA from '../components/white/home/FinalCTA';
 
@@ -65,7 +65,7 @@ const SERVICES = [
 export default function ServicesPage() {
   return (
     <>
-      <WhiteNavbar />
+      <Navbar />
       <SEO
         title="Services — Streamline Automations"
         description="Web Design, Systems & Automation, and Hosting for SA businesses. Custom-built, fast, and actually works."
@@ -204,7 +204,7 @@ export default function ServicesPage() {
 
         <FinalCTA />
       </main>
-      <WhiteFooter />
+      <Footer />
     </>
   );
 }

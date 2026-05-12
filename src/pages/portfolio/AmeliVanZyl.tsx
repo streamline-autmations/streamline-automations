@@ -2,8 +2,8 @@ import React from 'react';
 import { Layout, MessageSquare, Zap, ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import WhiteNavbar from '../../components/white/Navbar';
-import WhiteFooter from '../../components/white/Footer';
+import Navbar from '../../components/layout/Navbar';
+import Footer from '../../components/layout/Footer';
 import SEO from '../../components/seo/SEO';
 import AnimatedNumber from '../../components/white/ui/AnimatedNumber';
 import AnimatedUnderline from '../../components/white/ui/AnimatedUnderline';
@@ -107,7 +107,7 @@ function BrowserFrame({
 export default function AmeliVanZylPage() {
   return (
     <>
-      <WhiteNavbar />
+      <Navbar />
       <SEO
         title="Ameli Designs — Case Study"
         description="High-performance portfolio site for a skin & brow studio with contact form, WhatsApp button, and automated lead notifications."
@@ -616,7 +616,7 @@ export default function AmeliVanZylPage() {
           </div>
         </section>
       </main>
-      <WhiteFooter />
+      <Footer />
     </>
   );
 }

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { ShoppingCart, GraduationCap, Zap, Mail, FileText, MessageSquare } from 'lucide-react';
 import { motion } from 'framer-motion';
-import WhiteNavbar from '../../components/white/Navbar';
-import WhiteFooter from '../../components/white/Footer';
+import Navbar from '../../components/layout/Navbar';
+import Footer from '../../components/layout/Footer';
 import SEO from '../../components/seo/SEO';
 import FinalCTA from '../../components/white/home/FinalCTA';
 
@@ -28,7 +28,7 @@ export default function BlomCosmeticsPage() {
 
   return (
     <>
-      <WhiteNavbar />
+      <Navbar />
       <SEO
         title="BLOM Cosmetics — Case Study"
         description="Full-stack e-commerce with admin dashboard, CRM, WhatsApp automation, and BLOM Academy integration."
@@ -515,7 +515,7 @@ export default function BlomCosmeticsPage() {
 
         <FinalCTA />
       </main>
-      <WhiteFooter />
+      <Footer />
     </>
   );
 }

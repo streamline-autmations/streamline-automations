@@ -3,8 +3,8 @@ import {
   Globe, Mail, Network, Lock, Wrench, Headphones, Activity
 } from 'lucide-react';
 import SEO from '../components/seo/SEO';
-import WhiteNavbar from '../components/white/Navbar';
-import WhiteFooter from '../components/white/Footer';
+import Navbar from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer';
 import SectionHeader from '../components/white/ui/SectionHeader';
 import Button from '../components/white/ui/Button';
 import Divider from '../components/white/ui/Divider';
@@ -23,7 +23,7 @@ const features = [
 export default function HostingPage() {
   return (
     <>
-      <WhiteNavbar />
+      <Navbar />
       <SEO
         title="Hosting & Maintenance"
         description="Domain registration, professional email, SSL and monthly maintenance for SA businesses. Your digital foundation."
@@ -75,7 +75,7 @@ export default function HostingPage() {
           </div>
         </section>
       </main>
-      <WhiteFooter />
+      <Footer />
     </>
   );
 }

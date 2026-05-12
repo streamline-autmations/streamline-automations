@@ -1,6 +1,6 @@
 import React from 'react';
-import WhiteNavbar from '../components/white/Navbar';
-import WhiteFooter from '../components/white/Footer';
+import Navbar from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer';
 import SEO from '../components/seo/SEO';
 import SectionHeader from '../components/white/ui/SectionHeader';
 import Divider from '../components/white/ui/Divider';
@@ -40,7 +40,7 @@ const industries = [
 export default function ResultsPage() {
   return (
     <>
-      <WhiteNavbar />
+      <Navbar />
       <SEO
         title="Results"
         description="Real numbers from real projects — 127+ businesses automated, 94% lead capture, 4hr response time."
@@ -115,7 +115,7 @@ export default function ResultsPage() {
           </div>
         </section>
       </main>
-      <WhiteFooter />
+      <Footer />
     </>
   );
 }

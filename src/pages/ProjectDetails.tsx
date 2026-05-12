@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import WhiteNavbar from '../components/white/Navbar';
-import WhiteFooter from '../components/white/Footer';
+import Navbar from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer';
 import SEO from '../components/seo/SEO';
 import SectionHeader from '../components/white/ui/SectionHeader';
 import Button from '../components/white/ui/Button';
@@ -15,7 +15,7 @@ const ProjectDetails: React.FC = () => {
   if (!project) {
     return (
       <>
-        <WhiteNavbar />
+        <Navbar />
         <SEO title="Project Not Found" description="The project you're looking for doesn't exist." />
         <main className="bg-white min-h-screen font-['DM_Sans'] flex items-center justify-center">
           <div className="text-center px-6">
@@ -25,7 +25,7 @@ const ProjectDetails: React.FC = () => {
             </Link>
           </div>
         </main>
-        <WhiteFooter />
+        <Footer />
       </>
     );
   }
@@ -33,7 +33,7 @@ const ProjectDetails: React.FC = () => {
   if (!project.challenge || !project.solution || !project.results) {
     return (
       <>
-        <WhiteNavbar />
+        <Navbar />
         <SEO title="Case Study Not Available" description="This case study is not yet published." />
         <main className="bg-white min-h-screen font-['DM_Sans'] flex items-center justify-center">
           <div className="text-center px-6">
@@ -43,14 +43,14 @@ const ProjectDetails: React.FC = () => {
             </Link>
           </div>
         </main>
-        <WhiteFooter />
+        <Footer />
       </>
     );
   }
 
   return (
     <>
-      <WhiteNavbar />
+      <Navbar />
       <main className="bg-white min-h-screen font-['DM_Sans']">
         <section className="py-24 md:py-32">
           <div className="max-w-5xl mx-auto px-6">
@@ -139,7 +139,7 @@ const ProjectDetails: React.FC = () => {
           </div>
         </section>
       </main>
-      <WhiteFooter />
+      <Footer />
     </>
   );
 };
