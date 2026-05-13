@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Database, LayoutDashboard, MessageSquare, Calendar,
   Workflow, FileText, Filter, Mail
@@ -10,6 +9,74 @@ import SectionHeader from '../components/white/ui/SectionHeader';
 import Button from '../components/white/ui/Button';
 import Divider from '../components/white/ui/Divider';
 import FinalCTA from '../components/white/home/FinalCTA';
+import AutomationFlow from '../components/white/home/AutomationFlow';
+import type { AutomationStage } from '../types/case-study';
+
+// Replace these placeholder Cloudinary URLs once the real screens are uploaded.
+// See ASSET_MANIFEST.md at repo root for the upload checklist.
+const STAGE_1_SCREEN =
+  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/automation/stage-1-quote-form.png';
+const STAGE_2_SCREEN =
+  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/automation/stage-2-ai-quote.png';
+const STAGE_3_SCREEN =
+  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/automation/stage-3-crm.png';
+const STAGE_4_SCREEN =
+  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/automation/stage-4-trello.png';
+const STAGE_5_SCREEN =
+  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/automation/stage-5-whatsapp.png';
+const STAGE_6_SCREEN =
+  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/automation/stage-6-summary.png';
+
+const STAGES: AutomationStage[] = [
+  {
+    indicator: 'Step 01 / 06',
+    title: 'Customer requests a quote',
+    caption:
+      'Visitor lands on recklessbear.co.za, opens the quote form, fills in product, quantity, deadline, and uploads a design reference.',
+    screenSrc: STAGE_1_SCREEN,
+    screenAlt: 'Quote form on the RecklessBear website',
+  },
+  {
+    indicator: 'Step 02 / 06',
+    title: 'AI generates the quote',
+    caption:
+      'Voiceflow chatbot handles edge cases, asks clarifying questions, generates an instant pricing estimate, and routes the lead based on category.',
+    screenSrc: STAGE_2_SCREEN,
+    screenAlt: 'AI quote chatbot generating a price estimate',
+  },
+  {
+    indicator: 'Step 03 / 06',
+    title: 'Lead lands in the CRM',
+    caption:
+      'Airtable captures the lead. n8n auto-assigns it to the rep with the fewest active orders. Email + WhatsApp alerts fire to that rep instantly.',
+    screenSrc: STAGE_3_SCREEN,
+    screenAlt: 'Airtable CRM with a new lead auto-assigned to a sales rep',
+  },
+  {
+    indicator: 'Step 04 / 06',
+    title: 'Production starts',
+    caption:
+      'On confirmation, a Trello card is auto-created and moved through the 12-stage production pipeline. Stock is auto-deducted from the inventory system.',
+    screenSrc: STAGE_4_SCREEN,
+    screenAlt: 'Trello production board with a new card moving through stages',
+  },
+  {
+    indicator: 'Step 05 / 06',
+    title: 'Customer stays in the loop',
+    caption:
+      'Every Trello card move triggers an automated WhatsApp message to the customer. No follow-up phone calls. No customers chasing updates.',
+    screenSrc: STAGE_5_SCREEN,
+    screenAlt: 'WhatsApp conversation with automated order updates',
+  },
+  {
+    indicator: 'Step 06 / 06',
+    title: 'Order ships, CEO reports up',
+    caption:
+      'Customer gets delivery confirmation. CEO gets a weekly summary email — total leads, conversion rate, rep performance, production bottlenecks. The whole system reports on itself.',
+    screenSrc: STAGE_6_SCREEN,
+    screenAlt: 'Weekly performance summary email for the CEO',
+  },
+];
 
 const features = [
   { icon: Database,        title: 'CRM Setup',          desc: 'Contacts, pipeline stages, deal tracking' },
@@ -30,13 +97,26 @@ export default function SystemsPage() {
         title="Systems & Automation"
         description="CRMs, WhatsApp bots, dashboards, workflows — I automate the work that's eating your time."
       />
-      <main className="bg-white min-h-screen font-['DM_Sans']">
+      <main className="bg-white min-h-[100svh] font-['DM_Sans']">
         <section className="py-24 md:py-32">
           <div className="max-w-5xl mx-auto px-6">
             <SectionHeader
               eyebrow="Systems & Automation"
               headline="Your business runs on systems. I build them."
               subtext="CRMs, WhatsApp bots, dashboards, workflows — I automate the work that's eating your time."
+            />
+          </div>
+        </section>
+
+        {/* Pinned 6-stage automation flow — RecklessBear quote-to-production */}
+        <AutomationFlow stages={STAGES} />
+
+        <section className="py-24 md:py-32">
+          <div className="max-w-5xl mx-auto px-6">
+            <SectionHeader
+              eyebrow="What's included"
+              headline="Everything that runs your business."
+              subtext="Eight building blocks. Mix and match what you need."
             />
 
             {/* Simple bullet list */}
@@ -78,7 +158,77 @@ export default function SystemsPage() {
 
         <Divider className="my-16 md:my-24" />
 
-        <section className="py-16 bg-[#FAFAFA]">
+        {/* Real systems I've built */}
+        <section className="py-24 md:py-32 bg-[#FAFAFA]">
+          <div className="max-w-5xl mx-auto px-6">
+            <div className="mb-12">
+              <span className="block text-[11px] font-['DM_Sans'] font-medium uppercase tracking-[0.16em] text-[#7B3FE4] mb-4">
+                Real systems
+              </span>
+              <h2 className="text-[28px] md:text-[40px] font-['DM_Sans'] font-semibold text-[#0A0A0F] tracking-[-0.02em] leading-[1.1]">
+                Three examples from live clients.
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                {
+                  client: 'RecklessBear',
+                  tag: 'Quote engine',
+                  desc: 'Customer fills quote form → AI prices it in seconds → lead lands in CRM → rep is auto-assigned → 12-stage Trello board tracks production → WhatsApp updates fire at every stage.',
+                  chips: ['Voiceflow', 'n8n', 'Airtable', 'WhatsApp API'],
+                },
+                {
+                  client: 'BLOM Cosmetics',
+                  tag: 'Order flow',
+                  desc: 'Customer places order → PayFast payment captured → ShipLogic creates waybill → automated WhatsApp order confirmation fires → admin dashboard updates in real time.',
+                  chips: ['PayFast', 'ShipLogic', 'n8n', 'Supabase'],
+                },
+                {
+                  client: 'NSA Mining',
+                  tag: 'Internal gift system',
+                  desc: 'Employee enters ID number → system checks eligibility → generates a printable gift slip → manager gets weekly report of all claims. No spreadsheets. No manual checking.',
+                  chips: ['React', 'Supabase', 'PDF generation'],
+                },
+              ].map((item, i) => (
+                <div
+                  key={item.client}
+                  className="bg-white rounded-2xl border border-[#E8E8EC] p-7
+                             hover:border-[#D4D4DA] hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)]
+                             hover:-translate-y-0.5 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-[10px] font-['DM_Sans'] font-semibold uppercase tracking-[0.12em] text-[#7B3FE4]
+                                     bg-[#F0EBFF] rounded-full px-2.5 py-1">
+                      {item.tag}
+                    </span>
+                    <span className="text-[11px] font-['DM_Sans'] font-medium text-[#9E9EA8]">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                  </div>
+                  <p className="text-[15px] font-['DM_Sans'] font-semibold text-[#0A0A0F] mb-3">
+                    {item.client}
+                  </p>
+                  <p className="text-[13.5px] font-['DM_Sans'] text-[#6B6B7A] leading-[1.65] mb-5">
+                    {item.desc}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {item.chips.map((chip) => (
+                      <span
+                        key={chip}
+                        className="text-[11px] font-['DM_Sans'] px-2.5 py-1 rounded-full
+                                   border border-[#E8E8EC] text-[#9E9EA8]"
+                      >
+                        {chip}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="py-16 bg-white">
           <div className="max-w-5xl mx-auto px-6">
             <FinalCTA />
           </div>

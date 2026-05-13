@@ -111,7 +111,7 @@ const ContactFormWhite: React.FC = () => {
                         name={field.id}
                         required={field.required}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 bg-white border border-[#E8E8EC] rounded-xl text-[#0A0A0F] focus:outline-none focus:border-[#7B3FE4] focus:ring-1 focus:ring-[#7B3FE4] min-h-[48px] text-sm appearance-none"
+                        className="w-full px-4 py-3 bg-white border border-[#E8E8EC] rounded-xl text-[#0A0A0F] focus:outline-none focus:border-[#7B3FE4] focus:ring-2 focus:ring-[#7B3FE4]/30 min-h-[48px] text-sm appearance-none"
                       >
                         <option value="" disabled selected className="text-[#9E9EA8]">
                           {field.placeholder}
@@ -134,7 +134,7 @@ const ContactFormWhite: React.FC = () => {
                       required={field.required}
                       onChange={handleChange}
                       rows={4}
-                      className="w-full px-4 py-3 bg-white border border-[#E8E8EC] rounded-xl text-[#0A0A0F] focus:outline-none focus:border-[#7B3FE4] focus:ring-1 focus:ring-[#7B3FE4] text-sm resize-y placeholder:text-[#9E9EA8] leading-relaxed"
+                      className="w-full px-4 py-3 bg-white border border-[#E8E8EC] rounded-xl text-[#0A0A0F] focus:outline-none focus:border-[#7B3FE4] focus:ring-2 focus:ring-[#7B3FE4]/30 text-sm resize-y placeholder:text-[#9E9EA8] leading-relaxed"
                     />
                   ) : field.type === 'file' ? (
                     <input
@@ -142,7 +142,7 @@ const ContactFormWhite: React.FC = () => {
                       id={field.id}
                       name={field.id}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-white border border-[#E8E8EC] rounded-xl text-[#0A0A0F] focus:outline-none focus:border-[#7B3FE4] focus:ring-1 focus:ring-[#7B3FE4] text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-[#F0EBFF] file:text-[#7B3FE4] hover:file:bg-[#E8E8EC] transition-all cursor-pointer"
+                      className="w-full px-4 py-3 bg-white border border-[#E8E8EC] rounded-xl text-[#0A0A0F] focus:outline-none focus:border-[#7B3FE4] focus:ring-2 focus:ring-[#7B3FE4]/30 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-[#F0EBFF] file:text-[#7B3FE4] hover:file:bg-[#E8E8EC] transition-all cursor-pointer"
                     />
                   ) : (
                     <input
@@ -152,14 +152,14 @@ const ContactFormWhite: React.FC = () => {
                       placeholder={field.placeholder}
                       required={field.required}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-white border border-[#E8E8EC] rounded-xl text-[#0A0A0F] focus:outline-none focus:border-[#7B3FE4] focus:ring-1 focus:ring-[#7B3FE4] text-sm placeholder:text-[#9E9EA8]"
+                      className="w-full px-4 py-3 bg-white border border-[#E8E8EC] rounded-xl text-[#0A0A0F] focus:outline-none focus:border-[#7B3FE4] focus:ring-2 focus:ring-[#7B3FE4]/30 text-sm placeholder:text-[#9E9EA8]"
                     />
                   )}
                 </div>
               );
             })}
 
-            <div className="md:col-span-2 pt-4">
+            <div className="md:col-span-2 pt-4" data-cursor="view">
               <Button
                 variant="primary"
                 size="lg"

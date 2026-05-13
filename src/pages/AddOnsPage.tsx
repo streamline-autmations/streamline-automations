@@ -1,6 +1,6 @@
 import React from 'react';
-import WhiteNavbar from '../components/white/Navbar';
-import WhiteFooter from '../components/white/Footer';
+import Navbar from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer';
 import SectionHeader from '../components/white/ui/SectionHeader';
 import Button from '../components/white/ui/Button';
 import Divider from '../components/white/ui/Divider';
@@ -76,7 +76,7 @@ const AddonCard: React.FC<AddonCardProps> = ({ icon, name, price, description, a
  export default function AddOnsPage() {
   return (
     <>
-      <WhiteNavbar />
+      <Navbar />
       <main className="bg-white min-h-screen font-['DM_Sans']">
         <section className="py-24 md:py-32">
           <div className="max-w-5xl mx-auto px-6">
@@ -148,7 +148,7 @@ const AddonCard: React.FC<AddonCardProps> = ({ icon, name, price, description, a
           </div>
         </section>
       </main>
-      <WhiteFooter />
+      <Footer />
     </>
   );
 }

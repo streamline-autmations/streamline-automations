@@ -2,8 +2,8 @@ import React from 'react';
 import { ShoppingBag, LayoutDashboard, Bot, CheckCircle, MessageSquare, ArrowRight, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import WhiteNavbar from '../../components/white/Navbar';
-import WhiteFooter from '../../components/white/Footer';
+import Navbar from '../../components/layout/Navbar';
+import Footer from '../../components/layout/Footer';
 import SEO from '../../components/seo/SEO';
 import FinalCTA from '../../components/white/home/FinalCTA';
 
@@ -63,7 +63,7 @@ const ADMIN_FEATURES = [
 export default function RecklessBearPage() {
   return (
     <>
-      <WhiteNavbar />
+      <Navbar />
       <SEO
         title="RecklessBear Apparel — Case Study"
         description="Custom website, AI chatbot, admin dashboard and 12-stage order tracking for RecklessBear Apparel."
@@ -461,7 +461,7 @@ export default function RecklessBearPage() {
 
         <FinalCTA />
       </main>
-      <WhiteFooter />
+      <Footer />
     </>
   );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import WhiteNavbar from '../components/white/Navbar';
-import WhiteFooter from '../components/white/Footer';
+import Navbar from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer';
 import SEO from '../components/seo/SEO';
 import SectionHeader from '../components/white/ui/SectionHeader';
 import PortfolioCard from '../components/white/ui/PortfolioCard';
@@ -21,7 +21,7 @@ const OTHER_CLIENTS = [
 export default function PortfolioPage() {
   return (
     <>
-      <WhiteNavbar />
+      <Navbar />
       <SEO
         title="Portfolio — Streamline Automations"
         description="Real SA businesses. Real results. Custom websites, automation systems, and dashboards built for growth."
@@ -104,7 +104,7 @@ export default function PortfolioPage() {
 
         <FinalCTA />
       </main>
-      <WhiteFooter />
+      <Footer />
     </>
   );
 }

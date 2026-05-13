@@ -3,8 +3,8 @@ import {
   Globe, Smartphone, Mail, MapPin, Zap, Search, Palette, Shield
 } from 'lucide-react';
 import SEO from '../components/seo/SEO';
-import WhiteNavbar from '../components/white/Navbar';
-import WhiteFooter from '../components/white/Footer';
+import Navbar from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer';
 import SectionHeader from '../components/white/ui/SectionHeader';
 import Button from '../components/white/ui/Button';
 import Divider from '../components/white/ui/Divider';
@@ -24,7 +24,7 @@ const features = [
 export default function WebsitesPage() {
   return (
     <>
-      <WhiteNavbar />
+      <Navbar />
       <SEO
         title="Web Design & Creation"
         description="Custom websites for South African businesses. Fast, mobile-first, and built to convert. No templates."
@@ -76,7 +76,7 @@ export default function WebsitesPage() {
           </div>
         </section>
       </main>
-      <WhiteFooter />
+      <Footer />
     </>
   );
 }

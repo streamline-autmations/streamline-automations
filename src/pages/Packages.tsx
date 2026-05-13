@@ -1,6 +1,6 @@
 import React from 'react';
-import WhiteNavbar from '../components/white/Navbar';
-import WhiteFooter from '../components/white/Footer';
+import Navbar from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer';
 import SEO from '../components/seo/SEO';
 import SectionHeader from '../components/white/ui/SectionHeader';
 import Button from '../components/white/ui/Button';
@@ -48,7 +48,7 @@ const stats = [
 export default function PackagesPage() {
   return (
     <>
-      <WhiteNavbar />
+      <Navbar />
       <SEO
         title="Packages"
         description="Choose your system: Online Presence, Client Magnet, or Business Accelerator. Websites and AI agents starting from R7,500."
@@ -138,7 +138,7 @@ export default function PackagesPage() {
           </div>
         </section>
       </main>
-      <WhiteFooter />
+      <Footer />
     </>
   );
 }

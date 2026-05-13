@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import WhiteNavbar from '../components/white/Navbar';
-import WhiteFooter from '../components/white/Footer';
+import Navbar from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer';
 import SEO from '../components/seo/SEO';
 import Button from '../components/white/ui/Button';
 import FinalCTA from '../components/white/home/FinalCTA';
@@ -23,7 +23,7 @@ const TECH = [
 export default function AboutPage() {
   return (
     <>
-      <WhiteNavbar />
+      <Navbar />
       <SEO
         title="About — Streamline Automations"
         description="Christiaan Steffen — self-taught developer and builder of websites and automation systems for South African businesses. Based in Vaal Triangle, Gauteng."
@@ -217,7 +217,7 @@ export default function AboutPage() {
 
         <FinalCTA />
       </main>
-      <WhiteFooter />
+      <Footer />
     </>
   );
 }

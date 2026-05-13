@@ -1,0 +1,171 @@
+import { motion } from 'framer-motion';
+import SEO from '../components/seo/SEO';
+import WhiteNavbar from '../components/white/Navbar';
+import WhiteFooter from '../components/white/Footer';
+import ContactFormWhite from '../components/white/contact/ContactFormWhite';
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+export default function ContactWhite() {
+  return (
+    <>
+      <WhiteNavbar />
+      <SEO
+        title="Contact — Streamline Automations"
+        description="Book a free 30-minute call or send a message. No pitch deck, just a plan."
+      />
+      <main className="bg-white min-h-[100svh] font-['DM_Sans']">
+
+        {/* Hero */}
+        <section className="pt-36 md:pt-44 pb-16 md:pb-20 relative overflow-hidden">
+          {/* Ambient gradient — top centre */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-0 top-0 h-[65%] pointer-events-none"
+            style={{
+              background:
+                'radial-gradient(900px 500px at 50% 0%, rgba(123,63,228,0.08), transparent 70%)',
+            }}
+          />
+          {/* Ambient gradient — top right accent */}
+          <div
+            aria-hidden="true"
+            className="absolute top-0 right-0 w-[500px] h-[500px] pointer-events-none"
+            style={{
+              background:
+                'radial-gradient(500px 500px at 100% 0%, rgba(123,63,228,0.07), transparent 70%)',
+            }}
+          />
+          <div className="relative max-w-5xl mx-auto px-6">
+            <motion.span
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: EASE }}
+              className="block text-[11px] font-medium uppercase tracking-[0.16em] text-[#7B3FE4] mb-5"
+            >
+              Get in touch
+            </motion.span>
+            <motion.h1
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: EASE, delay: 0.06 }}
+              className="text-[40px] sm:text-[54px] md:text-[68px] font-['DM_Sans'] font-semibold
+                         text-[#0A0A0F] tracking-[-0.03em] leading-[1.07] max-w-3xl"
+            >
+              Let's{' '}
+              <span className="font-['Instrument_Serif'] italic font-normal text-[#7B3FE4]">
+                talk.
+              </span>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, ease: EASE, delay: 0.14 }}
+              className="mt-6 text-[17px] md:text-[19px] font-['DM_Sans'] text-[#3D3D47] leading-[1.6] max-w-xl"
+            >
+              Free 30-minute call to scope what you need. No pitch deck. No fluff. Just a
+              direct conversation about your project.
+            </motion.p>
+          </div>
+        </section>
+
+        {/* Two-column layout */}
+        <section className="pb-24 md:pb-32">
+          <div className="max-w-5xl mx-auto px-6">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-12 items-start">
+
+              {/* Left — form (3 cols) */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.65, ease: EASE, delay: 0.18 }}
+                className="md:col-span-3"
+              >
+                <ContactFormWhite />
+              </motion.div>
+
+              {/* Right — direct contact options (2 cols) */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.65, ease: EASE, delay: 0.28 }}
+                className="md:col-span-2 space-y-4 md:pt-2"
+              >
+                {/* WhatsApp */}
+                <a
+                  href="https://wa.me/27633063861"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-cursor="view"
+                  className="group flex items-start gap-4 bg-white border border-[#E8E8EC]
+                             hover:border-[#D4D4DA] hover:shadow-[0_8px_32px_rgba(123,63,228,0.08)]
+                             hover:-translate-y-0.5 rounded-2xl p-6
+                             transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                >
+                  <div className="flex-shrink-0 w-10 h-10 bg-[#25D366]/10 rounded-xl flex items-center justify-center">
+                    <svg viewBox="0 0 24 24" className="w-5 h-5 fill-[#25D366]" aria-hidden="true">
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.535 5.862L.057 23.428a.5.5 0 00.609.61l5.675-1.49A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.898 0-3.671-.526-5.178-1.438l-.37-.22-3.833 1.006 1.03-3.72-.241-.383A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-[13px] font-['DM_Sans'] font-semibold uppercase tracking-[0.1em] text-[#9E9EA8] mb-1">
+                      WhatsApp
+                    </p>
+                    <p className="text-[15px] font-['DM_Sans'] font-semibold text-[#0A0A0F] group-hover:text-[#7B3FE4] transition-colors">
+                      +27 63 306 3861
+                    </p>
+                    <p className="text-[13px] font-['DM_Sans'] text-[#9E9EA8] mt-1">
+                      Fastest way to reach me
+                    </p>
+                  </div>
+                </a>
+
+                {/* Email */}
+                <a
+                  href="mailto:christian@streamline-automations.agency"
+                  data-cursor="view"
+                  className="group flex items-start gap-4 bg-white border border-[#E8E8EC]
+                             hover:border-[#D4D4DA] hover:shadow-[0_8px_32px_rgba(123,63,228,0.08)]
+                             hover:-translate-y-0.5 rounded-2xl p-6
+                             transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                >
+                  <div className="flex-shrink-0 w-10 h-10 bg-[#F0EBFF] rounded-xl flex items-center justify-center">
+                    <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="#7B3FE4" strokeWidth={1.75} aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-[13px] font-['DM_Sans'] font-semibold uppercase tracking-[0.1em] text-[#9E9EA8] mb-1">
+                      Email
+                    </p>
+                    <p className="text-[14px] font-['DM_Sans'] font-semibold text-[#0A0A0F] group-hover:text-[#7B3FE4] transition-colors break-all">
+                      christian@streamline-automations.agency
+                    </p>
+                  </div>
+                </a>
+
+                {/* Response time */}
+                <div className="bg-[#FAFAFA] border border-[#E8E8EC] rounded-2xl p-6">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="w-2 h-2 rounded-full bg-[#7B3FE4] animate-pulse" />
+                    <p className="text-[12px] font-['DM_Sans'] font-semibold uppercase tracking-[0.1em] text-[#7B3FE4]">
+                      Response time
+                    </p>
+                  </div>
+                  <p className="text-[15px] font-['DM_Sans'] font-semibold text-[#0A0A0F]">
+                    Within 24 hours
+                  </p>
+                  <p className="text-[13px] font-['DM_Sans'] text-[#9E9EA8] mt-1">
+                    Usually same day. Based in Vaal Triangle, SA.
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <WhiteFooter />
+    </>
+  );
+}

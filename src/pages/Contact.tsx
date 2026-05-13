@@ -1,6 +1,6 @@
 import React from 'react';
-import WhiteNavbar from '../components/white/Navbar';
-import WhiteFooter from '../components/white/Footer';
+import Navbar from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer';
 import SEO from '../components/seo/SEO';
 import SectionHeader from '../components/white/ui/SectionHeader';
 import StatBlock from '../components/white/ui/StatBlock';
@@ -16,7 +16,7 @@ const stats = [
 export default function ContactPage() {
   return (
     <>
-      <WhiteNavbar />
+      <Navbar />
       <SEO
         title="Contact"
         description="Book a free 30-minute strategy call with Streamline Automations. Let's discuss your custom website and automation needs."
@@ -49,7 +49,7 @@ export default function ContactPage() {
           </div>
         </section>
       </main>
-      <WhiteFooter />
+      <Footer />
     </>
   );
 }

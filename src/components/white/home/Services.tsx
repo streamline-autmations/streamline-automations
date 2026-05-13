@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import ServiceCard from "../ui/ServiceCard";
+import AnimatedUnderline from "../ui/AnimatedUnderline";
 
 const SERVICES = [
   {
@@ -32,8 +33,29 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 export default function Services() {
   return (
-    <section className="py-24 md:py-32">
-      <div className="max-w-5xl mx-auto px-6">
+    <section className="relative py-24 md:py-32 overflow-hidden">
+      {/* Faint dot grid for texture — fades out top + bottom so it doesn't conflict with neighbouring sections */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            "radial-gradient(rgba(123,63,228,0.13) 1px, transparent 1px)",
+          backgroundSize: "28px 28px",
+          maskImage:
+            "linear-gradient(to bottom, transparent, rgba(0,0,0,0.55) 18%, rgba(0,0,0,0.55) 82%, transparent)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent, rgba(0,0,0,0.55) 18%, rgba(0,0,0,0.55) 82%, transparent)",
+        }}
+      />
+      {/* Soft purple ambient bloom on the right edge for depth */}
+      <div
+        aria-hidden="true"
+        className="absolute top-1/3 -right-40 w-[520px] h-[520px] rounded-full
+                   bg-[#7B3FE4] blur-[160px] opacity-[0.08] pointer-events-none"
+      />
+
+      <div className="relative max-w-5xl mx-auto px-6">
         <div className="mb-14 md:mb-18">
           <motion.div
             initial={{ opacity: 0, y: 8 }}
@@ -51,15 +73,29 @@ export default function Services() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-[1.35fr_1fr] gap-8 items-end">
-            <motion.h2
-              initial={{ opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.65, ease: EASE }}
-              className="text-[34px] sm:text-[42px] md:text-[50px] font-['DM_Sans'] font-semibold text-[#0A0A0F] tracking-[-0.025em] leading-[1.08]"
-            >
-              Three ways I help your business.
-            </motion.h2>
+            <div>
+              <motion.h2
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.65, ease: EASE }}
+                className="text-[34px] sm:text-[42px] md:text-[50px] font-['DM_Sans'] font-semibold text-[#0A0A0F] tracking-[-0.025em] leading-[1.08]"
+              >
+                Three ways I help your{" "}
+                <span className="relative inline-block">
+                  business.
+                  <span className="absolute -bottom-2 left-0 right-0">
+                    <AnimatedUnderline
+                      width={200}
+                      color="#7B3FE4"
+                      strokeWidth={2.5}
+                      delay={0.35}
+                      className="w-full h-[6px]"
+                    />
+                  </span>
+                </span>
+              </motion.h2>
+            </div>
             <motion.p
               initial={{ opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}

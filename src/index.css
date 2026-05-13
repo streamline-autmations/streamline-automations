@@ -556,15 +556,15 @@ body.intro-active {
   }
 }
 
-/* Premium selection */
+/* Premium selection — brand tinted */
 ::selection {
-  background: #8B5CF6;
-  color: white;
+  background: #F0EBFF;
+  color: #7B3FE4;
 }
 
 ::-moz-selection {
-  background: #8B5CF6;
-  color: white;
+  background: #F0EBFF;
+  color: #7B3FE4;
 }
 
 /* Fade in animation */
