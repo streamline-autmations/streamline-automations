@@ -122,7 +122,8 @@ export default function CaseStudyCycler({ slides }: Props) {
           context so the browser composites the entire block separately. */}
       <section
         ref={containerRef}
-        className="relative hidden md:block bg-white"
+        data-cursor="view"
+        className="noise-overlay relative hidden md:block bg-white"
         aria-label="Featured case studies"
         style={{ transform: 'translateZ(0)' }}
       >

@@ -9,6 +9,7 @@ import ClientBar from '../components/white/home/ClientBar';
 import Services from '../components/white/home/Services';
 import CaseStudyCycler from '../components/white/home/CaseStudyCycler';
 import StatsStrip from '../components/white/home/StatsStrip';
+import HorizontalGallery from '../components/white/home/HorizontalGallery';
 import FeaturedWork from '../components/white/home/FeaturedWork';
 import RentalCallout from '../components/white/home/RentalCallout';
 import HowItWorks from '../components/white/home/HowItWorks';
@@ -125,6 +126,7 @@ export default function HomeWhite() {
         <Services />
         <CaseStudyCycler slides={SLIDES} />
         <StatsStrip stats={STATS} />
+        <HorizontalGallery />
         <FeaturedWork />
         <RentalCallout />
         <HowItWorks />

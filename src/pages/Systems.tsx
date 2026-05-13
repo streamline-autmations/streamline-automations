@@ -158,7 +158,77 @@ export default function SystemsPage() {
 
         <Divider className="my-16 md:my-24" />
 
-        <section className="py-16 bg-[#FAFAFA]">
+        {/* Real systems I've built */}
+        <section className="py-24 md:py-32 bg-[#FAFAFA]">
+          <div className="max-w-5xl mx-auto px-6">
+            <div className="mb-12">
+              <span className="block text-[11px] font-['DM_Sans'] font-medium uppercase tracking-[0.16em] text-[#7B3FE4] mb-4">
+                Real systems
+              </span>
+              <h2 className="text-[28px] md:text-[40px] font-['DM_Sans'] font-semibold text-[#0A0A0F] tracking-[-0.02em] leading-[1.1]">
+                Three examples from live clients.
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                {
+                  client: 'RecklessBear',
+                  tag: 'Quote engine',
+                  desc: 'Customer fills quote form → AI prices it in seconds → lead lands in CRM → rep is auto-assigned → 12-stage Trello board tracks production → WhatsApp updates fire at every stage.',
+                  chips: ['Voiceflow', 'n8n', 'Airtable', 'WhatsApp API'],
+                },
+                {
+                  client: 'BLOM Cosmetics',
+                  tag: 'Order flow',
+                  desc: 'Customer places order → PayFast payment captured → ShipLogic creates waybill → automated WhatsApp order confirmation fires → admin dashboard updates in real time.',
+                  chips: ['PayFast', 'ShipLogic', 'n8n', 'Supabase'],
+                },
+                {
+                  client: 'NSA Mining',
+                  tag: 'Internal gift system',
+                  desc: 'Employee enters ID number → system checks eligibility → generates a printable gift slip → manager gets weekly report of all claims. No spreadsheets. No manual checking.',
+                  chips: ['React', 'Supabase', 'PDF generation'],
+                },
+              ].map((item, i) => (
+                <div
+                  key={item.client}
+                  className="bg-white rounded-2xl border border-[#E8E8EC] p-7
+                             hover:border-[#D4D4DA] hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)]
+                             hover:-translate-y-0.5 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-[10px] font-['DM_Sans'] font-semibold uppercase tracking-[0.12em] text-[#7B3FE4]
+                                     bg-[#F0EBFF] rounded-full px-2.5 py-1">
+                      {item.tag}
+                    </span>
+                    <span className="text-[11px] font-['DM_Sans'] font-medium text-[#9E9EA8]">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                  </div>
+                  <p className="text-[15px] font-['DM_Sans'] font-semibold text-[#0A0A0F] mb-3">
+                    {item.client}
+                  </p>
+                  <p className="text-[13.5px] font-['DM_Sans'] text-[#6B6B7A] leading-[1.65] mb-5">
+                    {item.desc}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {item.chips.map((chip) => (
+                      <span
+                        key={chip}
+                        className="text-[11px] font-['DM_Sans'] px-2.5 py-1 rounded-full
+                                   border border-[#E8E8EC] text-[#9E9EA8]"
+                      >
+                        {chip}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="py-16 bg-white">
           <div className="max-w-5xl mx-auto px-6">
             <FinalCTA />
           </div>

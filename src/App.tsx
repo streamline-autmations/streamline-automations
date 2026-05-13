@@ -8,6 +8,7 @@ import BackToTop from './components/ui/BackToTop';
 import PageTransition from './components/layout/PageTransition';
 import LenisProvider from './components/providers/LenisProvider';
 import SmartCursor from './components/white/ui/SmartCursor';
+import IntroAnimation from './components/white/ui/IntroAnimation';
 import { trackScrollDepth, resetScrollTracking, initOutboundLinkTracking, initBounceDetection, resetSessionTiming } from './lib/analytics';
 
 // Lazy load pages for performance
@@ -97,6 +98,7 @@ function App() {
               <AnimatedRoutes />
             </Suspense>
           </div>
+          <IntroAnimation />
           <SmartCursor />
           <FloatingWhatsApp />
           <BackToTop />

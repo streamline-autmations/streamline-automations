@@ -68,7 +68,7 @@ export default function Hero() {
   );
 
   return (
-    <section className="relative pt-36 md:pt-44 pb-24 md:pb-32 overflow-hidden">
+    <section className="noise-overlay relative pt-36 md:pt-44 pb-24 md:pb-32 overflow-hidden">
       {/* Layer 0 — interactive purple energy field */}
       <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
         <EnergyField className="absolute inset-0 w-full h-full opacity-90" />

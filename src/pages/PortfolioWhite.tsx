@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ScrambleText from '../components/white/ui/ScrambleText';
 import SEO from '../components/seo/SEO';
 import WhiteNavbar from '../components/white/Navbar';
 import WhiteFooter from '../components/white/Footer';
@@ -162,7 +163,7 @@ export default function PortfolioWhite() {
               className="text-[40px] sm:text-[54px] md:text-[68px] font-['DM_Sans'] font-semibold
                          text-[#0A0A0F] tracking-[-0.03em] leading-[1.07] max-w-3xl"
             >
-              Real sites.{' '}
+              <ScrambleText text="Real sites." trigger="mount" delay={760} />{' '}
               <span className="font-['Instrument_Serif'] italic font-normal text-[#7B3FE4]">
                 Real clients.
               </span>
@@ -215,19 +216,11 @@ export default function PortfolioWhite() {
                 className="grid grid-cols-1 md:grid-cols-2 gap-6"
               >
                 {visible.map((project) => (
-                  <div key={project.title} className="relative">
-                    {project.retainer && (
-                      <div className="absolute top-4 left-4 z-10">
-                        <span className="inline-flex items-center gap-1.5 text-[10px] font-['DM_Sans'] font-semibold
-                                         uppercase tracking-[0.1em] text-[#7B3FE4] bg-white/90 backdrop-blur
-                                         border border-[#7B3FE4]/20 rounded-full px-2.5 py-1">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#7B3FE4] animate-pulse" />
-                          Active retainer
-                        </span>
-                      </div>
-                    )}
-                    <PortfolioCard {...project} />
-                  </div>
+                  <PortfolioCard
+                    key={project.title}
+                    {...project}
+                    retainerBadge={project.retainer}
+                  />
                 ))}
               </motion.div>
             </AnimatePresence>

@@ -21,7 +21,7 @@ const AMELI_WALKTHROUGH_POSTER =
  */
 export default function FeaturedWork() {
   return (
-    <section className="relative bg-white py-24 md:py-32" aria-label="Featured walkthroughs">
+    <section data-cursor="view" className="relative bg-white py-24 md:py-32" aria-label="Featured walkthroughs">
       <div className="max-w-6xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 16 }}

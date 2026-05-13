@@ -1,5 +1,5 @@
 import { ReactNode, useRef } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
 
 interface Props {
   children: ReactNode;
@@ -18,7 +18,10 @@ export default function MagneticCTA({
   strength = 14,
   className = "",
 }: Props) {
+  const reduced = useReducedMotion();
   const ref = useRef<HTMLSpanElement>(null);
+
+  if (reduced) return <span className={className}>{children}</span>;
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);

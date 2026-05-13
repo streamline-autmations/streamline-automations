@@ -230,16 +230,19 @@ export default function HostingWhite() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-60px' }}
                   transition={{ duration: 0.55, ease: EASE, delay: i * 0.08 }}
-                  className={`relative rounded-2xl border p-8 flex flex-col ${
+                  data-cursor="view"
+                  className={`relative rounded-2xl border p-8 flex flex-col cursor-pointer
+                    transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                     tier.highlight
-                      ? 'border-[#7B3FE4] bg-white shadow-[0_8px_40px_rgba(123,63,228,0.14)]'
-                      : 'border-[#E8E8EC] bg-white hover:border-[#D4D4DA] transition-colors'
+                      ? 'border-[#7B3FE4] bg-white shadow-[0_8px_40px_rgba(123,63,228,0.14)] hover:shadow-[0_20px_60px_rgba(123,63,228,0.22)] hover:-translate-y-1'
+                      : 'border-[#E8E8EC] bg-white hover:border-[#D4D4DA] hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-1'
                   }`}
                 >
                   {tier.highlight && (
-                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] font-['DM_Sans']
-                                     font-semibold uppercase tracking-[0.1em] text-white bg-[#7B3FE4]
-                                     rounded-full px-3 py-1">
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5
+                                     text-[10px] font-['DM_Sans'] font-semibold uppercase tracking-[0.1em]
+                                     text-white bg-[#7B3FE4] rounded-full px-3 py-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-white/80 animate-pulse" />
                       Most popular
                     </span>
                   )}

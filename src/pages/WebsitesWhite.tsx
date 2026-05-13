@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import ScrambleText from '../components/white/ui/ScrambleText';
 import SEO from '../components/seo/SEO';
 import WhiteNavbar from '../components/white/Navbar';
 import WhiteFooter from '../components/white/Footer';
@@ -122,7 +123,7 @@ export default function WebsitesWhite() {
               className="text-[40px] sm:text-[54px] md:text-[68px] font-['DM_Sans'] font-semibold
                          text-[#0A0A0F] tracking-[-0.03em] leading-[1.07] max-w-3xl"
             >
-              Websites built to{' '}
+              <ScrambleText text="Websites built to" trigger="mount" delay={760} />{' '}
               <span className="font-['Instrument_Serif'] italic font-normal text-[#7B3FE4]">
                 convert.
               </span>
