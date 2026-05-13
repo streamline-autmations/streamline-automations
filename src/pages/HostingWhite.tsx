@@ -31,7 +31,7 @@ const INCLUDED = [
   },
   {
     title: 'Backups',
-    desc: 'Weekly full-site backups. If anything ever goes wrong, you're covered.',
+    desc: "Weekly full-site backups. If anything ever goes wrong, you're covered.",
   },
 ];
 
