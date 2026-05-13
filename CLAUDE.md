@@ -14,66 +14,88 @@ Vaal Triangle, Gauteng, South Africa.
 - Site: streamline-automations.agency
 - GitHub: github.com/streamline-autmations/streamline-site-main
 
-**When writing copy: casual, confident, South African. Never corporate. Never lorem ipsum.**
+**When writing copy: casual, confident, South African founder voice. First person "I" — never "we".
+Short sentences. Direct. No corporate fluff. Never lorem ipsum.**
 
 ---
 
 ## TECH STACK
 
-| Layer      | Tool                  | Notes                                         |
-|------------|-----------------------|-----------------------------------------------|
-| Frontend   | React 18 + TypeScript | Functional components + hooks only            |
-| Build      | Vite 5                | Always use vite-plugin-compression            |
-| Routing    | React Router DOM      | Client-side routing                           |
-| Styling    | Tailwind CSS          | Utility classes only — no CSS modules         |
-| Animation  | Framer Motion         | whileInView + viewport={{ once: true }}       |
-| Components | 21st.dev Magic        | Pull from library before building from scratch|
-| Backend    | Supabase              | Auth, Postgres, Storage                       |
-| Deployment | Vercel                | Auto-deploy from main branch                  |
-| Analytics  | PostHog               | Env var: VITE_POSTHOG_KEY                     |
+| Layer        | Tool                  | Notes                                              |
+|--------------|-----------------------|----------------------------------------------------|
+| Frontend     | React 18 + TypeScript | Functional components + hooks only                 |
+| Build        | Vite 5                | Always use vite-plugin-compression                 |
+| Routing      | React Router DOM      | Client-side routing                                |
+| Styling      | Tailwind CSS          | Utility classes only — no CSS modules              |
+| Animation    | Framer Motion         | Hover/tap, page transitions, simple in-view fades  |
+| Animation    | GSAP + @gsap/react    | Pinning, scrub, cycler, automation flow            |
+| Smooth scroll| Lenis                 | Buttery smooth-scroll wrapper at app root          |
+| Components   | 21st.dev Magic        | Pull from library before building from scratch     |
+| Backend      | Supabase              | Auth, Postgres, Storage                            |
+| Deployment   | Vercel                | Auto-deploy from main branch                       |
+| Analytics    | PostHog               | Env var: VITE_POSTHOG_KEY                          |
+
+### Animation split
+- **Framer Motion:** hover, tap, page transitions, simple `whileInView` fades, micro-interactions.
+- **GSAP:** anything pinned, anything scrub-linked to scroll, image sequences, the case study
+  cycler on home, the 6-stage automation flow on /systems.
+- Never duplicate the same animation in both libraries on the same element.
 
 ### 21st.dev Magic
-This project uses the 21st.dev component library. Before building any new UI component, check
-if a production-quality version already exists in 21st.dev. Use it as-is or adapt it — don't
-rebuild from scratch unless there's no match.
+Before building any new UI component, check if a production-quality version already exists in
+21st.dev. Use it as-is or adapt it — don't rebuild from scratch unless there's no match.
 
 ### UI/UX Pro Max Design Skill
-Design decisions follow the UI/UX Pro Max skill system (50+ styles, 161 palettes, 57 font
-pairings). All new sections must feel premium — not generic AI output. Reference the brand
-system below when in doubt.
+Design decisions follow the UI/UX Pro Max skill system. All new sections must feel premium —
+not generic AI output. Reference the brand system below when in doubt.
 
 ---
 
 ## BRAND SYSTEM
 
+### Direction: "White Minimal" (fluid.glass / brokerpilot inspired)
+Clean white-dominant aesthetic. Generous whitespace. Hairline borders. Restrained purple accent.
+No dark backgrounds, no orange, no glassmorphism, no dot grids, no corner brackets — that was
+the old dark cyberpunk version and is retired on the white-version site.
+
 ### Colours
 ```css
---purple-primary:   #7B3FE4;
---purple-secondary: #8b5cf6;
---orange-primary:   #FF6B2B;
---orange-secondary: #f97316;
---bg-base:          #06040f;
---bg-layer:         #0d0a1a;
---bg-card:          #130f22;
---border-subtle:    #1e1830;
---border-mid:       #2a2050;
---text-primary:     #e2dff0;
---text-muted:       #6b6485;
+/* Backgrounds */
+--white:          #FFFFFF;  /* primary page bg */
+--off-white:      #FAFAFA;  /* alternate section bg */
+--surface:        #F5F5F7;  /* card surfaces, subtle panels */
+--surface-hover:  #EEEEEF;  /* card hover */
+--purple-tint:    #F0EBFF;  /* accent bg — rental callout, badges */
+
+/* Borders */
+--border-light:   #E8E8EC;  /* default, hairline */
+--border-mid:     #D4D4DA;  /* hover, active */
+
+/* Text */
+--text-primary:   #0A0A0F;  /* near-black, headlines */
+--text-body:      #3D3D47;  /* body copy */
+--text-secondary: #6B6B7A;  /* supporting */
+--text-muted:     #9E9EA8;  /* labels, captions */
+
+/* Accent — used sparingly: CTAs, links, highlights */
+--accent:         #7B3FE4;
+--accent-hover:   #6930D0;
 ```
 
 ### Typography
-- **Headlines/Display:** Bebas Neue
-- **Body:** DM Sans
-- **Code/Tech accents:** JetBrains Mono or Syne
+- **Everything:** DM Sans (body, headings, UI)
+- **Highlight words only:** Instrument Serif *italic* — used sparingly inside headlines for
+  emphasis on a single word or short phrase
 
-### Visual Style: "Dark Glass / Cyberpunk Blueprint"
-- Forced dark mode always — `class="dark"` on HTML element
-- Background: deep `#06040f` with dot grid texture
-- Dot grid: `radial-gradient(circle, #2a2050 1px, transparent 1px) / 28px 28px` at 0.3 opacity
-- Glassmorphism cards: `bg-white/5 backdrop-blur`
-- Purple + orange ambient glow blobs in section corners
-- Corner bracket `[ ]` decorations on cards and sections
-- Color logic: Purple = brand/identity | Orange = automation/action | White = structure/code
+### Motion & layout tokens
+- Easing for all transitions: `cubic-bezier(0.22, 1, 0.36, 1)`
+- Minimum section padding: `py-24 md:py-32`
+- Container max-width: `max-w-5xl`
+- Primary buttons: `rounded-full` (pill shape)
+- Section viewport height: `min-h-[100svh]` — never `min-h-screen` (iOS Safari URL bar fix)
+
+### Navbar behaviour
+Transparent over the hero, then frosted white (`bg-white/80 backdrop-blur`) on scroll.
 
 ---
 
@@ -81,113 +103,123 @@ system below when in doubt.
 
 ### Navigation
 ```
-Home → Packages → Portfolio → About → Contact
+Home → Websites → Systems → Hosting → Portfolio → About → Contact
 ```
 
 ### Pages
 ```
 /            Home
-/packages    3-tier package cards + add-ons
+/websites    Web Design & Creation
+/systems     Systems & Automation
+/hosting     Hosting, Email & Maintenance — rental tiers live here
 /portfolio   Full client work grid with case studies
 /about       Founder bio, stack, location, photo
 /contact     Form + WhatsApp button
 ```
 
-### Old pages to remove / redirect
-- /websites, /systems, /hosting → all replaced by /packages
-- Remove any fake "Sarah Chen" or "Michael Rodriguez" testimonials
+3 service pillars replace the old 11-service sprawl. Pricing lives only on /hosting (rental
+tiers) — every other service page is pricing-free.
 
 ---
 
-## PACKAGES (Source of Truth)
+## WEBSITE RENTAL MODEL
 
-### 1. Online Presence — Starting from R6,500
-- Up to 5 pages, responsive, contact form, basic SEO, Google Maps, social links
-- Timeline: 3–5 working days
-- Does NOT include automations, CRM, booking, or AI
+The new core offering. Documented in full so copy and pricing stays consistent across pages.
 
-### 2. Client Magnet ⭐ Most Popular — Starting from R12,000
-Everything in Online Presence plus:
-- Appointment booking integration
-- Smart enquiry forms + lead capture CRM
-- Email/WhatsApp notifications, booking confirmations, reminders
-- Basic automated follow-ups
-- Basic AI chatbot (FAQ + booking help)
-- Timeline: 5–7 working days
+### Terms
+- I build the site **free upfront**. Client pays monthly only.
+- Minimum 3 months. 1 calendar month written notice to cancel.
+- Cancel **before 18 months** → access revoked, files do NOT transfer.
+- **After 18 months** → client owns the site outright. Full files. No strings.
+- Post-ownership: optional **R399/mo** maintenance retainer.
 
-### 3. Business Accelerator — Starting from R25,000 setup + R3,500–R7,000/month
-Everything in Client Magnet plus:
-- Analytics dashboard (lead + booking visibility)
-- Editable site sections (CMS-style)
-- Advanced follow-up sequences
-- Monthly optimisation + priority support + automation tuning
-- Timeline: 7–10 days setup + ongoing
+### Tiers
 
-### Add-Ons (only sold on top of a package — never standalone)
-| Add-On               | Guide Price         |
-|----------------------|---------------------|
-| Logo & branding      | R2,000–R5,000       |
-| Extra page           | R750                |
-| Email setup          | R750                |
-| Hosting              | R250–R699/month     |
-| Advanced AI chatbot  | R2,000–R5,000       |
-| Advanced booking     | R1,500–R3,000       |
-| CRM expansion        | R2,000–R6,000       |
-| SEO upgrade          | R2,500–R8,000       |
+| Tier      | Monthly  | Includes                                                                 | Buyout (after 12 months) |
+|-----------|----------|--------------------------------------------------------------------------|--------------------------|
+| Starter   | R699/mo  | 5-page site, hosting, SSL, domain, 1 update/mo                           | R5,500                   |
+| Business  | R1,099/mo| 5–8 pages, WhatsApp CTA, SEO basics, 2 updates/mo                        | R8,500                   |
+| Pro       | R1,799/mo| Booking system or e-commerce, priority support, 4 updates/mo             | R14,000                  |
 
-**Never show add-ons without a package attached.**
+### Tagline
+> **"No upfront cost. Pay monthly. Own it after 18 months."**
 
 ---
 
 ## HOMEPAGE SECTION ORDER
 
-1. **Hero** — Strong hook, ONE CTA: "Book a Free Strategy Call" → /contact
-2. **Why Streamline** — 3 cards: Built for Speed / Systems Not Sites / You Own Everything
-3. **Featured Builds** — BLOM Cosmetics + RecklessBear (real screenshots only)
-4. **Tech Stack Marquee** — logos scrolling
-5. **Package Preview** — 3 package cards linking to /packages
-6. **How It Works** — 3 steps
-7. **Final CTA Banner** — "Ready to stop doing everything manually?" + orange button
+1. **Navbar** — transparent → frosted white on scroll
+2. **Hero** — text-only, generous whitespace, ONE CTA: "Book a Free Call" → /contact
+3. **Client logos / trust bar**
+4. **Services preview** — 3 cards linking to /websites, /systems, /hosting
+5. **Case Study Cycler** — pinned, GSAP — BLOM → RecklessBear → CW Electronics → Ameli
+6. **By The Numbers** — stats strip, count-up on scroll, real numbers only
+7. **Featured Work** — video-on-scroll-into-view (BLOM + Ameli walkthroughs)
+8. **Rental callout** — soft `#F0EBFF` purple-tint bg
+9. **How It Works** — 3 numbered steps
+10. **Final CTA** — pure white, headline + single button
 
-No testimonials until real client quotes are confirmed. Replace with How It Works if needed.
+No fake testimonials anywhere. Real client logos and real numbers only.
+
+### Systems page extra
+Insert a **6-stage pinned automation flow** (RecklessBear quote-to-production) between the
+hero and the "what's included" section. GSAP scrub-pinned.
 
 ---
 
 ## PORTFOLIO CLIENTS
 
-| Client               | What Was Built                                                                        |
-|----------------------|---------------------------------------------------------------------------------------|
-| RecklessBear Apparel | Website, admin dashboard, CRM, inventory, 12-stage order tracking, WhatsApp automation, monthly retainer |
-| BLOM Cosmetics       | E-commerce store, admin dashboard, CRM, BLOM Academy, email + WhatsApp automation, monthly retainer |
-| Ameli Designs        | Portfolio site for skin & brow studio, contact form, email notifications              |
-| JJ Glasswork         | Service website, contact form, automated email lead notifications                     |
-| NSA Mining           | Internal gift issuing system, eligibility lookup, slip printing, management reporting |
-| Madiega Trading      | 9-page site, solar lead gen, admin dashboard, PDF invoicing, WhatsApp order alerts    |
-| Tuscany SA           | Email hosting, domain management, logo, email banner, IT support                      |
-| African Nomad        | Logo, sublimation artwork, banner design, social media content                        |
+### Featured (homepage cycler — 4 slides, in order)
 
-**Real screenshots only. Never use stock or placeholder images.**
+| # | Client            | What Was Built                                                                                    |
+|---|-------------------|---------------------------------------------------------------------------------------------------|
+| 1 | BLOM Cosmetics    | Full e-commerce + admin + course platform (BLOM Academy) + email + WhatsApp automation. Supabase, n8n, PayFast, ShipLogic. **Active retainer.** |
+| 2 | RecklessBear      | Website + admin + CRM + 12-stage Trello production tracking + WhatsApp automation + AI quote engine (Voiceflow). **Active retainer.** |
+| 3 | CW Electronics    | Full e-commerce + custom admin for a JHB-based Chinese electronics importer (Shop C15, China Mart, Crown Mines). 700+ products live in under 2 weeks. Retail + wholesale pricing, stock analytics, order management, customer updates, owner-editable. PayFast live. cw-electronics.co.za. **Active retainer.** |
+| 4 | Ameli Designs     | Portfolio site for skin & brow studio, contact form, automated email lead capture. 4-day turnaround. |
+
+### Full portfolio grid (/portfolio)
+
+| Client               | What Was Built                                                                |
+|----------------------|-------------------------------------------------------------------------------|
+| BLOM Cosmetics       | *see featured row above*                                                      |
+| RecklessBear         | *see featured row above*                                                      |
+| CW Electronics       | *see featured row above*                                                      |
+| Ameli Designs        | *see featured row above*                                                      |
+| JJ Glasswork         | Service site, contact form, automated email lead notifications                |
+| NSA Mining           | Internal employee gift system, eligibility lookup, slip printing, reporting   |
+| Tuscany SA           | Email hosting, domain management, IT support, logo, email banner             |
+| African Nomad        | Logo, sublimation artwork, banner design, social media content                |
+
+### Not signed — do NOT display as live work
+- **Madiega Trading** — was a proposal / demo only. Never list as a client on the public site.
+
+**Real client screenshots only. Never stock, never placeholder, never AI-generated mockups.**
 
 ---
 
 ## COMPONENT RULES
 
 ```tsx
-// Standard animation — use this everywhere
+// Standard in-view fade (Framer Motion) — uses brand easing
 const fadeUp = {
-  initial: { opacity: 0, y: 30 },
+  initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.5, ease: "easeOut" }
+  viewport: { once: true, margin: "-80px" },
+  transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
 }
 ```
 
 - TypeScript functional components ONLY — no class components
 - Tailwind utility classes ONLY — no CSS modules, styled-components, inline styles
-- Framer Motion for ALL animations
-- Mobile-first always — check mobile before desktop
+- Framer Motion for hover/tap/in-view; GSAP for pinned/scrub
+- Mobile-first always — test 375px before desktop
 - Min 44px tap targets on all interactive elements
 - No horizontal scroll anywhere
+- Use `min-h-[100svh]` not `min-h-screen` for full-viewport sections
+- Primary CTAs are `rounded-full` pills
+- All scroll animations must have a `prefers-reduced-motion` fallback (skip the pin/scrub,
+  render the end state)
 - Images: `/public/assets/` or `/src/assets/`
 - Components: `/src/components/`
 - Pages: `/src/pages/`
@@ -251,7 +283,7 @@ export default {
 import { debounce } from 'lodash-es'  // GOOD
 import * as _ from 'lodash'           // BAD
 
-// Lazy-load heavy components
+// Lazy-load heavy components (GSAP plugins, video players, etc.)
 const HeavySection = lazy(() => import('./HeavySection'))
 ```
 
@@ -273,14 +305,41 @@ const HeavySection = lazy(() => import('./HeavySection'))
 
 ## WHAT NEVER TO DO
 
-- Show pricing on any individual service page — all pricing is on /packages
-- Use fake testimonials — real clients only or remove the section
-- Use stock/placeholder images — real client screenshots only
-- Write corporate copy — casual, confident, South African voice only
-- Use CSS modules, styled-components, or inline styles
-- Build for light mode — dark always
-- Add unnecessary npm packages
+- Show pricing on any service page — rental tiers live on /hosting only
+- Use fake testimonials — real clients only, or remove the section
+- Use stock/placeholder/AI-generated images — real client screenshots only
 - Use lorem ipsum anywhere
+- Use "we" — solo agency, "I" is correct
+- Use dark backgrounds on the white-version site
+- Use orange anywhere on the white-version site (reserved for the old dark theme)
+- Use CSS modules, styled-components, or inline styles
+- Use `min-h-screen` (use `min-h-[100svh]` for iOS Safari)
+- `import * as x from 'library'` — named imports only
+- Display Madiega Trading as a signed/live client
+- Add unnecessary npm packages
+
+---
+
+## ALWAYS
+
+- Mobile-first — test 375px before desktop
+- Min 44px tap targets on interactive elements
+- Pill-shaped (`rounded-full`) primary CTAs
+- Minimum section padding: `py-24 md:py-32`
+- Cubic-bezier `[0.22, 1, 0.36, 1]` for all transitions
+- `prefers-reduced-motion` fallbacks on every scroll animation
+- `min-h-[100svh]` for full-viewport sections
+- Real client screenshots only
+
+---
+
+## COPY VOICE
+
+- Casual, confident, South African founder voice
+- Short sentences. Direct. No corporate fluff.
+- First person **"I"** — solo agency, never "we"
+- Primary CTA: **"Book a Free Call"**
+- Secondary CTA: **"See the work"**
 
 ---
 
