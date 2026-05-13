@@ -1,11 +1,12 @@
 import { motion } from 'framer-motion';
-import ScrambleText from '../components/white/ui/ScrambleText';
+import { Link } from 'react-router-dom';
 import SEO from '../components/seo/SEO';
 import WhiteNavbar from '../components/white/Navbar';
 import WhiteFooter from '../components/white/Footer';
 import Button from '../components/white/ui/Button';
 import FinalCTA from '../components/white/home/FinalCTA';
 import PortfolioCard from '../components/white/ui/PortfolioCard';
+import ScrambleText from '../components/white/ui/ScrambleText';
 import { fadeUp, viewport } from '../lib/motion';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -14,26 +15,32 @@ const WHAT_I_BUILD = [
   {
     title: 'Portfolio sites',
     desc: 'For creatives, studios, and freelancers. Clean, fast, built to impress.',
+    image: 'https://placehold.co/800x600/F0EBFF/7B3FE4?text=Portfolio',
   },
   {
     title: 'Service business sites',
     desc: 'Plumbers, salons, gyms, contractors. Clear services. Clear CTAs.',
+    image: 'https://placehold.co/800x600/F5F5F7/9E9EA8?text=Service+Business',
   },
   {
     title: 'E-commerce stores',
     desc: 'Full Shopify-alternative builds. Custom admin. Owner-editable.',
+    image: 'https://placehold.co/800x600/F0EBFF/7B3FE4?text=E-commerce',
   },
   {
     title: 'Restaurant & hospitality',
     desc: 'Menus, bookings, location info. No outdated PDFs.',
+    image: 'https://placehold.co/800x600/F5F5F7/9E9EA8?text=Restaurant',
   },
   {
     title: 'Landing pages',
     desc: 'Single-page conversion machines. Fast to ship, fast to test.',
+    image: 'https://placehold.co/800x600/F0EBFF/7B3FE4?text=Landing+Page',
   },
   {
     title: 'Booking pages',
     desc: 'For studios, consultants, and service businesses.',
+    image: 'https://placehold.co/800x600/F5F5F7/9E9EA8?text=Booking',
   },
 ];
 
@@ -63,26 +70,34 @@ const PROCESS = [
 const RECENT_WORK = [
   {
     title: 'BLOM Cosmetics',
-    description: 'Full e-commerce + admin + course platform + WhatsApp automation on one Supabase backend.',
+    description:
+      'Full e-commerce + admin + course platform + WhatsApp automation on one Supabase backend.',
     category: 'E-commerce + Systems',
     tech: ['React', 'Supabase', 'n8n'],
-    imageSrc: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851097/Blom-hero_image_jaqcoz.png',
+    imageSrc:
+      'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851097/Blom-hero_image_jaqcoz.png',
     href: '/portfolio#blom',
+    retainerBadge: true,
   },
   {
     title: 'RecklessBear Apparel',
-    description: 'Custom quote engine, CRM, 12-stage production tracking, and WhatsApp order updates.',
+    description:
+      'Custom quote engine, CRM, 12-stage production tracking, and WhatsApp order updates.',
     category: 'Systems + Web',
     tech: ['React', 'Supabase', 'WhatsApp API'],
-    imageSrc: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851117/Reckless-hero_image_sbwhoj.png',
+    imageSrc:
+      'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851117/Reckless-hero_image_sbwhoj.png',
     href: '/portfolio#recklessbear',
+    retainerBadge: true,
   },
   {
     title: 'Ameli Designs',
-    description: 'Portfolio site for a skin and brow studio. Automated lead capture. 4-day build.',
+    description:
+      'Portfolio site for a skin and brow studio. Automated lead capture. 4-day build.',
     category: 'Portfolio + Web',
     tech: ['React', 'n8n'],
-    imageSrc: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851091/Ameli-hero_image_sxtayp.png',
+    imageSrc:
+      'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851091/Ameli-hero_image_sxtayp.png',
     href: '/portfolio#ameli',
   },
 ];
@@ -141,14 +156,22 @@ export default function WebsitesWhite() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: EASE, delay: 0.22 }}
-              className="mt-10"
+              className="mt-10 flex flex-col sm:flex-row gap-4"
             >
               <Button href="/contact" size="lg">Book a Free Call</Button>
+              <Link
+                to="/portfolio"
+                className="group inline-flex items-center gap-1.5 px-2 py-4 text-[15px]
+                           font-['DM_Sans'] font-medium text-[#6B6B7A] hover:text-[#7B3FE4] transition-colors"
+              >
+                See the work
+                <span className="transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1">→</span>
+              </Link>
             </motion.div>
           </div>
         </section>
 
-        {/* What I Build */}
+        {/* What I Build — image cards */}
         <section className="py-24 md:py-32 bg-[#FAFAFA]">
           <div className="max-w-5xl mx-auto px-6">
             <motion.div
@@ -156,13 +179,15 @@ export default function WebsitesWhite() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.6, ease: EASE }}
-              className="mb-12"
+              className="mb-14"
             >
               <span className="block text-[11px] font-medium uppercase tracking-[0.16em] text-[#7B3FE4] mb-4">
                 What I build
               </span>
               <h2 className="text-[32px] md:text-[44px] font-['DM_Sans'] font-semibold text-[#0A0A0F] tracking-[-0.02em] leading-[1.1]">
-                Six types. One standard of quality.
+                Six types.{' '}
+                <span className="font-['Instrument_Serif'] italic font-normal">One standard</span>
+                {' '}of quality.
               </h2>
             </motion.div>
             <motion.div
@@ -170,27 +195,41 @@ export default function WebsitesWhite() {
               whileInView="visible"
               viewport={viewport}
               variants={{ visible: { transition: { staggerChildren: 0.07 } } }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8"
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5"
             >
               {WHAT_I_BUILD.map((item) => (
                 <motion.div
                   key={item.title}
                   variants={fadeUp}
-                  className="border-t border-[#E8E8EC] pt-6"
+                  className="group rounded-2xl border border-[#E8E8EC] bg-white overflow-hidden
+                             hover:border-[#D4D4DA] hover:shadow-[0_8px_32px_rgba(123,63,228,0.08)]
+                             hover:-translate-y-0.5 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
                 >
-                  <p className="text-[16px] font-['DM_Sans'] font-semibold text-[#0A0A0F] mb-1.5">
-                    {item.title}
-                  </p>
-                  <p className="text-[14.5px] font-['DM_Sans'] text-[#6B6B7A] leading-[1.6]">
-                    {item.desc}
-                  </p>
+                  <div className="relative aspect-[4/3] overflow-hidden bg-[#F5F5F7]">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      loading="lazy"
+                      draggable={false}
+                      className="w-full h-full object-cover group-hover:scale-[1.04]
+                                 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                    />
+                  </div>
+                  <div className="p-5">
+                    <p className="text-[15px] font-['DM_Sans'] font-semibold text-[#0A0A0F] mb-1.5">
+                      {item.title}
+                    </p>
+                    <p className="text-[13.5px] font-['DM_Sans'] text-[#6B6B7A] leading-[1.6]">
+                      {item.desc}
+                    </p>
+                  </div>
                 </motion.div>
               ))}
             </motion.div>
           </div>
         </section>
 
-        {/* The Process */}
+        {/* The Process — vertical timeline */}
         <section className="py-24 md:py-32 bg-white">
           <div className="max-w-5xl mx-auto px-6">
             <motion.div
@@ -207,65 +246,108 @@ export default function WebsitesWhite() {
                 Four steps. No surprises.
               </h2>
             </motion.div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-              {PROCESS.map((p, i) => (
-                <motion.div
-                  key={p.step}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-60px' }}
-                  transition={{ duration: 0.55, ease: EASE, delay: i * 0.07 }}
-                >
-                  <span className="block text-[11px] font-medium uppercase tracking-[0.14em] text-[#9E9EA8] mb-3">
-                    {p.step}
-                  </span>
-                  <p className="text-[18px] font-['DM_Sans'] font-semibold text-[#0A0A0F] mb-2 tracking-[-0.01em]">
-                    {p.title}
-                  </p>
-                  <p className="text-[14px] font-['DM_Sans'] text-[#6B6B7A] leading-[1.6]">
-                    {p.desc}
-                  </p>
-                </motion.div>
-              ))}
+
+            <div className="relative max-w-2xl">
+              {/* Dashed connector line */}
+              <div
+                aria-hidden="true"
+                className="absolute left-7 top-8 bottom-8 w-px"
+                style={{
+                  borderLeft: '2px dashed #E8E8EC',
+                }}
+              />
+
+              <div className="space-y-0">
+                {PROCESS.map((p, i) => (
+                  <motion.div
+                    key={p.step}
+                    initial={{ opacity: 0, x: -12 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: '-40px' }}
+                    transition={{ duration: 0.55, ease: EASE, delay: i * 0.08 }}
+                    className="flex gap-8 pb-12 last:pb-0"
+                  >
+                    {/* Step dot */}
+                    <div className="flex-shrink-0 w-14 h-14 rounded-full bg-white border-2 border-[#E8E8EC]
+                                     flex items-center justify-center z-10 relative
+                                     shadow-[0_0_0_4px_white]">
+                      <span className="text-[12px] font-['DM_Sans'] font-bold text-[#7B3FE4] tracking-[0.04em]">
+                        {p.step}
+                      </span>
+                    </div>
+
+                    {/* Content */}
+                    <div className="pt-3.5">
+                      <p className="text-[17px] font-['DM_Sans'] font-semibold text-[#0A0A0F] mb-1.5 tracking-[-0.01em]">
+                        {p.title}
+                      </p>
+                      <p className="text-[14.5px] font-['DM_Sans'] text-[#6B6B7A] leading-[1.65]">
+                        {p.desc}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Investment */}
-        <section className="py-24 md:py-32 bg-[#FAFAFA]">
+        {/* Rental model callout — no pricing numbers */}
+        <section className="py-24 md:py-32 bg-[#F0EBFF]">
           <div className="max-w-5xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.6, ease: EASE }}
+              className="max-w-2xl"
             >
               <span className="block text-[11px] font-medium uppercase tracking-[0.16em] text-[#7B3FE4] mb-4">
-                What it costs
+                How it works
               </span>
-              <h2 className="text-[32px] md:text-[44px] font-['DM_Sans'] font-semibold text-[#0A0A0F] tracking-[-0.02em] leading-[1.1] max-w-2xl">
-                Most websites land between{' '}
-                <span className="font-['Instrument_Serif'] italic font-normal">R5,000 – R20,000.</span>
+              <h2 className="text-[32px] md:text-[44px] font-['DM_Sans'] font-semibold text-[#0A0A0F] tracking-[-0.02em] leading-[1.1]">
+                No upfront cost.{' '}
+                <span className="font-['Instrument_Serif'] italic font-normal">Pay monthly.</span>
               </h2>
-              <p className="mt-6 text-[16px] font-['DM_Sans'] text-[#3D3D47] leading-[1.65] max-w-xl">
-                Final price depends on scope. Simple service sites start at R5,000. Custom
-                e-commerce with admin can go up to R20,000. Book a call and I'll quote you
-                in 24 hours.
-              </p>
-              <p className="mt-5 text-[14px] font-['DM_Sans'] text-[#6B6B7A] max-w-xl leading-[1.6]">
-                Don't have budget upfront? Roll it into a monthly — own the site after 18 months.{' '}
-                <a href="/hosting" className="text-[#7B3FE4] underline underline-offset-2 hover:text-[#6930D0] transition-colors">
-                  Ask me about rental options.
-                </a>
-              </p>
-              <div className="mt-8">
-                <Button href="/contact" variant="primary">Get a quote</Button>
+              <div className="mt-8 space-y-4">
+                {[
+                  'I build your site for free. You pay a flat monthly fee.',
+                  'Hosting, SSL, domain, and updates are all included.',
+                  'After 18 months, the site is yours — outright. Full files, no strings.',
+                ].map((point) => (
+                  <div key={point} className="flex items-start gap-3">
+                    <svg
+                      aria-hidden="true"
+                      className="flex-shrink-0 mt-0.5 w-4 h-4 text-[#7B3FE4]"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2.5}
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    <p className="text-[15.5px] font-['DM_Sans'] text-[#3D3D47] leading-[1.6]">
+                      {point}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-10 flex flex-col sm:flex-row gap-4">
+                <Button href="/hosting">See rental tiers</Button>
+                <Link
+                  to="/contact"
+                  className="group inline-flex items-center gap-1.5 px-2 py-4 text-[15px]
+                             font-['DM_Sans'] font-medium text-[#6B6B7A] hover:text-[#7B3FE4] transition-colors"
+                >
+                  Get a custom quote
+                  <span className="transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1">→</span>
+                </Link>
               </div>
             </motion.div>
           </div>
         </section>
 
-        {/* Recent Work */}
+        {/* Recent Work — 2-col editorial grid */}
         <section className="py-24 md:py-32 bg-white">
           <div className="max-w-5xl mx-auto px-6">
             <motion.div
@@ -273,34 +355,42 @@ export default function WebsitesWhite() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.6, ease: EASE }}
-              className="mb-12"
+              className="flex items-end justify-between mb-12"
             >
-              <span className="block text-[11px] font-medium uppercase tracking-[0.16em] text-[#7B3FE4] mb-4">
-                Recent work
-              </span>
-              <h2 className="text-[32px] md:text-[44px] font-['DM_Sans'] font-semibold text-[#0A0A0F] tracking-[-0.02em] leading-[1.1]">
-                Real sites. Real clients.
-              </h2>
+              <div>
+                <span className="block text-[11px] font-medium uppercase tracking-[0.16em] text-[#7B3FE4] mb-4">
+                  Recent work
+                </span>
+                <h2 className="text-[32px] md:text-[44px] font-['DM_Sans'] font-semibold text-[#0A0A0F] tracking-[-0.02em] leading-[1.1]">
+                  Real sites. Real clients.
+                </h2>
+              </div>
+              <Link
+                to="/portfolio"
+                className="hidden md:inline-flex items-center gap-1.5 text-[13px] font-['DM_Sans'] font-medium text-[#6B6B7A] hover:text-[#7B3FE4] transition-colors"
+              >
+                See all →
+              </Link>
             </motion.div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {RECENT_WORK.map((project) => (
                 <PortfolioCard key={project.title} {...project} />
               ))}
             </div>
             <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.55, ease: EASE, delay: 0.1 }}
-              className="mt-10 text-center"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, ease: EASE, delay: 0.2 }}
+              className="mt-8 md:hidden text-center"
             >
-              <a
-                href="/portfolio"
-                className="group inline-flex items-center gap-1.5 text-sm font-['DM_Sans'] font-medium text-[#0A0A0F] hover:text-[#7B3FE4] transition-colors"
+              <Link
+                to="/portfolio"
+                className="group inline-flex items-center gap-1.5 text-sm font-['DM_Sans'] font-medium text-[#6B6B7A] hover:text-[#7B3FE4] transition-colors"
               >
                 See all work
-                <span className="transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1">→</span>
-              </a>
+                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </Link>
             </motion.div>
           </div>
         </section>

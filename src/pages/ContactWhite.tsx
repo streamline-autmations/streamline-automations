@@ -18,12 +18,22 @@ export default function ContactWhite() {
 
         {/* Hero */}
         <section className="pt-36 md:pt-44 pb-16 md:pb-20 relative overflow-hidden">
+          {/* Ambient gradient — top centre */}
           <div
             aria-hidden="true"
             className="absolute inset-x-0 top-0 h-[65%] pointer-events-none"
             style={{
               background:
                 'radial-gradient(900px 500px at 50% 0%, rgba(123,63,228,0.08), transparent 70%)',
+            }}
+          />
+          {/* Ambient gradient — top right accent */}
+          <div
+            aria-hidden="true"
+            className="absolute top-0 right-0 w-[500px] h-[500px] pointer-events-none"
+            style={{
+              background:
+                'radial-gradient(500px 500px at 100% 0%, rgba(123,63,228,0.07), transparent 70%)',
             }}
           />
           <div className="relative max-w-5xl mx-auto px-6">
@@ -64,7 +74,7 @@ export default function ContactWhite() {
           <div className="max-w-5xl mx-auto px-6">
             <div className="grid grid-cols-1 md:grid-cols-5 gap-12 items-start">
 
-              {/* Left — form (takes 3 cols) */}
+              {/* Left — form (3 cols) */}
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -74,7 +84,7 @@ export default function ContactWhite() {
                 <ContactFormWhite />
               </motion.div>
 
-              {/* Right — direct contact options (takes 2 cols) */}
+              {/* Right — direct contact options (2 cols) */}
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -86,9 +96,11 @@ export default function ContactWhite() {
                   href="https://wa.me/27633063861"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-start gap-4 bg-white border border-[#E8E8EC] hover:border-[#D4D4DA]
-                             hover:shadow-[0_8px_32px_rgba(123,63,228,0.08)] rounded-2xl p-6
-                             transition-all duration-300"
+                  data-cursor="view"
+                  className="group flex items-start gap-4 bg-white border border-[#E8E8EC]
+                             hover:border-[#D4D4DA] hover:shadow-[0_8px_32px_rgba(123,63,228,0.08)]
+                             hover:-translate-y-0.5 rounded-2xl p-6
+                             transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
                 >
                   <div className="flex-shrink-0 w-10 h-10 bg-[#25D366]/10 rounded-xl flex items-center justify-center">
                     <svg viewBox="0 0 24 24" className="w-5 h-5 fill-[#25D366]" aria-hidden="true">
@@ -112,9 +124,11 @@ export default function ContactWhite() {
                 {/* Email */}
                 <a
                   href="mailto:christian@streamline-automations.agency"
-                  className="group flex items-start gap-4 bg-white border border-[#E8E8EC] hover:border-[#D4D4DA]
-                             hover:shadow-[0_8px_32px_rgba(123,63,228,0.08)] rounded-2xl p-6
-                             transition-all duration-300"
+                  data-cursor="view"
+                  className="group flex items-start gap-4 bg-white border border-[#E8E8EC]
+                             hover:border-[#D4D4DA] hover:shadow-[0_8px_32px_rgba(123,63,228,0.08)]
+                             hover:-translate-y-0.5 rounded-2xl p-6
+                             transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
                 >
                   <div className="flex-shrink-0 w-10 h-10 bg-[#F0EBFF] rounded-xl flex items-center justify-center">
                     <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="#7B3FE4" strokeWidth={1.75} aria-hidden="true">
