@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import SEO from '../components/seo/SEO';
 import WhiteNavbar from '../components/white/Navbar';
 import WhiteFooter from '../components/white/Footer';
-import CustomCursor from '../components/white/ui/CustomCursor';
 import Preloader from '../components/white/ui/Preloader';
 import ScrollProgress from '../components/white/ui/ScrollProgress';
 import Hero from '../components/white/home/Hero';
@@ -117,7 +116,6 @@ export default function HomeWhite() {
       />
 
       <Preloader />
-      <CustomCursor />
       <ScrollProgress />
       <WhiteNavbar />
 
