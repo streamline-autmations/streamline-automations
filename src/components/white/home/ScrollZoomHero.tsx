@@ -88,6 +88,7 @@ export default function ScrollZoomHero({
           start: 'top top',
           end: `+=${frameCount * 12}`,
           pin: true,
+          pinType: 'transform',
           scrub: 0.5,
           invalidateOnRefresh: true,
         },

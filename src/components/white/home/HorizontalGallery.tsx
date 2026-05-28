@@ -119,6 +119,7 @@ export default function HorizontalGallery() {
             start: 'top top',
             end: () => '+=' + getScrollDistance(),
             pin: true,
+            pinType: 'transform',
             scrub: 1,
             invalidateOnRefresh: true,
           },

@@ -50,6 +50,7 @@ export default function AutomationFlow({ stages }: Props) {
             start: 'top top',
             end: `+=${segments * 100}%`,
             pin: true,
+            pinType: 'transform',
             scrub: 1,
             snap: {
               snapTo: 1 / segments,

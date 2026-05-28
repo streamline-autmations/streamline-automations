@@ -56,6 +56,11 @@ export default function CaseStudyCycler({ slides }: Props) {
             start: 'top top',
             end: `+=${segments * 100}%`,
             pin: true,
+            // PageTransition wraps every route in a motion.div with
+            // will-change:transform, which creates a containing block
+            // that breaks position:fixed pinning. Use transform pinning
+            // instead — composes correctly inside transformed ancestors.
+            pinType: 'transform',
             scrub: 1,
             snap: {
               snapTo: 1 / segments,
