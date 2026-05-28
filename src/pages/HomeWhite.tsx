@@ -16,16 +16,14 @@ import HowItWorks from '../components/white/home/HowItWorks';
 import FinalCTA from '../components/white/home/FinalCTA';
 import type { CaseStudySlide, StatItem } from '../types/case-study';
 
-// Replace these placeholder Cloudinary URLs once the real mockups are uploaded.
-// See ASSET_MANIFEST.md at repo root for the upload checklist.
 const BLOM_MOCKUP =
-  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/clients/blom-mockup.png';
+  'https://res.cloudinary.com/dtkiwrm6u/image/upload/v1779986676/1_k68mu6.png';
 const RECKLESSBEAR_MOCKUP =
-  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/clients/recklessbear-mockup.png';
+  'https://res.cloudinary.com/dtkiwrm6u/image/upload/v1779986676/2_n9aw8a.png';
 const CW_MOCKUP =
-  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/clients/cw-mockup.png';
+  'https://res.cloudinary.com/dtkiwrm6u/image/upload/v1779986676/3_py5ioc.png';
 const AMELI_MOCKUP =
-  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/clients/ameli-mockup.png';
+  'https://res.cloudinary.com/dtkiwrm6u/image/upload/v1779986676/4_b8wyjj.png';
 
 const SLIDES: CaseStudySlide[] = [
   {
