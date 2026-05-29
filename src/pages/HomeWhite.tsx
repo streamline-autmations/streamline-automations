@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import SEO from '../components/seo/SEO';
-import WhiteNavbar from '../components/white/Navbar';
+import FloatingNav from '../components/white/FloatingNav';
 import WhiteFooter from '../components/white/Footer';
 import Preloader from '../components/white/ui/Preloader';
 import ScrollProgress from '../components/white/ui/ScrollProgress';
-import Hero from '../components/white/home/Hero';
+import VideoHero from '../components/white/home/VideoHero';
 import ClientBar from '../components/white/home/ClientBar';
 import Services from '../components/white/home/Services';
 import CaseStudyCycler from '../components/white/home/CaseStudyCycler';
@@ -116,10 +116,10 @@ export default function HomeWhite() {
 
       <Preloader />
       <ScrollProgress />
-      <WhiteNavbar />
+      <FloatingNav />
 
       <main>
-        <Hero />
+        <VideoHero />
         <ClientBar />
         <Services />
         <CaseStudyCycler slides={SLIDES} />
