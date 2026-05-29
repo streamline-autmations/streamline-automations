@@ -61,12 +61,19 @@ export default function CaseStudyCycler({ slides }: Props) {
             // that breaks position:fixed pinning. Use transform pinning
             // instead — composes correctly inside transformed ancestors.
             pinType: 'transform',
-            scrub: 1,
-            snap: {
-              snapTo: 1 / segments,
-              duration: 0.4,
-              ease: 'power2.inOut',
-            },
+            // Lenis already smooths the scroll (1.2s ease). A numeric scrub
+            // would stack a SECOND smoothing pass on top — compounded lag
+            // that reads as mushy/laggy. scrub:true links the cross-fade
+            // directly to the (already-smoothed) scroll position: responsive
+            // and buttery, no double-easing.
+            scrub: true,
+            // NO snap. ScrollTrigger's snap tweens the scroll position, but
+            // Lenis is the one that actually owns scroll — the two fight over
+            // it and that tug-of-war is what felt "glitchy", especially when
+            // you stop scrolling. Lenis' own easing settles the scroll cleanly.
+            // anticipatePin removes the 1-frame flash when the pin engages.
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
             // Fix #1 — only call setState when the slide integer changes,
             // not on every frame (previously caused 60 re-renders/sec).
             onUpdate: (self) => {
