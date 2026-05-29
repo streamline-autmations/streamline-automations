@@ -15,32 +15,41 @@ const MOBILE_LINKS = [
   { label: 'About', href: '/about' },
 ];
 
-/** A single corner nav link — black text with a dot that fades in on hover. */
+/**
+ * A single corner nav link with a dot that fades in on hover.
+ * `light` (over the video hero) = white text; otherwise near-black.
+ * The accent CTA stays purple once scrolled, white over the hero.
+ */
 function NavLink({
   to,
   children,
   accent = false,
+  light,
   textClass,
 }: {
   to: string;
   children: React.ReactNode;
   accent?: boolean;
+  light: boolean;
   textClass: string;
 }) {
+  const color = light
+    ? 'text-white hover:text-white/80'
+    : accent
+      ? 'text-[#7B3FE4] hover:text-[#6930D0]'
+      : 'text-[#0A0A0F] hover:text-[#3D3D47]';
+  const dot = light ? 'bg-white' : accent ? 'bg-[#7B3FE4]' : 'bg-[#0A0A0F]';
+
   return (
     <Link
       to={to}
-      className={`group relative inline-flex items-center font-['DM_Sans'] font-medium tracking-wide transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] min-h-[44px] ${textClass} ${
-        accent ? 'text-[#7B3FE4] hover:text-[#6930D0]' : 'text-[#0A0A0F] hover:text-[#3D3D47]'
-      }`}
+      className={`group relative inline-flex items-center font-['DM_Sans'] font-medium tracking-wide transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] min-h-[44px] ${textClass} ${color}`}
     >
       {children}
       {/* Hover dot underneath */}
       <span
         aria-hidden="true"
-        className={`absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-          accent ? 'bg-[#7B3FE4]' : 'bg-[#0A0A0F]'
-        }`}
+        className={`absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${dot}`}
       />
     </Link>
   );
@@ -63,9 +72,18 @@ export default function FloatingNav() {
     setOpen(false);
   }, [location]);
 
+  // Over the video hero the nav is "light" (white text); once scrolled onto
+  // the white page it flips to dark text on a frosted-white backdrop.
+  const light = !scrolled;
+
   // Text size shrinks slightly once scrolled past the hero threshold.
   const linkSize = scrolled ? 'text-xs' : 'text-sm';
   const logoSize = scrolled ? 'text-sm' : 'text-base';
+
+  // Soft shadow so white links stay readable over a bright video frame.
+  const lightShadow: React.CSSProperties = light
+    ? { textShadow: '0 1px 12px rgba(0,0,0,0.35)' }
+    : {};
 
   return (
     <header
@@ -73,11 +91,11 @@ export default function FloatingNav() {
         scrolled ? 'backdrop-blur-sm bg-white/40' : 'bg-transparent'
       }`}
     >
-      <div className="relative w-full px-6 py-6 flex items-center justify-between">
+      <div className="relative w-full px-6 py-6 flex items-center justify-between" style={lightShadow}>
         {/* LEFT — desktop links */}
         <nav className="hidden md:flex items-center gap-8">
           {LEFT_LINKS.map((l) => (
-            <NavLink key={l.href} to={l.href} textClass={linkSize}>
+            <NavLink key={l.href} to={l.href} light={light} textClass={linkSize}>
               {l.label}
             </NavLink>
           ))}
@@ -86,17 +104,19 @@ export default function FloatingNav() {
         {/* CENTER — logo (absolutely centred so corner widths never shift it) */}
         <Link
           to="/"
-          className={`absolute left-1/2 -translate-x-1/2 font-['DM_Sans'] font-bold tracking-[-0.02em] text-[#0A0A0F] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${logoSize}`}
+          className={`absolute left-1/2 -translate-x-1/2 font-['DM_Sans'] font-bold tracking-[-0.02em] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${logoSize} ${
+            light ? 'text-white' : 'text-[#0A0A0F]'
+          }`}
         >
           Streamline<span className="text-[#7B3FE4]">.</span>
         </Link>
 
         {/* RIGHT — desktop links */}
         <nav className="hidden md:flex items-center gap-8">
-          <NavLink to="/about" textClass={linkSize}>
+          <NavLink to="/about" light={light} textClass={linkSize}>
             About
           </NavLink>
-          <NavLink to="/contact" accent textClass={linkSize}>
+          <NavLink to="/contact" accent light={light} textClass={linkSize}>
             Book a Free Call
           </NavLink>
         </nav>
@@ -104,7 +124,9 @@ export default function FloatingNav() {
         {/* MOBILE — hamburger on far right, logo stays centred */}
         <button
           onClick={() => setOpen((v) => !v)}
-          className="md:hidden ml-auto p-2 text-[#0A0A0F] min-h-[44px] min-w-[44px] flex items-center justify-center"
+          className={`md:hidden ml-auto p-2 min-h-[44px] min-w-[44px] flex items-center justify-center transition-colors duration-300 ${
+            light ? 'text-white' : 'text-[#0A0A0F]'
+          }`}
           aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
         >

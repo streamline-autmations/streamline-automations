@@ -1,10 +1,10 @@
 import usePrefersReducedMotion from '../../../hooks/usePrefersReducedMotion';
 
-// Placeholder Cloudinary URLs — swap in the real walkthrough after upload.
+// Real BLOM Cosmetics walkthrough — same source as the "See it move" section.
 const HERO_VIDEO =
-  'https://res.cloudinary.com/dnlgohkcc/video/upload/v0/streamline-site/showreel/blom-walkthrough.mp4';
+  'https://res.cloudinary.com/dy1gw7dr2/video/upload/q_auto/f_auto/v1778654284/Blom-Cosmetics_1_t38yyk.mp4';
 const HERO_POSTER =
-  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/showreel/blom-walkthrough-poster.jpg';
+  'https://res.cloudinary.com/dy1gw7dr2/video/upload/q_auto,f_jpg,so_0/v1778654284/Blom-Cosmetics_1_t38yyk.jpg';
 
 interface Props {
   /** Override the default Cloudinary video source. */
