@@ -641,3 +641,9 @@ body.intro-active {
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-lg, 16px);
 }
+
+/* Hero scroll-cue track fill — used by the design homepage HeroText */
+@keyframes cueSlide {
+  0% { transform: translateY(-100%); }
+  60%, 100% { transform: translateY(280%); }
+}

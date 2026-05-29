@@ -1,20 +1,16 @@
 import { useEffect } from 'react';
 import SEO from '../components/seo/SEO';
-import FloatingNav from '../components/white/FloatingNav';
-import WhiteFooter from '../components/white/Footer';
-import Preloader from '../components/white/ui/Preloader';
-import ScrollProgress from '../components/white/ui/ScrollProgress';
-import VideoHero from '../components/white/home/VideoHero';
-import ClientBar from '../components/white/home/ClientBar';
-import Services from '../components/white/home/Services';
+import DesignNav from '../components/white/home/design/DesignNav';
+import HeroText from '../components/white/home/design/HeroText';
+import IntroStatement from '../components/white/home/design/IntroStatement';
+import ServicesRows from '../components/white/home/design/ServicesRows';
 import CaseStudyCycler from '../components/white/home/CaseStudyCycler';
-import StatsStrip from '../components/white/home/StatsStrip';
-import HorizontalGallery from '../components/white/home/HorizontalGallery';
-import FeaturedWork from '../components/white/home/FeaturedWork';
-import RentalCallout from '../components/white/home/RentalCallout';
-import HowItWorks from '../components/white/home/HowItWorks';
-import FinalCTA from '../components/white/home/FinalCTA';
-import type { CaseStudySlide, StatItem } from '../types/case-study';
+import StatsRow from '../components/white/home/design/StatsRow';
+import AutomationFlowRow from '../components/white/home/design/AutomationFlowRow';
+import PricingTeaser from '../components/white/home/design/PricingTeaser';
+import FinalCTAOrbs from '../components/white/home/design/FinalCTAOrbs';
+import DesignFooter from '../components/white/home/design/DesignFooter';
+import type { CaseStudySlide } from '../types/case-study';
 
 const BLOM_MOCKUP =
   'https://res.cloudinary.com/dtkiwrm6u/image/upload/v1779986676/1_k68mu6.png';
@@ -68,16 +64,9 @@ const SLIDES: CaseStudySlide[] = [
   },
 ];
 
-const STATS: StatItem[] = [
-  { value: 60, suffix: 's', label: 'Quote-to-lead time', source: 'on RecklessBear' },
-  { value: 24, suffix: '/7', label: 'Automated order updates', source: 'on BLOM' },
-  { value: 12, label: 'Production stages tracked', source: 'on RecklessBear' },
-  { value: 700, suffix: '+', label: 'Products live in under 2 weeks', source: 'on CW Electronics' },
-];
-
 export default function HomeWhite() {
-  // Force body + html to render white while on the homepage so the existing
-  // dark globals (body::after gradient, dotgrid canvas) never peek through.
+  // Force body + html white while on the homepage so the dark globals
+  // (body::after gradient, dotgrid canvas) never peek through.
   useEffect(() => {
     const prevBodyBg = document.body.style.backgroundColor;
     const prevHtmlBg = document.documentElement.style.backgroundColor;
@@ -90,48 +79,31 @@ export default function HomeWhite() {
   }, []);
 
   return (
-    <div className="relative z-10 bg-white min-h-[100svh] font-['DM_Sans'] text-[#0A0A0F] antialiased overflow-x-hidden">
-      {/* Page-level purple ambient — persists through all sections on scroll */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        <div
-          className="absolute inset-x-0 top-0 h-[55%]"
-          style={{
-            background:
-              'radial-gradient(1300px 700px at 50% 2%, rgba(123,63,228,0.10), transparent 60%)',
-          }}
-        />
-        <div
-          className="absolute inset-x-0 bottom-0 h-[50%]"
-          style={{
-            background:
-              'radial-gradient(900px 600px at 70% 90%, rgba(123,63,228,0.07), transparent 65%)',
-          }}
-        />
-      </div>
-
+    <div
+      id="top"
+      className="relative z-10 min-h-[100svh] overflow-x-hidden bg-white font-['DM_Sans'] text-[#0A0A0F] antialiased"
+    >
       <SEO
         title="Streamline Automations — Websites that work. Systems that scale."
-        description="Custom websites and automation systems for South African businesses. Fast, clean, and ready to go. Based in the Vaal Triangle, serving all of SA."
+        description="Custom websites and automation systems for South African businesses. Built by Christiaan Steffen in the Vaal Triangle. No upfront cost — rent monthly, own after 18 months."
       />
 
-      <Preloader />
-      <ScrollProgress />
-      <FloatingNav />
+      <DesignNav />
 
       <main>
-        <VideoHero />
-        <ClientBar />
-        <Services />
-        <CaseStudyCycler slides={SLIDES} />
-        <StatsStrip stats={STATS} />
-        <HorizontalGallery />
-        <FeaturedWork />
-        <RentalCallout />
-        <HowItWorks />
-        <FinalCTA />
+        <HeroText />
+        <IntroStatement />
+        <ServicesRows />
+        <div id="work">
+          <CaseStudyCycler slides={SLIDES} />
+        </div>
+        <StatsRow />
+        <AutomationFlowRow />
+        <PricingTeaser />
+        <FinalCTAOrbs />
       </main>
 
-      <WhiteFooter />
+      <DesignFooter />
     </div>
   );
 }
