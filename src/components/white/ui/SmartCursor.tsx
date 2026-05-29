@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { gsap } from '../../../lib/gsap-setup';
 import usePrefersReducedMotion from '../../../hooks/usePrefersReducedMotion';
 
-type CursorState = 'default' | 'link' | 'view' | 'drag' | 'text';
+type CursorState = 'default' | 'link' | 'view' | 'drag' | 'text' | 'reel';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -64,6 +64,19 @@ const variants = {
     y: '-50%',
     scale: 1,
     opacity: 0.7,
+  },
+  // Big translucent circle over the video hero — holds the rotating
+  // "VIEW WORK" badge + a small play arrow.
+  reel: {
+    width: 96,
+    height: 96,
+    borderRadius: 9999,
+    backgroundColor: 'rgba(10,10,15,0.45)',
+    border: '0px solid transparent',
+    x: '-50%',
+    y: '-50%',
+    scale: 1,
+    opacity: 1,
   },
 };
 
@@ -134,6 +147,7 @@ export default function SmartCursor() {
 
     const detect = (el: Element | null): CursorState => {
       if (!el) return 'default';
+      if (el.closest('[data-cursor="reel"]')) return 'reel';
       if (el.closest('[data-cursor="view"]')) return 'view';
       if (el.closest('[data-cursor="drag"]')) return 'drag';
       if (el.closest('a, button, [role="button"]')) return 'link';
@@ -199,6 +213,43 @@ export default function SmartCursor() {
         className="absolute flex items-center justify-center overflow-hidden"
         style={{ opacity: visible ? 1 : 0 }}
       >
+        {/* Reel state — rotating "VIEW WORK" ring + centre play arrow */}
+        {state === 'reel' && (
+          <>
+            <motion.svg
+              viewBox="0 0 100 100"
+              className="absolute inset-0 w-full h-full"
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 8, ease: 'linear' }}
+            >
+              <defs>
+                <path
+                  id="reel-text-path"
+                  d="M50,50 m-36,0 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0"
+                />
+              </defs>
+              <text
+                fill="#FFFFFF"
+                style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '2.5px' }}
+                fontFamily="DM Sans, sans-serif"
+              >
+                <textPath href="#reel-text-path">
+                  VIEW WORK • VIEW WORK •
+                </textPath>
+              </text>
+            </motion.svg>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="#FFFFFF"
+              aria-hidden="true"
+            >
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </>
+        )}
+
         <AnimatePresence mode="wait">
           {showLabel && (
             <motion.span

@@ -1,16 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const LEFT_LINKS = [
-  { label: 'Services', href: '/websites' },
-  { label: 'Portfolio', href: '/portfolio' },
+const LOGO =
+  'https://res.cloudinary.com/dnlgohkcc/image/upload/v1777354607/Untitled_design_80_bcjybe.png';
+
+const WORK_LINKS = [
+  { label: 'Websites', href: '/websites', desc: 'Custom sites that convert' },
+  { label: 'Systems', href: '/systems', desc: 'Workflows on autopilot' },
+  { label: 'Hosting', href: '/hosting', desc: 'Rent monthly, own after 18 months' },
 ];
 
 const MOBILE_LINKS = [
-  { label: 'Services', href: '/websites' },
+  { label: 'Websites', href: '/websites' },
+  { label: 'Systems', href: '/systems' },
+  { label: 'Hosting', href: '/hosting' },
   { label: 'Portfolio', href: '/portfolio' },
   { label: 'About', href: '/about' },
 ];
@@ -43,15 +49,80 @@ function NavLink({
   return (
     <Link
       to={to}
-      className={`group relative inline-flex items-center font-['DM_Sans'] font-medium tracking-wide transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] min-h-[44px] ${textClass} ${color}`}
+      className={`group relative inline-flex items-center font-['DM_Sans'] font-medium tracking-[-0.01em] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] min-h-[44px] ${textClass} ${color}`}
     >
       {children}
       {/* Hover dot underneath */}
       <span
         aria-hidden="true"
-        className={`absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${dot}`}
+        className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${dot}`}
       />
     </Link>
+  );
+}
+
+/** "Work" trigger + dropdown panel — opens on hover (desktop). */
+function WorkDropdown({ light, textClass }: { light: boolean; textClass: string }) {
+  const [open, setOpen] = useState(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const onEnter = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setOpen(true);
+  };
+  // Small close delay so the cursor can cross the gap into the panel.
+  const onLeave = () => {
+    closeTimer.current = setTimeout(() => setOpen(false), 120);
+  };
+
+  const color = light ? 'text-white hover:text-white/80' : 'text-[#0A0A0F] hover:text-[#3D3D47]';
+
+  return (
+    <div className="relative" onMouseEnter={onEnter} onMouseLeave={onLeave}>
+      <button
+        className={`group inline-flex items-center gap-1.5 font-['DM_Sans'] font-medium tracking-[-0.01em] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] min-h-[44px] ${textClass} ${color}`}
+        aria-expanded={open}
+      >
+        Work
+        <svg
+          aria-hidden="true"
+          className={`w-3.5 h-3.5 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 4 }}
+            transition={{ duration: 0.18, ease: EASE }}
+            className="absolute top-full left-0 mt-2 w-64 bg-white rounded-2xl border border-[#E8E8EC] shadow-[0_16px_48px_rgba(0,0,0,0.12)] overflow-hidden"
+          >
+            {WORK_LINKS.map((item) => (
+              <Link
+                key={item.href}
+                to={item.href}
+                className="block px-5 py-3.5 hover:bg-[#FAFAFA] transition-colors"
+              >
+                <span className="block text-[14px] font-['DM_Sans'] font-semibold text-[#0A0A0F]">
+                  {item.label}
+                </span>
+                <span className="block text-[12px] font-['DM_Sans'] text-[#9E9EA8] mt-0.5">
+                  {item.desc}
+                </span>
+              </Link>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 
@@ -76,13 +147,14 @@ export default function FloatingNav() {
   // the white page it flips to dark text on a frosted-white backdrop.
   const light = !scrolled;
 
-  // Text size shrinks slightly once scrolled past the hero threshold.
-  const linkSize = scrolled ? 'text-xs' : 'text-sm';
-  const logoSize = scrolled ? 'text-sm' : 'text-base';
+  // Slightly larger, friendlier sizing; eases down a touch once scrolled.
+  const linkSize = scrolled ? 'text-[14px]' : 'text-[16px]';
+  const logoHeight = scrolled ? 'h-7' : 'h-9';
+  const wordmarkSize = scrolled ? 'text-base' : 'text-lg';
 
   // Soft shadow so white links stay readable over a bright video frame.
   const lightShadow: React.CSSProperties = light
-    ? { textShadow: '0 1px 12px rgba(0,0,0,0.35)' }
+    ? { textShadow: '0 1px 14px rgba(0,0,0,0.4)' }
     : {};
 
   return (
@@ -93,26 +165,38 @@ export default function FloatingNav() {
     >
       <div className="relative w-full px-6 py-6 flex items-center justify-between" style={lightShadow}>
         {/* LEFT — desktop links */}
-        <nav className="hidden md:flex items-center gap-8">
-          {LEFT_LINKS.map((l) => (
-            <NavLink key={l.href} to={l.href} light={light} textClass={linkSize}>
-              {l.label}
-            </NavLink>
-          ))}
+        <nav className="hidden md:flex items-center gap-9">
+          <WorkDropdown light={light} textClass={linkSize} />
+          <NavLink to="/portfolio" light={light} textClass={linkSize}>
+            Portfolio
+          </NavLink>
         </nav>
 
-        {/* CENTER — logo (absolutely centred so corner widths never shift it) */}
+        {/* CENTER — logo image over the video, wordmark on the white page */}
         <Link
           to="/"
-          className={`absolute left-1/2 -translate-x-1/2 font-['DM_Sans'] font-bold tracking-[-0.02em] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${logoSize} ${
-            light ? 'text-white' : 'text-[#0A0A0F]'
-          }`}
+          className="absolute left-1/2 -translate-x-1/2 flex items-center"
+          aria-label="Streamline Automations — home"
         >
-          Streamline<span className="text-[#7B3FE4]">.</span>
+          {light ? (
+            <img
+              src={LOGO}
+              alt=""
+              aria-hidden="true"
+              className={`w-auto transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${logoHeight}`}
+              style={{ filter: 'drop-shadow(0 2px 12px rgba(0,0,0,0.35))' }}
+            />
+          ) : (
+            <span
+              className={`font-['DM_Sans'] font-bold tracking-[-0.02em] text-[#0A0A0F] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${wordmarkSize}`}
+            >
+              Streamline<span className="text-[#7B3FE4]">.</span>
+            </span>
+          )}
         </Link>
 
         {/* RIGHT — desktop links */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-9">
           <NavLink to="/about" light={light} textClass={linkSize}>
             About
           </NavLink>
