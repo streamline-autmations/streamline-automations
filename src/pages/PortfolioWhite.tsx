@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import ScrambleText from '../components/white/ui/ScrambleText';
+import WordReveal from '../components/white/ui/WordReveal';
+import MagneticCTA from '../components/white/ui/MagneticCTA';
 import SEO from '../components/seo/SEO';
 import WhiteNavbar from '../components/white/Navbar';
 import WhiteFooter from '../components/white/Footer';
@@ -139,6 +140,7 @@ export default function PortfolioWhite() {
 
         {/* Hero */}
         <section className="pt-36 md:pt-44 pb-20 md:pb-28 relative overflow-hidden">
+          <div aria-hidden="true" className="gradient-mesh opacity-70" />
           <div
             aria-hidden="true"
             className="absolute inset-x-0 top-0 h-[55%] pointer-events-none"
@@ -156,18 +158,13 @@ export default function PortfolioWhite() {
             >
               Portfolio
             </motion.span>
-            <motion.h1
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: EASE, delay: 0.06 }}
+            <WordReveal
+              as="h1"
+              trigger="mount"
+              segments={[{ text: 'Real sites.' }, { text: 'Real clients.', serif: true }]}
               className="text-[40px] sm:text-[54px] md:text-[68px] font-['DM_Sans'] font-semibold
                          text-[#0A0A0F] tracking-[-0.03em] leading-[1.07] max-w-3xl"
-            >
-              <ScrambleText text="Real sites." trigger="mount" delay={760} />{' '}
-              <span className="font-['Instrument_Serif'] italic font-normal text-[#7B3FE4]">
-                Real clients.
-              </span>
-            </motion.h1>
+            />
             <motion.p
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -245,15 +242,18 @@ export default function PortfolioWhite() {
                   Book a free call and I'll scope exactly what you need.
                 </p>
               </div>
-              <a
-                href="/contact"
-                className="flex-shrink-0 inline-flex items-center justify-center px-7 py-3.5
-                           bg-[#7B3FE4] hover:bg-[#6930D0] text-white text-[14px]
-                           font-['DM_Sans'] font-semibold rounded-full transition-colors
-                           duration-200 min-h-[48px]"
-              >
-                Book a Free Call
-              </a>
+              <MagneticCTA strength={14} className="flex-shrink-0">
+                <a
+                  href="/contact"
+                  data-cursor="view"
+                  className="inline-flex items-center justify-center px-7 py-3.5
+                             bg-[#7B3FE4] hover:bg-[#6930D0] text-white text-[14px]
+                             font-['DM_Sans'] font-semibold rounded-full transition-colors
+                             duration-200 min-h-[48px]"
+                >
+                  Book a Free Call
+                </a>
+              </MagneticCTA>
             </motion.div>
           </div>
         </section>
