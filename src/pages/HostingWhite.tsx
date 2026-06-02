@@ -4,6 +4,8 @@ import WhiteNavbar from '../components/white/Navbar';
 import WhiteFooter from '../components/white/Footer';
 import Button from '../components/white/ui/Button';
 import FinalCTA from '../components/white/home/FinalCTA';
+import WordReveal from '../components/white/ui/WordReveal';
+import MagneticCTA from '../components/white/ui/MagneticCTA';
 import { fadeUp, viewport } from '../lib/motion';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -111,6 +113,7 @@ export default function HostingWhite() {
 
         {/* Hero */}
         <section className="pt-36 md:pt-44 pb-20 md:pb-28 relative overflow-hidden">
+          <div aria-hidden="true" className="gradient-mesh opacity-70" />
           <div
             aria-hidden="true"
             className="absolute inset-x-0 top-0 h-[60%] pointer-events-none"
@@ -128,18 +131,13 @@ export default function HostingWhite() {
             >
               Hosting, email &amp; maintenance
             </motion.span>
-            <motion.h1
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: EASE, delay: 0.06 }}
+            <WordReveal
+              as="h1"
+              trigger="mount"
+              segments={[{ text: 'No upfront cost.' }, { text: 'Pay monthly.', serif: true }]}
               className="text-[40px] sm:text-[54px] md:text-[68px] font-['DM_Sans'] font-semibold
                          text-[#0A0A0F] tracking-[-0.03em] leading-[1.07] max-w-3xl"
-            >
-              No upfront cost.{' '}
-              <span className="font-['Instrument_Serif'] italic font-normal text-[#7B3FE4]">
-                Pay monthly.
-              </span>
-            </motion.h1>
+            />
             <motion.p
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -155,7 +153,11 @@ export default function HostingWhite() {
               transition={{ duration: 0.6, ease: EASE, delay: 0.22 }}
               className="mt-10"
             >
-              <Button href="/contact" size="lg">Book a Free Call</Button>
+              <MagneticCTA strength={14}>
+                <span data-cursor="view">
+                  <Button href="/contact" size="lg">Book a Free Call</Button>
+                </span>
+              </MagneticCTA>
             </motion.div>
           </div>
         </section>
@@ -309,10 +311,12 @@ export default function HostingWhite() {
               <span className="block text-[11px] font-medium uppercase tracking-[0.16em] text-[#7B3FE4] mb-4">
                 The ownership model
               </span>
-              <h2 className="text-[32px] md:text-[44px] font-['DM_Sans'] font-semibold text-[#0A0A0F] tracking-[-0.02em] leading-[1.1]">
-                You own it after{' '}
-                <span className="font-['Instrument_Serif'] italic font-normal">18 months.</span>
-              </h2>
+              <WordReveal
+                as="h2"
+                segments={[{ text: 'You own it after' }, { text: '18 months.', serif: true }]}
+                serifClassName="font-['Instrument_Serif'] italic font-normal"
+                className="text-[32px] md:text-[44px] font-['DM_Sans'] font-semibold text-[#0A0A0F] tracking-[-0.02em] leading-[1.1]"
+              />
               <div className="mt-8 space-y-5">
                 {[
                   { label: 'Month 1–3', text: 'Minimum term. Cancel anytime after with 1 calendar month written notice.' },
