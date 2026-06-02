@@ -6,10 +6,20 @@ import WhiteFooter from '../components/white/Footer';
 import Button from '../components/white/ui/Button';
 import FinalCTA from '../components/white/home/FinalCTA';
 import PortfolioCard from '../components/white/ui/PortfolioCard';
-import ScrambleText from '../components/white/ui/ScrambleText';
+import WordReveal from '../components/white/ui/WordReveal';
+import MagneticCTA from '../components/white/ui/MagneticCTA';
+import ShowcaseZoom from '../components/white/home/ShowcaseZoom';
 import { fadeUp, viewport } from '../lib/motion';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+// Brand-tinted gradient panels for the "What I build" cards — no stock /
+// placeholder imagery (real screenshots only live in the portfolio).
+const PANELS = [
+  'linear-gradient(135deg, #F0EBFF 0%, #F5F5F7 100%)',
+  'linear-gradient(135deg, #F5F5F7 0%, #EDE6FF 100%)',
+  'linear-gradient(135deg, #F3EEFF 0%, #FAFAFA 100%)',
+];
 
 const WHAT_I_BUILD = [
   {
@@ -114,6 +124,7 @@ export default function WebsitesWhite() {
 
         {/* Hero */}
         <section className="pt-36 md:pt-44 pb-24 md:pb-32 relative overflow-hidden">
+          <div aria-hidden="true" className="gradient-mesh opacity-70" />
           <div
             aria-hidden="true"
             className="absolute inset-x-0 top-0 h-[60%] pointer-events-none"
@@ -131,18 +142,13 @@ export default function WebsitesWhite() {
             >
               Web design &amp; creation
             </motion.span>
-            <motion.h1
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: EASE, delay: 0.06 }}
+            <WordReveal
+              as="h1"
+              trigger="mount"
+              segments={[{ text: 'Websites built to' }, { text: 'convert.', serif: true }]}
               className="text-[40px] sm:text-[54px] md:text-[68px] font-['DM_Sans'] font-semibold
                          text-[#0A0A0F] tracking-[-0.03em] leading-[1.07] max-w-3xl"
-            >
-              <ScrambleText text="Websites built to" trigger="mount" delay={760} />{' '}
-              <span className="font-['Instrument_Serif'] italic font-normal text-[#7B3FE4]">
-                convert.
-              </span>
-            </motion.h1>
+            />
             <motion.p
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -158,7 +164,11 @@ export default function WebsitesWhite() {
               transition={{ duration: 0.6, ease: EASE, delay: 0.22 }}
               className="mt-10 flex flex-col sm:flex-row gap-4"
             >
-              <Button href="/contact" size="lg">Book a Free Call</Button>
+              <MagneticCTA strength={14}>
+                <span data-cursor="view">
+                  <Button href="/contact" size="lg">Book a Free Call</Button>
+                </span>
+              </MagneticCTA>
               <Link
                 to="/portfolio"
                 className="group inline-flex items-center gap-1.5 px-2 py-4 text-[15px]
@@ -197,7 +207,7 @@ export default function WebsitesWhite() {
               variants={{ visible: { transition: { staggerChildren: 0.07 } } }}
               className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5"
             >
-              {WHAT_I_BUILD.map((item) => (
+              {WHAT_I_BUILD.map((item, i) => (
                 <motion.div
                   key={item.title}
                   variants={fadeUp}
@@ -205,15 +215,35 @@ export default function WebsitesWhite() {
                              hover:border-[#D4D4DA] hover:shadow-[0_8px_32px_rgba(123,63,228,0.08)]
                              hover:-translate-y-0.5 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
                 >
-                  <div className="relative aspect-[4/3] overflow-hidden bg-[#F5F5F7]">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      loading="lazy"
-                      draggable={false}
-                      className="w-full h-full object-cover group-hover:scale-[1.04]
-                                 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    {/* brand gradient panel (scales on hover) */}
+                    <div
+                      aria-hidden="true"
+                      className="absolute inset-0 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.05]"
+                      style={{ background: PANELS[i % PANELS.length] }}
                     />
+                    {/* faint graph-paper grid for depth */}
+                    <div
+                      aria-hidden="true"
+                      className="absolute inset-0 opacity-70"
+                      style={{
+                        backgroundImage:
+                          'linear-gradient(to right, rgba(123,63,228,0.07) 1px, transparent 1px), linear-gradient(to bottom, rgba(123,63,228,0.07) 1px, transparent 1px)',
+                        backgroundSize: '26px 26px',
+                        maskImage: 'radial-gradient(120% 90% at 50% 30%, #000, transparent 80%)',
+                        WebkitMaskImage: 'radial-gradient(120% 90% at 50% 30%, #000, transparent 80%)',
+                      }}
+                    />
+                    {/* soft purple bloom */}
+                    <div
+                      aria-hidden="true"
+                      className="absolute -bottom-8 -right-8 h-32 w-32 rounded-full blur-2xl"
+                      style={{ background: 'radial-gradient(circle, rgba(123,63,228,0.22), transparent 70%)' }}
+                    />
+                    {/* serif index numeral */}
+                    <span className="absolute left-5 top-4 font-['Instrument_Serif'] italic text-[34px] leading-none text-[#7B3FE4]/45">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
                   </div>
                   <div className="p-5">
                     <p className="text-[15px] font-['DM_Sans'] font-semibold text-[#0A0A0F] mb-1.5">
@@ -228,6 +258,9 @@ export default function WebsitesWhite() {
             </motion.div>
           </div>
         </section>
+
+        {/* Signature scroll moment — real client build in a tilted browser frame */}
+        <ShowcaseZoom />
 
         {/* The Process — vertical timeline */}
         <section className="py-24 md:py-32 bg-white">
