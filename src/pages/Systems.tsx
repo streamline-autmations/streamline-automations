@@ -2,6 +2,7 @@ import {
   Database, LayoutDashboard, MessageSquare, Calendar,
   Workflow, FileText, Filter, Mail
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 import SEO from '../components/seo/SEO';
 import WhiteNavbar from '../components/white/Navbar';
 import WhiteFooter from '../components/white/Footer';
@@ -10,7 +11,11 @@ import Button from '../components/white/ui/Button';
 import Divider from '../components/white/ui/Divider';
 import FinalCTA from '../components/white/home/FinalCTA';
 import AutomationFlow from '../components/white/home/AutomationFlow';
+import WordReveal from '../components/white/ui/WordReveal';
+import MagneticCTA from '../components/white/ui/MagneticCTA';
 import type { AutomationStage } from '../types/case-study';
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 // Replace these placeholder Cloudinary URLs once the real screens are uploaded.
 // See ASSET_MANIFEST.md at repo root for the upload checklist.
@@ -98,13 +103,41 @@ export default function SystemsPage() {
         description="CRMs, WhatsApp bots, dashboards, workflows — I automate the work that's eating your time."
       />
       <main className="bg-white min-h-[100svh] font-['DM_Sans']">
-        <section className="py-24 md:py-32">
-          <div className="max-w-5xl mx-auto px-6">
-            <SectionHeader
-              eyebrow="Systems & Automation"
-              headline="Your business runs on systems. I build them."
-              subtext="CRMs, WhatsApp bots, dashboards, workflows — I automate the work that's eating your time."
+        <section className="pt-36 md:pt-44 pb-24 md:pb-32 relative overflow-hidden">
+          <div aria-hidden="true" className="gradient-mesh opacity-70" />
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-0 top-0 h-[60%] pointer-events-none"
+            style={{
+              background:
+                'radial-gradient(900px 500px at 50% 0%, rgba(123,63,228,0.09), transparent 70%)',
+            }}
+          />
+          <div className="relative max-w-5xl mx-auto px-6">
+            <motion.span
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: EASE }}
+              className="block text-[11px] font-medium uppercase tracking-[0.16em] text-[#7B3FE4] mb-5"
+            >
+              Systems &amp; Automation
+            </motion.span>
+            <WordReveal
+              as="h1"
+              trigger="mount"
+              segments={[{ text: 'Your business runs on systems.' }, { text: 'I build them.', serif: true }]}
+              className="text-[40px] sm:text-[54px] md:text-[68px] font-['DM_Sans'] font-semibold
+                         text-[#0A0A0F] tracking-[-0.03em] leading-[1.07] max-w-3xl"
             />
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, ease: EASE, delay: 0.14 }}
+              className="mt-6 text-[17px] md:text-[19px] font-['DM_Sans'] text-[#3D3D47] leading-[1.6] max-w-2xl"
+            >
+              CRMs, WhatsApp bots, dashboards, workflows — I automate the work
+              that&apos;s eating your time.
+            </motion.p>
           </div>
         </section>
 
@@ -151,7 +184,11 @@ export default function SystemsPage() {
 
             {/* CTA */}
             <div className="mt-8">
-              <Button href="/contact" variant="primary">Book a Free Call</Button>
+              <MagneticCTA strength={14}>
+                <span data-cursor="view">
+                  <Button href="/contact" variant="primary">Book a Free Call</Button>
+                </span>
+              </MagneticCTA>
             </div>
           </div>
         </section>
@@ -165,9 +202,11 @@ export default function SystemsPage() {
               <span className="block text-[11px] font-['DM_Sans'] font-medium uppercase tracking-[0.16em] text-[#7B3FE4] mb-4">
                 Real systems
               </span>
-              <h2 className="text-[28px] md:text-[40px] font-['DM_Sans'] font-semibold text-[#0A0A0F] tracking-[-0.02em] leading-[1.1]">
-                Three examples from live clients.
-              </h2>
+              <WordReveal
+                as="h2"
+                segments={[{ text: 'Three examples from' }, { text: 'live clients.', serif: true }]}
+                className="text-[28px] md:text-[40px] font-['DM_Sans'] font-semibold text-[#0A0A0F] tracking-[-0.02em] leading-[1.1]"
+              />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[

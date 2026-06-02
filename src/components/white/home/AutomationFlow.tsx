@@ -97,7 +97,9 @@ export default function AutomationFlow({ stages }: Props) {
           <SectionHeader />
           <div className="mt-12 grid md:grid-cols-2 gap-12 items-center">
             <div className="flex justify-center">
-              <PhoneFrame screenSrc={stages[0].screenSrc} screenAlt={stages[0].screenAlt} />
+              <PhoneFrame>
+                <StageScreen stage={stages[0]} index={0} />
+              </PhoneFrame>
             </div>
             <StageCaption stage={stages[0]} />
           </div>
@@ -141,13 +143,7 @@ export default function AutomationFlow({ stages }: Props) {
                       className="absolute inset-0"
                       style={COMPOSITED}
                     >
-                      <img
-                        src={stage.screenSrc}
-                        alt={stage.screenAlt}
-                        loading="lazy"
-                        draggable={false}
-                        className="absolute inset-0 w-full h-full object-cover select-none"
-                      />
+                      <StageScreen stage={stage} index={i} />
                     </div>
                   ))}
                 </PhoneFrame>
@@ -178,7 +174,7 @@ export default function AutomationFlow({ stages }: Props) {
         <div className="max-w-xl mx-auto px-6">
           <SectionHeader />
           <div className="mt-10 space-y-14">
-            {stages.map((stage) => (
+            {stages.map((stage, i) => (
               <motion.div
                 key={stage.indicator}
                 variants={fadeUp}
@@ -188,7 +184,9 @@ export default function AutomationFlow({ stages }: Props) {
                 className="space-y-5"
               >
                 <div className="flex justify-center">
-                  <PhoneFrame screenSrc={stage.screenSrc} screenAlt={stage.screenAlt} />
+                  <PhoneFrame>
+                    <StageScreen stage={stage} index={i} />
+                  </PhoneFrame>
                 </div>
                 <StageCaption stage={stage} />
               </motion.div>
@@ -222,6 +220,48 @@ function SectionHeader() {
         The real RecklessBear flow. Six stages. No spreadsheets. No follow-up calls.
       </p>
     </motion.div>
+  );
+}
+
+/**
+ * Branded "app screen" panel shown inside the phone frame. The real stage
+ * screenshots were never uploaded (the placeholder URLs 404), so rather than
+ * show broken images we render a clean, on-brand mock screen per stage —
+ * step indicator, title, skeleton UI, and a serif step numeral.
+ */
+function StageScreen({ stage, index }: { stage: AutomationStage; index: number }) {
+  return (
+    <div className="absolute inset-0 flex flex-col bg-gradient-to-br from-[#F3EEFF] to-[#F5F5F7]">
+      {/* faux app top bar */}
+      <div className="flex items-center gap-1.5 px-5 pt-6 pb-4">
+        <span className="h-1.5 w-1.5 rounded-full bg-[#7B3FE4]/45" />
+        <span className="h-1.5 w-1.5 rounded-full bg-[#7B3FE4]/25" />
+        <span className="h-1.5 w-1.5 rounded-full bg-[#7B3FE4]/15" />
+      </div>
+
+      <div className="relative flex-1 px-5">
+        <span className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.16em] text-[#7B3FE4]">
+          {stage.indicator}
+        </span>
+        <p className="mt-2 font-['DM_Sans'] text-[19px] font-bold leading-[1.12] tracking-[-0.02em] text-[#0A0A0F]">
+          {stage.title}
+        </p>
+
+        {/* skeleton content lines */}
+        <div className="mt-6 space-y-2.5">
+          <div className="h-2.5 w-5/6 rounded-full bg-[#E3DAFB]" />
+          <div className="h-2.5 w-2/3 rounded-full bg-[#EAE3FB]" />
+          <div className="h-2.5 w-[72%] rounded-full bg-[#EAE3FB]" />
+        </div>
+
+        <div className="mt-7 h-9 w-28 rounded-full bg-[#7B3FE4]" />
+
+        {/* big serif step numeral watermark */}
+        <span className="absolute bottom-5 right-5 font-['Instrument_Serif'] italic leading-none text-[#7B3FE4]/20" style={{ fontSize: 64 }}>
+          {String(index + 1).padStart(2, '0')}
+        </span>
+      </div>
+    </div>
   );
 }
 
