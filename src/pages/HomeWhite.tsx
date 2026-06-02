@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import SEO from '../components/seo/SEO';
 import DesignNav from '../components/white/home/design/DesignNav';
-import HeroText from '../components/white/home/design/HeroText';
+import HeroPortal from '../components/white/home/design/HeroPortal';
 import TrustBar from '../components/white/home/design/TrustBar';
 import IntroStatement from '../components/white/home/design/IntroStatement';
 import ServicesRows from '../components/white/home/design/ServicesRows';
@@ -96,7 +96,7 @@ export default function HomeWhite() {
       <AmbientDepth />
 
       <main className="relative z-10">
-        <HeroText />
+        <HeroPortal />
         <TrustBar />
         <IntroStatement />
         <ServicesRows />

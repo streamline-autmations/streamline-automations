@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import MagneticCTA from '../../ui/MagneticCTA';
+import RevealText from '../../ui/RevealText';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -25,19 +26,18 @@ export default function FinalCTAOrbs() {
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-[1000px] px-8">
-        <motion.h2
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.8, ease: EASE }}
+        <RevealText
+          as="h2"
+          stagger={0.14}
           className="mx-auto max-w-[14ch] font-['DM_Sans'] font-bold leading-[0.98] tracking-[-0.03em] text-[#0A0A0F]"
-          style={{ fontSize: 'clamp(44px, 7.6vw, 116px)' }}
         >
-          Ready to stop doing everything{' '}
-          <span className="font-['Instrument_Serif'] italic font-normal text-[#7B3FE4]">
-            manually?
+          <span className="block" style={{ fontSize: 'clamp(44px, 7.6vw, 116px)' }}>
+            Ready to stop doing everything{' '}
+            <span className="font-['Instrument_Serif'] italic font-normal text-[#7B3FE4]">
+              manually?
+            </span>
           </span>
-        </motion.h2>
+        </RevealText>
 
         <motion.div
           initial={{ opacity: 0, y: 16 }}

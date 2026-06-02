@@ -647,3 +647,91 @@ body.intro-active {
   0% { transform: translateY(-100%); }
   60%, 100% { transform: translateY(280%); }
 }
+
+/* ─── Premium homepage additions (animation upgrade pass) ────────── */
+
+/* Brand gradient text — ink → purple sheen that drifts slowly. Used
+   sparingly on a single accent word so it stays tasteful, not cliché.
+   Animates background-position only (cheap); falls back to flat purple
+   for reduced-motion. */
+.text-gradient-brand {
+  background-image: linear-gradient(
+    100deg,
+    #7B3FE4 0%,
+    #9B5FF5 28%,
+    #0A0A0F 52%,
+    #7B3FE4 78%,
+    #9B5FF5 100%
+  );
+  background-size: 220% 100%;
+  background-position: 0% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: gradientDrift 9s linear infinite;
+}
+@keyframes gradientDrift {
+  to { background-position: 220% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .text-gradient-brand {
+    animation: none;
+    background: none;
+    color: #7B3FE4;
+    -webkit-text-fill-color: #7B3FE4;
+  }
+}
+
+/* SplitText mask line — guarantees the clip wrapper hides the line until
+   it rises into place (SplitText's mask:'lines' adds the overflow clip; this
+   just nails down display so descenders aren't trimmed). */
+.reveal-line { display: block; }
+.reveal-line-mask { display: block; overflow: hidden; }
+
+/* Animated film-grain overlay — GPU-cheap (transform translate steps on a
+   tiled SVG noise). Tasteful brand depth, never busy. */
+.grain-layer {
+  position: absolute;
+  inset: -120px;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  mix-blend-mode: multiply;
+  animation: grainShift 0.7s steps(4) infinite;
+  will-change: transform;
+}
+@keyframes grainShift {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-6%, 4%); }
+  50%  { transform: translate(5%, -5%); }
+  75%  { transform: translate(-4%, -3%); }
+  100% { transform: translate(0, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .grain-layer { animation: none; }
+}
+
+/* Soft animated gradient mesh — slow drift behind the hero. Pure
+   transform animation; lives behind content, decorative only. */
+.gradient-mesh {
+  position: absolute;
+  inset: -25%;
+  pointer-events: none;
+  background:
+    radial-gradient(40% 38% at 24% 30%, rgba(123,63,228,0.16), transparent 60%),
+    radial-gradient(38% 36% at 78% 26%, rgba(155,95,245,0.14), transparent 60%),
+    radial-gradient(46% 44% at 60% 78%, rgba(123,63,228,0.10), transparent 62%);
+  filter: blur(8px);
+  animation: meshDrift 24s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@keyframes meshDrift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(2%, -2%, 0) scale(1.06); }
+  100% { transform: translate3d(-2%, 2%, 0) scale(1.03); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gradient-mesh { animation: none; }
+}
