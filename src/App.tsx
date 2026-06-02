@@ -7,7 +7,7 @@ import FloatingWhatsApp from './components/ui/FloatingWhatsApp';
 import BackToTop from './components/ui/BackToTop';
 import PageTransition from './components/layout/PageTransition';
 import LenisProvider from './components/providers/LenisProvider';
-import SmartCursor from './components/white/ui/SmartCursor';
+import DotRingCursor from './components/white/ui/DotRingCursor';
 import IntroAnimation from './components/white/ui/IntroAnimation';
 import { trackScrollDepth, resetScrollTracking, initOutboundLinkTracking, initBounceDetection, resetSessionTiming } from './lib/analytics';
 
@@ -99,7 +99,7 @@ function App() {
             </Suspense>
           </div>
           <IntroAnimation />
-          <SmartCursor />
+          <DotRingCursor />
           <FloatingWhatsApp />
           <BackToTop />
         </LenisProvider>

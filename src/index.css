@@ -713,6 +713,79 @@ body.intro-active {
   .grain-layer { animation: none; }
 }
 
+/* ─── Dot + ring custom cursor ───────────────────────────────────
+   A fast solid dot + a smoothly-trailing hollow ring. JS lerps both on
+   rAF; hover states are driven by body.cur-* classes. Native cursor is
+   hidden only on fine pointers; coarse/touch hide the custom cursor. */
+@media (hover: hover) and (pointer: fine) {
+  body.custom-cursor,
+  body.custom-cursor * { cursor: none !important; }
+}
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 9999px;
+  will-change: transform;
+}
+.cursor-dot {
+  width: 7px;
+  height: 7px;
+  background: #A67BFF;
+  box-shadow: 0 0 12px rgba(166, 123, 255, 0.9);
+  transform: translate(-50%, -50%);
+}
+.cursor-ring {
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid rgba(166, 123, 255, 0.5);
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  transition:
+    width 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cursor-ring .cursor-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+body.cur-link .cursor-ring {
+  width: 64px;
+  height: 64px;
+  background: rgba(166, 123, 255, 0.08);
+  border-color: rgba(166, 123, 255, 0.35);
+}
+body.cur-link .cursor-dot { opacity: 0; }
+body.cur-view .cursor-ring,
+body.cur-drag .cursor-ring {
+  width: 88px;
+  height: 88px;
+  background: #7B3FE4;
+  border-color: #A67BFF;
+  box-shadow: 0 0 40px rgba(123, 63, 228, 0.6);
+}
+body.cur-view .cursor-ring .cursor-label,
+body.cur-drag .cursor-ring .cursor-label { opacity: 1; }
+body.cur-view .cursor-dot,
+body.cur-drag .cursor-dot { opacity: 0; }
+@media (hover: none), (pointer: coarse) {
+  .cursor-dot,
+  .cursor-ring { display: none; }
+}
+
 /* Soft animated gradient mesh — slow drift behind the hero. Pure
    transform animation; lives behind content, decorative only. */
 .gradient-mesh {
