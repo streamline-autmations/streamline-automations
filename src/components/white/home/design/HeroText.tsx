@@ -73,6 +73,28 @@ export default function HeroText() {
       data-screen-label="Hero"
       className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden"
     >
+      {/* ambient glowy orbs — soft purple blooms, drift very slowly */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0">
+        <motion.div
+          className="absolute -left-[6%] top-[8%] h-[560px] w-[560px] rounded-full blur-[70px]"
+          style={{ background: 'radial-gradient(circle, rgba(123,63,228,0.18), transparent 65%)' }}
+          animate={reduced ? undefined : { x: [0, 40, 0], y: [0, 30, 0] }}
+          transition={{ duration: 18, ease: 'easeInOut', repeat: Infinity }}
+        />
+        <motion.div
+          className="absolute -right-[8%] bottom-[6%] h-[620px] w-[620px] rounded-full blur-[80px]"
+          style={{ background: 'radial-gradient(circle, rgba(155,95,245,0.16), transparent 65%)' }}
+          animate={reduced ? undefined : { x: [0, -36, 0], y: [0, -28, 0] }}
+          transition={{ duration: 22, ease: 'easeInOut', repeat: Infinity }}
+        />
+        <motion.div
+          className="absolute left-[40%] top-[34%] h-[420px] w-[420px] rounded-full blur-[90px]"
+          style={{ background: 'radial-gradient(circle, rgba(123,63,228,0.10), transparent 70%)' }}
+          animate={reduced ? undefined : { x: [0, 24, 0], y: [0, -20, 0] }}
+          transition={{ duration: 26, ease: 'easeInOut', repeat: Infinity }}
+        />
+      </div>
+
       {/* cursor-tracked glow */}
       <motion.div
         aria-hidden="true"

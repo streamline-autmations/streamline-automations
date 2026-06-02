@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { gsap, useGSAP } from '../../../lib/gsap-setup';
+import { gsap, ScrollTrigger, useGSAP } from '../../../lib/gsap-setup';
 import usePrefersReducedMotion from '../../../hooks/usePrefersReducedMotion';
 import { fadeUp, viewport } from '../../../lib/motion';
 import type { CaseStudySlide } from '../../../types/case-study';
@@ -12,23 +12,14 @@ interface Props {
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-// GPU compositing hints applied to every cross-fade layer so opacity changes
-// never trigger a CPU repaint on the surrounding content.
-const COMPOSITED: React.CSSProperties = {
-  willChange: 'opacity, transform',
-  transform: 'translateZ(0)',
-  backfaceVisibility: 'hidden',
-};
-
 export default function CaseStudyCycler({ slides }: Props) {
   const reduced = usePrefersReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
-  const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const textRefs = useRef<(HTMLDivElement | null)[]>([]);
   const railRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
-  // Tracks the displayed index — only updated when the integer changes,
-  // never on every scroll frame.
+  // The displayed slide. Updated only when the integer changes — the crisp
+  // flip happens at each segment midpoint while the rail fills continuously,
+  // so it reads as "loader fills → snap to the next slide".
   const [activeIndex, setActiveIndex] = useState(0);
   const activeIndexRef = useRef(0);
 
@@ -42,60 +33,22 @@ export default function CaseStudyCycler({ slides }: Props) {
       const mm = gsap.matchMedia();
 
       mm.add('(min-width: 768px)', () => {
-        const images = imageRefs.current.filter(Boolean) as HTMLDivElement[];
-        const texts = textRefs.current.filter(Boolean) as HTMLDivElement[];
         const rails = railRefs.current.filter(Boolean) as HTMLSpanElement[];
-        if (images.length !== slideCount || texts.length !== slideCount) return;
-
-        gsap.set([...images.slice(1), ...texts.slice(1)], { opacity: 0 });
-        gsap.set([images[0], texts[0]], { opacity: 1 });
         gsap.set(rails, { scaleX: 0 });
 
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top top',
-            end: `+=${segments * 100}%`,
-            pin: true,
-            // PageTransition wraps each route in a will-change:transform
-            // motion.div, which breaks position:fixed pinning. Transform
-            // pinning composes correctly inside transformed ancestors.
-            pinType: 'transform',
-            // Lenis already smooths scroll; scrub:true links the cross-fade
-            // directly to the smoothed position. No snap (it fights Lenis).
-            scrub: true,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-            onUpdate: (self) => {
-              // Continuous position across all segments, e.g. 1.4 = 40%
-              // into the 2nd→3rd transition.
-              const pos = self.progress * segments;
-              const idx = Math.min(segments, Math.max(0, Math.round(pos)));
-              if (idx !== activeIndexRef.current) {
-                activeIndexRef.current = idx;
-                setActiveIndex(idx);
-              }
-              // Fill each rail segment from the continuous position.
-              for (let i = 0; i < rails.length; i++) {
-                const fill = Math.min(1, Math.max(0, pos - i));
-                rails[i].style.transform = `scaleX(${fill})`;
-              }
-            },
-          },
+        const st = ScrollTriggerPin(containerRef.current!, segments, (pos) => {
+          const idx = Math.min(segments, Math.max(0, Math.round(pos)));
+          if (idx !== activeIndexRef.current) {
+            activeIndexRef.current = idx;
+            setActiveIndex(idx);
+          }
+          for (let i = 0; i < rails.length; i++) {
+            const fill = Math.min(1, Math.max(0, pos - i));
+            rails[i].style.transform = `scaleX(${fill})`;
+          }
         });
 
-        // Opacity-only cross-fades — fewer compositor ops than translate.
-        for (let i = 0; i < segments; i++) {
-          tl.to(
-            [images[i], texts[i]],
-            { opacity: 0, duration: 1, ease: 'power1.inOut' },
-            i
-          ).to(
-            [images[i + 1], texts[i + 1]],
-            { opacity: 1, duration: 1, ease: 'power1.inOut' },
-            i
-          );
-        }
+        return () => st.kill();
       });
 
       return () => mm.revert();
@@ -119,7 +72,7 @@ export default function CaseStudyCycler({ slides }: Props) {
 
   return (
     <>
-      {/* DESKTOP — pinned cycler */}
+      {/* DESKTOP — pinned, one-slide-per-scroll flip */}
       <section
         ref={containerRef}
         data-cursor="view"
@@ -132,14 +85,17 @@ export default function CaseStudyCycler({ slides }: Props) {
             <Header />
 
             <div className="mt-10 grid flex-1 items-center gap-[clamp(40px,6vw,90px)] md:grid-cols-[1.05fr_0.95fr]">
-              {/* LEFT — mockup frames stacked */}
+              {/* LEFT — mockup frames stacked, crisp cross-fade by index */}
               <div className="relative aspect-[4/3]">
                 {slides.map((slide, i) => (
                   <div
                     key={slide.tag}
-                    ref={(el) => (imageRefs.current[i] = el)}
                     className="absolute inset-0"
-                    style={COMPOSITED}
+                    style={{
+                      opacity: i === activeIndex ? 1 : 0,
+                      transition: 'opacity 0.55s cubic-bezier(0.22,1,0.36,1)',
+                      willChange: 'opacity',
+                    }}
                   >
                     <Mockup slide={slide} />
                   </div>
@@ -151,9 +107,15 @@ export default function CaseStudyCycler({ slides }: Props) {
                 {slides.map((slide, i) => (
                   <div
                     key={slide.tag}
-                    ref={(el) => (textRefs.current[i] = el)}
                     className="absolute inset-0"
-                    style={COMPOSITED}
+                    style={{
+                      opacity: i === activeIndex ? 1 : 0,
+                      transform: i === activeIndex ? 'translateY(0)' : 'translateY(12px)',
+                      transition:
+                        'opacity 0.5s cubic-bezier(0.22,1,0.36,1), transform 0.5s cubic-bezier(0.22,1,0.36,1)',
+                      pointerEvents: i === activeIndex ? 'auto' : 'none',
+                      willChange: 'opacity, transform',
+                    }}
                   >
                     <Detail slide={slide} index={i} total={slideCount} live={activeIndex} />
                   </div>
@@ -161,7 +123,7 @@ export default function CaseStudyCycler({ slides }: Props) {
               </div>
             </div>
 
-            {/* progress rail */}
+            {/* progress rail — one segment per slide, fills with scroll */}
             <div className="mt-10 flex gap-2.5" aria-hidden="true">
               {Array.from({ length: slideCount }).map((_, i) => (
                 <span
@@ -205,6 +167,29 @@ export default function CaseStudyCycler({ slides }: Props) {
   );
 }
 
+/**
+ * Pins the section for `segments` viewport-heights and reports a continuous
+ * position (0 → segments) on every scroll frame. One viewport of scroll ≈ one
+ * slide. Transform pinning composes inside PageTransition's transformed
+ * wrapper; no scrub/snap (which fight Lenis).
+ */
+function ScrollTriggerPin(
+  trigger: HTMLElement,
+  segments: number,
+  onPos: (pos: number) => void
+) {
+  return ScrollTrigger.create({
+    trigger,
+    start: 'top top',
+    end: `+=${segments * 100}%`,
+    pin: true,
+    pinType: 'transform',
+    anticipatePin: 1,
+    invalidateOnRefresh: true,
+    onUpdate: (self) => onPos(self.progress * segments),
+  });
+}
+
 function Header() {
   return (
     <motion.div
@@ -216,8 +201,12 @@ function Header() {
       <span className="block font-['JetBrains_Mono'] text-[12px] font-medium uppercase tracking-[0.22em] text-[#7B3FE4]">
         Selected work
       </span>
-      <span
+      <motion.span
         aria-hidden="true"
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 0.7, ease: EASE, delay: 0.1 }}
         className="mt-3 block h-px w-12 origin-left bg-[#7B3FE4]"
       />
       <h2
@@ -244,7 +233,6 @@ function Mockup({ slide }: { slide: CaseStudySlide }) {
         draggable={false}
         className="absolute inset-0 h-full w-full select-none object-cover object-top"
       />
-      {/* browser bar */}
       <div className="absolute inset-x-0 top-0 z-10 flex h-9 items-center gap-1.5 border-b border-white/40 bg-white/55 px-4 backdrop-blur-sm">
         <span className="h-2.5 w-2.5 rounded-full bg-[#D4D4DA]" />
         <span className="h-2.5 w-2.5 rounded-full bg-[#D4D4DA]" />
@@ -266,8 +254,6 @@ function Detail({
   live?: number;
 }) {
   const pad = (n: number) => n.toString().padStart(2, '0');
-  // On desktop the counter reflects the live active slide; on mobile each card
-  // shows its own index.
   const current = live !== undefined ? live + 1 : index + 1;
 
   return (

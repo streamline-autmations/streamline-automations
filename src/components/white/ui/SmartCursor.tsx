@@ -10,45 +10,50 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 // Shape variants for the inner morphing element.
 // The outer wrapper is positioned by GSAP quickTo — no React state on every frame.
 const variants = {
+  // Prototype-style ring — a hollow circle with a soft purple gradient halo.
   default: {
-    width: 8,
-    height: 8,
+    width: 36,
+    height: 36,
     borderRadius: 9999,
-    backgroundColor: '#0A0A0F',
-    border: '0px solid transparent',
+    backgroundColor: 'rgba(123,63,228,0)',
+    border: '1.5px solid rgba(123,63,228,0.55)',
+    boxShadow: '0 0 16px rgba(123,63,228,0.30)',
     x: '-50%',
     y: '-50%',
     scale: 1,
     opacity: 1,
   },
   link: {
-    width: 32,
-    height: 32,
+    width: 54,
+    height: 54,
     borderRadius: 9999,
-    backgroundColor: 'rgba(123,63,228,0)',
-    border: '1.5px solid #7B3FE4',
+    backgroundColor: 'rgba(123,63,228,0.06)',
+    border: '1.5px solid rgba(123,63,228,0.7)',
+    boxShadow: '0 0 24px rgba(123,63,228,0.35)',
     x: '-50%',
     y: '-50%',
     scale: 1,
     opacity: 1,
   },
   view: {
-    width: 72,
-    height: 32,
+    width: 78,
+    height: 36,
     borderRadius: 9999,
-    backgroundColor: '#0A0A0F',
+    backgroundColor: '#7B3FE4',
     border: '0px solid transparent',
+    boxShadow: '0 8px 24px rgba(123,63,228,0.45)',
     x: '-50%',
     y: '-50%',
     scale: 1,
     opacity: 1,
   },
   drag: {
-    width: 72,
-    height: 32,
+    width: 78,
+    height: 36,
     borderRadius: 9999,
-    backgroundColor: '#0A0A0F',
+    backgroundColor: '#7B3FE4',
     border: '0px solid transparent',
+    boxShadow: '0 8px 24px rgba(123,63,228,0.45)',
     x: '-50%',
     y: '-50%',
     scale: 1,
@@ -56,14 +61,15 @@ const variants = {
   },
   text: {
     width: 2,
-    height: 20,
+    height: 22,
     borderRadius: 2,
-    backgroundColor: '#0A0A0F',
+    backgroundColor: '#7B3FE4',
     border: '0px solid transparent',
+    boxShadow: 'none',
     x: '-50%',
     y: '-50%',
     scale: 1,
-    opacity: 0.7,
+    opacity: 0.8,
   },
   // Big translucent circle over the video hero — holds the rotating
   // "VIEW WORK" badge + a small play arrow.
@@ -73,6 +79,7 @@ const variants = {
     borderRadius: 9999,
     backgroundColor: 'rgba(10,10,15,0.45)',
     border: '0px solid transparent',
+    boxShadow: 'none',
     x: '-50%',
     y: '-50%',
     scale: 1,
@@ -199,6 +206,7 @@ export default function SmartCursor() {
   if (!enabled || reduced) return null;
 
   const showLabel = state === 'view' || state === 'drag';
+  const showDot = state === 'default' || state === 'link';
 
   return (
     <div
@@ -265,6 +273,14 @@ export default function SmartCursor() {
           )}
         </AnimatePresence>
       </motion.div>
+
+      {/* Center dot — rides inside the ring on default/link, hidden otherwise */}
+      <motion.span
+        className="absolute left-0 top-0 rounded-full bg-[#7B3FE4]"
+        style={{ width: 5, height: 5, x: '-50%', y: '-50%' }}
+        animate={{ opacity: showDot && visible ? 1 : 0 }}
+        transition={{ duration: 0.2, ease: EASE }}
+      />
     </div>
   );
 }

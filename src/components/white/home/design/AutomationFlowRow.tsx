@@ -99,8 +99,31 @@ export default function AutomationFlowRow() {
           whileInView="visible"
           viewport={{ once: true, margin: '-10%' }}
           variants={{ visible: { transition: { staggerChildren: 0.18 } } }}
-          className="flex flex-col items-stretch gap-2 md:flex-row md:items-stretch md:gap-0"
+          className="relative flex flex-col items-stretch gap-2 md:flex-row md:items-stretch md:gap-0"
         >
+          {/* electrical current line — draws through the nodes, then a bright
+              pulse travels along it (desktop only) */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute left-[9%] right-[9%] top-[42px] hidden h-0.5 -translate-y-1/2 md:block"
+          >
+            <div className="absolute inset-0 rounded-full bg-[#E8E8EC]" />
+            <motion.div
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, margin: '-10%' }}
+              transition={{ duration: 1.1, ease: EASE, delay: 0.1 }}
+              className="absolute inset-0 origin-left rounded-full bg-gradient-to-r from-[#7B3FE4]/30 via-[#7B3FE4]/60 to-[#7B3FE4]/30"
+            />
+            <motion.div
+              initial={{ x: '-6%', opacity: 0 }}
+              whileInView={{ x: '106%', opacity: [0, 1, 1, 0] }}
+              viewport={{ once: true, margin: '-10%' }}
+              transition={{ duration: 1.7, ease: 'easeInOut', delay: 0.6, repeat: 2, repeatDelay: 0.5 }}
+              className="absolute top-1/2 h-3 w-12 -translate-y-1/2 rounded-full bg-[#9B5FF5] blur-[6px]"
+            />
+          </div>
+
           {NODES.map((n, i) => (
             <div key={n.name} className="contents">
               <motion.div

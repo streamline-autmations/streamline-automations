@@ -6,11 +6,13 @@ import TrustBar from '../components/white/home/design/TrustBar';
 import IntroStatement from '../components/white/home/design/IntroStatement';
 import ServicesRows from '../components/white/home/design/ServicesRows';
 import CaseStudyCycler from '../components/white/home/CaseStudyCycler';
+import FeaturedWork from '../components/white/home/FeaturedWork';
 import StatsRow from '../components/white/home/design/StatsRow';
 import AutomationFlowRow from '../components/white/home/design/AutomationFlowRow';
-import PricingTeaser from '../components/white/home/design/PricingTeaser';
+import RentalCallout from '../components/white/home/RentalCallout';
 import FinalCTAOrbs from '../components/white/home/design/FinalCTAOrbs';
 import DesignFooter from '../components/white/home/design/DesignFooter';
+import AmbientDepth from '../components/white/home/design/AmbientDepth';
 import type { CaseStudySlide } from '../types/case-study';
 
 const BLOM_MOCKUP =
@@ -91,7 +93,9 @@ export default function HomeWhite() {
 
       <DesignNav />
 
-      <main>
+      <AmbientDepth />
+
+      <main className="relative z-10">
         <HeroText />
         <TrustBar />
         <IntroStatement />
@@ -99,9 +103,10 @@ export default function HomeWhite() {
         <div id="work">
           <CaseStudyCycler slides={SLIDES} />
         </div>
+        <FeaturedWork />
         <StatsRow />
         <AutomationFlowRow />
-        <PricingTeaser />
+        <RentalCallout />
         <FinalCTAOrbs />
       </main>
 
