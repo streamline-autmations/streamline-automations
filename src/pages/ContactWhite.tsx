@@ -3,6 +3,7 @@ import SEO from '../components/seo/SEO';
 import WhiteNavbar from '../components/white/Navbar';
 import WhiteFooter from '../components/white/Footer';
 import ContactFormWhite from '../components/white/contact/ContactFormWhite';
+import WordReveal from '../components/white/ui/WordReveal';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -18,6 +19,7 @@ export default function ContactWhite() {
 
         {/* Hero */}
         <section className="pt-36 md:pt-44 pb-16 md:pb-20 relative overflow-hidden">
+          <div aria-hidden="true" className="gradient-mesh opacity-70" />
           {/* Ambient gradient — top centre */}
           <div
             aria-hidden="true"
@@ -45,18 +47,13 @@ export default function ContactWhite() {
             >
               Get in touch
             </motion.span>
-            <motion.h1
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: EASE, delay: 0.06 }}
+            <WordReveal
+              as="h1"
+              trigger="mount"
+              segments={[{ text: "Let's" }, { text: 'talk.', serif: true }]}
               className="text-[40px] sm:text-[54px] md:text-[68px] font-['DM_Sans'] font-semibold
                          text-[#0A0A0F] tracking-[-0.03em] leading-[1.07] max-w-3xl"
-            >
-              Let's{' '}
-              <span className="font-['Instrument_Serif'] italic font-normal text-[#7B3FE4]">
-                talk.
-              </span>
-            </motion.h1>
+            />
             <motion.p
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}

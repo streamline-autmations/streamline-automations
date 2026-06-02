@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import ScrambleText from '../components/white/ui/ScrambleText';
 import { Link } from 'react-router-dom';
 import SEO from '../components/seo/SEO';
 import WhiteNavbar from '../components/white/Navbar';
@@ -8,15 +7,11 @@ import WhiteFooter from '../components/white/Footer';
 import Button from '../components/white/ui/Button';
 import AnimatedNumber from '../components/white/ui/AnimatedNumber';
 import FinalCTA from '../components/white/home/FinalCTA';
+import WordReveal from '../components/white/ui/WordReveal';
+import MagneticCTA from '../components/white/ui/MagneticCTA';
 import { fadeUp, viewport } from '../lib/motion';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
-
-// Swap these for real Cloudinary uploads when available
-const FOUNDER_PHOTO =
-  'https://placehold.co/1600x900/F5F5F7/9E9EA8?text=Founder+Photo+Coming+Soon';
-const WORKSPACE_IMG =
-  'https://placehold.co/1200x900/F0EBFF/7B3FE4?text=Workspace';
 
 const RECENT_WORK = [
   {
@@ -82,6 +77,7 @@ export default function AboutWhite() {
 
         {/* Hero — 50vh */}
         <section className="relative pt-40 md:pt-52 pb-16 md:pb-24 min-h-[50svh] flex items-start overflow-hidden">
+          <div aria-hidden="true" className="gradient-mesh opacity-70" />
           <div
             aria-hidden="true"
             className="absolute inset-x-0 top-0 h-[70%] pointer-events-none"
@@ -99,18 +95,13 @@ export default function AboutWhite() {
             >
               About
             </motion.span>
-            <motion.h1
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: EASE, delay: 0.06 }}
+            <WordReveal
+              as="h1"
+              trigger="mount"
+              segments={[{ text: 'Bartender turned' }, { text: 'automation founder.', serif: true }]}
               className="text-[40px] sm:text-[54px] md:text-[72px] font-['DM_Sans'] font-semibold
                          text-[#0A0A0F] tracking-[-0.03em] leading-[1.06] max-w-3xl"
-            >
-              <ScrambleText text="Bartender turned" trigger="mount" delay={760} />{' '}
-              <span className="font-['Instrument_Serif'] italic font-normal text-[#7B3FE4]">
-                automation founder.
-              </span>
-            </motion.h1>
+            />
             <motion.p
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -149,15 +140,33 @@ export default function AboutWhite() {
         {/* Full-width founder image — parallax */}
         <section ref={founderRef} className="overflow-hidden">
           <div className="max-w-6xl mx-auto px-6">
-            <div className="relative aspect-[16/9] md:aspect-[21/9] rounded-3xl overflow-hidden bg-[#F5F5F7]">
-              <motion.img
+            <div className="relative aspect-[16/9] md:aspect-[21/9] rounded-3xl overflow-hidden bg-gradient-to-br from-[#F0EBFF] to-[#F5F5F7] border border-[#E8E8EC]">
+              {/* Branded placeholder panel — swap for a real founder photo when ready */}
+              <motion.div
+                aria-hidden="true"
                 style={{ y: imgY }}
-                src={FOUNDER_PHOTO}
-                alt="Christiaan Steffen — founder of Streamline Automations"
-                className="absolute inset-0 w-full h-[115%] object-cover object-center -top-[7.5%]"
-                loading="eager"
-                draggable={false}
-              />
+                className="absolute inset-0 -top-[7.5%] h-[115%]"
+              >
+                <div
+                  className="absolute inset-0 opacity-70"
+                  style={{
+                    backgroundImage:
+                      'linear-gradient(to right, rgba(123,63,228,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(123,63,228,0.06) 1px, transparent 1px)',
+                    backgroundSize: '40px 40px',
+                    maskImage: 'radial-gradient(120% 100% at 50% 40%, #000, transparent 80%)',
+                    WebkitMaskImage: 'radial-gradient(120% 100% at 50% 40%, #000, transparent 80%)',
+                  }}
+                />
+                <div
+                  className="absolute -right-[6%] top-[10%] h-64 w-64 rounded-full blur-3xl"
+                  style={{ background: 'radial-gradient(circle, rgba(123,63,228,0.22), transparent 70%)' }}
+                />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="font-['Instrument_Serif'] italic text-[#7B3FE4]/35 leading-none" style={{ fontSize: 'clamp(64px,14vw,180px)' }}>
+                    CS
+                  </span>
+                </div>
+              </motion.div>
             </div>
             <p className="mt-4 text-[12px] font-['DM_Sans'] text-[#9E9EA8] text-center tracking-[0.06em]">
               Working from the Vaal Triangle, since 2023.
@@ -214,14 +223,27 @@ export default function AboutWhite() {
                 className="md:col-span-3"
                 style={{ transform: 'rotate(-1.5deg)' }}
               >
-                <div className="rounded-2xl overflow-hidden border border-[#E8E8EC] aspect-[4/3] bg-[#F5F5F7]">
-                  <img
-                    src={WORKSPACE_IMG}
-                    alt="Workspace"
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                    draggable={false}
+                <div className="relative rounded-2xl overflow-hidden border border-[#E8E8EC] aspect-[4/3] bg-gradient-to-br from-[#F5F5F7] to-[#EDE6FF]">
+                  {/* Branded placeholder panel — swap for a real workspace photo when ready */}
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 opacity-70"
+                    style={{
+                      backgroundImage:
+                        'linear-gradient(to right, rgba(123,63,228,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(123,63,228,0.06) 1px, transparent 1px)',
+                      backgroundSize: '32px 32px',
+                      maskImage: 'radial-gradient(120% 100% at 50% 40%, #000, transparent 82%)',
+                      WebkitMaskImage: 'radial-gradient(120% 100% at 50% 40%, #000, transparent 82%)',
+                    }}
                   />
+                  <div
+                    aria-hidden="true"
+                    className="absolute -bottom-10 -left-8 h-48 w-48 rounded-full blur-3xl"
+                    style={{ background: 'radial-gradient(circle, rgba(123,63,228,0.2), transparent 70%)' }}
+                  />
+                  <span className="absolute bottom-5 left-6 font-['JetBrains_Mono'] text-[11px] uppercase tracking-[0.18em] text-[#7B3FE4]/60">
+                    The workspace
+                  </span>
                 </div>
               </motion.div>
             </div>
@@ -414,7 +436,11 @@ export default function AboutWhite() {
                   </p>
                 </div>
               </div>
-              <Button href="/contact" size="lg">Book a Free Call</Button>
+              <MagneticCTA strength={14}>
+                <span data-cursor="view">
+                  <Button href="/contact" size="lg">Book a Free Call</Button>
+                </span>
+              </MagneticCTA>
             </motion.div>
           </div>
         </section>
