@@ -2,8 +2,8 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import SEO from '../components/seo/SEO';
-import WhiteNavbar from '../components/white/Navbar';
-import WhiteFooter from '../components/white/Footer';
+import SiteHeader from '../components/white/SiteHeader';
+import SiteFooter from '../components/white/SiteFooter';
 import Button from '../components/white/ui/Button';
 import AnimatedNumber from '../components/white/ui/AnimatedNumber';
 import FinalCTA from '../components/white/home/FinalCTA';
@@ -68,7 +68,7 @@ export default function AboutWhite() {
 
   return (
     <>
-      <WhiteNavbar />
+      <SiteHeader />
       <SEO
         title="About — Streamline Automations"
         description="Christiaan Steffen — solo founder building custom websites and automation systems for South African businesses from the Vaal Triangle."
@@ -418,10 +418,10 @@ export default function AboutWhite() {
                 <div className="mt-4 space-y-1.5">
                   <p className="text-[15px] font-['DM_Sans'] text-[#6B6B7A]">
                     <a
-                      href="mailto:christian@streamline-automations.agency"
+                      href="mailto:christian@streamline-automations.co.za"
                       className="hover:text-[#7B3FE4] transition-colors"
                     >
-                      christian@streamline-automations.agency
+                      christian@streamline-automations.co.za
                     </a>
                   </p>
                   <p className="text-[15px] font-['DM_Sans'] text-[#6B6B7A]">
@@ -451,7 +451,7 @@ export default function AboutWhite() {
           </div>
         </section>
       </main>
-      <WhiteFooter />
+      <SiteFooter />
     </>
   );
 }

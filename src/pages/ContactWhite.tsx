@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import SEO from '../components/seo/SEO';
-import WhiteNavbar from '../components/white/Navbar';
-import WhiteFooter from '../components/white/Footer';
+import SiteHeader from '../components/white/SiteHeader';
+import SiteFooter from '../components/white/SiteFooter';
 import ContactFormWhite from '../components/white/contact/ContactFormWhite';
 import WordReveal from '../components/white/ui/WordReveal';
 
@@ -10,7 +10,7 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 export default function ContactWhite() {
   return (
     <>
-      <WhiteNavbar />
+      <SiteHeader />
       <SEO
         title="Contact — Streamline Automations"
         description="Book a free 30-minute call or send a message. No pitch deck, just a plan."
@@ -120,7 +120,7 @@ export default function ContactWhite() {
 
                 {/* Email */}
                 <a
-                  href="mailto:christian@streamline-automations.agency"
+                  href="mailto:christian@streamline-automations.co.za"
                   data-cursor="view"
                   className="group flex items-start gap-4 bg-white border border-[#E8E8EC]
                              hover:border-[#D4D4DA] hover:shadow-[0_8px_32px_rgba(123,63,228,0.08)]
@@ -137,7 +137,7 @@ export default function ContactWhite() {
                       Email
                     </p>
                     <p className="text-[14px] font-['DM_Sans'] font-semibold text-[#0A0A0F] group-hover:text-[#7B3FE4] transition-colors break-all">
-                      christian@streamline-automations.agency
+                      christian@streamline-automations.co.za
                     </p>
                   </div>
                 </a>
@@ -162,7 +162,7 @@ export default function ContactWhite() {
           </div>
         </section>
       </main>
-      <WhiteFooter />
+      <SiteFooter />
     </>
   );
 }

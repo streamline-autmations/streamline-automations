@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import SEO from '../components/seo/SEO';
-import WhiteNavbar from '../components/white/Navbar';
-import WhiteFooter from '../components/white/Footer';
+import SiteHeader from '../components/white/SiteHeader';
+import SiteFooter from '../components/white/SiteFooter';
 import Button from '../components/white/ui/Button';
 import FinalCTA from '../components/white/home/FinalCTA';
 import PortfolioCard from '../components/white/ui/PortfolioCard';
@@ -115,7 +115,7 @@ const RECENT_WORK = [
 export default function WebsitesWhite() {
   return (
     <>
-      <WhiteNavbar />
+      <SiteHeader />
       <SEO
         title="Web Design & Creation — Streamline Automations"
         description="Custom websites for South African businesses. Fast, mobile-first, and built to convert. No templates. No drag-and-drop."
@@ -434,7 +434,7 @@ export default function WebsitesWhite() {
           </div>
         </section>
       </main>
-      <WhiteFooter />
+      <SiteFooter />
     </>
   );
 }

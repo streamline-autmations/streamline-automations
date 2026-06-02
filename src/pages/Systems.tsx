@@ -4,8 +4,8 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SEO from '../components/seo/SEO';
-import WhiteNavbar from '../components/white/Navbar';
-import WhiteFooter from '../components/white/Footer';
+import SiteHeader from '../components/white/SiteHeader';
+import SiteFooter from '../components/white/SiteFooter';
 import SectionHeader from '../components/white/ui/SectionHeader';
 import Button from '../components/white/ui/Button';
 import Divider from '../components/white/ui/Divider';
@@ -97,7 +97,7 @@ const features = [
 export default function SystemsPage() {
   return (
     <>
-      <WhiteNavbar />
+      <SiteHeader />
       <SEO
         title="Systems & Automation"
         description="CRMs, WhatsApp bots, dashboards, workflows — I automate the work that's eating your time."
@@ -273,7 +273,7 @@ export default function SystemsPage() {
           </div>
         </section>
       </main>
-      <WhiteFooter />
+      <SiteFooter />
     </>
   );
 }

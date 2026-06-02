@@ -282,8 +282,8 @@ export default function SiteHeader() {
                 <a href="https://wa.me/27633063861" target="_blank" rel="noopener noreferrer">
                   WhatsApp · 063 306 3861
                 </a>
-                <a href="mailto:christian@streamline-automations.agency">
-                  christian@streamline-automations.agency
+                <a href="mailto:christian@streamline-automations.co.za">
+                  christian@streamline-automations.co.za
                 </a>
               </div>
             </div>

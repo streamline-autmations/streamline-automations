@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import WordReveal from '../components/white/ui/WordReveal';
 import MagneticCTA from '../components/white/ui/MagneticCTA';
 import SEO from '../components/seo/SEO';
-import WhiteNavbar from '../components/white/Navbar';
-import WhiteFooter from '../components/white/Footer';
+import SiteHeader from '../components/white/SiteHeader';
+import SiteFooter from '../components/white/SiteFooter';
 import PortfolioCard from '../components/white/ui/PortfolioCard';
 import FinalCTA from '../components/white/home/FinalCTA';
 import { fadeUp, viewport } from '../lib/motion';
@@ -131,7 +131,7 @@ export default function PortfolioWhite() {
 
   return (
     <>
-      <WhiteNavbar />
+      <SiteHeader />
       <SEO
         title="Portfolio — Streamline Automations"
         description="Real client work. Custom websites, automation systems, and e-commerce builds for South African businesses."
@@ -264,7 +264,7 @@ export default function PortfolioWhite() {
           </div>
         </section>
       </main>
-      <WhiteFooter />
+      <SiteFooter />
     </>
   );
 }

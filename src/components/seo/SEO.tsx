@@ -29,7 +29,7 @@ const SEO: React.FC<SEOProps> = ({
   ]
 }) => {
   const siteTitle = "Streamline Automations";
-  const siteUrl = "https://streamline-automations.agency";
+  const siteUrl = "https://streamline-automations.co.za";
   const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
   
   // Construct canonical URL

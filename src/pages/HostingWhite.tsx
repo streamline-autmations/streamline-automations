@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import SEO from '../components/seo/SEO';
-import WhiteNavbar from '../components/white/Navbar';
-import WhiteFooter from '../components/white/Footer';
+import SiteHeader from '../components/white/SiteHeader';
+import SiteFooter from '../components/white/SiteFooter';
 import Button from '../components/white/ui/Button';
 import FinalCTA from '../components/white/home/FinalCTA';
 import WordReveal from '../components/white/ui/WordReveal';
@@ -50,8 +50,8 @@ interface Tier {
 
 const TIERS: Tier[] = [
   {
-    name: 'Starter',
-    price: 'R699',
+    name: 'Essential',
+    price: 'R499',
     desc: 'For small service businesses that need a clean, fast online presence.',
     updates: '1 update / month',
     pages: 'Up to 5 pages',
@@ -66,13 +66,13 @@ const TIERS: Tier[] = [
     highlight: false,
   },
   {
-    name: 'Business',
-    price: 'R1,099',
+    name: 'Growth',
+    price: 'R1,199',
     desc: 'For businesses that want leads coming in — not just a brochure site.',
     updates: '2 updates / month',
     pages: '5–8 pages',
     features: [
-      'Everything in Starter',
+      'Everything in Essential',
       '5–8 pages',
       'WhatsApp CTA integration',
       'Basic on-page SEO',
@@ -83,13 +83,13 @@ const TIERS: Tier[] = [
     highlight: true,
   },
   {
-    name: 'Pro',
-    price: 'R1,799',
+    name: 'Partner',
+    price: 'R2,499',
     desc: 'For businesses that need bookings, e-commerce, or complex functionality.',
     updates: '4 updates / month',
     pages: 'Unlimited pages',
     features: [
-      'Everything in Business',
+      'Everything in Growth',
       'Booking system or e-commerce',
       '4 content updates/month',
       'Priority support (same-day)',
@@ -104,7 +104,7 @@ const TIERS: Tier[] = [
 export default function HostingWhite() {
   return (
     <>
-      <WhiteNavbar />
+      <SiteHeader />
       <SEO
         title="Hosting, Email & Maintenance — Streamline Automations"
         description="South African web hosting with real support. Monthly plans with no upfront cost. Own your site after 18 months."
@@ -356,7 +356,7 @@ export default function HostingWhite() {
           </div>
         </section>
       </main>
-      <WhiteFooter />
+      <SiteFooter />
     </>
   );
 }
