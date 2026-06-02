@@ -12,8 +12,7 @@ interface Props {
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-// GPU compositing hints applied to every cross-fade layer.
-// Promotes each element to its own compositor layer so opacity changes
+// GPU compositing hints applied to every cross-fade layer so opacity changes
 // never trigger a CPU repaint on the surrounding content.
 const COMPOSITED: React.CSSProperties = {
   willChange: 'opacity, transform',
@@ -26,9 +25,10 @@ export default function CaseStudyCycler({ slides }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
   const textRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const railRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
-  // Tracks the displayed index. A separate ref prevents setActiveIndex from
-  // being called on every frame — only fires when the integer actually changes.
+  // Tracks the displayed index — only updated when the integer changes,
+  // never on every scroll frame.
   const [activeIndex, setActiveIndex] = useState(0);
   const activeIndexRef = useRef(0);
 
@@ -44,11 +44,12 @@ export default function CaseStudyCycler({ slides }: Props) {
       mm.add('(min-width: 768px)', () => {
         const images = imageRefs.current.filter(Boolean) as HTMLDivElement[];
         const texts = textRefs.current.filter(Boolean) as HTMLDivElement[];
+        const rails = railRefs.current.filter(Boolean) as HTMLSpanElement[];
         if (images.length !== slideCount || texts.length !== slideCount) return;
 
-        // Initial state — only slide 0 visible
         gsap.set([...images.slice(1), ...texts.slice(1)], { opacity: 0 });
         gsap.set([images[0], texts[0]], { opacity: 1 });
+        gsap.set(rails, { scaleX: 0 });
 
         const tl = gsap.timeline({
           scrollTrigger: {
@@ -56,41 +57,34 @@ export default function CaseStudyCycler({ slides }: Props) {
             start: 'top top',
             end: `+=${segments * 100}%`,
             pin: true,
-            // PageTransition wraps every route in a motion.div with
-            // will-change:transform, which creates a containing block
-            // that breaks position:fixed pinning. Use transform pinning
-            // instead — composes correctly inside transformed ancestors.
+            // PageTransition wraps each route in a will-change:transform
+            // motion.div, which breaks position:fixed pinning. Transform
+            // pinning composes correctly inside transformed ancestors.
             pinType: 'transform',
-            // Lenis already smooths the scroll (1.2s ease). A numeric scrub
-            // would stack a SECOND smoothing pass on top — compounded lag
-            // that reads as mushy/laggy. scrub:true links the cross-fade
-            // directly to the (already-smoothed) scroll position: responsive
-            // and buttery, no double-easing.
+            // Lenis already smooths scroll; scrub:true links the cross-fade
+            // directly to the smoothed position. No snap (it fights Lenis).
             scrub: true,
-            // NO snap. ScrollTrigger's snap tweens the scroll position, but
-            // Lenis is the one that actually owns scroll — the two fight over
-            // it and that tug-of-war is what felt "glitchy", especially when
-            // you stop scrolling. Lenis' own easing settles the scroll cleanly.
-            // anticipatePin removes the 1-frame flash when the pin engages.
             anticipatePin: 1,
             invalidateOnRefresh: true,
-            // Fix #1 — only call setState when the slide integer changes,
-            // not on every frame (previously caused 60 re-renders/sec).
             onUpdate: (self) => {
-              const idx = Math.min(
-                segments,
-                Math.max(0, Math.round(self.progress * segments))
-              );
+              // Continuous position across all segments, e.g. 1.4 = 40%
+              // into the 2nd→3rd transition.
+              const pos = self.progress * segments;
+              const idx = Math.min(segments, Math.max(0, Math.round(pos)));
               if (idx !== activeIndexRef.current) {
                 activeIndexRef.current = idx;
                 setActiveIndex(idx);
+              }
+              // Fill each rail segment from the continuous position.
+              for (let i = 0; i < rails.length; i++) {
+                const fill = Math.min(1, Math.max(0, pos - i));
+                rails[i].style.transform = `scaleX(${fill})`;
               }
             },
           },
         });
 
-        // Fix #4 — opacity-only cross-fades, no y translate.
-        // Fewer CSS properties animating simultaneously = fewer compositor ops.
+        // Opacity-only cross-fades — fewer compositor ops than translate.
         for (let i = 0; i < segments; i++) {
           tl.to(
             [images[i], texts[i]],
@@ -111,16 +105,12 @@ export default function CaseStudyCycler({ slides }: Props) {
 
   if (reduced) {
     return (
-      <section className="relative bg-white py-24 md:py-32">
-        <div className="max-w-6xl mx-auto px-6">
-          <SectionHeader />
-          <div className="mt-12 grid md:grid-cols-5 gap-10 items-center">
-            <div className="md:col-span-2">
-              <SlideText slide={slides[0]} />
-            </div>
-            <div className="md:col-span-3">
-              <SlideImage slide={slides[0]} />
-            </div>
+      <section className="relative bg-[#FAFAFA] py-24 md:py-32">
+        <div className="mx-auto w-full max-w-[1000px] px-8">
+          <Header />
+          <div className="mt-14 grid items-center gap-12 md:grid-cols-[1.05fr_0.95fr]">
+            <Mockup slide={slides[0]} />
+            <Detail slide={slides[0]} index={0} total={slideCount} />
           </div>
         </div>
       </section>
@@ -130,47 +120,20 @@ export default function CaseStudyCycler({ slides }: Props) {
   return (
     <>
       {/* DESKTOP — pinned cycler */}
-      {/* Fix #5 — translateZ(0) on the pinned section creates a stacking
-          context so the browser composites the entire block separately. */}
       <section
         ref={containerRef}
         data-cursor="view"
-        className="noise-overlay relative hidden md:block bg-white"
+        className="relative hidden bg-[#FAFAFA] md:block"
         aria-label="Featured case studies"
         style={{ transform: 'translateZ(0)' }}
       >
-        <div className="relative h-[100svh] flex flex-col">
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background:
-                'radial-gradient(900px 540px at 70% 40%, rgba(123,63,228,0.07), transparent 65%)',
-            }}
-          />
+        <div className="relative flex h-[100svh] flex-col justify-center overflow-hidden">
+          <div className="relative mx-auto flex w-full max-w-[1000px] flex-1 flex-col px-8 pb-16 pt-24">
+            <Header />
 
-          <div className="relative max-w-6xl mx-auto px-6 pt-20 pb-12 w-full flex-1 flex flex-col">
-            <SectionHeader />
-
-            <div className="mt-10 grid grid-cols-5 gap-10 items-center flex-1">
-              {/* LEFT 60% — text panels stacked */}
-              <div className="col-span-3 order-2 md:order-1 relative min-h-[360px]">
-                {slides.map((slide, i) => (
-                  // Fix #2 — will-change + translateZ promote each panel to
-                  // its own GPU layer so opacity changes are composited only.
-                  <div
-                    key={slide.tag}
-                    ref={(el) => (textRefs.current[i] = el)}
-                    className="absolute inset-0"
-                    style={COMPOSITED}
-                  >
-                    <SlideText slide={slide} />
-                  </div>
-                ))}
-              </div>
-
-              {/* RIGHT 40% — image panels stacked */}
-              <div className="col-span-2 order-1 md:order-2 relative aspect-[4/3]">
+            <div className="mt-10 grid flex-1 items-center gap-[clamp(40px,6vw,90px)] md:grid-cols-[1.05fr_0.95fr]">
+              {/* LEFT — mockup frames stacked */}
+              <div className="relative aspect-[4/3]">
                 {slides.map((slide, i) => (
                   <div
                     key={slide.tag}
@@ -178,33 +141,61 @@ export default function CaseStudyCycler({ slides }: Props) {
                     className="absolute inset-0"
                     style={COMPOSITED}
                   >
-                    <SlideImage slide={slide} />
+                    <Mockup slide={slide} />
+                  </div>
+                ))}
+              </div>
+
+              {/* RIGHT — detail panels stacked */}
+              <div className="relative min-h-[340px]">
+                {slides.map((slide, i) => (
+                  <div
+                    key={slide.tag}
+                    ref={(el) => (textRefs.current[i] = el)}
+                    className="absolute inset-0"
+                    style={COMPOSITED}
+                  >
+                    <Detail slide={slide} index={i} total={slideCount} live={activeIndex} />
                   </div>
                 ))}
               </div>
             </div>
 
-            <ProgressIndicator current={activeIndex + 1} total={slideCount} />
+            {/* progress rail */}
+            <div className="mt-10 flex gap-2.5" aria-hidden="true">
+              {Array.from({ length: slideCount }).map((_, i) => (
+                <span
+                  key={i}
+                  className="relative h-0.5 flex-1 overflow-hidden rounded-sm bg-[#E8E8EC]"
+                >
+                  <span
+                    ref={(el) => (railRefs.current[i] = el)}
+                    className="absolute inset-0 origin-left bg-[#7B3FE4]"
+                    style={{ transform: 'scaleX(0)' }}
+                  />
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* MOBILE — stacked cards */}
-      <section className="md:hidden bg-white py-20" aria-label="Featured case studies">
-        <div className="max-w-xl mx-auto px-6">
-          <SectionHeader />
-          <div className="mt-10 space-y-16">
-            {slides.map((slide) => (
+      <section className="bg-[#FAFAFA] py-20 md:hidden" aria-label="Featured case studies">
+        <div className="mx-auto w-full max-w-xl px-6">
+          <Header />
+          <div className="mt-12 space-y-16">
+            {slides.map((slide, i) => (
               <motion.div
                 key={slide.tag}
                 variants={fadeUp}
                 initial="hidden"
                 whileInView="visible"
                 viewport={viewport}
-                className="space-y-6"
+                className="space-y-7"
               >
-                <SlideImage slide={slide} />
-                <SlideText slide={slide} />
+                <Mockup slide={slide} />
+                <Detail slide={slide} index={i} total={slideCount} />
               </motion.div>
             ))}
           </div>
@@ -214,111 +205,112 @@ export default function CaseStudyCycler({ slides }: Props) {
   );
 }
 
-function SectionHeader() {
+function Header() {
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.6, ease: EASE }}
-      className="text-center"
     >
-      <span className="block text-[11px] font-['DM_Sans'] font-medium uppercase tracking-[0.16em] text-[#7B3FE4] mb-4">
+      <span className="block font-['JetBrains_Mono'] text-[12px] font-medium uppercase tracking-[0.22em] text-[#7B3FE4]">
         Selected work
       </span>
-      <h2 className="text-[32px] sm:text-[42px] md:text-[52px] font-['DM_Sans'] font-semibold text-[#0A0A0F] tracking-[-0.03em] leading-[1.06] max-w-[20ch] mx-auto">
-        Real systems for{' '}
-        <span className="font-['Instrument_Serif'] italic font-normal">
-          real businesses.
+      <span
+        aria-hidden="true"
+        className="mt-3 block h-px w-12 origin-left bg-[#7B3FE4]"
+      />
+      <h2
+        className="mt-5 font-['DM_Sans'] font-bold leading-[1.0] tracking-[-0.025em] text-[#0A0A0F]"
+        style={{ fontSize: 'clamp(34px, 5vw, 72px)' }}
+      >
+        Selected work.{' '}
+        <span className="font-['Instrument_Serif'] italic font-normal text-[#7B3FE4]">
+          All real.
         </span>
       </h2>
     </motion.div>
   );
 }
 
-function SlideText({ slide }: { slide: CaseStudySlide }) {
+/** Browser-chrome device frame wrapping a real client screenshot. */
+function Mockup({ slide }: { slide: CaseStudySlide }) {
   return (
-    <div className="max-w-xl">
-      <span className="block text-[11px] font-['DM_Sans'] font-medium uppercase tracking-[0.16em] text-[#7B3FE4]">
-        {slide.tag}
-      </span>
-      <h3
-        className="mt-4 text-[28px] sm:text-[32px] md:text-[40px] font-['DM_Sans'] font-semibold text-[#0A0A0F] tracking-[-0.02em] leading-[1.1]"
-        dangerouslySetInnerHTML={{
-          __html: slide.headline.replace(
-            /<em>(.*?)<\/em>/g,
-            '<span class="font-[\'Instrument_Serif\'] italic font-normal">$1</span>'
-          ),
-        }}
+    <div className="relative h-full w-full overflow-hidden rounded-[20px] border border-[#E8E8EC] bg-[#F5F5F7] shadow-[0_30px_70px_rgba(13,8,32,0.10)]">
+      <img
+        src={slide.imageSrc}
+        alt={slide.imageAlt}
+        loading="lazy"
+        draggable={false}
+        className="absolute inset-0 h-full w-full select-none object-cover object-top"
       />
-      <p className="mt-5 text-[15.5px] md:text-[16.5px] font-['DM_Sans'] text-[#3D3D47] leading-[1.6]">
-        {slide.body}
-      </p>
+      {/* browser bar */}
+      <div className="absolute inset-x-0 top-0 z-10 flex h-9 items-center gap-1.5 border-b border-white/40 bg-white/55 px-4 backdrop-blur-sm">
+        <span className="h-2.5 w-2.5 rounded-full bg-[#D4D4DA]" />
+        <span className="h-2.5 w-2.5 rounded-full bg-[#D4D4DA]" />
+        <span className="h-2.5 w-2.5 rounded-full bg-[#D4D4DA]" />
+      </div>
+    </div>
+  );
+}
 
-      <ul className="mt-6 flex flex-wrap gap-2">
+function Detail({
+  slide,
+  index,
+  total,
+  live,
+}: {
+  slide: CaseStudySlide;
+  index: number;
+  total: number;
+  live?: number;
+}) {
+  const pad = (n: number) => n.toString().padStart(2, '0');
+  // On desktop the counter reflects the live active slide; on mobile each card
+  // shows its own index.
+  const current = live !== undefined ? live + 1 : index + 1;
+
+  return (
+    <div className="max-w-[440px]">
+      <div className="mb-7 font-['JetBrains_Mono'] text-[13px] tracking-[0.16em] text-[#9E9EA8]">
+        <span className="text-[#7B3FE4]">{pad(current)}</span> / {pad(total)}
+      </div>
+
+      <ul className="mb-5 flex flex-wrap gap-2">
         {slide.chips.map((chip) => (
           <li
             key={chip}
-            className="text-[11.5px] font-['DM_Sans'] font-medium tracking-[0.01em] text-[#4C1D95] bg-[#F0EBFF] border border-[#E8E0FF] rounded-full px-3 py-1"
+            className="rounded-full border border-[#E8E8EC] px-3.5 py-[7px] font-['JetBrains_Mono'] text-[11px] uppercase tracking-[0.1em] text-[#6B6B7A]"
           >
             {chip}
           </li>
         ))}
       </ul>
 
+      <h3
+        className="font-['DM_Sans'] font-bold leading-[1.0] tracking-[-0.025em] text-[#0A0A0F]"
+        dangerouslySetInnerHTML={{
+          __html: slide.headline.replace(
+            /<em>(.*?)<\/em>/g,
+            '<span class="font-[\'Instrument_Serif\'] italic font-normal text-[#7B3FE4]">$1</span>'
+          ),
+        }}
+        style={{ fontSize: 'clamp(30px, 4.2vw, 54px)' }}
+      />
+
+      <p className="mt-5 max-w-[420px] font-['DM_Sans'] text-[17px] leading-[1.5] text-[#3D3D47]">
+        {slide.body}
+      </p>
+
       <Link
         to={slide.link.href}
-        className="group mt-7 inline-flex items-center gap-1.5 text-sm font-['DM_Sans'] font-medium text-[#0A0A0F] hover:text-[#7B3FE4] transition-colors duration-200"
+        className="group mt-8 inline-flex items-center gap-2.5 font-['DM_Sans'] text-[16px] font-semibold text-[#0A0A0F]"
       >
-        {slide.link.label}
-        <span className="transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1">
+        {slide.link.label.replace(/\s*→\s*$/, '')}
+        <span className="text-[#7B3FE4] transition-transform duration-[400ms] group-hover:translate-x-1.5">
           →
         </span>
       </Link>
-    </div>
-  );
-}
-
-function SlideImage({ slide }: { slide: CaseStudySlide }) {
-  return (
-    // Fix #3 — shadow lives on a static wrapper that is never animated.
-    // Previously the shadow was on the element being opacity-tweened, which
-    // forced a CPU repaint on every frame. This wrapper stays opaque always.
-    <div className="relative w-full h-full rounded-2xl overflow-hidden bg-[#F5F5F7] border border-[#E8E8EC]">
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 rounded-2xl pointer-events-none z-10"
-        style={{
-          boxShadow: '0 30px 80px -20px rgba(76,29,149,0.25), 0 10px 30px -10px rgba(0,0,0,0.08)',
-        }}
-      />
-      <img
-        src={slide.imageSrc}
-        alt={slide.imageAlt}
-        loading="lazy"
-        draggable={false}
-        className="absolute inset-0 w-full h-full object-cover select-none"
-      />
-    </div>
-  );
-}
-
-function ProgressIndicator({ current, total }: { current: number; total: number }) {
-  const pad = (n: number) => n.toString().padStart(2, '0');
-  return (
-    <div className="mt-8 flex items-center justify-center gap-4 text-[12px] font-['DM_Sans'] font-medium tracking-[0.12em] uppercase text-[#6B6B7A]">
-      <span className="text-[#0A0A0F] tabular-nums">{pad(current)}</span>
-      <div className="flex items-center gap-1.5" aria-hidden="true">
-        {Array.from({ length: total }).map((_, i) => (
-          <span
-            key={i}
-            className={`h-px transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-              i < current ? 'bg-[#7B3FE4] w-8' : 'bg-[#D4D4DA] w-4'
-            }`}
-          />
-        ))}
-      </div>
-      <span className="tabular-nums">{pad(total)}</span>
     </div>
   );
 }

@@ -69,6 +69,14 @@ export default function AutomationFlowRow() {
           >
             The difference
           </motion.span>
+          <motion.span
+            aria-hidden="true"
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={viewport}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+            className="mt-3 block h-px w-12 origin-left bg-[#7B3FE4]"
+          />
           <motion.h2
             variants={fadeUp}
             initial="hidden"

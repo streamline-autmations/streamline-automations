@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import SEO from '../components/seo/SEO';
 import DesignNav from '../components/white/home/design/DesignNav';
 import HeroText from '../components/white/home/design/HeroText';
+import TrustBar from '../components/white/home/design/TrustBar';
 import IntroStatement from '../components/white/home/design/IntroStatement';
 import ServicesRows from '../components/white/home/design/ServicesRows';
 import CaseStudyCycler from '../components/white/home/CaseStudyCycler';
@@ -92,6 +93,7 @@ export default function HomeWhite() {
 
       <main>
         <HeroText />
+        <TrustBar />
         <IntroStatement />
         <ServicesRows />
         <div id="work">
