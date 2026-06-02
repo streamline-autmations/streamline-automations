@@ -2,6 +2,13 @@
  * GSAP setup — import from here everywhere, not from 'gsap' directly.
  * Ensures ScrollTrigger + SplitText + CustomEase + useGSAP are registered once.
  * SplitText & CustomEase are free as of GSAP 3.13 and ship with the package.
+ *
+ * Smooth scroll: Lenis (see LenisProvider) — NOT GSAP ScrollSmoother. Both do
+ * smooth-scroll and both can drive ScrollTrigger; running both double-inits and
+ * conflicts. Lenis is wired and synced to ScrollTrigger (lenis.on('scroll',
+ * ScrollTrigger.update) + lenis.raf on gsap.ticker), so ScrollSmoother is
+ * intentionally never registered. Pinning uses pinType:'transform' to play
+ * nicely with Lenis + the overflow-x-hidden homepage root.
  */
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';

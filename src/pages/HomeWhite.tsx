@@ -1,17 +1,16 @@
 import { useEffect } from 'react';
 import SEO from '../components/seo/SEO';
-import DesignNav from '../components/white/home/design/DesignNav';
+import SiteHeader from '../components/white/SiteHeader';
 import HeroPortal from '../components/white/home/design/HeroPortal';
 import TrustBar from '../components/white/home/design/TrustBar';
 import IntroStatement from '../components/white/home/design/IntroStatement';
 import ServicesRows from '../components/white/home/design/ServicesRows';
 import CaseStudyCycler from '../components/white/home/CaseStudyCycler';
-import FeaturedWork from '../components/white/home/FeaturedWork';
 import StatsRow from '../components/white/home/design/StatsRow';
 import AutomationFlowRow from '../components/white/home/design/AutomationFlowRow';
 import RentalCallout from '../components/white/home/RentalCallout';
 import FinalCTAOrbs from '../components/white/home/design/FinalCTAOrbs';
-import DesignFooter from '../components/white/home/design/DesignFooter';
+import SiteFooter from '../components/white/SiteFooter';
 import AmbientDepth from '../components/white/home/design/AmbientDepth';
 import type { CaseStudySlide } from '../types/case-study';
 
@@ -91,7 +90,7 @@ export default function HomeWhite() {
         description="Custom websites and automation systems for South African businesses. Built by Christiaan Steffen in the Vaal Triangle. No upfront cost — rent monthly, own after 18 months."
       />
 
-      <DesignNav />
+      <SiteHeader />
 
       <AmbientDepth />
 
@@ -103,14 +102,13 @@ export default function HomeWhite() {
         <div id="work">
           <CaseStudyCycler slides={SLIDES} />
         </div>
-        <FeaturedWork />
         <StatsRow />
         <AutomationFlowRow />
         <RentalCallout />
         <FinalCTAOrbs />
       </main>
 
-      <DesignFooter />
+      <SiteFooter />
     </div>
   );
 }
