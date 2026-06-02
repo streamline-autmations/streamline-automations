@@ -26,3 +26,6 @@ dist-ssr
 
 # transient commit-message scratch file
 .commitmsg.tmp
+
+# Playwright MCP screenshot/console artifacts
+.playwright-mcp/

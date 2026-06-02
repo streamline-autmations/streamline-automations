@@ -6,6 +6,10 @@ import MagneticCTA from './ui/MagneticCTA';
 const EASE = 'cubic-bezier(0.22,1,0.36,1)';
 const EASE_ARR: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
+// Black wordmark — sits on the transparent/frosted-white header as-is.
+const LOGO_URL =
+  'https://res.cloudinary.com/dtkiwrm6u/image/upload/v1780412723/Streamline-black-word-logo_rpzvgh.png';
+
 const SERVICES = [
   { label: 'Web Design', href: '/websites', desc: 'Custom sites that convert' },
   { label: 'Systems & Automation', href: '/systems', desc: 'Workflows on autopilot' },
@@ -13,6 +17,7 @@ const SERVICES = [
 ];
 
 const MOBILE_LINKS = [
+  { label: 'Home', href: '/' },
   { label: 'Web Design', href: '/websites' },
   { label: 'Systems & Automation', href: '/systems' },
   { label: 'Hosting & Maintenance', href: '/hosting' },
@@ -33,8 +38,8 @@ function NavLink({
   return (
     <Link
       to={to}
-      className={`group relative inline-flex min-h-[44px] items-center font-['DM_Sans'] text-[14px] font-medium outline-none transition-colors duration-300 focus-visible:text-[#7B3FE4] ${
-        active ? 'text-[#0A0A0F]' : 'text-[#3D3D47] hover:text-[#0A0A0F]'
+      className={`group relative inline-flex min-h-[44px] items-center font-['DM_Sans'] text-[14.5px] font-semibold outline-none transition-colors duration-300 focus-visible:text-[#7B3FE4] ${
+        active ? 'text-[#0A0A0F]' : 'text-[#0A0A0F] hover:text-[#7B3FE4]'
       }`}
     >
       {children}
@@ -73,7 +78,8 @@ export default function SiteHeader() {
   const servicesRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
-  const isActive = (href: string) => location.pathname.startsWith(href);
+  const isActive = (href: string) =>
+    href === '/' ? location.pathname === '/' : location.pathname.startsWith(href);
   const servicesActive = ['/websites', '/systems', '/hosting'].some((p) =>
     location.pathname.startsWith(p)
   );
@@ -138,14 +144,14 @@ export default function SiteHeader() {
         }}
       />
 
-      {/* LEFT — desktop nav */}
-      <nav className="hidden items-center gap-8 pl-3 md:flex">
+      {/* LEFT — desktop nav, pulled inward to hug the centered logo */}
+      <nav className="hidden items-center gap-9 md:flex md:justify-end md:pr-12">
         <div ref={servicesRef} className="relative">
           <button
             onClick={() => setServicesOpen((v) => !v)}
             aria-expanded={servicesOpen}
-            className={`group inline-flex min-h-[44px] items-center gap-1.5 font-['DM_Sans'] text-[14px] font-medium outline-none transition-colors duration-300 focus-visible:text-[#7B3FE4] ${
-              servicesActive ? 'text-[#0A0A0F]' : 'text-[#3D3D47] hover:text-[#0A0A0F]'
+            className={`group inline-flex min-h-[44px] items-center gap-1.5 font-['DM_Sans'] text-[14.5px] font-semibold outline-none transition-colors duration-300 focus-visible:text-[#7B3FE4] ${
+              servicesActive ? 'text-[#0A0A0F]' : 'text-[#0A0A0F] hover:text-[#7B3FE4]'
             }`}
           >
             Services
@@ -199,23 +205,28 @@ export default function SiteHeader() {
         </NavLink>
       </nav>
 
-      {/* CENTER — wordmark */}
+      {/* CENTER — logo wordmark */}
       <Link
         to="/"
-        className="font-['DM_Sans'] text-[21px] font-bold tracking-[-0.02em] text-[#0A0A0F] outline-none md:justify-self-center"
+        className="outline-none md:justify-self-center"
         aria-label="Streamline Automations — home"
       >
-        Streamline<span className="text-[#7B3FE4]">.</span>
+        <img
+          src={LOGO_URL}
+          alt="Streamline Automations"
+          draggable={false}
+          className="h-[26px] w-auto select-none md:h-[30px]"
+        />
       </Link>
 
-      {/* RIGHT */}
+      {/* RIGHT — sole CTA */}
       <div className="flex items-center justify-end gap-6">
         <span className="hidden md:inline-flex">
           <MagneticCTA strength={14}>
             <Link
               to="/contact"
               data-cursor="view"
-              className="inline-flex items-center rounded-full bg-[#7B3FE4] px-6 py-3 font-['DM_Sans'] text-[14px] font-semibold text-white outline-none transition-[background-color,box-shadow] duration-300 hover:bg-[#6930D0] hover:shadow-[0_12px_32px_rgba(123,63,228,0.30)] focus-visible:ring-2 focus-visible:ring-[#7B3FE4] focus-visible:ring-offset-2"
+              className="inline-flex items-center rounded-full bg-[#7B3FE4] px-7 py-3 font-['DM_Sans'] text-[14.5px] font-semibold text-white shadow-[0_6px_20px_rgba(123,63,228,0.28)] outline-none transition-[background-color,box-shadow] duration-300 hover:bg-[#6930D0] hover:shadow-[0_12px_34px_rgba(123,63,228,0.38)] focus-visible:ring-2 focus-visible:ring-[#7B3FE4] focus-visible:ring-offset-2"
               style={{ transitionTimingFunction: EASE }}
             >
               Book a Free Call

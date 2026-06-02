@@ -3,12 +3,11 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'r
 import { AnimatePresence } from 'framer-motion';
 import { HelmetProvider } from 'react-helmet-async';
 import ScrollToTop from './components/layout/ScrollToTop';
-import FloatingWhatsApp from './components/ui/FloatingWhatsApp';
 import BackToTop from './components/ui/BackToTop';
 import PageTransition from './components/layout/PageTransition';
 import LenisProvider from './components/providers/LenisProvider';
 import DotRingCursor from './components/white/ui/DotRingCursor';
-import IntroAnimation from './components/white/ui/IntroAnimation';
+import SiteLoader from './components/white/ui/SiteLoader';
 import { trackScrollDepth, resetScrollTracking, initOutboundLinkTracking, initBounceDetection, resetSessionTiming } from './lib/analytics';
 
 // Lazy load pages for performance
@@ -98,9 +97,8 @@ function App() {
               <AnimatedRoutes />
             </Suspense>
           </div>
-          <IntroAnimation />
+          <SiteLoader />
           <DotRingCursor />
-          <FloatingWhatsApp />
           <BackToTop />
         </LenisProvider>
       </Router>

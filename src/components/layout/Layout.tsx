@@ -2,7 +2,6 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import FloatingWhatsApp from '../ui/FloatingWhatsApp';
 import ScrollProgress from '../ui/ScrollProgress';
 import BackToTop from '../ui/BackToTop';
 
@@ -15,7 +14,6 @@ const Layout: React.FC = () => {
         <Outlet />
       </main>
       <Footer />
-      <FloatingWhatsApp />
       <BackToTop />
     </div>
   );

@@ -786,6 +786,29 @@ body.cur-drag .cursor-dot { opacity: 0; }
   .cursor-ring { display: none; }
 }
 
+/* Ambient depth blooms — slow transform-only drift (GPU-cheap). Two phases
+   so the field never looks like it's pulsing in lockstep. */
+.ambient-bloom {
+  animation: ambientDriftA 26s ease-in-out infinite alternate;
+  will-change: transform;
+}
+.ambient-bloom-slow {
+  animation: ambientDriftB 34s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@keyframes ambientDriftA {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(5%, 4%, 0); }
+}
+@keyframes ambientDriftB {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-5%, -4%, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ambient-bloom,
+  .ambient-bloom-slow { animation: none; }
+}
+
 /* Soft animated gradient mesh — slow drift behind the hero. Pure
    transform animation; lives behind content, decorative only. */
 .gradient-mesh {
@@ -793,9 +816,9 @@ body.cur-drag .cursor-dot { opacity: 0; }
   inset: -25%;
   pointer-events: none;
   background:
-    radial-gradient(40% 38% at 24% 30%, rgba(123,63,228,0.16), transparent 60%),
-    radial-gradient(38% 36% at 78% 26%, rgba(155,95,245,0.14), transparent 60%),
-    radial-gradient(46% 44% at 60% 78%, rgba(123,63,228,0.10), transparent 62%);
+    radial-gradient(40% 38% at 24% 30%, rgba(123,63,228,0.17), transparent 60%),
+    radial-gradient(38% 36% at 78% 26%, rgba(168,72,206,0.15), transparent 60%),
+    radial-gradient(46% 44% at 60% 78%, rgba(123,63,228,0.11), transparent 62%);
   filter: blur(8px);
   animation: meshDrift 24s ease-in-out infinite alternate;
   will-change: transform;

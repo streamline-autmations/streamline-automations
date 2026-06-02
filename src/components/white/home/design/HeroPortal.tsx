@@ -68,6 +68,7 @@ export default function HeroPortal() {
   const eyebrowRef = useRef<HTMLDivElement>(null);
   const secondaryRef = useRef<HTMLDivElement>(null);
   const visualRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const cueRef = useRef<HTMLDivElement>(null);
 
   // Cursor-tracked ambient glow (desktop only; springs settle smoothly).
@@ -105,7 +106,9 @@ export default function HeroPortal() {
               // which breaks the default `fixed` pin. Transform-pinning holds
               // the section with its own transform and is robust here + Lenis.
               pinType: 'transform',
-              scrub: 1,
+              // Higher scrub = the timeline eases toward the scroll position
+              // instead of tracking it 1:1 — smoother, more cinematic.
+              scrub: 1.4,
               anticipatePin: 1,
               invalidateOnRefresh: true,
               onUpdate: (self) =>
@@ -129,11 +132,26 @@ export default function HeroPortal() {
               { xPercent: 62, autoAlpha: 0, filter: 'blur(6px)', ease: 'power2.in', duration: 0.85 },
               0.04
             )
-            // The real client site scales up through the gap and sharpens.
+            // The layer fades in…
             .fromTo(
               visualRef.current,
-              { autoAlpha: 0, scale: 0.6, filter: 'blur(10px)' },
-              { autoAlpha: 1, scale: 1.12, filter: 'blur(0px)', ease: 'power1.out', duration: 0.95 },
+              { autoAlpha: 0 },
+              { autoAlpha: 1, ease: 'power1.out', duration: 0.5 },
+              0.08
+            )
+            // …and the real client site rotates from a laid-back angle up to
+            // flat, scaling up to fill — the "screen rising to face you" reveal.
+            .fromTo(
+              cardRef.current,
+              { rotateX: 42, scale: 0.66, yPercent: 10, filter: 'blur(8px)' },
+              {
+                rotateX: 0,
+                scale: 1.06,
+                yPercent: 0,
+                filter: 'blur(0px)',
+                ease: 'power2.out',
+                duration: 1,
+              },
               0.08
             );
         }
@@ -168,7 +186,7 @@ export default function HeroPortal() {
         />
         <motion.div
           className="absolute -right-[8%] bottom-[6%] h-[620px] w-[620px] rounded-full blur-[80px]"
-          style={{ background: 'radial-gradient(circle, rgba(155,95,245,0.16), transparent 65%)' }}
+          style={{ background: 'radial-gradient(circle, rgba(168,72,206,0.17), transparent 65%)' }}
           animate={reduced ? undefined : { x: [0, -36, 0], y: [0, -28, 0] }}
           transition={{ duration: 22, ease: 'easeInOut', repeat: Infinity }}
         />
@@ -191,7 +209,7 @@ export default function HeroPortal() {
         ref={visualRef}
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 z-[5] grid place-items-center px-6"
-        style={{ opacity: 0, willChange: 'transform, opacity' }}
+        style={{ opacity: 0, perspective: '1500px', willChange: 'opacity' }}
       >
         {/* purple portal glow that intensifies with --progress */}
         <div
@@ -201,7 +219,11 @@ export default function HeroPortal() {
             opacity: 'var(--progress, 0)',
           }}
         />
-        <div className="relative w-[92%] max-w-4xl overflow-hidden rounded-[14px] shadow-[0_40px_100px_-24px_rgba(76,29,149,0.45),0_12px_36px_-12px_rgba(0,0,0,0.22)] ring-1 ring-black/5">
+        <div
+          ref={cardRef}
+          className="relative w-[92%] max-w-4xl overflow-hidden rounded-[14px] shadow-[0_40px_100px_-24px_rgba(76,29,149,0.45),0_12px_36px_-12px_rgba(0,0,0,0.22)] ring-1 ring-black/5"
+          style={{ transformOrigin: 'center 62%', willChange: 'transform' }}
+        >
           <div className="flex items-center gap-2 border-b border-white/5 bg-[#13101F] px-4 py-3">
             <span className="h-2.5 w-2.5 rounded-full bg-[#FF5F57]" />
             <span className="h-2.5 w-2.5 rounded-full bg-[#FEBC2E]" />
@@ -240,8 +262,8 @@ export default function HeroPortal() {
 
           <h1
             aria-label="Websites that work. Systems that scale."
-            className="font-['DM_Sans'] font-bold leading-[1.0] tracking-[-0.03em] text-[#0A0A0F]"
-            style={{ fontSize: 'clamp(38px, 5.4vw, 84px)' }}
+            className="font-['DM_Sans'] font-bold leading-[0.98] tracking-[-0.035em] text-[#0A0A0F]"
+            style={{ fontSize: 'clamp(42px, 6.2vw, 96px)' }}
           >
             <span ref={line1Ref} className="block will-change-transform">
               {LINE_1.map((w) => (
@@ -271,7 +293,7 @@ export default function HeroPortal() {
               <MagneticCTA strength={16}>
                 <Link
                   to="/contact"
-                  className="inline-flex items-center gap-2.5 rounded-full bg-[#7B3FE4] px-9 py-[18px] font-['DM_Sans'] text-[16px] font-semibold text-white transition-[background-color,box-shadow] duration-300 hover:bg-[#6930D0] hover:shadow-[0_14px_40px_rgba(123,63,228,0.32)]"
+                  className="inline-flex items-center gap-2.5 rounded-full bg-[#7B3FE4] px-9 py-[18px] font-['DM_Sans'] text-[16px] font-semibold text-white shadow-[0_8px_24px_rgba(123,63,228,0.28)] transition-[background-color,box-shadow,transform] duration-300 hover:bg-[#6930D0] hover:shadow-[0_14px_40px_rgba(123,63,228,0.38)] active:scale-[0.97]"
                   style={{ transitionTimingFunction: 'cubic-bezier(0.22,1,0.36,1)' }}
                 >
                   Book a Free Call
@@ -281,7 +303,7 @@ export default function HeroPortal() {
               <a
                 href="#work"
                 onClick={(e) => scrollTo(e, '#work')}
-                className="group inline-flex items-center gap-2.5 font-['DM_Sans'] text-[16px] font-semibold text-[#0A0A0F]"
+                className="group inline-flex items-center gap-2.5 font-['DM_Sans'] text-[16px] font-semibold text-[#0A0A0F] transition-transform duration-300 active:scale-[0.97]"
               >
                 See the work
                 <span className="text-[#7B3FE4] transition-transform duration-[400ms] group-hover:translate-x-1.5">

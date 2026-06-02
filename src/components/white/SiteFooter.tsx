@@ -2,6 +2,10 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { fadeUp, viewport } from '../../lib/motion';
 
+// Black wordmark — inverted to white for the dark footer.
+const LOGO_URL =
+  'https://res.cloudinary.com/dtkiwrm6u/image/upload/v1780412723/Streamline-black-word-logo_rpzvgh.png';
+
 const NAV: Array<[string, string]> = [
   ['Websites', '/websites'],
   ['Systems', '/systems'],
@@ -29,10 +33,16 @@ export default function SiteFooter() {
           initial="hidden"
           whileInView="visible"
           viewport={viewport}
-          className="font-['DM_Sans'] font-bold leading-[0.82] tracking-[-0.04em]"
-          style={{ fontSize: 'clamp(64px, 16vw, 220px)' }}
         >
-          Streamline<span className="text-[#7B3FE4]">.</span>
+          <Link to="/" className="inline-block outline-none" aria-label="Streamline Automations — home">
+            <img
+              src={LOGO_URL}
+              alt="Streamline Automations"
+              draggable={false}
+              className="h-[clamp(44px,7vw,92px)] w-auto select-none"
+              style={{ filter: 'brightness(0) invert(1)' }}
+            />
+          </Link>
         </motion.div>
 
         <div className="mt-[clamp(48px,7vh,80px)] grid grid-cols-1 gap-10 border-t border-white/10 pt-12 md:grid-cols-[1.4fr_1fr_1fr]">
@@ -81,6 +91,14 @@ export default function SiteFooter() {
                 className="mb-3 font-['DM_Sans'] text-[16px] text-white/[0.78] outline-none transition-colors duration-300 hover:text-white focus-visible:text-[#9B5FF5]"
               >
                 WhatsApp · 063 306 3861
+              </a>
+              <a
+                href="https://instagram.com/streamline_automations"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mb-3 font-['DM_Sans'] text-[16px] text-white/[0.78] outline-none transition-colors duration-300 hover:text-white focus-visible:text-[#9B5FF5]"
+              >
+                Instagram · @streamline_automations
               </a>
               <p className="font-['DM_Sans'] text-[16px] text-white/[0.78]">
                 Vaal Triangle · Gauteng · South Africa
