@@ -86,7 +86,7 @@ export default function ServicesRows() {
             >
               <Link
                 to={s.href}
-                className={`group relative grid grid-cols-1 items-center gap-3.5 border-t border-[#E8E8EC] py-8 transition-[padding] duration-500 hover:pl-6 md:grid-cols-[90px_1fr_auto] md:gap-10 md:py-11 md:px-6 md:hover:pl-11 ${
+                className={`group relative block border-t border-[#E8E8EC] py-7 transition-[padding] duration-500 hover:pl-6 md:py-11 md:px-6 md:hover:pl-11 ${
                   i === SERVICES.length - 1 ? 'border-b' : ''
                 }`}
                 style={{ transitionTimingFunction: EASE }}
@@ -98,28 +98,41 @@ export default function ServicesRows() {
                   style={{ transitionTimingFunction: EASE }}
                 />
 
-                <span className="font-['JetBrains_Mono'] text-[14px] text-[#9E9EA8] transition-colors duration-[400ms] group-hover:text-[#7B3FE4]">
-                  {s.num}
-                </span>
+                <div className="grid grid-cols-[34px_1fr_auto] items-center gap-x-4 gap-y-2 md:grid-cols-[90px_1fr_auto] md:gap-10">
+                  <span className="font-['JetBrains_Mono'] text-[13px] font-medium text-[#9E9EA8] transition-colors duration-[400ms] group-hover:text-[#7B3FE4] md:text-[14px]">
+                    {s.num}
+                  </span>
 
-                <div>
                   <h3
-                    className="font-['DM_Sans'] font-bold leading-[1.05] tracking-[-0.02em] text-[#0A0A0F]"
-                    style={{ fontSize: 'clamp(26px, 3.4vw, 44px)' }}
+                    className="font-['DM_Sans'] font-bold leading-[1.08] tracking-[-0.02em] text-[#0A0A0F]"
+                    style={{ fontSize: 'clamp(23px, 3.4vw, 44px)' }}
                   >
                     {s.title}
                   </h3>
-                  <p className="mt-3 max-w-[460px] font-['DM_Sans'] text-[16px] text-[#6B6B7A]">
+
+                  {/* mobile chevron — signals the row is tappable */}
+                  <span
+                    aria-hidden="true"
+                    className="flex h-9 w-9 items-center justify-center rounded-full text-[#7B3FE4] transition-colors duration-300 group-hover:bg-[#7B3FE4]/10 md:hidden"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M9 6l6 6-6 6" />
+                    </svg>
+                  </span>
+
+                  {/* desc — spans under the title on both layouts */}
+                  <p className="col-start-2 col-end-4 max-w-[460px] font-['DM_Sans'] text-[15px] leading-[1.5] text-[#6B6B7A] md:col-end-3 md:mt-3 md:text-[16px]">
                     {s.desc}
                   </p>
-                </div>
 
-                <span
-                  className="hidden items-center gap-2 whitespace-nowrap font-['DM_Sans'] text-[14px] font-semibold text-[#7B3FE4] opacity-0 transition-all duration-500 group-hover:translate-x-0 group-hover:opacity-100 md:inline-flex md:-translate-x-2.5"
-                  style={{ transitionTimingFunction: EASE }}
-                >
-                  Learn more <span>→</span>
-                </span>
+                  {/* desktop "Learn more" — fades in on hover, far right */}
+                  <span
+                    className="col-start-3 row-start-1 hidden items-center gap-2 self-center whitespace-nowrap font-['DM_Sans'] text-[14px] font-semibold text-[#7B3FE4] opacity-0 transition-all duration-500 group-hover:translate-x-0 group-hover:opacity-100 md:inline-flex md:-translate-x-2.5"
+                    style={{ transitionTimingFunction: EASE }}
+                  >
+                    Learn more <span>→</span>
+                  </span>
+                </div>
               </Link>
             </motion.div>
           ))}

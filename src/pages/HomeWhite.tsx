@@ -8,6 +8,7 @@ import ServicesRows from '../components/white/home/design/ServicesRows';
 import SelectedWork from '../components/white/home/design/SelectedWork';
 import StatsRow from '../components/white/home/design/StatsRow';
 import AutomationFlowRow from '../components/white/home/design/AutomationFlowRow';
+import BuiltWith from '../components/white/home/design/BuiltWith';
 import RentalCallout from '../components/white/home/RentalCallout';
 import FinalCTAOrbs from '../components/white/home/design/FinalCTAOrbs';
 import SiteFooter from '../components/white/SiteFooter';
@@ -51,6 +52,7 @@ export default function HomeWhite() {
         </div>
         <StatsRow />
         <AutomationFlowRow />
+        <BuiltWith />
         <RentalCallout />
         <FinalCTAOrbs />
       </main>

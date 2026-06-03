@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { gsap, ScrollTrigger, useGSAP } from '../../../../lib/gsap-setup';
+import { gsap, useGSAP } from '../../../../lib/gsap-setup';
 import RevealText from '../../ui/RevealText';
 
 const svgProps = {
@@ -22,26 +22,23 @@ const NODES = [
   { name: 'Done', end: true, icon: <svg {...svgProps} strokeWidth={1.8}><path d="M20 6 9 17l-5-5" /></svg> },
 ];
 
+/** Desktop-only horizontal connector arrow between nodes. */
 const Arrow = () => (
-  <div className="flow-arrow -mt-6 flex shrink-0 items-center justify-center text-[#C8C8D0] md:px-0.5">
-    <span className="md:hidden ml-[30px] rotate-90">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-    </span>
-    <span className="hidden md:inline">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-    </span>
+  <div className="flow-arrow mt-[21px] hidden shrink-0 items-center justify-center text-[#C8C8D0] md:flex md:px-0.5">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
   </div>
 );
 
 /**
  * AutomationFlowRow — pinned scrollytelling of the automation flow.
  *
- * Desktop (no-reduced-motion): the section pins and a scrubbed timeline plays
- *   it out as scenes — the current line draws across, each node lights up on
- *   its own scroll beat with a spark riding the leading edge, then the closing
- *   line resolves. Customer → Form → AI → CRM → WhatsApp → Done.
- * Mobile / reduced-motion: no pin. A light ScrollTrigger.batch reveals the
- *   nodes as they enter; everything stays fully readable and smooth.
+ * Desktop (no-reduced-motion): the section pins; a scrubbed timeline draws the
+ *   horizontal line across, lights each node on its own beat with a spark on the
+ *   leading edge, then resolves the closing copy. Nodes invert to filled-purple
+ *   on hover. Customer → Form → AI → CRM → WhatsApp → Done.
+ * Mobile (no-reduced-motion): no pin. Nodes stack centred (icon over label) and
+ *   a vertical line draws down through them, scrubbed to scroll.
+ * Reduced-motion (any width): everything static at its end state.
  *
  * Transform + opacity only.
  */
@@ -50,6 +47,7 @@ export default function AutomationFlowRow() {
   const lineWrapRef = useRef<HTMLDivElement>(null);
   const fillRef = useRef<HTMLDivElement>(null);
   const sparkRef = useRef<HTMLDivElement>(null);
+  const vFillRef = useRef<HTMLDivElement>(null);
   const paragraphRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -81,7 +79,6 @@ export default function AutomationFlowRow() {
           },
         });
 
-        // Current draws across the whole flow; spark rides its leading edge.
         tl.to(fillRef.current, { scaleX: 1, ease: 'none', duration: 1 }, 0.05)
           .to(sparkRef.current, { autoAlpha: 1, duration: 0.05 }, 0.05)
           .to(
@@ -91,7 +88,6 @@ export default function AutomationFlowRow() {
           )
           .to(sparkRef.current, { autoAlpha: 0, duration: 0.08 }, 1.05);
 
-        // Each node lights up on its own beat.
         nodes.forEach((n, i) => {
           const at = 0.12 + i * 0.14;
           tl.to(n, { autoAlpha: 1, y: 0, ease: 'brand', duration: 0.4 }, at);
@@ -101,24 +97,31 @@ export default function AutomationFlowRow() {
         tl.to(paragraphRef.current, { autoAlpha: 1, y: 0, ease: 'brand', duration: 0.5 }, 0.9);
       });
 
-      // ── Mobile / reduced-motion: no pin, light batched reveal ────────
-      mm.add('(max-width: 767px), (prefers-reduced-motion: reduce)', () => {
-        gsap.set([...nodes, ...arrows, fillRef.current, sparkRef.current, paragraphRef.current], {
-          clearProps: 'all',
+      // ── Mobile: no pin, vertical line draws + nodes reveal on scroll ──
+      mm.add('(max-width: 767px) and (prefers-reduced-motion: no-preference)', () => {
+        gsap.set(vFillRef.current, { scaleY: 0, transformOrigin: 'top center' });
+        gsap.to(vFillRef.current, {
+          scaleY: 1,
+          ease: 'none',
+          scrollTrigger: { trigger: root, start: 'top 68%', end: 'bottom 82%', scrub: true },
         });
+        // One-shot staggered reveal — always settles visible (no batch gaps).
+        gsap.set(nodes, { autoAlpha: 0, y: 18 });
+        gsap.to(nodes, {
+          autoAlpha: 1,
+          y: 0,
+          stagger: 0.12,
+          duration: 0.5,
+          ease: 'brand',
+          scrollTrigger: { trigger: root, start: 'top 72%' },
+        });
+      });
+
+      // ── Reduced-motion (any width): static end state ─────────────────
+      mm.add('(prefers-reduced-motion: reduce)', () => {
         gsap.set(fillRef.current, { scaleX: 1, transformOrigin: 'left center' });
-        ScrollTrigger.batch(nodes, {
-          start: 'top 92%',
-          onEnter: (els) =>
-            gsap.from(els, {
-              autoAlpha: 0,
-              y: 18,
-              stagger: 0.1,
-              duration: 0.5,
-              ease: 'brand',
-              overwrite: true,
-            }),
-        });
+        gsap.set(vFillRef.current, { scaleY: 1, transformOrigin: 'top center' });
+        gsap.set([...nodes, ...arrows, paragraphRef.current], { autoAlpha: 1, y: 0 });
       });
 
       return () => mm.revert();
@@ -158,12 +161,12 @@ export default function AutomationFlowRow() {
         </div>
 
         {/* flow diagram */}
-        <div className="relative flex flex-col items-stretch gap-2 md:flex-row md:items-stretch md:gap-0">
-          {/* connecting line — base track, drawn current fill + leading spark */}
+        <div className="relative flex flex-col items-center gap-10 md:flex-row md:items-start md:gap-0">
+          {/* desktop horizontal connector — base track + drawn fill + spark */}
           <div
             ref={lineWrapRef}
             aria-hidden="true"
-            className="pointer-events-none absolute left-[9%] right-[9%] top-[42px] hidden h-0.5 -translate-y-1/2 md:block"
+            className="pointer-events-none absolute left-[9%] right-[9%] top-[32px] hidden h-0.5 -translate-y-1/2 md:block"
           >
             <div className="absolute inset-0 rounded-full bg-[#E8E8EC]" />
             <div
@@ -176,20 +179,31 @@ export default function AutomationFlowRow() {
             />
           </div>
 
+          {/* mobile vertical connector — draws down through the stacked nodes */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute left-1/2 top-[32px] bottom-[62px] w-[2px] -translate-x-1/2 md:hidden"
+          >
+            <div className="absolute inset-0 rounded-full bg-[#E8E8EC]" />
+            <div
+              ref={vFillRef}
+              className="absolute inset-0 origin-top rounded-full bg-gradient-to-b from-[#7B3FE4]/40 via-[#7B3FE4]/70 to-[#7B3FE4]/40"
+            />
+          </div>
+
           {NODES.map((n, i) => (
             <div key={n.name} className="contents">
-              <div className="flow-node flex flex-1 flex-row items-center gap-[18px] px-1.5 py-2.5 text-left md:min-w-[130px] md:flex-col md:gap-3.5 md:text-center">
+              <div className="flow-node group flex flex-col items-center gap-3.5 px-1.5 text-center md:flex-1 md:min-w-[130px]">
                 <div
-                  className={`grid h-16 w-16 shrink-0 place-items-center rounded-[18px] border ${
+                  className={`grid h-16 w-16 shrink-0 place-items-center rounded-[18px] border transition-all duration-300 ${
                     n.end
                       ? 'border-[#7B3FE4] bg-[#7B3FE4] text-white'
-                      : 'border-[#E8E8EC] bg-white text-[#7B3FE4]'
+                      : 'border-[#E8E8EC] bg-white text-[#7B3FE4] shadow-[0_8px_24px_rgba(123,63,228,0.08)] group-hover:-translate-y-1 group-hover:border-[#7B3FE4] group-hover:bg-[#7B3FE4] group-hover:text-white group-hover:shadow-[0_14px_32px_rgba(123,63,228,0.32)]'
                   }`}
-                  style={{ boxShadow: n.end ? 'none' : '0 8px 24px rgba(123,63,228,0.08)' }}
                 >
                   {n.icon}
                 </div>
-                <span className="font-['JetBrains_Mono'] text-[11px] uppercase tracking-[0.14em] text-[#6B6B7A]">
+                <span className="font-['JetBrains_Mono'] text-[11px] uppercase tracking-[0.14em] text-[#6B6B7A] transition-colors duration-300 group-hover:text-[#0A0A0F]">
                   {n.name}
                 </span>
               </div>

@@ -102,21 +102,28 @@ export default function SelectedWork() {
                 to={item.href}
                 data-cursor="view"
                 aria-label={`${item.name} — view case study`}
-                className="group relative block aspect-[4/3] overflow-hidden rounded-[20px] border border-[#E8E8EC] bg-[#F5F5F7] outline-none focus-visible:ring-2 focus-visible:ring-[#7B3FE4] focus-visible:ring-offset-2"
+                className="group relative block aspect-[4/3] overflow-hidden rounded-[20px] border border-[#E8E8EC] bg-[#F0EBFF] outline-none transition-[border-color,box-shadow] duration-500 hover:border-[#7B3FE4]/40 hover:shadow-[0_20px_50px_-20px_rgba(123,63,228,0.45)] focus-visible:ring-2 focus-visible:ring-[#7B3FE4] focus-visible:ring-offset-2"
               >
+                {/* full-bleed image — greyscale at rest, saturates + zooms on hover */}
                 <img
                   src={item.imageSrc}
                   alt={`${item.name} — real client build`}
                   loading="lazy"
                   decoding="async"
                   draggable={false}
-                  className="absolute inset-0 h-full w-full select-none object-cover object-top transition-transform duration-[800ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.05]"
+                  className="absolute inset-0 h-full w-full select-none object-cover object-top transition-[transform,filter] duration-[800ms] ease-[cubic-bezier(0.22,1,0.36,1)] md:grayscale md:group-hover:grayscale-0 group-hover:scale-[1.06]"
                 />
 
-                {/* permanent bottom scrim — deepens on hover */}
+                {/* subtle resting scrim — keeps the name readable at rest */}
                 <div
                   aria-hidden="true"
-                  className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#0A0A0F]/80 via-[#0A0A0F]/20 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100"
+                  className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#0A0A0F]/55 to-transparent"
+                />
+
+                {/* purple gradient — slides up on hover (static end-state on mobile) */}
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#5B22B8] via-[#7B3FE4]/45 to-transparent opacity-100 transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] md:translate-y-8 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100"
                 />
 
                 {/* content overlay */}
@@ -129,7 +136,7 @@ export default function SelectedWork() {
                       {item.tags.map((t) => (
                         <li
                           key={t}
-                          className="translate-y-1 rounded-full border border-white/30 bg-white/10 px-2.5 py-[5px] font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.1em] text-white opacity-0 backdrop-blur-sm transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0 group-hover:opacity-100"
+                          className="rounded-full border border-white/30 bg-white/10 px-2.5 py-[5px] font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.1em] text-white opacity-100 backdrop-blur-sm transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] md:translate-y-1 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100"
                         >
                           {t}
                         </li>
@@ -137,7 +144,7 @@ export default function SelectedWork() {
                     </ul>
                   </div>
 
-                  <span className="flex h-11 w-11 shrink-0 translate-y-1 items-center justify-center rounded-full bg-white text-[#0A0A0F] opacity-0 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0 group-hover:opacity-100">
+                  <span className="hidden h-11 w-11 shrink-0 translate-y-1 items-center justify-center rounded-full bg-white text-[#0A0A0F] opacity-0 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0 group-hover:opacity-100 md:flex">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d="M7 17 17 7M9 7h8v8" />
                     </svg>

@@ -31,21 +31,29 @@ export default function TrustBar() {
   return (
     <section
       data-screen-label="Trust"
-      className="relative overflow-hidden border-y border-[#E8E8EC] bg-[#F0EBFF]"
+      className="relative overflow-hidden border-y border-[#D9C9FF] bg-[linear-gradient(180deg,#EFE7FF_0%,#E3D1FF_100%)]"
     >
       <div className="relative mx-auto w-full max-w-[1000px] px-8 pb-0 pt-14 md:pt-20">
-        {/* Rotating circular badge */}
+        {/* Rotating circular badge — scales up + fills/inverts on hover */}
         <motion.div
           initial={{ opacity: 0, scale: 0.88 }}
           whileInView={{ opacity: 1, scale: 1 }}
+          whileHover={{ scale: 1.09 }}
           viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.75, ease: EASE }}
-          className="relative mx-auto mb-10 h-[140px] w-[140px] md:mb-12 md:h-[160px] md:w-[160px]"
+          transition={{ duration: 0.5, ease: EASE }}
+          data-cursor="view"
+          className="group relative mx-auto mb-10 h-[140px] w-[140px] cursor-pointer md:mb-12 md:h-[160px] md:w-[160px]"
         >
+          {/* fill disc — appears on hover so the ring text reads white */}
+          <span
+            aria-hidden="true"
+            className="absolute inset-[11%] rounded-full bg-[#7B3FE4] opacity-0 shadow-[0_0_44px_rgba(123,63,228,0.5)] transition-opacity duration-300 group-hover:opacity-100"
+          />
+
           <motion.svg
             viewBox="0 0 200 200"
             aria-hidden="true"
-            className="absolute inset-0 h-full w-full"
+            className="absolute inset-0 h-full w-full text-[#7B3FE4] transition-colors duration-300 group-hover:text-white"
             animate={{ rotate: 360 }}
             transition={{ duration: 28, ease: 'linear', repeat: Infinity }}
           >
@@ -53,7 +61,7 @@ export default function TrustBar() {
               <path id="tb-circle" d={CIRCLE_PATH} />
             </defs>
             <text
-              fill="#7B3FE4"
+              fill="currentColor"
               style={{
                 fontFamily: 'JetBrains Mono, monospace',
                 fontSize: '10.5px',
@@ -67,22 +75,22 @@ export default function TrustBar() {
             </text>
           </motion.svg>
 
-          {/* Centre pulsing dot */}
+          {/* Centre pulsing dot — flips to white over the hover disc */}
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
             <span className="relative inline-flex items-center justify-center">
               <motion.span
                 aria-hidden="true"
-                className="absolute inline-flex h-6 w-6 rounded-full bg-[#7B3FE4]"
+                className="absolute inline-flex h-6 w-6 rounded-full bg-[#7B3FE4] transition-colors duration-300 group-hover:bg-white"
                 animate={{ scale: [1, 2.8, 1], opacity: [0.3, 0, 0.3] }}
                 transition={{ duration: 2.6, ease: 'easeOut', repeat: Infinity }}
               />
-              <span className="relative inline-flex h-3 w-3 rounded-full bg-[#7B3FE4] shadow-[0_0_18px_rgba(123,63,228,0.5)]" />
+              <span className="relative inline-flex h-3 w-3 rounded-full bg-[#7B3FE4] shadow-[0_0_18px_rgba(123,63,228,0.5)] transition-colors duration-300 group-hover:bg-white" />
             </span>
           </div>
 
           <span
             aria-hidden="true"
-            className="absolute inset-0 rounded-full border border-[#7B3FE4]/20"
+            className="absolute inset-0 rounded-full border border-[#7B3FE4]/20 transition-colors duration-300 group-hover:border-[#7B3FE4]/0"
           />
         </motion.div>
       </div>
