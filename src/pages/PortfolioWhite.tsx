@@ -12,14 +12,7 @@ import { fadeUp, viewport } from '../lib/motion';
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 // Cloudinary placeholder URLs — replace with real screenshots when uploaded
-const BLOM_IMG = 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851097/Blom-hero_image_jaqcoz.png';
-const RECKLESS_IMG = 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851117/Reckless-hero_image_sbwhoj.png';
-const AMELI_IMG = 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851091/Ameli-hero_image_sxtayp.png';
-const CW_IMG = 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851097/Blom-hero_image_jaqcoz.png';
-const JJ_IMG = 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851097/Blom-hero_image_jaqcoz.png';
-const NSA_IMG = 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851097/Blom-hero_image_jaqcoz.png';
-const TUSCANY_IMG = 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851091/Ameli-hero_image_sxtayp.png';
-const NOMAD_IMG = 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851091/Ameli-hero_image_sxtayp.png';
+// Real screenshots/mockups now live in /public/assets/clients (optimised WebP).
 
 type FilterKey = 'All' | 'E-commerce' | 'Systems' | 'Portfolio' | 'Design';
 
@@ -29,9 +22,11 @@ interface Project {
   category: string;
   filterKey: FilterKey;
   tech: string[];
-  imageSrc: string;
-  href: string;
+  imageSrc?: string;
+  href?: string;
   retainer?: boolean;
+  monogram?: string;
+  monogramLabel?: string;
 }
 
 const PROJECTS: Project[] = [
@@ -42,8 +37,8 @@ const PROJECTS: Project[] = [
     category: 'E-commerce + Systems',
     filterKey: 'E-commerce',
     tech: ['React', 'Supabase', 'n8n', 'PayFast', 'ShipLogic'],
-    imageSrc: BLOM_IMG,
-    href: '/portfolio#blom',
+    imageSrc: '/assets/clients/blom/tile.webp',
+    href: '/portfolio/blom-cosmetics',
     retainer: true,
   },
   {
@@ -53,8 +48,8 @@ const PROJECTS: Project[] = [
     category: 'Systems + Web',
     filterKey: 'Systems',
     tech: ['React', 'Supabase', 'WhatsApp API', 'Voiceflow', 'n8n'],
-    imageSrc: RECKLESS_IMG,
-    href: '/portfolio#recklessbear',
+    imageSrc: '/assets/clients/recklessbear/tile.webp',
+    href: '/portfolio/recklessbear',
     retainer: true,
   },
   {
@@ -64,19 +59,19 @@ const PROJECTS: Project[] = [
     category: 'E-commerce + Admin',
     filterKey: 'E-commerce',
     tech: ['React', 'Supabase', 'PayFast'],
-    imageSrc: CW_IMG,
-    href: '/portfolio#cw-electronics',
+    imageSrc: '/assets/clients/cw-electronics/tile.webp',
+    href: '/portfolio/cw-electronics',
     retainer: true,
   },
   {
     title: 'Ameli Designs',
     description:
-      'Portfolio site for a skin and brow studio. Clean, fast, automated lead capture. Built and handed over in 4 days.',
+      'Portfolio site for a graphic designer. Clean, fast, automated lead capture. Built and handed over in 4 days.',
     category: 'Portfolio + Web',
     filterKey: 'Portfolio',
     tech: ['React', 'n8n'],
-    imageSrc: AMELI_IMG,
-    href: '/portfolio#ameli',
+    imageSrc: '/assets/clients/ameli/tile.webp',
+    href: '/portfolio/ameli',
   },
   {
     title: 'JJ Glasswork',
@@ -85,8 +80,7 @@ const PROJECTS: Project[] = [
     category: 'Service Site',
     filterKey: 'Portfolio',
     tech: ['React', 'n8n'],
-    imageSrc: JJ_IMG,
-    href: '/portfolio#jj-glasswork',
+    imageSrc: '/assets/clients/jj-glass/tile.webp',
   },
   {
     title: 'NSA Mining',
@@ -95,8 +89,8 @@ const PROJECTS: Project[] = [
     category: 'Internal Systems',
     filterKey: 'Systems',
     tech: ['React', 'Supabase'],
-    imageSrc: NSA_IMG,
-    href: '/portfolio#nsa-mining',
+    monogram: 'NSA',
+    monogramLabel: 'Internal system',
   },
   {
     title: 'Tuscany SA',
@@ -105,8 +99,8 @@ const PROJECTS: Project[] = [
     category: 'Design + IT',
     filterKey: 'Design',
     tech: ['Email Hosting', 'Design'],
-    imageSrc: TUSCANY_IMG,
-    href: '/portfolio#tuscany',
+    monogram: 'TSA',
+    monogramLabel: 'Design + hosting',
   },
   {
     title: 'African Nomad',
@@ -115,8 +109,8 @@ const PROJECTS: Project[] = [
     category: 'Brand Design',
     filterKey: 'Design',
     tech: ['Branding', 'Social Media'],
-    imageSrc: NOMAD_IMG,
-    href: '/portfolio#african-nomad',
+    monogram: 'AN',
+    monogramLabel: 'Brand & design',
   },
 ];
 

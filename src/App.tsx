@@ -23,8 +23,9 @@ const AddOnsPage = lazy(() => import('./pages/AddOnsPage'));
 const Packages = lazy(() => import('./pages/Packages'));
 const Services = lazy(() => import('./pages/Services'));
 const BlomCosmetics = lazy(() => import('./pages/portfolio/BlomCosmetics'));
-const RecklessBearPage = lazy(() => import('./pages/portfolio/RecklessBearPage'));
-const AmeliVanZyl = lazy(() => import('./pages/portfolio/AmeliVanZyl'));
+const RecklessBear = lazy(() => import('./pages/portfolio/RecklessBear'));
+const CWElectronics = lazy(() => import('./pages/portfolio/CWElectronics'));
+const Ameli = lazy(() => import('./pages/portfolio/Ameli'));
 const HomeVariant1 = lazy(() => import('./pages/HomeVariant1'));
 const HomeVariant2 = lazy(() => import('./pages/HomeVariant2'));
 const HomeVariant3 = lazy(() => import('./pages/HomeVariant3'));
@@ -65,8 +66,13 @@ function AnimatedRoutes() {
         <Route path="/hosting" element={<PageTransition><HostingPage /></PageTransition>} />
         <Route path="/portfolio" element={<PageTransition><Portfolio /></PageTransition>} />
         <Route path="/portfolio/blom-cosmetics" element={<PageTransition><BlomCosmetics /></PageTransition>} />
-        <Route path="/portfolio/recklesbear" element={<PageTransition><RecklessBearPage /></PageTransition>} />
-        <Route path="/portfolio/ameli-van-zyl-design" element={<PageTransition><AmeliVanZyl /></PageTransition>} />
+        <Route path="/portfolio/recklessbear" element={<PageTransition><RecklessBear /></PageTransition>} />
+        <Route path="/portfolio/cw-electronics" element={<PageTransition><CWElectronics /></PageTransition>} />
+        <Route path="/portfolio/ameli" element={<PageTransition><Ameli /></PageTransition>} />
+
+        {/* Old case-study slugs — keep links alive */}
+        <Route path="/portfolio/recklesbear" element={<Navigate to="/portfolio/recklessbear" replace />} />
+        <Route path="/portfolio/ameli-van-zyl-design" element={<Navigate to="/portfolio/ameli" replace />} />
         <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
         <Route path="/results" element={<PageTransition><Results /></PageTransition>} />
         <Route path="/add-ons" element={<PageTransition><AddOnsPage /></PageTransition>} />

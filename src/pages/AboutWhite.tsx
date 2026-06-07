@@ -17,26 +17,26 @@ const RECENT_WORK = [
   {
     label: 'BLOM Cosmetics',
     tag: 'E-commerce + Systems',
-    img: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851097/Blom-hero_image_jaqcoz.png',
-    href: '/portfolio#blom',
+    img: '/assets/clients/blom/tile.webp',
+    href: '/portfolio/blom-cosmetics',
   },
   {
     label: 'RecklessBear',
     tag: 'Sales + Production',
-    img: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851117/Reckless-hero_image_sbwhoj.png',
-    href: '/portfolio#recklessbear',
+    img: '/assets/clients/recklessbear/tile.webp',
+    href: '/portfolio/recklessbear',
   },
   {
     label: 'CW Electronics',
     tag: 'Wholesale E-commerce',
-    img: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851097/Blom-hero_image_jaqcoz.png',
-    href: '/portfolio#cw-electronics',
+    img: '/assets/clients/cw-electronics/tile.webp',
+    href: '/portfolio/cw-electronics',
   },
   {
     label: 'Ameli Designs',
     tag: 'Portfolio + Lead Capture',
-    img: 'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851091/Ameli-hero_image_sxtayp.png',
-    href: '/portfolio#ameli',
+    img: '/assets/clients/ameli/tile.webp',
+    href: '/portfolio/ameli',
   },
 ];
 
@@ -140,33 +140,29 @@ export default function AboutWhite() {
         {/* Full-width founder image — parallax */}
         <section ref={founderRef} className="overflow-hidden">
           <div className="max-w-6xl mx-auto px-6">
-            <div className="relative aspect-[16/9] md:aspect-[21/9] rounded-3xl overflow-hidden bg-gradient-to-br from-[#F0EBFF] to-[#F5F5F7] border border-[#E8E8EC]">
-              {/* Branded placeholder panel — swap for a real founder photo when ready */}
+            <div className="relative aspect-[16/9] md:aspect-[21/9] rounded-3xl overflow-hidden bg-[#0A0A0F] border border-[#E8E8EC]">
+              {/* Real founder portrait, gently parallaxed */}
               <motion.div
-                aria-hidden="true"
                 style={{ y: imgY }}
                 className="absolute inset-0 -top-[7.5%] h-[115%]"
               >
-                <div
-                  className="absolute inset-0 opacity-70"
-                  style={{
-                    backgroundImage:
-                      'linear-gradient(to right, rgba(123,63,228,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(123,63,228,0.06) 1px, transparent 1px)',
-                    backgroundSize: '40px 40px',
-                    maskImage: 'radial-gradient(120% 100% at 50% 40%, #000, transparent 80%)',
-                    WebkitMaskImage: 'radial-gradient(120% 100% at 50% 40%, #000, transparent 80%)',
-                  }}
+                <img
+                  src="/assets/about/founder.webp"
+                  alt="Christiaan Steffen, founder of Streamline Automations"
+                  width={1066}
+                  height={1600}
+                  className="absolute inset-0 h-full w-full object-cover object-[center_30%]"
                 />
+                {/* soft purple wash ties the editorial B&W shot into the brand */}
                 <div
-                  className="absolute -right-[6%] top-[10%] h-64 w-64 rounded-full blur-3xl"
-                  style={{ background: 'radial-gradient(circle, rgba(123,63,228,0.22), transparent 70%)' }}
+                  aria-hidden="true"
+                  className="absolute inset-0"
+                  style={{ background: 'linear-gradient(120deg, rgba(123,63,228,0.18), transparent 55%)' }}
                 />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-['Instrument_Serif'] italic text-[#7B3FE4]/35 leading-none" style={{ fontSize: 'clamp(64px,14vw,180px)' }}>
-                    CS
-                  </span>
-                </div>
               </motion.div>
+              <span className="absolute bottom-5 left-6 font-['JetBrains_Mono'] text-[11px] uppercase tracking-[0.18em] text-white/80">
+                Christiaan Steffen
+              </span>
             </div>
             <p className="mt-4 text-[12px] font-['DM_Sans'] text-[#9E9EA8] text-center tracking-[0.06em]">
               Working from the Vaal Triangle, since 2023.

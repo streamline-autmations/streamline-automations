@@ -51,7 +51,7 @@ export default function FeaturedWork() {
             label="Walkthrough"
             headline="BLOM Cosmetics — the full stack."
             body="Store, admin, course platform, automations. One unified system."
-            linkHref="/portfolio#blom"
+            linkHref="/portfolio/blom-cosmetics"
           />
           <VideoCard
             videoSrc={AMELI_WALKTHROUGH_VIDEO}
@@ -59,7 +59,7 @@ export default function FeaturedWork() {
             label="Walkthrough"
             headline="Ameli Designs — 4 days from brief to live."
             body="Clean portfolio, automated lead capture, ready to convert."
-            linkHref="/portfolio#ameli"
+            linkHref="/portfolio/ameli"
           />
         </div>
       </div>

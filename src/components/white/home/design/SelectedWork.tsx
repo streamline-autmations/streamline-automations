@@ -4,31 +4,31 @@ import WordReveal from '../../ui/WordReveal';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-// Real client builds — Cloudinary renders (unchanged URLs).
+// Real client builds — local optimised WebP renders, linking to full case studies.
 const FEATURED = [
   {
     name: 'BLOM Cosmetics',
     tags: ['E-commerce', 'Automation'],
-    imageSrc: 'https://res.cloudinary.com/dtkiwrm6u/image/upload/v1779986676/1_k68mu6.png',
-    href: '/portfolio#blom',
+    imageSrc: '/assets/clients/blom/tile.webp',
+    href: '/portfolio/blom-cosmetics',
   },
   {
     name: 'RecklessBear',
     tags: ['Quote Engine', 'Production'],
-    imageSrc: 'https://res.cloudinary.com/dtkiwrm6u/image/upload/v1779986676/2_n9aw8a.png',
-    href: '/portfolio#recklessbear',
+    imageSrc: '/assets/clients/recklessbear/tile.webp',
+    href: '/portfolio/recklessbear',
   },
   {
     name: 'CW Electronics',
     tags: ['Wholesale', 'Custom Admin'],
-    imageSrc: 'https://res.cloudinary.com/dtkiwrm6u/image/upload/v1779986676/3_py5ioc.png',
-    href: '/portfolio#cw',
+    imageSrc: '/assets/clients/cw-electronics/tile.webp',
+    href: '/portfolio/cw-electronics',
   },
   {
     name: 'Ameli Designs',
     tags: ['Portfolio', 'Lead Capture'],
-    imageSrc: 'https://res.cloudinary.com/dtkiwrm6u/image/upload/v1779986676/4_b8wyjj.png',
-    href: '/portfolio#ameli',
+    imageSrc: '/assets/clients/ameli/tile.webp',
+    href: '/portfolio/ameli',
   },
 ];
 

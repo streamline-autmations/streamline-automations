@@ -230,6 +230,26 @@ function SectionHeader() {
  * step indicator, title, skeleton UI, and a serif step numeral.
  */
 function StageScreen({ stage, index }: { stage: AutomationStage; index: number }) {
+  // Real captured screen, when one exists for this stage.
+  if (stage.screenSrc) {
+    return (
+      <div className="absolute inset-0 bg-[#0A0A0F]">
+        <img
+          src={stage.screenSrc}
+          alt={stage.screenAlt ?? stage.title}
+          loading="lazy"
+          draggable={false}
+          className="absolute inset-0 h-full w-full select-none object-cover object-top"
+        />
+        <span className="absolute left-4 top-4 rounded-full bg-white/90 px-2.5 py-1 font-['JetBrains_Mono'] text-[9px] uppercase tracking-[0.14em] text-[#7B3FE4] backdrop-blur-sm">
+          {stage.indicator}
+        </span>
+      </div>
+    );
+  }
+
+  // Otherwise: a clean, on-brand mock screen (used for back-office stages
+  // where no portrait screenshot exists).
   return (
     <div className="absolute inset-0 flex flex-col bg-gradient-to-br from-[#F3EEFF] to-[#F5F5F7]">
       {/* faux app top bar */}

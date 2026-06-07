@@ -29,3 +29,8 @@ dist-ssr
 
 # Playwright MCP screenshot/console artifacts
 .playwright-mcp/
+
+# Local QA screenshots + scratch logs (not part of the site)
+/*.jpeg
+/*.jpg
+/claude-overnight-log.txt

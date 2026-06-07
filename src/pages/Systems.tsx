@@ -17,20 +17,15 @@ import type { AutomationStage } from '../types/case-study';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-// Replace these placeholder Cloudinary URLs once the real screens are uploaded.
-// See ASSET_MANIFEST.md at repo root for the upload checklist.
-const STAGE_1_SCREEN =
-  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/automation/stage-1-quote-form.png';
-const STAGE_2_SCREEN =
-  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/automation/stage-2-ai-quote.png';
-const STAGE_3_SCREEN =
-  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/automation/stage-3-crm.png';
-const STAGE_4_SCREEN =
-  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/automation/stage-4-trello.png';
-const STAGE_5_SCREEN =
-  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/automation/stage-5-whatsapp.png';
-const STAGE_6_SCREEN =
-  'https://res.cloudinary.com/dnlgohkcc/image/upload/v0/streamline-site/automation/stage-6-summary.png';
+// Real RecklessBear mobile captures fill the customer-facing stages; the
+// back-office stages (CRM, production board, weekly report) keep a clean
+// branded mock screen since no portrait capture of those exists.
+const STAGE_1_SCREEN = '/assets/clients/recklessbear/mobile-contact.webp';
+const STAGE_2_SCREEN = '/assets/clients/recklessbear/mobile-chatbot.webp';
+const STAGE_3_SCREEN = '';
+const STAGE_4_SCREEN = '';
+const STAGE_5_SCREEN = '/assets/clients/blom/whatsapp.webp';
+const STAGE_6_SCREEN = '';
 
 const STAGES: AutomationStage[] = [
   {
