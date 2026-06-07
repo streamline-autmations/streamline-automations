@@ -23,7 +23,7 @@ const SERVICES = [
       'Fast load times — optimised for mobile',
       'You own the code. Always.',
     ],
-    clients: ['Ameli Designs', 'JJ Glasswork', 'Madiega Trading', 'African Nomad'],
+    clients: ['Ameli Designs', 'JJ Glasswork', 'African Nomad'],
     cta: '/packages',
   },
   {
@@ -40,7 +40,7 @@ const SERVICES = [
       'Automated email and WhatsApp notifications',
       'n8n workflow automation',
     ],
-    clients: ['RecklessBear Apparel', 'BLOM Cosmetics', 'NSA Mining', 'Madiega Trading'],
+    clients: ['RecklessBear Apparel', 'BLOM Cosmetics', 'NSA Mining', 'CW Electronics'],
     cta: '/packages',
   },
   {

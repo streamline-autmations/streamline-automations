@@ -84,9 +84,8 @@ const RECENT_WORK = [
       'Full e-commerce + admin + course platform + WhatsApp automation on one Supabase backend.',
     category: 'E-commerce + Systems',
     tech: ['React', 'Supabase', 'n8n'],
-    imageSrc:
-      'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851097/Blom-hero_image_jaqcoz.png',
-    href: '/portfolio#blom',
+    imageSrc: '/assets/clients/blom/tile.webp',
+    href: '/portfolio/blom-cosmetics',
     retainerBadge: true,
   },
   {
@@ -95,20 +94,18 @@ const RECENT_WORK = [
       'Custom quote engine, CRM, 12-stage production tracking, and WhatsApp order updates.',
     category: 'Systems + Web',
     tech: ['React', 'Supabase', 'WhatsApp API'],
-    imageSrc:
-      'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851117/Reckless-hero_image_sbwhoj.png',
-    href: '/portfolio#recklessbear',
+    imageSrc: '/assets/clients/recklessbear/tile.webp',
+    href: '/portfolio/recklessbear',
     retainerBadge: true,
   },
   {
     title: 'Ameli Designs',
     description:
-      'Portfolio site for a skin and brow studio. Automated lead capture. 4-day build.',
+      'Portfolio site for a graphic designer. Automated lead capture. 4-day build.',
     category: 'Portfolio + Web',
     tech: ['React', 'n8n'],
-    imageSrc:
-      'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851091/Ameli-hero_image_sxtayp.png',
-    href: '/portfolio#ameli',
+    imageSrc: '/assets/clients/ameli/tile.webp',
+    href: '/portfolio/ameli',
   },
 ];
 

@@ -239,7 +239,7 @@ function StageScreen({ stage, index }: { stage: AutomationStage; index: number }
           alt={stage.screenAlt ?? stage.title}
           loading="lazy"
           draggable={false}
-          className="absolute inset-0 h-full w-full select-none object-cover object-top"
+          className="absolute inset-0 h-full w-full select-none object-cover object-left-top"
         />
         <span className="absolute left-4 top-4 rounded-full bg-white/90 px-2.5 py-1 font-['JetBrains_Mono'] text-[9px] uppercase tracking-[0.14em] text-[#7B3FE4] backdrop-blur-sm">
           {stage.indicator}
