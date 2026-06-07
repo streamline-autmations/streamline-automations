@@ -3,17 +3,16 @@ import { motion } from 'framer-motion';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-// Real, signed clients only. Madiega Trading is intentionally excluded —
-// it was a proposal/demo and must never appear as live work.
-const CLIENTS = [
-  'BLOM Cosmetics',
-  'RecklessBear Apparel',
-  'CW Electronics',
-  'Ameli Designs',
-  'NSA Mining',
-  'JJ Glasswork',
-  'Tuscany SA',
-  'African Nomad',
+// Real, signed clients with a usable logo. NSA / Tuscany / African Nomad have
+// no public logo asset, so they live in the /portfolio grid, not here.
+// Madiega Trading is intentionally excluded (proposal / demo only).
+// Per-logo heights normalise the very different aspect ratios optically.
+const LOGOS = [
+  { name: 'BLOM Cosmetics', src: '/assets/clients/blom/logo.webp', h: 'h-6 md:h-7' },
+  { name: 'RecklessBear Apparel', src: '/assets/clients/recklessbear/logo-word.webp', h: 'h-4 md:h-5' },
+  { name: 'CW Electronics', src: '/assets/clients/cw-electronics/logo.webp', h: 'h-9 md:h-10' },
+  { name: 'Ameli Designs', src: '/assets/clients/ameli/logo.webp', h: 'h-7 md:h-8' },
+  { name: 'JJ Glasswork', src: '/assets/clients/jj-glass/logo.webp', h: 'h-5 md:h-6' },
 ];
 
 const CIRCLE_PATH = 'M 100,100 m -78,0 a 78,78 0 1,1 156,0 a 78,78 0 1,1 -156,0';
@@ -26,7 +25,7 @@ const BADGE_TEXT = 'TRUSTED ACROSS SOUTH AFRICA · TRUSTED ACROSS SOUTH AFRICA �
  */
 export default function TrustBar() {
   const [paused, setPaused] = useState(false);
-  const items = [...CLIENTS, ...CLIENTS, ...CLIENTS];
+  const items = [...LOGOS, ...LOGOS, ...LOGOS];
 
   return (
     <section
@@ -115,14 +114,18 @@ export default function TrustBar() {
             animationPlayState: paused ? 'paused' : 'running',
           }}
         >
-          {items.map((name, i) => (
+          {items.map((logo, i) => (
             <span
-              key={`${name}-${i}`}
-              className="flex items-center gap-6 whitespace-nowrap px-6"
+              key={`${logo.name}-${i}`}
+              className="flex items-center gap-8 whitespace-nowrap px-8"
             >
-              <span className="font-['JetBrains_Mono'] text-[11px] font-medium uppercase tracking-[0.16em] text-[#6B6B7A] transition-colors duration-200 hover:text-[#0A0A0F] md:text-[12px]">
-                {name}
-              </span>
+              <img
+                src={logo.src}
+                alt={logo.name}
+                draggable={false}
+                loading="lazy"
+                className={`${logo.h} w-auto select-none object-contain opacity-55 grayscale transition-[filter,opacity] duration-300 hover:opacity-100 hover:grayscale-0`}
+              />
               <motion.span
                 aria-hidden="true"
                 className="inline-block flex-shrink-0 text-[10px] text-[#7B3FE4]"
