@@ -66,15 +66,19 @@ const ContactFormWhite: React.FC = () => {
 
   if (isSubmitted) {
     return (
-      <div className="max-w-2xl mx-auto p-10 bg-white rounded-2xl border border-[#E8E8EC] text-center">
+      <div
+        role="status"
+        aria-live="polite"
+        className="max-w-2xl mx-auto p-10 bg-white rounded-2xl border border-[#E8E8EC] text-center"
+      >
         <div className="w-20 h-20 bg-[#F0EBFF] rounded-full flex items-center justify-center mb-6 mx-auto border border-[#7B3FE4]/20">
           <CheckCircle2 className="w-10 h-10 text-[#7B3FE4]" />
         </div>
         <h3 className="text-2xl font-['DM_Sans'] font-semibold text-[#0A0A0F] mb-3">
-          We've received your request!
+          Got it — message received.
         </h3>
         <p className="text-[#6B6B7A] mb-8 leading-relaxed">
-          Thanks for reaching out. We'll review your details and get back to you shortly to schedule your consultation.
+          Thanks for reaching out. I'll review your details and get back to you within 24 hours to set up your call.
         </p>
         <Button href="/" variant="primary">Return to Home</Button>
       </div>
@@ -110,10 +114,11 @@ const ContactFormWhite: React.FC = () => {
                         id={field.id}
                         name={field.id}
                         required={field.required}
+                        defaultValue=""
                         onChange={handleChange}
                         className="w-full px-4 py-3 bg-white border border-[#E8E8EC] rounded-xl text-[#0A0A0F] focus:outline-none focus:border-[#7B3FE4] focus:ring-2 focus:ring-[#7B3FE4]/30 min-h-[48px] text-sm appearance-none"
                       >
-                        <option value="" disabled selected className="text-[#9E9EA8]">
+                        <option value="" disabled className="text-[#9E9EA8]">
                           {field.placeholder}
                         </option>
                         {field.options?.map((option) => (
@@ -161,6 +166,7 @@ const ContactFormWhite: React.FC = () => {
 
             <div className="md:col-span-2 pt-4" data-cursor="view">
               <Button
+                type="submit"
                 variant="primary"
                 size="lg"
                 className="w-full"

@@ -12,6 +12,8 @@ interface ButtonProps {
   href?: string;
   external?: boolean;
   onClick?: () => void;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
   className?: string;
   ariaLabel?: string;
 }
@@ -38,15 +40,38 @@ export default function Button({
   href,
   external,
   onClick,
+  type = 'button',
+  disabled = false,
   className = '',
   ariaLabel,
 }: ButtonProps) {
   const base =
     "inline-flex items-center justify-center gap-2 font-['DM_Sans'] font-medium rounded-full " +
-    'transition-colors duration-200 min-h-[44px] whitespace-nowrap select-none cursor-pointer';
+    'transition-colors duration-200 min-h-[44px] whitespace-nowrap select-none cursor-pointer ' +
+    'disabled:opacity-60 disabled:cursor-not-allowed';
 
   const classes = `${base} ${SIZES[size]} ${VARIANTS[variant]} ${className}`;
 
+  // No href → render a real, keyboard-accessible <button> that can submit forms.
+  // (A bare span can't submit, isn't focusable, and isn't announced as a button.)
+  if (!href) {
+    return (
+      <motion.button
+        type={type}
+        disabled={disabled}
+        onClick={onClick}
+        aria-label={ariaLabel}
+        whileHover={disabled ? undefined : { scale: 1.02 }}
+        whileTap={disabled ? undefined : { scale: 0.98 }}
+        transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+        className={classes}
+      >
+        {children}
+      </motion.button>
+    );
+  }
+
+  // href → navigational link wrapping the visual span (unchanged behaviour).
   const inner = (
     <motion.span
       whileHover={{ scale: 1.02 }}
@@ -59,8 +84,6 @@ export default function Button({
       {children}
     </motion.span>
   );
-
-  if (!href) return inner;
 
   if (external) {
     return (

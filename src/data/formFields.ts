@@ -54,7 +54,7 @@ export const contactFormFields: FormField[] = [
     id: 'message',
     label: 'Any other information?',
     type: 'textarea',
-    placeholder: 'Tell us more about your project needs, timeline, or any specific challenges...',
+    placeholder: 'Tell me more about your project needs, timeline, or any specific challenges...',
     required: false
   },
   {
