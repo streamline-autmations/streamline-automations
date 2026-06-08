@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -66,7 +66,7 @@ export default function FinalCTA() {
           </motion.span>
 
           <a
-            href="https://wa.me/27633063861"
+            href="https://wa.me/27687579940"
             target="_blank"
             rel="noopener noreferrer"
             className="text-[13.5px] font-['DM_Sans'] text-white/50

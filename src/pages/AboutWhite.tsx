@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+﻿import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import SEO from '../components/seo/SEO';
@@ -414,20 +414,20 @@ export default function AboutWhite() {
                 <div className="mt-4 space-y-1.5">
                   <p className="text-[15px] font-['DM_Sans'] text-[#6B6B7A]">
                     <a
-                      href="mailto:christian@streamline-automations.co.za"
+                      href="mailto:christiaan@streamline-automations.co.za"
                       className="hover:text-[#7B3FE4] transition-colors"
                     >
-                      christian@streamline-automations.co.za
+                      christiaan@streamline-automations.co.za
                     </a>
                   </p>
                   <p className="text-[15px] font-['DM_Sans'] text-[#6B6B7A]">
                     <a
-                      href="https://wa.me/27633063861"
+                      href="https://wa.me/27687579940"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hover:text-[#7B3FE4] transition-colors"
                     >
-                      WhatsApp: +27 63 306 3861
+                      WhatsApp: +27 68 757 9940
                     </a>
                   </p>
                 </div>

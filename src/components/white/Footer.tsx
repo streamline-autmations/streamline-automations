@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+﻿import { Link } from "react-router-dom";
 
 const LOGO =
   "https://res.cloudinary.com/dnlgohkcc/image/upload/v1777354607/Untitled_design_80_bcjybe.png";
@@ -76,15 +76,15 @@ export default function WhiteFooter() {
             <ul className="space-y-3">
               <li>
                 <a
-                  href="mailto:christian@streamline-automations.agency"
+                  href="mailto:christiaan@streamline-automations.co.za"
                   className="text-[14px] font-['DM_Sans'] text-white/70 hover:text-white transition-colors duration-200 break-all"
                 >
-                  christian@streamline-automations.agency
+                  christiaan@streamline-automations.co.za
                 </a>
               </li>
               <li>
                 <a
-                  href="https://wa.me/27633063861"
+                  href="https://wa.me/27687579940"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[14px] font-['DM_Sans'] text-white/70 hover:text-white transition-colors duration-200"

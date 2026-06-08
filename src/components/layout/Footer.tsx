@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin, Instagram, Facebook, Linkedin, MessageSquare } from 'lucide-react';
 
@@ -107,25 +107,25 @@ const Footer: React.FC = () => {
             <ul className="space-y-4">
               <li>
                 <a
-                  href="mailto:christian@streamline-automations.agency"
+                  href="mailto:christiaan@streamline-automations.co.za"
                   className="text-[color:var(--text-low)] hover:text-[color:var(--text-mid)] transition-colors duration-300 flex items-start gap-2"
                 >
                   <Mail size={16} className="mt-1 flex-shrink-0" />
-                  <span className="text-sm">christian@streamline-automations.agency</span>
+                  <span className="text-sm">christiaan@streamline-automations.co.za</span>
                 </a>
               </li>
               <li>
                 <a
-                  href="tel:+27633063861"
+                  href="tel:+27687579940"
                   className="text-[color:var(--text-low)] hover:text-[color:var(--text-mid)] transition-colors duration-300 flex items-start gap-2"
                 >
                   <Phone size={16} className="mt-1 flex-shrink-0" />
-                  <span className="text-sm">+27 63 306 3861</span>
+                  <span className="text-sm">+27 68 757 9940</span>
                 </a>
               </li>
               <li>
                 <a
-                  href="https://wa.me/27633063861"
+                  href="https://wa.me/27687579940"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[color:var(--text-low)] hover:text-[color:var(--text-mid)] transition-colors duration-300 flex items-start gap-2"
@@ -262,23 +262,23 @@ const Footer: React.FC = () => {
             <ul className="space-y-3">
               <li>
                 <a
-                  href="mailto:christian@streamline-automations.agency"
+                  href="mailto:christiaan@streamline-automations.co.za"
                   className="text-[color:var(--text-low)] hover:text-[color:var(--text-mid)] transition-colors duration-300 text-sm"
                 >
-                  christian@streamline-automations.agency
+                  christiaan@streamline-automations.co.za
                 </a>
               </li>
               <li>
                 <a
-                  href="tel:+27633063861"
+                  href="tel:+27687579940"
                   className="text-[color:var(--text-low)] hover:text-[color:var(--text-mid)] transition-colors duration-300 text-sm"
                 >
-                  +27 63 306 3861
+                  +27 68 757 9940
                 </a>
               </li>
               <li>
                 <a
-                  href="https://wa.me/27633063861"
+                  href="https://wa.me/27687579940"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[color:var(--text-low)] hover:text-[color:var(--text-mid)] transition-colors duration-300 text-sm"

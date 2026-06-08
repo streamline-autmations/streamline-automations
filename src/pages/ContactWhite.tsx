@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+﻿import { motion } from 'framer-motion';
 import SEO from '../components/seo/SEO';
 import SiteHeader from '../components/white/SiteHeader';
 import SiteFooter from '../components/white/SiteFooter';
@@ -90,7 +90,7 @@ export default function ContactWhite() {
               >
                 {/* WhatsApp */}
                 <a
-                  href="https://wa.me/27633063861"
+                  href="https://wa.me/27687579940"
                   target="_blank"
                   rel="noopener noreferrer"
                   data-cursor="view"
@@ -110,7 +110,7 @@ export default function ContactWhite() {
                       WhatsApp
                     </p>
                     <p className="text-[15px] font-['DM_Sans'] font-semibold text-[#0A0A0F] group-hover:text-[#7B3FE4] transition-colors">
-                      +27 63 306 3861
+                      +27 68 757 9940
                     </p>
                     <p className="text-[13px] font-['DM_Sans'] text-[#9E9EA8] mt-1">
                       Fastest way to reach me
@@ -120,7 +120,7 @@ export default function ContactWhite() {
 
                 {/* Email */}
                 <a
-                  href="mailto:christian@streamline-automations.co.za"
+                  href="mailto:christiaan@streamline-automations.co.za"
                   data-cursor="view"
                   className="group flex items-start gap-4 bg-white border border-[#E8E8EC]
                              hover:border-[#D4D4DA] hover:shadow-[0_8px_32px_rgba(123,63,228,0.08)]
@@ -137,7 +137,7 @@ export default function ContactWhite() {
                       Email
                     </p>
                     <p className="text-[14px] font-['DM_Sans'] font-semibold text-[#0A0A0F] group-hover:text-[#7B3FE4] transition-colors break-all">
-                      christian@streamline-automations.co.za
+                      christiaan@streamline-automations.co.za
                     </p>
                   </div>
                 </a>

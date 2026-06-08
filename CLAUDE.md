@@ -1,5 +1,5 @@
-# CLAUDE.md — Streamline Automations Website
-# Christiaan Steffen | streamline-automations.agency
+﻿# CLAUDE.md — Streamline Automations Website
+# Christiaan Steffen | streamline-automations.co.za
 # Drop this in the repo root. Claude Code reads it automatically every session.
 
 ---
@@ -9,9 +9,9 @@
 Christiaan Steffen — solo founder of Streamline Automations, web design and automation agency,
 Vaal Triangle, Gauteng, South Africa.
 
-- Email: christian@streamline-automations.agency
-- WhatsApp: +27 63 306 3861
-- Site: streamline-automations.agency
+- Email: christiaan@streamline-automations.co.za
+- WhatsApp: +27 68 757 9940
+- Site: streamline-automations.co.za
 - GitHub: github.com/streamline-autmations/streamline-site-main
 
 **When writing copy: casual, confident, South African founder voice. First person "I" — never "we".

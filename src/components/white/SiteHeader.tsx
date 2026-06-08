@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, type Variants } from 'framer-motion';
 import MagneticCTA from './ui/MagneticCTA';
@@ -290,11 +290,11 @@ export default function SiteHeader() {
                 Book a Free Call
               </Link>
               <div className="mt-6 flex flex-col gap-1 font-['DM_Sans'] text-[14px] text-[#6B6B7A]">
-                <a href="https://wa.me/27633063861" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/27687579940" target="_blank" rel="noopener noreferrer">
                   WhatsApp · 063 306 3861
                 </a>
-                <a href="mailto:christian@streamline-automations.co.za">
-                  christian@streamline-automations.co.za
+                <a href="mailto:christiaan@streamline-automations.co.za">
+                  christiaan@streamline-automations.co.za
                 </a>
               </div>
             </div>

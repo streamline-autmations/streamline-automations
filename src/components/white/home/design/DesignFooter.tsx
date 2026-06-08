@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+﻿import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { fadeUp, viewport } from '../../../../lib/motion';
 
@@ -66,13 +66,13 @@ export default function DesignFooter() {
             </div>
             <div className="flex flex-col">
               <a
-                href="mailto:christian@streamline-automations.agency"
+                href="mailto:christiaan@streamline-automations.co.za"
                 className="mb-3 font-['DM_Sans'] text-[16px] text-white/[0.78] transition-colors duration-300 hover:text-white"
               >
-                christian@streamline-automations.agency
+                christiaan@streamline-automations.co.za
               </a>
               <a
-                href="https://wa.me/27633063861"
+                href="https://wa.me/27687579940"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mb-3 font-['DM_Sans'] text-[16px] text-white/[0.78] transition-colors duration-300 hover:text-white"

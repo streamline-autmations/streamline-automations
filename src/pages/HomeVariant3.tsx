@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
@@ -337,7 +337,7 @@ export default function HomeVariant3() {
                   <span className="h-2.5 w-2.5 rounded-full bg-[#E8E8EC]" />
                   <span className="h-2.5 w-2.5 rounded-full bg-[#E8E8EC]" />
                   <span className="h-2.5 w-2.5 rounded-full bg-[#E8E8EC]" />
-                  <span className="ml-3 text-[11px] text-[#9E9EA8] font-mono">streamline-automations.agency</span>
+                  <span className="ml-3 text-[11px] text-[#9E9EA8] font-mono">streamline-automations.co.za</span>
                 </div>
                 <div className="p-8 md:p-10 grid grid-cols-3 gap-4">
                   <div className="col-span-2 h-32 rounded-lg bg-gradient-to-br from-[#F0EBFF] to-[#FAFAFA]" />
@@ -597,8 +597,8 @@ export default function HomeVariant3() {
             <div>
               <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/45 mb-4">Contact</p>
               <ul className="space-y-3 text-[14px] text-white/70">
-                <li><a href="mailto:christian@streamline-automations.agency" className="hover:text-white">christian@streamline-automations.agency</a></li>
-                <li><a href="tel:+27633063861" className="hover:text-white">+27 63 306 3861</a></li>
+                <li><a href="mailto:christiaan@streamline-automations.co.za" className="hover:text-white">christiaan@streamline-automations.co.za</a></li>
+                <li><a href="tel:+27687579940" className="hover:text-white">+27 68 757 9940</a></li>
               </ul>
             </div>
           </div>
