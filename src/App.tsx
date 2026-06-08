@@ -30,6 +30,7 @@ const HomeVariant1 = lazy(() => import('./pages/HomeVariant1'));
 const HomeVariant2 = lazy(() => import('./pages/HomeVariant2'));
 const HomeVariant3 = lazy(() => import('./pages/HomeVariant3'));
 const HomeVariant4 = lazy(() => import('./pages/HomeVariant4'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -87,6 +88,9 @@ function AnimatedRoutes() {
         <Route path="/websites-old" element={<Navigate to="/websites" replace />} />
         <Route path="/systems-old" element={<Navigate to="/systems" replace />} />
         <Route path="/hosting-old" element={<Navigate to="/hosting" replace />} />
+
+        {/* Catch-all — branded 404 */}
+        <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>
   );
