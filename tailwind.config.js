@@ -4,6 +4,27 @@ export default {
   theme: {
     extend: {
       colors: {
+        // ── White-minimal v2 (src/site) — namespaced so it never collides with
+        //    the legacy dark theme below. Use as bg-site-*, text-site-*, border-site-*.
+        site: {
+          white: '#FFFFFF',
+          offwhite: '#FAFAFA',
+          surface: '#F5F5F7',
+          'surface-hover': '#EEEEEF',
+          'accent-soft': '#F0EBFF',
+          ink: '#0A0A0F',
+          'ink-soft': '#15151C',
+          line: '#E8E8EC',
+          'line-mid': '#D4D4DA',
+          accent: '#7B3FE4',
+          'accent-hover': '#6930D0',
+          'text-primary': '#0A0A0F',
+          'text-body': '#3D3D47',
+          'text-secondary': '#6B6B7A',
+          'text-muted': '#9E9EA8',
+          'text-on-dark': '#F5F5F7',
+        },
+
         // New Brand Colors
         'brand-dark': '#050505',
         'brand-purple': '#7C3AED',
@@ -66,6 +87,13 @@ export default {
         syne: ['Syne', 'sans-serif'],
         'bebas': ['Bebas Neue', 'sans-serif'],
         'dm-sans': ['DM Sans', 'sans-serif'],
+        // v2 highlight word — Instrument Serif italic, used sparingly in headlines
+        serif: ['Instrument Serif', 'serif'],
+        instrument: ['Instrument Serif', 'serif'],
+      },
+      transitionTimingFunction: {
+        // The one brand easing — cubic-bezier(0.22, 1, 0.36, 1) → `ease-brand`
+        brand: 'cubic-bezier(0.22, 1, 0.36, 1)',
       },
       boxShadow: {
         glow: '0 0 20px rgba(139, 92, 246, 0.4)',

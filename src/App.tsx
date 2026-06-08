@@ -12,6 +12,10 @@ import ComingSoon from './pages/ComingSoon';
 import { trackScrollDepth, resetScrollTracking, initOutboundLinkTracking, initBounceDetection, resetSessionTiming } from './lib/analytics';
 
 const COMING_SOON = import.meta.env.VITE_COMING_SOON === 'true';
+// Fresh white-minimal rebuild (src/site). Set VITE_SITE_V2=true to serve it
+// from root; unset/false keeps the existing app. The old site is one toggle away.
+const SITE_V2 = import.meta.env.VITE_SITE_V2 === 'true';
+const SiteApp = lazy(() => import('./site/SiteApp'));
 
 // Lazy load pages for performance
 const Home = lazy(() => import('./pages/HomeWhite'));
@@ -104,6 +108,17 @@ function App() {
     return (
       <HelmetProvider>
         <ComingSoon />
+      </HelmetProvider>
+    );
+  }
+
+  // v2 white-minimal rebuild — self-contained (own Router + LenisProvider).
+  if (SITE_V2) {
+    return (
+      <HelmetProvider>
+        <Suspense fallback={<div className="min-h-screen bg-white" />}>
+          <SiteApp />
+        </Suspense>
       </HelmetProvider>
     );
   }

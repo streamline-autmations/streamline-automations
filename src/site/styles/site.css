@@ -1,0 +1,26 @@
+/*
+ * src/site base globals — v2 white-minimal canvas.
+ * Component styling lives in Tailwind utilities; this file only resets the
+ * page-level surface (the legacy index.html <body> carries dark-theme classes)
+ * and sets selection + font smoothing. Scoped to .site-root so toggling the
+ * VITE_SITE_V2 flag back to the old app changes nothing.
+ */
+.site-root {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  color: #0a0a0f;
+  background: #ffffff;
+  min-height: 100svh;
+}
+
+.site-root ::selection {
+  background: #7b3fe4;
+  color: #ffffff;
+}
+
+/* Instrument Serif renders best with normal (non-tightened) tracking. */
+.site-root .font-serif,
+.site-root .font-instrument {
+  letter-spacing: 0;
+}
