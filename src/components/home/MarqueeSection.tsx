@@ -1,9 +1,8 @@
 const CLIENTS = [
   'BLOM Cosmetics',
   'RecklessBear Apparel',
-  'Ameli Studio',
+  'Ameli Designs',
   'NSA Mining',
-  'Madiega Trading',
   'JJ Glasswork',
   'Tuscany SA',
   'African Nomad',

@@ -13,7 +13,6 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 const OTHER_CLIENTS = [
   { name: 'JJ Glasswork', description: 'Service website + automated email lead notifications' },
   { name: 'NSA Mining', description: 'Internal gift issuing system, eligibility lookup + management reporting' },
-  { name: 'Madiega Trading', description: '9-page solar lead gen site, admin dashboard + PDF invoicing' },
   { name: 'Tuscany SA', description: 'Email hosting, domain management, logo + IT support' },
   { name: 'African Nomad', description: 'Logo, sublimation artwork + social media content' },
 ];

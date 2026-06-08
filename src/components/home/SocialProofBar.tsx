@@ -1,9 +1,8 @@
 const clients = [
   'BLOM Cosmetics',
   'RecklessBear Apparel',
-  'Ameli Studio',
+  'Ameli Designs',
   'NSA Mining',
-  'Madiega Trading',
 ];
 
 export default function SocialProofBar() {
