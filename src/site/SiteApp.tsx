@@ -1,8 +1,11 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { AnimatePresence, MotionConfig } from 'framer-motion';
 import LenisProvider from './providers/LenisProvider';
 import ScrollToTop from './components/layout/ScrollToTop';
 import SiteLayout from './components/layout/SiteLayout';
+import Cursor from './components/craft/Cursor';
+import PageTransition from './components/craft/PageTransition';
 import './styles/site.css';
 
 // Code-split every route (brief §10).
@@ -19,44 +22,62 @@ const CWElectronics = lazy(() => import('./pages/work/CWElectronics'));
 const Ameli = lazy(() => import('./pages/work/Ameli'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
+/** Animated route swap — ink wipe between pages, keyed by pathname. */
+function AnimatedRoutes() {
+  const location = useLocation();
+  const t = (el: React.ReactNode) => <PageTransition>{el}</PageTransition>;
+
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={t(<Home />)} />
+        <Route path="/websites" element={t(<Websites />)} />
+        <Route path="/systems" element={t(<Systems />)} />
+        <Route path="/hosting" element={t(<Hosting />)} />
+        <Route path="/portfolio" element={t(<Portfolio />)} />
+        <Route path="/about" element={t(<About />)} />
+        <Route path="/contact" element={t(<Contact />)} />
+
+        {/* Case studies */}
+        <Route path="/work/blom" element={t(<Blom />)} />
+        <Route path="/work/recklessbear" element={t(<RecklessBear />)} />
+        <Route path="/work/cw-electronics" element={t(<CWElectronics />)} />
+        <Route path="/work/ameli" element={t(<Ameli />)} />
+
+        {/* Keep legacy portfolio slugs alive */}
+        <Route path="/portfolio/blom-cosmetics" element={<Navigate to="/work/blom" replace />} />
+        <Route path="/portfolio/recklessbear" element={<Navigate to="/work/recklessbear" replace />} />
+        <Route path="/portfolio/cw-electronics" element={<Navigate to="/work/cw-electronics" replace />} />
+        <Route path="/portfolio/ameli" element={<Navigate to="/work/ameli" replace />} />
+
+        <Route path="*" element={t(<NotFound />)} />
+      </Routes>
+    </AnimatePresence>
+  );
+}
+
 /**
  * SiteApp — root of the v2 (white-minimal, Cuberto-calibrated) site. Owns its
- * own Router + smooth-scroll provider so it's fully decoupled from the legacy
- * app. Mounted by App.tsx when VITE_SITE_V2 === 'true'.
+ * own Router + smooth-scroll provider + custom cursor, fully decoupled from the
+ * legacy app. Mounted by App.tsx when VITE_SITE_V2 === 'true'.
  */
 export default function SiteApp() {
   return (
-    <BrowserRouter>
-      <LenisProvider>
-        <ScrollToTop />
-        <Suspense fallback={<div className="min-h-[100svh] bg-white" />}>
-          <Routes>
-            <Route element={<SiteLayout />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/websites" element={<Websites />} />
-              <Route path="/systems" element={<Systems />} />
-              <Route path="/hosting" element={<Hosting />} />
-              <Route path="/portfolio" element={<Portfolio />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-
-              {/* Case studies */}
-              <Route path="/work/blom" element={<Blom />} />
-              <Route path="/work/recklessbear" element={<RecklessBear />} />
-              <Route path="/work/cw-electronics" element={<CWElectronics />} />
-              <Route path="/work/ameli" element={<Ameli />} />
-
-              {/* Keep legacy portfolio slugs alive */}
-              <Route path="/portfolio/blom-cosmetics" element={<Navigate to="/work/blom" replace />} />
-              <Route path="/portfolio/recklessbear" element={<Navigate to="/work/recklessbear" replace />} />
-              <Route path="/portfolio/cw-electronics" element={<Navigate to="/work/cw-electronics" replace />} />
-              <Route path="/portfolio/ameli" element={<Navigate to="/work/ameli" replace />} />
-
-              <Route path="*" element={<NotFound />} />
-            </Route>
-          </Routes>
-        </Suspense>
-      </LenisProvider>
-    </BrowserRouter>
+    // reducedMotion="user" makes every Framer Motion component honour
+    // prefers-reduced-motion automatically — transforms/layout animations are
+    // skipped, opacity fades still run. One switch for the whole v2 app.
+    <MotionConfig reducedMotion="user">
+      <BrowserRouter>
+        <LenisProvider>
+          <ScrollToTop />
+          <Cursor />
+          <SiteLayout>
+            <Suspense fallback={<div className="min-h-[100svh] bg-white" />}>
+              <AnimatedRoutes />
+            </Suspense>
+          </SiteLayout>
+        </LenisProvider>
+      </BrowserRouter>
+    </MotionConfig>
   );
 }

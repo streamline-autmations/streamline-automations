@@ -15,11 +15,14 @@ export default function NotFound() {
         <div className="mt-10 flex flex-wrap items-center justify-center gap-5">
           <Link
             to="/"
-            className="inline-flex min-h-[52px] items-center rounded-full bg-site-accent px-8 py-4 text-[15px] font-semibold text-white transition-colors duration-300 ease-brand hover:bg-site-accent-hover"
+            className="inline-flex min-h-[52px] items-center rounded-full bg-site-accent px-8 py-4 text-[15px] font-semibold text-white outline-none transition-colors duration-300 ease-brand hover:bg-site-accent-hover focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-offset-2"
           >
             Back home
           </Link>
-          <Link to={PRIMARY_CTA.to} className="text-[15px] font-medium text-site-ink underline-offset-4 hover:underline">
+          <Link
+            to={PRIMARY_CTA.to}
+            className="text-[15px] font-medium text-site-ink underline-offset-4 outline-none hover:underline focus-visible:text-site-accent focus-visible:underline"
+          >
             {PRIMARY_CTA.label} →
           </Link>
         </div>

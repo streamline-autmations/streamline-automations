@@ -24,3 +24,88 @@
 .site-root .font-instrument {
   letter-spacing: 0;
 }
+
+/* ── Dot + ring custom cursor (craft/Cursor.tsx) ──────────────────
+   Fine pointers only; coarse/touch hide it and the rAF never starts. */
+@media (hover: hover) and (pointer: fine) {
+  body.sc-cursor,
+  body.sc-cursor * { cursor: none !important; }
+}
+.sc-cur-dot,
+.sc-cur-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 9999px;
+  will-change: transform;
+}
+.sc-cur-dot {
+  width: 7px;
+  height: 7px;
+  background: #a67bff;
+  box-shadow: 0 0 12px rgba(166, 123, 255, 0.9);
+  transform: translate(-50%, -50%);
+}
+.sc-cur-ring {
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid rgba(166, 123, 255, 0.5);
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  transition:
+    width 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.sc-cur-ring .sc-cur-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+body.sc-cur-link .sc-cur-ring {
+  width: 64px;
+  height: 64px;
+  background: rgba(166, 123, 255, 0.08);
+  border-color: rgba(166, 123, 255, 0.35);
+}
+body.sc-cur-link .sc-cur-dot { opacity: 0; }
+body.sc-cur-view .sc-cur-ring,
+body.sc-cur-drag .sc-cur-ring {
+  width: 88px;
+  height: 88px;
+  background: #7b3fe4;
+  border-color: #a67bff;
+  box-shadow: 0 0 40px rgba(123, 63, 228, 0.6);
+}
+body.sc-cur-view .sc-cur-ring .sc-cur-label,
+body.sc-cur-drag .sc-cur-ring .sc-cur-label { opacity: 1; }
+body.sc-cur-view .sc-cur-dot,
+body.sc-cur-drag .sc-cur-dot { opacity: 0; }
+@media (hover: none), (pointer: coarse) {
+  .sc-cur-dot,
+  .sc-cur-ring { display: none; }
+}
+
+/* ── Marquee (craft/Marquee.tsx) ──────────────────────────────────
+   Track holds two identical sets; -50% loop hides the wrap. */
+@keyframes scMarquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.sc-marquee-track {
+  animation: scMarquee var(--marquee-dur, 40s) linear infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sc-marquee-track { animation: none; }
+}

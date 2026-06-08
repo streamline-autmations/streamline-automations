@@ -3,13 +3,9 @@
  * social links. Change a number once, here, and it's correct everywhere.
  */
 
-// ⚠️ CONTACT NUMBER CONFLICT — confirm before launch.
-// The Cuberto brief says WhatsApp 063 306 3861. CLAUDE.md + the old footer use
-// +27 68 757 9940 (and the old footer DISPLAYED 063 306 3861 while LINKING to
-// 068 757 9940 — a pre-existing mismatch). Using the brief's number here; flip
-// these two lines if 068 757 9940 is the correct one.
-const WHATSAPP_DISPLAY = '063 306 3861';
-const WHATSAPP_E164 = '27633063861';
+// WhatsApp — confirmed 2026-06-08 by Christiaan: +27 68 757 9940 (local 068 757 9940).
+const WHATSAPP_DISPLAY = '068 757 9940';
+const WHATSAPP_E164 = '27687579940';
 
 export const CONTACT = {
   email: 'christiaan@streamline-automations.co.za',

@@ -1,14 +1,14 @@
-import { useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { useEffect, type ReactNode } from 'react';
 import SiteHeader from './SiteHeader';
 import SiteFooter from './SiteFooter';
 
 /**
- * SiteLayout — shared chrome for every v2 route: header, page outlet, footer.
- * Also neutralises the legacy dark <body> classes from index.html so the
- * white canvas is correct even behind transparent areas / overscroll.
+ * SiteLayout — persistent chrome for the v2 app: header, animated page content,
+ * footer. Mounted once (header/footer never remount on navigation). Also
+ * neutralises the legacy dark <body> classes from index.html so the white
+ * canvas is correct even behind transparent areas / overscroll.
  */
-export default function SiteLayout() {
+export default function SiteLayout({ children }: { children: ReactNode }) {
   useEffect(() => {
     const { body, documentElement: html } = document;
     const prev = {
@@ -29,9 +29,7 @@ export default function SiteLayout() {
   return (
     <div className="site-root flex min-h-[100svh] flex-col bg-white">
       <SiteHeader />
-      <main className="flex-1">
-        <Outlet />
-      </main>
+      <main className="flex-1">{children}</main>
       <SiteFooter />
     </div>
   );

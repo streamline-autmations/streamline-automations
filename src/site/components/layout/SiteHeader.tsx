@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, type Variants } from 'framer-motion';
 import { EASE, EASE_ARR } from '../../lib/motion';
 import { LOGO_URL, SERVICES, NAV_LINKS } from '../../data/site';
+import { Magnetic } from '../craft/Magnetic';
 
 /** Underlined nav link with active-route state. */
 function NavLink({ to, active, children }: { to: string; active: boolean; children: React.ReactNode }) {
@@ -101,8 +102,7 @@ export default function SiteHeader() {
 
   return (
     <header
-      className="fixed inset-x-0 top-0 z-[1000] grid grid-cols-[1fr_auto] items-center transition-all duration-500 md:grid-cols-[1fr_auto_1fr]"
-      style={{ padding: scrolled ? '14px 24px' : '20px 24px', transitionTimingFunction: EASE }}
+      className="fixed inset-x-0 top-0 z-[1000] grid grid-cols-[1fr_auto] items-center px-6 py-[18px] md:grid-cols-[1fr_auto_1fr]"
     >
       {/* Frosted backdrop fades in on scroll */}
       <div
@@ -187,14 +187,18 @@ export default function SiteHeader() {
 
       {/* RIGHT — sole CTA + mobile hamburger */}
       <div className="flex items-center justify-end gap-6">
-        <Link
-          to="/contact"
-          data-cursor="view"
-          className="hidden items-center rounded-full bg-site-accent px-7 py-3 text-[14.5px] font-semibold text-white shadow-[0_6px_20px_rgba(123,63,228,0.28)] outline-none transition-[background-color,box-shadow] duration-300 hover:bg-site-accent-hover hover:shadow-[0_12px_34px_rgba(123,63,228,0.38)] focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-offset-2 md:inline-flex"
-          style={{ transitionTimingFunction: EASE }}
-        >
-          Book a Free Call
-        </Link>
+        <span className="hidden md:inline-flex">
+          <Magnetic strength={14}>
+            <Link
+              to="/contact"
+              data-cursor="view"
+              className="inline-flex items-center rounded-full bg-site-accent px-7 py-3 text-[14.5px] font-semibold text-white shadow-[0_6px_20px_rgba(123,63,228,0.28)] outline-none transition-[background-color,box-shadow] duration-300 hover:bg-site-accent-hover hover:shadow-[0_12px_34px_rgba(123,63,228,0.38)] focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-offset-2"
+              style={{ transitionTimingFunction: EASE }}
+            >
+              Book a Free Call
+            </Link>
+          </Magnetic>
+        </span>
 
         <button
           onClick={() => setOpen((v) => !v)}
