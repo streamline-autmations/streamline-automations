@@ -72,8 +72,11 @@ export default function Cursor() {
     const onOver = (e: MouseEvent) => {
       const t = e.target as Element | null;
       if (!t) return;
-      if (t.closest('[data-cursor="view"]')) setMode('view', 'View');
-      else if (t.closest('[data-cursor="drag"]')) setMode('drag', 'Drag');
+      const viewEl = t.closest('[data-cursor="view"]');
+      const dragEl = t.closest('[data-cursor="drag"]');
+      // [data-cursor-label] overrides the default "View"/"Drag" text.
+      if (viewEl) setMode('view', viewEl.getAttribute('data-cursor-label') || 'View');
+      else if (dragEl) setMode('drag', dragEl.getAttribute('data-cursor-label') || 'Drag');
       else if (t.closest('a, button, [role="button"], [data-cursor="link"]')) setMode('link', '');
       else setMode(null, '');
     };

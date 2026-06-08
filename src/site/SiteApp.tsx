@@ -5,6 +5,7 @@ import LenisProvider from './providers/LenisProvider';
 import ScrollToTop from './components/layout/ScrollToTop';
 import SiteLayout from './components/layout/SiteLayout';
 import Cursor from './components/craft/Cursor';
+import ContactOrb from './components/craft/ContactOrb';
 import PageTransition from './components/craft/PageTransition';
 import './styles/site.css';
 
@@ -71,6 +72,7 @@ export default function SiteApp() {
         <LenisProvider>
           <ScrollToTop />
           <Cursor />
+          <ContactOrb />
           <SiteLayout>
             <Suspense fallback={<div className="min-h-[100svh] bg-white" />}>
               <AnimatedRoutes />

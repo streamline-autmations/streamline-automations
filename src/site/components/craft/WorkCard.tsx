@@ -61,7 +61,7 @@ export default function WorkCard({
       viewport={{ once: true, margin: '-80px' }}
       transition={{ duration: 0.7, ease: EASE_ARR, delay: index * 0.06 }}
     >
-      <Link to={to} data-cursor="view" className="group block outline-none">
+      <Link to={to} data-cursor="view" data-cursor-label="Explore" className="group block outline-none">
         <div
           ref={wrapRef}
           className="relative w-full overflow-hidden rounded-3xl border border-site-line bg-site-surface shadow-[0_30px_80px_-20px_rgba(76,29,149,0.18),0_10px_30px_-10px_rgba(0,0,0,0.06)]"
@@ -87,7 +87,9 @@ export default function WorkCard({
               playsInline
               preload="none"
               aria-label={title}
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-brand will-change-transform group-hover:scale-[1.04]"
+              className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-brand will-change-transform ${
+                reduced ? '' : 'group-hover:scale-[1.04]'
+              }`}
             />
           )}
           {/* subtle hover veil */}
@@ -109,7 +111,7 @@ export default function WorkCard({
           </div>
           <span
             aria-hidden="true"
-            className="mt-1 shrink-0 text-[22px] text-site-text-muted transition-all duration-300 ease-brand group-hover:translate-x-1 group-hover:text-site-accent"
+            className="mt-1 shrink-0 text-[22px] text-site-text-muted transition-all duration-300 ease-brand group-hover:translate-x-1 group-hover:text-site-accent motion-reduce:group-hover:translate-x-0"
           >
             →
           </span>

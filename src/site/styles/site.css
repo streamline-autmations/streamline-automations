@@ -109,3 +109,40 @@ body.sc-cur-drag .sc-cur-dot { opacity: 0; }
 @media (prefers-reduced-motion: reduce) {
   .sc-marquee-track { animation: none; }
 }
+
+/* ── Contact orb rotating text ring (craft/ContactOrb.tsx) ──────── */
+@keyframes scOrbSpin {
+  to { transform: rotate(360deg); }
+}
+.sc-orb-spin {
+  animation: scOrbSpin 18s linear infinite;
+  transform-origin: 50% 50%;
+}
+.group:hover .sc-orb-spin {
+  animation-duration: 7s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sc-orb-spin { animation: none; }
+}
+
+/* ── Pre-footer living blooms (craft/PreFooterCTA.tsx) ──────────── */
+@keyframes scBloomA {
+  from { transform: translate(0, 0); }
+  to { transform: translate(60px, 40px); }
+}
+@keyframes scBloomB {
+  from { transform: translate(0, 0); }
+  to { transform: translate(-50px, -30px); }
+}
+.sc-bloom-a {
+  animation: scBloomA 18s ease-in-out infinite alternate;
+  will-change: transform;
+}
+.sc-bloom-b {
+  animation: scBloomB 22s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sc-bloom-a,
+  .sc-bloom-b { animation: none; }
+}

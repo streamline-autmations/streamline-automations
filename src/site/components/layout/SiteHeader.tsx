@@ -4,25 +4,19 @@ import { AnimatePresence, motion, type Variants } from 'framer-motion';
 import { EASE, EASE_ARR } from '../../lib/motion';
 import { LOGO_URL, SERVICES, NAV_LINKS } from '../../data/site';
 import { Magnetic } from '../craft/Magnetic';
+import RollText from '../craft/RollText';
 
-/** Underlined nav link with active-route state. */
-function NavLink({ to, active, children }: { to: string; active: boolean; children: React.ReactNode }) {
+/** Top-level nav link with the vertical roll-on-hover + active-route state. */
+function NavRoll({ to, label, active }: { to: string; label: string; active: boolean }) {
   return (
     <Link
       to={to}
       data-cursor="link"
-      className={`group relative inline-flex min-h-[44px] items-center text-[14.5px] font-medium outline-none transition-colors duration-300 focus-visible:text-site-accent ${
-        active ? 'text-site-ink' : 'text-site-ink hover:text-site-accent'
+      className={`group inline-flex min-h-[44px] items-center text-[15px] font-medium outline-none transition-colors duration-300 ${
+        active ? 'text-site-accent' : 'text-site-ink'
       }`}
     >
-      {children}
-      <span
-        aria-hidden="true"
-        className={`absolute -bottom-0.5 left-0 h-px w-full origin-left bg-site-accent transition-transform duration-[400ms] ${
-          active ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-        }`}
-        style={{ transitionTimingFunction: EASE }}
-      />
+      <RollText>{label}</RollText>
     </Link>
   );
 }
@@ -39,11 +33,10 @@ const overlayItem: Variants = {
 };
 
 /**
- * SiteHeader — the single shared nav used identically on every v2 page.
- * Transparent over the hero, frosted-white + hairline border on scroll.
- * Services dropdown (desktop) + active-route state. Mobile: hamburger →
- * full-screen overlay with staggered masked link reveal.
- * (Magnetic links land in Phase 2 — kept plain here.)
+ * SiteHeader — clean Cuberto-style nav: logo left, text links right with a
+ * vertical roll-on-hover (no underline). Magnetic logo. Transparent over the
+ * hero, frosted-white + hairline border on scroll. Services dropdown (desktop);
+ * mobile hamburger → full-screen overlay.
  */
 export default function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
@@ -54,9 +47,7 @@ export default function SiteHeader() {
 
   const isActive = (href: string) =>
     href === '/' ? location.pathname === '/' : location.pathname.startsWith(href);
-  const servicesActive = ['/websites', '/systems', '/hosting'].some((p) =>
-    location.pathname.startsWith(p)
-  );
+  const servicesActive = ['/websites', '/systems', '/hosting'].some((p) => location.pathname.startsWith(p));
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 40);
@@ -65,13 +56,11 @@ export default function SiteHeader() {
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
-  // Close menus on navigation.
   useEffect(() => {
     setOpen(false);
     setServicesOpen(false);
   }, [location]);
 
-  // Lock body scroll while the full-screen overlay is open.
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
     return () => {
@@ -79,12 +68,9 @@ export default function SiteHeader() {
     };
   }, [open]);
 
-  // Close the dropdown on outside click / Escape.
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
-      if (servicesRef.current && !servicesRef.current.contains(e.target as Node)) {
-        setServicesOpen(false);
-      }
+      if (servicesRef.current && !servicesRef.current.contains(e.target as Node)) setServicesOpen(false);
     };
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -101,9 +87,7 @@ export default function SiteHeader() {
   }, []);
 
   return (
-    <header
-      className="fixed inset-x-0 top-0 z-[1000] grid grid-cols-[1fr_auto] items-center px-6 py-[18px] md:grid-cols-[1fr_auto_1fr]"
-    >
+    <header className="fixed inset-x-0 top-0 z-[1000] flex items-center justify-between px-6 py-[18px] md:px-10">
       {/* Frosted backdrop fades in on scroll */}
       <div
         aria-hidden="true"
@@ -117,18 +101,30 @@ export default function SiteHeader() {
         }}
       />
 
-      {/* LEFT — desktop nav */}
-      <nav className="hidden items-center gap-9 md:flex md:justify-end md:pr-12">
+      {/* LEFT — magnetic logo */}
+      <Magnetic strength={10}>
+        <Link to="/" data-cursor="link" className="inline-block outline-none" aria-label="Streamline Automations — home">
+          <img
+            src={LOGO_URL}
+            alt="Streamline Automations"
+            draggable={false}
+            className="h-[26px] w-auto select-none md:h-[30px]"
+          />
+        </Link>
+      </Magnetic>
+
+      {/* RIGHT — desktop nav */}
+      <nav className="hidden items-center gap-9 md:flex">
         <div ref={servicesRef} className="relative">
           <button
             onClick={() => setServicesOpen((v) => !v)}
             aria-expanded={servicesOpen}
             data-cursor="link"
-            className={`group inline-flex min-h-[44px] items-center gap-1.5 text-[14.5px] font-medium outline-none transition-colors duration-300 focus-visible:text-site-accent ${
-              servicesActive ? 'text-site-ink' : 'text-site-ink hover:text-site-accent'
+            className={`group inline-flex min-h-[44px] items-center gap-1.5 text-[15px] font-medium outline-none transition-colors duration-300 ${
+              servicesActive ? 'text-site-accent' : 'text-site-ink'
             }`}
           >
-            Services
+            <RollText>Services</RollText>
             <svg
               aria-hidden="true"
               className={`h-3.5 w-3.5 transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`}
@@ -148,7 +144,7 @@ export default function SiteHeader() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 4 }}
                 transition={{ duration: 0.18, ease: EASE_ARR }}
-                className="absolute left-0 top-full mt-3 w-72 overflow-hidden rounded-2xl border border-site-line bg-white shadow-[0_16px_48px_rgba(0,0,0,0.12)]"
+                className="absolute right-0 top-full mt-3 w-72 overflow-hidden rounded-2xl border border-site-line bg-white shadow-[0_16px_48px_rgba(0,0,0,0.12)]"
               >
                 {SERVICES.map((item) => (
                   <Link
@@ -167,52 +163,24 @@ export default function SiteHeader() {
           </AnimatePresence>
         </div>
 
-        <NavLink to="/portfolio" active={isActive('/portfolio')}>
-          Portfolio
-        </NavLink>
-        <NavLink to="/about" active={isActive('/about')}>
-          About
-        </NavLink>
+        <NavRoll to="/portfolio" label="Portfolio" active={isActive('/portfolio')} />
+        <NavRoll to="/about" label="About" active={isActive('/about')} />
+        <NavRoll to="/contact" label="Contact" active={isActive('/contact')} />
       </nav>
 
-      {/* CENTER — logo wordmark */}
-      <Link to="/" className="outline-none md:justify-self-center" aria-label="Streamline Automations — home">
-        <img
-          src={LOGO_URL}
-          alt="Streamline Automations"
-          draggable={false}
-          className="h-[26px] w-auto select-none md:h-[30px]"
-        />
-      </Link>
-
-      {/* RIGHT — sole CTA + mobile hamburger */}
-      <div className="flex items-center justify-end gap-6">
-        <span className="hidden md:inline-flex">
-          <Magnetic strength={14}>
-            <Link
-              to="/contact"
-              data-cursor="view"
-              className="inline-flex items-center rounded-full bg-site-accent px-7 py-3 text-[14.5px] font-semibold text-white shadow-[0_6px_20px_rgba(123,63,228,0.28)] outline-none transition-[background-color,box-shadow] duration-300 hover:bg-site-accent-hover hover:shadow-[0_12px_34px_rgba(123,63,228,0.38)] focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-offset-2"
-              style={{ transitionTimingFunction: EASE }}
-            >
-              Book a Free Call
-            </Link>
-          </Magnetic>
-        </span>
-
-        <button
-          onClick={() => setOpen((v) => !v)}
-          className="relative z-[1001] flex min-h-[44px] min-w-[44px] items-center justify-center text-site-ink outline-none md:hidden"
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          aria-expanded={open}
-        >
-          <div className="flex w-6 flex-col gap-[6px]">
-            <span className={`h-[2px] rounded bg-current transition-all duration-300 ${open ? 'translate-y-[8px] rotate-45' : ''}`} />
-            <span className={`h-[2px] rounded bg-current transition-all duration-200 ${open ? 'opacity-0' : ''}`} />
-            <span className={`h-[2px] rounded bg-current transition-all duration-300 ${open ? '-translate-y-[8px] -rotate-45' : ''}`} />
-          </div>
-        </button>
-      </div>
+      {/* Mobile hamburger */}
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="relative z-[1001] flex min-h-[44px] min-w-[44px] items-center justify-center text-site-ink outline-none md:hidden"
+        aria-label={open ? 'Close menu' : 'Open menu'}
+        aria-expanded={open}
+      >
+        <div className="flex w-6 flex-col gap-[6px]">
+          <span className={`h-[2px] rounded bg-current transition-all duration-300 motion-reduce:transition-none ${open ? 'translate-y-[8px] rotate-45' : ''}`} />
+          <span className={`h-[2px] rounded bg-current transition-all duration-200 ${open ? 'opacity-0' : ''}`} />
+          <span className={`h-[2px] rounded bg-current transition-all duration-300 motion-reduce:transition-none ${open ? '-translate-y-[8px] -rotate-45' : ''}`} />
+        </div>
+      </button>
 
       {/* Full-screen mobile overlay */}
       <AnimatePresence>
@@ -236,7 +204,7 @@ export default function SiteHeader() {
                   <motion.span variants={overlayItem} className="block">
                     <Link
                       to={l.href}
-                      className={`block py-2 text-[34px] font-semibold tracking-[-0.02em] ${
+                      className={`block py-2 text-[34px] font-semibold tracking-[-0.02em] outline-none focus-visible:text-site-accent ${
                         isActive(l.href) ? 'text-site-accent' : 'text-site-ink'
                       }`}
                     >
