@@ -10,7 +10,7 @@ const word: Variants = {
 
 export interface Segment {
   text: string;
-  /** Render this segment in the Instrument Serif italic purple accent style. */
+  /** Render this segment in the purple accent colour (same DM Sans font). */
   serif?: boolean;
 }
 
@@ -39,7 +39,7 @@ export default function SplitReveal({
   segments,
   as: Tag = 'h2',
   className = '',
-  serifClassName = 'font-serif italic font-normal text-site-accent',
+  serifClassName = 'text-site-accent',
   trigger = 'inview',
   stagger = 0.07,
   delay = 0.05,

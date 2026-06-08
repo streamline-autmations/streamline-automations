@@ -25,19 +25,22 @@ export default function PreFooterCTA({
 }) {
   return (
     <section className="relative flex min-h-[78svh] flex-col items-center justify-center overflow-hidden rounded-t-[2.5rem] bg-site-ink py-28 text-white md:rounded-t-[4.5rem] md:py-32">
-      {/* Optional looping background video (muted, plays on its own). */}
+      {/* Optional looping background video (muted, plays on its own) + ink scrim. */}
       {videoSrc && (
-        <video
-          src={videoSrc}
-          poster={poster}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover opacity-30"
-        />
+        <>
+          <video
+            src={videoSrc}
+            poster={poster}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-hidden="true"
+            className="absolute inset-0 h-full w-full object-cover opacity-[0.32]"
+          />
+          <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-site-ink/50 via-site-ink/45 to-site-ink/85" />
+        </>
       )}
 
       {/* Living gradient backdrop (transform-only drift). */}

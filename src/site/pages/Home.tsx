@@ -4,21 +4,24 @@ import SplitReveal from '../components/craft/SplitReveal';
 import WorkCard from '../components/craft/WorkCard';
 import PreFooterCTA from '../components/craft/PreFooterCTA';
 import FillButton from '../components/craft/FillButton';
+import Panel from '../components/craft/Panel';
+import Tag from '../components/craft/Tag';
 import { EASE_ARR } from '../lib/motion';
+import { STOCK } from '../data/site';
 
 // Real, local, optimised client tiles.
 const TILE = (c: string) => `/assets/clients/${c}/tile.webp`;
 
 /**
- * Home — Phase 2/Cuberto-pass demo: SplitReveal hero, ink fill-button CTA,
- * staggered featured-work reel (real client tiles), ink PreFooterCTA. Phase 3
- * expands this to the full 9 sections.
+ * Home — alternating ink/white stacked panels (Cuberto card-slide). Hero (white)
+ * → manifesto (ink) → selected work (white) → end CTA (ink, video). Phase 3
+ * expands the middle with the remaining sections.
  */
 export default function Home() {
   return (
     <>
-      {/* HERO */}
-      <section className="flex min-h-[100svh] items-center px-6 pt-32 pb-24 md:px-10">
+      {/* HERO — white */}
+      <section className="flex min-h-[100svh] items-center px-6 pt-32 pb-28 md:px-10">
         <div className="mx-auto w-full max-w-6xl">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
@@ -70,15 +73,49 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SELECTED WORK — staggered reel */}
-      <section className="px-6 py-24 md:px-10 md:py-32">
+      {/* MANIFESTO — ink */}
+      <Panel bg="ink" className="flex min-h-[70svh] items-center px-6 py-28 md:px-10 md:py-36">
+        <div className="mx-auto w-full max-w-5xl">
+          <Tag variant="outline-dark" className="mb-8">
+            The problem
+          </Tag>
+          <SplitReveal
+            as="h2"
+            segments={[
+              { text: 'Most SA businesses still run on WhatsApps and spreadsheets. I build the' },
+              { text: 'system', serif: true },
+              { text: 'that runs it for you.' },
+            ]}
+            className="max-w-[20ch] text-[clamp(30px,5vw,68px)] font-semibold leading-[1.05] tracking-[-0.02em] text-white"
+          />
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.15 }}
+            className="mt-10"
+          >
+            <FillButton to="/systems" variant="on-dark">
+              See how it works
+            </FillButton>
+          </motion.div>
+        </div>
+      </Panel>
+
+      {/* SELECTED WORK — white, staggered reel */}
+      <Panel bg="white" className="px-6 py-24 md:px-10 md:py-32">
         <div className="mx-auto w-full max-w-6xl">
           <div className="mb-14 flex items-end justify-between gap-6">
-            <SplitReveal
-              as="h2"
-              segments={[{ text: 'Selected' }, { text: 'work', serif: true }]}
-              className="text-[clamp(34px,5vw,64px)] font-semibold leading-[1.02] tracking-[-0.02em] text-site-ink"
-            />
+            <div>
+              <Tag variant="outline" className="mb-6">
+                Selected work
+              </Tag>
+              <SplitReveal
+                as="h2"
+                segments={[{ text: 'Real builds for real' }, { text: 'businesses', serif: true }]}
+                className="max-w-[18ch] text-[clamp(34px,5vw,64px)] font-semibold leading-[1.02] tracking-[-0.02em] text-site-ink"
+              />
+            </div>
             <Link
               to="/portfolio"
               data-cursor="link"
@@ -131,9 +168,9 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </Panel>
 
-      <PreFooterCTA />
+      <PreFooterCTA videoSrc={STOCK.ctaLoop} />
     </>
   );
 }
