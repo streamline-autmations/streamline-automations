@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://streamline-automations.agency/sitemap.xml
+# Design-exploration homepage variants — not for indexing
+Disallow: /v1
+Disallow: /v2
+Disallow: /v3
+Disallow: /v4
+
+Sitemap: https://streamline-automations.co.za/sitemap.xml
