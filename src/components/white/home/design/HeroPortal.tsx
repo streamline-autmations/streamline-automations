@@ -11,9 +11,8 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 const LINE_1 = ['Websites', 'that', 'work.'];
 const LINE_2 = ['Systems', 'that', 'scale.'];
 
-// Real client site behind the portal — the live BLOM build, no mockup.
-const PORTAL_IMAGE =
-  'https://res.cloudinary.com/dnlgohkcc/image/upload/v1771851097/Blom-hero_image_jaqcoz.png';
+// Real client site behind the portal — clean full-bleed BLOM storefront capture.
+const PORTAL_IMAGE = '/assets/clients/blom/home-full.webp';
 
 const container: Variants = {
   hidden: {},
@@ -143,10 +142,10 @@ export default function HeroPortal() {
             // flat, scaling up to fill — the "screen rising to face you" reveal.
             .fromTo(
               cardRef.current,
-              { rotateX: 42, scale: 0.66, yPercent: 10, filter: 'blur(8px)' },
+              { rotateX: 40, scale: 0.58, yPercent: 8, filter: 'blur(10px)' },
               {
                 rotateX: 0,
-                scale: 1.06,
+                scale: 1.14,
                 yPercent: 0,
                 filter: 'blur(0px)',
                 ease: 'power2.out',
@@ -204,47 +203,45 @@ export default function HeroPortal() {
         />
       </motion.div>
 
-      {/* ── Portal visual (A): real client site, scales up through the gap ── */}
+      {/* ── Portal visual (A): real client site zooms up to FULL-BLEED ── */}
       <div
         ref={visualRef}
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-[5] grid place-items-center px-6"
-        style={{ opacity: 0, perspective: '1500px', willChange: 'opacity' }}
+        className="pointer-events-none absolute inset-0 z-[5]"
+        style={{ opacity: 0, perspective: '1700px', willChange: 'opacity' }}
       >
         {/* purple portal glow that intensifies with --progress */}
         <div
-          className="absolute left-1/2 top-1/2 h-[80vh] w-[80vh] -translate-x-1/2 -translate-y-1/2 rounded-full"
+          className="absolute left-1/2 top-1/2 h-[95vh] w-[95vh] -translate-x-1/2 -translate-y-1/2 rounded-full"
           style={{
-            background: 'radial-gradient(circle, rgba(123,63,228,0.28), transparent 62%)',
+            background: 'radial-gradient(circle, rgba(123,63,228,0.30), transparent 60%)',
             opacity: 'var(--progress, 0)',
           }}
         />
+        {/* the live site — fills the entire viewport at the end of the scrub */}
         <div
           ref={cardRef}
-          className="relative w-[92%] max-w-4xl overflow-hidden rounded-[14px] shadow-[0_40px_100px_-24px_rgba(76,29,149,0.45),0_12px_36px_-12px_rgba(0,0,0,0.22)] ring-1 ring-black/5"
-          style={{ transformOrigin: 'center 62%', willChange: 'transform' }}
+          className="absolute inset-0 overflow-hidden rounded-[18px] ring-1 ring-black/5"
+          style={{
+            transformOrigin: 'center center',
+            willChange: 'transform, filter',
+            boxShadow:
+              '0 60px 140px -40px rgba(76,29,149,0.55), 0 20px 60px -20px rgba(0,0,0,0.30)',
+          }}
         >
-          <div className="flex items-center gap-2 border-b border-white/5 bg-[#13101F] px-4 py-3">
-            <span className="h-2.5 w-2.5 rounded-full bg-[#FF5F57]" />
-            <span className="h-2.5 w-2.5 rounded-full bg-[#FEBC2E]" />
-            <span className="h-2.5 w-2.5 rounded-full bg-[#28C840]" />
-            <div className="mx-auto flex items-center gap-1.5 rounded-md bg-white/[0.06] px-3 py-1">
-              <span className="h-1 w-1 rounded-full bg-[#28C840]" />
-              <span className="font-['DM_Sans'] text-[10px] tracking-wide text-white/55">
-                blomcosmetics.co.za
-              </span>
-            </div>
-          </div>
-          <div className="relative aspect-[16/10] overflow-hidden bg-[#0D051F]">
-            <img
-              src={PORTAL_IMAGE}
-              alt=""
-              loading="lazy"
-              decoding="async"
-              draggable={false}
-              className="absolute inset-x-0 top-0 w-full select-none"
-            />
-          </div>
+          <img
+            src={PORTAL_IMAGE}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            draggable={false}
+            className="absolute inset-0 h-full w-full select-none object-cover object-top"
+          />
+          {/* soft top wash so the splitting headline stays legible over the image */}
+          <div
+            className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-white/35 to-transparent"
+            style={{ opacity: 'calc(1 - var(--progress, 0))' }}
+          />
         </div>
       </div>
 

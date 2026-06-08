@@ -797,12 +797,14 @@ body.cur-drag .cursor-dot { opacity: 0; }
   will-change: transform;
 }
 @keyframes ambientDriftA {
-  0%   { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(5%, 4%, 0); }
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(3%, 2.5%, 0) scale(1.12); }
+  100% { transform: translate3d(5%, 4%, 0) scale(1.02); }
 }
 @keyframes ambientDriftB {
-  0%   { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-5%, -4%, 0); }
+  0%   { transform: translate3d(0, 0, 0) scale(1.05); }
+  50%  { transform: translate3d(-3%, -2.5%, 0) scale(1.14); }
+  100% { transform: translate3d(-5%, -4%, 0) scale(1); }
 }
 @media (prefers-reduced-motion: reduce) {
   .ambient-bloom,
