@@ -26,7 +26,7 @@ export default function SiteFooter() {
 
         <div className="mt-[clamp(48px,7vh,80px)] grid grid-cols-1 gap-10 border-t border-white/10 pt-12 md:grid-cols-[1.4fr_1fr_1fr]">
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}>
-            <div className="mb-[18px] font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">The pitch</div>
+            <div className="mb-[18px] font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">The pitch</div>
             <p className="max-w-[320px] text-[16px] leading-[1.6] text-white/[0.78]">
               Websites that convert. Systems that run themselves. Custom builds and automation for
               South African businesses.
@@ -34,7 +34,7 @@ export default function SiteFooter() {
           </motion.div>
 
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}>
-            <div className="mb-[18px] font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">Navigate</div>
+            <div className="mb-[18px] font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">Navigate</div>
             <div className="grid grid-cols-2 gap-x-6">
               {FOOTER_NAV.map(([label, href]) => (
                 <Link
@@ -50,7 +50,7 @@ export default function SiteFooter() {
           </motion.div>
 
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}>
-            <div className="mb-[18px] font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">Get in touch</div>
+            <div className="mb-[18px] font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">Get in touch</div>
             <div className="flex flex-col">
               <a
                 href={`mailto:${CONTACT.email}`}
@@ -80,10 +80,10 @@ export default function SiteFooter() {
         </div>
 
         <div className="mt-[clamp(56px,8vh,90px)] flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-[30px]">
-          <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/40">
+          <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/60">
             © 2026 Streamline Automations · CIPC {CONTACT.cipc}
           </span>
-          <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/40">
+          <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/60">
             Built in the Vaal Triangle, SA
           </span>
         </div>

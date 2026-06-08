@@ -61,7 +61,7 @@ export default function PreFooterCTA({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.65, ease: EASE_ARR, delay: 0.1 }}
-          className="mx-auto mt-7 max-w-md text-[16px] leading-[1.65] text-white/60 md:text-[17px]"
+          className="mx-auto mt-7 max-w-md text-[16px] leading-[1.65] text-white/70 md:text-[17px]"
         >
           {sub}
         </motion.p>
@@ -80,7 +80,7 @@ export default function PreFooterCTA({
             href={CONTACT.whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[13.5px] text-white/50 outline-none transition-colors duration-200 hover:text-white focus-visible:text-white focus-visible:underline"
+            className="text-[13.5px] text-white/70 outline-none transition-colors duration-200 hover:text-white focus-visible:text-white focus-visible:underline"
           >
             Or WhatsApp me directly — {CONTACT.whatsappDisplay}
           </a>

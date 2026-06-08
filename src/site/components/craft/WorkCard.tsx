@@ -61,7 +61,12 @@ export default function WorkCard({
       viewport={{ once: true, margin: '-80px' }}
       transition={{ duration: 0.7, ease: EASE_ARR, delay: index * 0.06 }}
     >
-      <Link to={to} data-cursor="view" data-cursor-label="Explore" className="group block outline-none">
+      <Link
+        to={to}
+        data-cursor="view"
+        data-cursor-label="Explore"
+        className="group block rounded-3xl outline-none focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-offset-4"
+      >
         <div
           ref={wrapRef}
           className="relative w-full overflow-hidden rounded-3xl border border-site-line bg-site-surface shadow-[0_30px_80px_-20px_rgba(76,29,149,0.18),0_10px_30px_-10px_rgba(0,0,0,0.06)]"
