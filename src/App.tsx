@@ -8,7 +8,10 @@ import PageTransition from './components/layout/PageTransition';
 import LenisProvider from './components/providers/LenisProvider';
 import DotRingCursor from './components/white/ui/DotRingCursor';
 import SiteLoader from './components/white/ui/SiteLoader';
+import ComingSoon from './pages/ComingSoon';
 import { trackScrollDepth, resetScrollTracking, initOutboundLinkTracking, initBounceDetection, resetSessionTiming } from './lib/analytics';
+
+const COMING_SOON = import.meta.env.VITE_COMING_SOON === 'true';
 
 // Lazy load pages for performance
 const Home = lazy(() => import('./pages/HomeWhite'));
@@ -97,6 +100,14 @@ function AnimatedRoutes() {
 }
 
 function App() {
+  if (COMING_SOON) {
+    return (
+      <HelmetProvider>
+        <ComingSoon />
+      </HelmetProvider>
+    );
+  }
+
   return (
     <HelmetProvider>
       <Router>
