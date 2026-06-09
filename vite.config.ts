@@ -1,5 +1,6 @@
 import { defineConfig, Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
+import viteCompression from 'vite-plugin-compression';
 import fs from 'fs';
 
 // Vite/Rollup GLSL transform — handles production build + HMR
@@ -28,7 +29,12 @@ const esbuildGlslPlugin: any = {
 };
 
 export default defineConfig({
-  plugins: [react(), glslPlugin()],
+  plugins: [
+    react(),
+    glslPlugin(),
+    viteCompression({ algorithm: 'brotliCompress' }),
+    viteCompression({ algorithm: 'gzip' }),
+  ],
   optimizeDeps: {
     exclude: ['lucide-react'],
     include: ['sheryjs'],

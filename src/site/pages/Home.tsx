@@ -6,6 +6,10 @@ import PreFooterCTA from '../components/craft/PreFooterCTA';
 import FillButton from '../components/craft/FillButton';
 import Panel from '../components/craft/Panel';
 import Tag from '../components/craft/Tag';
+import ServicesSection from '../components/site/ServicesSection';
+import StatsSection from '../components/site/StatsSection';
+import AutomationScrolly from '../components/site/AutomationScrolly';
+import RentalSection from '../components/site/RentalSection';
 import { EASE_ARR } from '../lib/motion';
 import { STOCK } from '../data/site';
 
@@ -102,6 +106,12 @@ export default function Home() {
         </div>
       </Panel>
 
+      {/* THREE WAYS I HELP — white */}
+      <ServicesSection />
+
+      {/* BY THE NUMBERS — ink */}
+      <StatsSection />
+
       {/* SELECTED WORK — white, staggered reel */}
       <Panel bg="white" className="px-6 py-24 md:px-10 md:py-32">
         <div className="mx-auto w-full max-w-6xl">
@@ -169,6 +179,12 @@ export default function Home() {
           </div>
         </div>
       </Panel>
+
+      {/* AUTOMATION SCROLLYTELLING — ink, pinned */}
+      <AutomationScrolly />
+
+      {/* RENTAL CALLOUT — white, soft purple card */}
+      <RentalSection />
 
       <PreFooterCTA videoSrc={STOCK.ctaLoop} />
     </>
