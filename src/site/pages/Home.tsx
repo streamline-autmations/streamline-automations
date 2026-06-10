@@ -10,8 +10,8 @@ import ServicesSection from '../components/site/ServicesSection';
 import StatsSection from '../components/site/StatsSection';
 import AutomationScrolly from '../components/site/AutomationScrolly';
 import RentalSection from '../components/site/RentalSection';
+import HeroVisual, { OrbFallback } from '../components/three/HeroVisual';
 import { EASE_ARR } from '../lib/motion';
-import { STOCK } from '../data/site';
 
 // Real, local, optimised client tiles.
 const TILE = (c: string) => `/assets/clients/${c}/tile.webp`;
@@ -24,9 +24,13 @@ const TILE = (c: string) => `/assets/clients/${c}/tile.webp`;
 export default function Home() {
   return (
     <>
-      {/* HERO — white */}
-      <section className="flex min-h-[100svh] items-center px-6 pt-32 pb-28 md:px-10">
-        <div className="mx-auto w-full max-w-6xl">
+      {/* HERO — white, with the 3D liquid core floating right */}
+      <section className="relative flex min-h-[100svh] items-center overflow-hidden px-6 pt-32 pb-28 md:px-10">
+        {/* Desktop: lazy WebGL orb (scroll + mouse reactive). Mobile/reduced-motion: CSS orb. */}
+        <HeroVisual className="absolute inset-y-0 right-[-6%] z-0 hidden w-[54%] md:block" />
+        <OrbFallback className="absolute -right-24 -top-24 z-0 h-[260px] w-[260px] md:hidden" />
+
+        <div className="relative z-10 mx-auto w-full max-w-6xl">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -186,7 +190,7 @@ export default function Home() {
       {/* RENTAL CALLOUT — white, soft purple card */}
       <RentalSection />
 
-      <PreFooterCTA videoSrc={STOCK.ctaLoop} />
+      <PreFooterCTA />
     </>
   );
 }

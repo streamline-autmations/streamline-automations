@@ -93,7 +93,9 @@ export default function AutomationScrolly() {
                 <div
                   key={s.no}
                   aria-hidden={i !== active}
-                  inert={i !== active}
+                  // React 18 passes `inert` through as a raw attribute — boolean
+                  // false leaks into the DOM as "false" (truthy). String/undefined is correct.
+                  {...(i !== active ? { inert: '' } : {})}
                   className={`absolute inset-0 transition-opacity duration-500 ease-brand ${
                     i === active ? 'opacity-100' : 'pointer-events-none opacity-0'
                   }`}
