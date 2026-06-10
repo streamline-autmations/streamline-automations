@@ -28,9 +28,7 @@ export const SOCIALS = {
   linkedin: 'https://www.linkedin.com/in/christiaan-steffen-703805177/',
 } as const;
 
-// Black wordmark — sits on white nav/footer as-is; invert to white on ink.
-export const LOGO_URL =
-  'https://res.cloudinary.com/dtkiwrm6u/image/upload/v1780412723/Streamline-black-word-logo_rpzvgh.png';
+// Logo: the old image wordmark is retired — use <Wordmark /> (craft/Wordmark.tsx).
 
 export const PRIMARY_CTA = { label: 'Book a Free Call', to: '/contact' } as const;
 export const SECONDARY_CTA = { label: 'See the work', to: '/portfolio' } as const;

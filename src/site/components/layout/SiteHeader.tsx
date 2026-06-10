@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, type Variants } from 'framer-motion';
 import { EASE, EASE_ARR } from '../../lib/motion';
-import { LOGO_URL, SERVICES, NAV_LINKS } from '../../data/site';
+import { SERVICES, NAV_LINKS, CONTACT } from '../../data/site';
 import { Magnetic } from '../craft/Magnetic';
 import RollText from '../craft/RollText';
+import Wordmark from '../craft/Wordmark';
 
 /** Top-level nav link with the vertical roll-on-hover + active-route state. */
 function NavRoll({ to, label, active }: { to: string; label: string; active: boolean }) {
@@ -101,15 +102,10 @@ export default function SiteHeader() {
         }}
       />
 
-      {/* LEFT — magnetic logo */}
+      {/* LEFT — magnetic wordmark */}
       <Magnetic strength={10}>
         <Link to="/" data-cursor="link" className="inline-block outline-none" aria-label="Streamline Automations — home">
-          <img
-            src={LOGO_URL}
-            alt="Streamline Automations"
-            draggable={false}
-            className="h-[26px] w-auto select-none md:h-[30px]"
-          />
+          <Wordmark className="text-[21px] md:text-[23px]" />
         </Link>
       </Magnetic>
 
@@ -190,24 +186,37 @@ export default function SiteHeader() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: EASE_ARR }}
-            className="fixed inset-0 z-[1000] flex flex-col bg-white md:hidden"
+            className="fixed inset-0 z-[1000] flex flex-col overflow-y-auto bg-white md:hidden"
           >
+            {/* Overlay wordmark (header one sits underneath the white sheet) */}
+            <div className="px-8 pt-[22px]">
+              <Link to="/" className="inline-block outline-none" aria-label="Streamline Automations — home">
+                <Wordmark className="text-[21px]" />
+              </Link>
+            </div>
+
             <motion.nav
               variants={overlayContainer}
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="mt-24 flex flex-1 flex-col gap-2 px-8"
+              className="mt-14 flex flex-1 flex-col gap-1 px-8"
             >
-              {NAV_LINKS.map((l) => (
+              <span className="mb-4 font-mono text-[11px] uppercase tracking-[0.22em] text-site-text-muted">
+                Menu
+              </span>
+              {NAV_LINKS.map((l, i) => (
                 <span key={l.href} className="overflow-hidden">
                   <motion.span variants={overlayItem} className="block">
                     <Link
                       to={l.href}
-                      className={`block py-2 text-[34px] font-semibold tracking-[-0.02em] outline-none focus-visible:text-site-accent ${
+                      className={`flex min-h-[48px] items-baseline gap-3 py-1.5 text-[clamp(34px,9vw,42px)] font-semibold leading-[1.1] tracking-[-0.02em] outline-none focus-visible:text-site-accent ${
                         isActive(l.href) ? 'text-site-accent' : 'text-site-ink'
                       }`}
                     >
+                      <span className="font-mono text-[12px] font-normal tracking-[0.1em] text-site-text-muted">
+                        0{i + 1}
+                      </span>
                       {l.label}
                     </Link>
                   </motion.span>
@@ -215,7 +224,26 @@ export default function SiteHeader() {
               ))}
             </motion.nav>
 
-            <div className="px-8 pb-12">
+            <div className="px-8 pb-10 pt-8">
+              <div className="mb-7 flex flex-col gap-2 border-t border-site-line pt-7">
+                <span className="mb-1 font-mono text-[11px] uppercase tracking-[0.22em] text-site-text-muted">
+                  Get in touch
+                </span>
+                <a
+                  href={`mailto:${CONTACT.email}`}
+                  className="min-h-[44px] py-1 text-[15px] font-medium text-site-text-body outline-none"
+                >
+                  {CONTACT.email}
+                </a>
+                <a
+                  href={CONTACT.whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="min-h-[44px] py-1 text-[15px] font-medium text-site-text-body outline-none"
+                >
+                  WhatsApp · {CONTACT.whatsappDisplay}
+                </a>
+              </div>
               <Link
                 to="/contact"
                 className="flex min-h-[52px] items-center justify-center rounded-full bg-site-accent px-6 py-4 text-[16px] font-semibold text-white"

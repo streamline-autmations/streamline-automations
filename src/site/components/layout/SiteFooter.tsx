@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { fadeUp, viewport } from '../../lib/motion';
-import { LOGO_URL, CONTACT, FOOTER_NAV } from '../../data/site';
+import { CONTACT, FOOTER_NAV } from '../../data/site';
+import { Magnetic } from '../craft/Magnetic';
+import Wordmark from '../craft/Wordmark';
 
 /**
  * SiteFooter — the single shared ink footer used identically on every v2 page.
@@ -13,14 +15,8 @@ export default function SiteFooter() {
     <footer className="relative bg-site-ink pb-12 pt-[clamp(80px,12vh,130px)] text-white">
       <div className="mx-auto w-full max-w-6xl px-6">
         <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}>
-          <Link to="/" className="inline-block outline-none" aria-label="Streamline Automations — home">
-            <img
-              src={LOGO_URL}
-              alt="Streamline Automations"
-              draggable={false}
-              className="h-[clamp(44px,7vw,92px)] w-auto select-none"
-              style={{ filter: 'brightness(0) invert(1)' }}
-            />
+          <Link to="/" data-cursor="link" className="inline-block outline-none" aria-label="Streamline Automations — home">
+            <Wordmark tone="light" className="text-[clamp(44px,8vw,104px)]" />
           </Link>
         </motion.div>
 
@@ -37,14 +33,15 @@ export default function SiteFooter() {
             <div className="mb-[18px] font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">Navigate</div>
             <div className="grid grid-cols-2 gap-x-6">
               {FOOTER_NAV.map(([label, href]) => (
-                <Link
-                  key={href}
-                  to={href}
-                  data-cursor="link"
-                  className="mb-3 text-[16px] text-white/[0.78] outline-none transition-colors duration-300 hover:text-white focus-visible:text-[#9B5FF5]"
-                >
-                  {label}
-                </Link>
+                <Magnetic key={href} strength={6} className="mb-3 inline-block self-start">
+                  <Link
+                    to={href}
+                    data-cursor="link"
+                    className="text-[16px] text-white/[0.78] outline-none transition-colors duration-300 hover:text-white focus-visible:text-[#9B5FF5]"
+                  >
+                    {label}
+                  </Link>
+                </Magnetic>
               ))}
             </div>
           </motion.div>
