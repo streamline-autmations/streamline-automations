@@ -38,6 +38,8 @@ const HomeVariant2 = lazy(() => import('./pages/HomeVariant2'));
 const HomeVariant3 = lazy(() => import('./pages/HomeVariant3'));
 const HomeVariant4 = lazy(() => import('./pages/HomeVariant4'));
 const NotFound = lazy(() => import('./pages/NotFound'));
+// Isolated 3D scroll lab — self-contained test route, no header/footer
+const Lab = lazy(() => import('./pages/lab/LabPage'));
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -95,6 +97,9 @@ function AnimatedRoutes() {
         <Route path="/websites-old" element={<Navigate to="/websites" replace />} />
         <Route path="/systems-old" element={<Navigate to="/systems" replace />} />
         <Route path="/hosting-old" element={<Navigate to="/hosting" replace />} />
+
+        {/* Scroll-driven 3D test — isolated, owns its own scroll (no PageTransition) */}
+        <Route path="/lab" element={<Lab />} />
 
         {/* Catch-all — branded 404 */}
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />

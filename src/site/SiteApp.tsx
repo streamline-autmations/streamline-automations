@@ -22,6 +22,8 @@ const RecklessBear = lazy(() => import('./pages/work/RecklessBear'));
 const CWElectronics = lazy(() => import('./pages/work/CWElectronics'));
 const Ameli = lazy(() => import('./pages/work/Ameli'));
 const NotFound = lazy(() => import('./pages/NotFound'));
+// Isolated 3D scroll lab (lives outside src/site) — no header/footer/orb
+const Lab = lazy(() => import('../pages/lab/LabPage'));
 
 /** Animated route swap — ink wipe between pages, keyed by pathname. */
 function AnimatedRoutes() {
@@ -58,6 +60,34 @@ function AnimatedRoutes() {
 }
 
 /**
+ * Shell — routes /lab to the isolated 3D scroll test (no SiteLayout chrome,
+ * no ContactOrb — it owns its own scroll via drei ScrollControls). Everything
+ * else gets the normal header/content/footer tree.
+ */
+function Shell() {
+  const { pathname } = useLocation();
+
+  if (pathname === '/lab') {
+    return (
+      <Suspense fallback={<div className="min-h-[100svh] bg-site-ink" />}>
+        <Lab />
+      </Suspense>
+    );
+  }
+
+  return (
+    <>
+      <ContactOrb />
+      <SiteLayout>
+        <Suspense fallback={<div className="min-h-[100svh] bg-white" />}>
+          <AnimatedRoutes />
+        </Suspense>
+      </SiteLayout>
+    </>
+  );
+}
+
+/**
  * SiteApp — root of the v2 (white-minimal, Cuberto-calibrated) site. Owns its
  * own Router + smooth-scroll provider + custom cursor, fully decoupled from the
  * legacy app. Mounted by App.tsx when VITE_SITE_V2 === 'true'.
@@ -72,12 +102,7 @@ export default function SiteApp() {
         <LenisProvider>
           <ScrollToTop />
           <Cursor />
-          <ContactOrb />
-          <SiteLayout>
-            <Suspense fallback={<div className="min-h-[100svh] bg-white" />}>
-              <AnimatedRoutes />
-            </Suspense>
-          </SiteLayout>
+          <Shell />
         </LenisProvider>
       </BrowserRouter>
     </MotionConfig>
