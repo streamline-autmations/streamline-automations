@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import Tag from '../craft/Tag';
 import SplitReveal from '../craft/SplitReveal';
 import { ScrollTrigger, useGSAP } from '../../lib/gsap';
+
+const JourneyScene = lazy(() => import('../three/JourneyScene'));
 
 const STEPS = [
   { no: '01', title: 'Enquiry on WhatsApp', body: 'A customer messages your business number — day or night, no one waiting.' },
@@ -14,15 +16,21 @@ const STEPS = [
 
 /**
  * AutomationScrolly — the pinned showpiece. On desktop (motion allowed) the
- * section pins and scrubs through the 6 automation stages as you scroll. On
- * mobile / reduced-motion it renders as a clean stacked timeline (no pin).
+ * section pins and a 3D node journey plays behind the text: the camera travels
+ * node→node through the pipeline as you scrub the 6 stages, packets flowing
+ * along completed edges. The same ScrollTrigger drives BOTH the step state
+ * (React) and the scene (progress ref read in useFrame — Lenis-safe, same
+ * pattern as HeroVisual). On mobile / reduced-motion it renders as a clean
+ * stacked timeline (no pin, no WebGL).
  * Pin uses pinType:'transform' to play nice with Lenis + the overflow-x root.
  */
 export default function AutomationScrolly() {
   const [enhanced, setEnhanced] = useState(false);
   const [active, setActive] = useState(0);
+  const [inView, setInView] = useState(false);
   const scopeRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef(0);
 
   useEffect(() => {
     const desktop = window.matchMedia('(min-width: 768px)').matches;
@@ -36,10 +44,11 @@ export default function AutomationScrolly() {
       const st = ScrollTrigger.create({
         trigger: pinRef.current,
         start: 'top top',
-        end: '+=' + STEPS.length * 320,
+        end: '+=' + STEPS.length * 400,
         pin: pinRef.current,
         pinType: 'transform',
         onUpdate: (self) => {
+          progressRef.current = self.progress;
           const i = Math.min(STEPS.length - 1, Math.floor(self.progress * STEPS.length));
           setActive((cur) => (cur === i ? cur : i));
         },
@@ -48,6 +57,16 @@ export default function AutomationScrolly() {
     },
     { scope: scopeRef, dependencies: [enhanced] }
   );
+
+  // Halt the scene's frameloop entirely while the section is off-screen.
+  useEffect(() => {
+    if (!enhanced) return;
+    const el = pinRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, [enhanced]);
 
   if (!enhanced) {
     // Stacked timeline fallback (mobile / reduced-motion).
@@ -81,8 +100,31 @@ export default function AutomationScrolly() {
 
   return (
     <section ref={scopeRef} className="relative rounded-t-[2rem] bg-site-ink text-white md:rounded-t-[4rem]">
-      <div ref={pinRef} className="flex min-h-[100svh] items-center overflow-hidden px-6 py-24 md:px-10">
-        <div className="mx-auto grid w-full max-w-6xl items-center gap-12 md:grid-cols-[1.1fr_0.9fr]">
+      <div
+        ref={pinRef}
+        className="relative flex min-h-[100svh] items-center overflow-hidden px-6 py-24 md:px-10"
+      >
+        {/* 3D node journey behind the text — opaque ink canvas, rounded to
+            match the section's card top while it slides over the white panel */}
+        <div
+          aria-hidden
+          className="absolute inset-0 overflow-hidden rounded-t-[2rem] md:rounded-t-[4rem]"
+        >
+          <Suspense fallback={null}>
+            <JourneyScene progressRef={progressRef} active={inView} />
+          </Suspense>
+        </div>
+        {/* soft scrims so step copy + index list stay readable over the scene */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 left-0 w-[55%] bg-gradient-to-r from-site-ink/85 via-site-ink/35 to-transparent"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 right-0 w-[35%] bg-gradient-to-l from-site-ink/75 via-site-ink/30 to-transparent"
+        />
+
+        <div className="relative z-10 mx-auto grid w-full max-w-6xl items-center gap-12 md:grid-cols-[1.1fr_0.9fr]">
           {/* LEFT — active stage, big */}
           <div>
             <Tag variant="outline-dark" className="mb-8">
