@@ -44,17 +44,20 @@
   border-radius: 9999px;
   will-change: transform;
 }
+/* White + mix-blend-difference: renders black on the white site, white on dark
+   sections, and inverts whatever it overlaps — the glassy elegant cursor. */
 .sc-cur-dot {
-  width: 7px;
-  height: 7px;
-  background: #a67bff;
-  box-shadow: 0 0 12px rgba(166, 123, 255, 0.9);
+  width: 9px;
+  height: 9px;
+  background: #ffffff;
+  mix-blend-mode: difference;
   transform: translate(-50%, -50%);
 }
 .sc-cur-ring {
   width: 40px;
   height: 40px;
-  border: 1.5px solid rgba(166, 123, 255, 0.5);
+  border: 1.5px solid #ffffff;
+  mix-blend-mode: difference;
   transform: translate(-50%, -50%);
   display: grid;
   place-items: center;
@@ -76,10 +79,10 @@
   transition: opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 body.sc-cur-link .sc-cur-ring {
-  width: 64px;
-  height: 64px;
-  background: rgba(166, 123, 255, 0.08);
-  border-color: rgba(166, 123, 255, 0.35);
+  width: 72px;
+  height: 72px;
+  background: #ffffff;
+  border-color: transparent;
 }
 body.sc-cur-link .sc-cur-dot { opacity: 0; }
 body.sc-cur-view .sc-cur-ring,
@@ -89,6 +92,8 @@ body.sc-cur-drag .sc-cur-ring {
   background: #7b3fe4;
   border-color: #a67bff;
   box-shadow: 0 0 40px rgba(123, 63, 228, 0.6);
+  /* Brand-purple "View"/"Drag" moment — opt out of the invert blend. */
+  mix-blend-mode: normal;
 }
 body.sc-cur-view .sc-cur-ring .sc-cur-label,
 body.sc-cur-drag .sc-cur-ring .sc-cur-label { opacity: 1; }
