@@ -13,6 +13,10 @@
  *
  * Mouse parallax reads window-level pointer position (not canvas pointer —
  * the canvas only covers the right half of the hero).
+ *
+ * On mount a one-time ~1.6s GSAP intro assembles the network (nodes fly in →
+ * threads draw → packets start → camera pushes in) before handing off to the
+ * ambient state above. See IntroState below.
  */
 import { useEffect, useMemo, useRef } from 'react';
 import type { MutableRefObject } from 'react';
@@ -20,6 +24,7 @@ import { Color, MathUtils, Object3D, Vector3 } from 'three';
 import type { Group, InstancedMesh, LineSegments, Mesh, MeshStandardMaterial } from 'three';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { ContactShadows, Environment, Html, Lightformer } from '@react-three/drei';
+import { gsap, useGSAP } from '../../lib/gsap';
 
 /** Flip to true to show small HTML labels on the hub nodes (off = clean). */
 const SHOW_NODE_LABELS = false;
@@ -80,6 +85,52 @@ const ALL_EDGES = [...CORE_EDGES, ...EXTRA_EDGES];
 
 const PACKET_COUNT = 7;
 
+/**
+ * Mount intro — one-time assembly played on load, then permanently 1/1/1/1 and
+ * every formula below collapses to the pre-intro behaviour. Each field is a
+ * 0→1 progress tweened by a single GSAP timeline in <HeroScene>:
+ * node (fly-in + scale), edge (thread draw), packet (flow ramp), cam (push-in).
+ */
+interface IntroState {
+  node: number;
+  edge: number;
+  packet: number;
+  cam: number;
+}
+
+const SETTLED: IntroState = { node: 1, edge: 1, packet: 1, cam: 1 };
+
+const clamp01 = (v: number) => MathUtils.clamp(v, 0, 1);
+const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+// slight overshoot on node scale so they "pop" into place
+const easeOutBack = (t: number) =>
+  1 + 2.70158 * Math.pow(t - 1, 3) + 1.70158 * Math.pow(t - 1, 2);
+
+// Where each node flies in from: pulled toward the centre + a small
+// deterministic scatter so the assembly reads organic, not radial.
+const INTRO_FROM: [number, number, number][] = NODES.map((n, i) => [
+  n.p[0] * 0.18 + Math.sin(i * 12.9898) * 0.4,
+  n.p[1] * 0.18 + Math.cos(i * 78.233) * 0.4,
+  n.p[2] * 0.18 + Math.sin(i * 39.425) * 0.3,
+]);
+
+/** Per-node staggered progress (hub first, satellites last — NODES order). */
+function nodeIntroT(i: number, nodeProgress: number) {
+  return clamp01((nodeProgress - (i / NODES.length) * 0.45) / 0.55);
+}
+
+/** Current in-flight position of node i — shared so edges track flying nodes. */
+function nodeIntroPos(i: number, nodeProgress: number, out: Vector3) {
+  const t = easeOutCubic(nodeIntroT(i, nodeProgress));
+  const s = INTRO_FROM[i];
+  const e = NODES[i].p;
+  return out.set(
+    MathUtils.lerp(s[0], e[0], t),
+    MathUtils.lerp(s[1], e[1], t),
+    MathUtils.lerp(s[2], e[2], t)
+  );
+}
+
 function edgePositions(edges: [number, number][]) {
   const arr = new Float32Array(edges.length * 6);
   edges.forEach(([a, b], i) => {
@@ -90,19 +141,60 @@ function edgePositions(edges: [number, number][]) {
 }
 
 /** Thin hairline threads. Core set is always on; extra set fades in on scroll. */
-function Edges({ progressRef }: { progressRef: MutableRefObject<number> }) {
-  const corePos = useMemo(() => edgePositions(CORE_EDGES), []);
+function Edges({
+  progressRef,
+  intro,
+}: {
+  progressRef: MutableRefObject<number>;
+  intro: IntroState;
+}) {
+  const corePos = useMemo(() => edgePositions(CORE_EDGES), []); // mutated during intro draw
   const extraPos = useMemo(() => edgePositions(EXTRA_EDGES), []);
+  const coreRef = useRef<LineSegments>(null);
   const extraRef = useRef<LineSegments>(null);
+  const va = useMemo(() => new Vector3(), []);
+  const vb = useMemo(() => new Vector3(), []);
+  const settled = useRef(false);
 
   useFrame(() => {
-    const mat = extraRef.current?.material as { opacity: number } | undefined;
-    if (mat) mat.opacity = 0.04 + progressRef.current * 0.3;
+    const extraMat = extraRef.current?.material as { opacity: number } | undefined;
+    if (extraMat) extraMat.opacity = (0.04 + progressRef.current * 0.3) * clamp01(intro.edge);
+
+    const core = coreRef.current;
+    if (!core) return;
+    const coreMat = core.material as { opacity: number };
+    if (intro.edge < 1) {
+      // Draw each thread from its hub end toward the (possibly still flying)
+      // far node, with a soft per-edge stagger.
+      settled.current = false;
+      CORE_EDGES.forEach(([a, b], i) => {
+        nodeIntroPos(a, intro.node, va);
+        nodeIntroPos(b, intro.node, vb);
+        const t = easeOutCubic(clamp01((intro.edge - i * 0.022) / 0.6));
+        corePos[i * 6] = va.x;
+        corePos[i * 6 + 1] = va.y;
+        corePos[i * 6 + 2] = va.z;
+        corePos[i * 6 + 3] = MathUtils.lerp(va.x, vb.x, t);
+        corePos[i * 6 + 4] = MathUtils.lerp(va.y, vb.y, t);
+        corePos[i * 6 + 5] = MathUtils.lerp(va.z, vb.z, t);
+      });
+      core.geometry.attributes.position.needsUpdate = true;
+      coreMat.opacity = 0.38 * clamp01(intro.edge * 3);
+    } else if (!settled.current) {
+      // snap to exact final endpoints once, then never touch the buffer again
+      CORE_EDGES.forEach(([a, b], i) => {
+        corePos.set(NODES[a].p, i * 6);
+        corePos.set(NODES[b].p, i * 6 + 3);
+      });
+      core.geometry.attributes.position.needsUpdate = true;
+      coreMat.opacity = 0.38;
+      settled.current = true;
+    }
   });
 
   return (
     <>
-      <lineSegments>
+      <lineSegments ref={coreRef}>
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" args={[corePos, 3]} />
         </bufferGeometry>
@@ -122,7 +214,13 @@ function Edges({ progressRef }: { progressRef: MutableRefObject<number> }) {
  * Packets — a few bright points travelling the edges. Instanced; each packet
  * walks edge→connected edge so flow reads as routing, not random shuttling.
  */
-function Packets({ progressRef }: { progressRef: MutableRefObject<number> }) {
+function Packets({
+  progressRef,
+  intro,
+}: {
+  progressRef: MutableRefObject<number>;
+  intro: IntroState;
+}) {
   const coreRef = useRef<InstancedMesh>(null);
   const haloRef = useRef<InstancedMesh>(null);
   const dummy = useMemo(() => new Object3D(), []);
@@ -155,7 +253,10 @@ function Packets({ progressRef }: { progressRef: MutableRefObject<number> }) {
     const core = coreRef.current;
     const halo = haloRef.current;
     if (!core || !halo) return;
-    const flow = 0.6 + progressRef.current * 2.4;
+    // Packets only start once the threads have drawn — appear ramps speed and
+    // scale together so the flow fades in instead of popping mid-edge.
+    const appear = clamp01(intro.packet);
+    const flow = (0.6 + progressRef.current * 2.4) * appear;
 
     packets.forEach((pk, i) => {
       pk.t += delta * pk.speed * flow;
@@ -176,10 +277,10 @@ function Packets({ progressRef }: { progressRef: MutableRefObject<number> }) {
       vb.set(...NODES[b].p);
       const tt = pk.forward ? pk.t : 1 - pk.t;
       dummy.position.lerpVectors(va, vb, tt);
-      dummy.scale.setScalar(1);
+      dummy.scale.setScalar(appear);
       dummy.updateMatrix();
       core.setMatrixAt(i, dummy.matrix);
-      dummy.scale.setScalar(2.6);
+      dummy.scale.setScalar(2.6 * appear);
       dummy.updateMatrix();
       halo.setMatrixAt(i, dummy.matrix);
     });
@@ -207,23 +308,36 @@ function NetworkNode({
   def,
   index,
   progressRef,
+  intro,
 }: {
   def: NodeDef;
   index: number;
   progressRef: MutableRefObject<number>;
+  intro: IntroState;
 }) {
   const meshRef = useRef<Mesh>(null);
+  const settled = useRef(false);
 
   useFrame((state) => {
     const mesh = meshRef.current;
     if (!mesh) return;
     const et = state.clock.elapsedTime;
+    const t = nodeIntroT(index, intro.node);
+    if (t < 1) {
+      nodeIntroPos(index, intro.node, mesh.position);
+      settled.current = false;
+    } else if (!settled.current) {
+      mesh.position.set(def.p[0], def.p[1], def.p[2]);
+      settled.current = true;
+    }
+    const grow = t >= 1 ? 1 : easeOutBack(t);
     const pulse = 1 + Math.sin(et * (0.7 + (index % 4) * 0.18) + index * 1.9) * 0.035;
     const activate = def.late ? 0.55 + Math.min(progressRef.current * 1.6, 1) * 0.45 : 1;
-    mesh.scale.setScalar(pulse * activate);
-    if (def.late) {
+    mesh.scale.setScalar(pulse * activate * grow);
+    if (def.kind !== 'glass') {
       const mat = mesh.material as MeshStandardMaterial;
-      mat.opacity = 0.5 + Math.min(progressRef.current * 1.6, 1) * 0.5;
+      const rest = def.late ? 0.5 + Math.min(progressRef.current * 1.6, 1) * 0.5 : 1;
+      mat.opacity = rest * clamp01(t * 2.5);
     }
   });
 
@@ -254,8 +368,10 @@ function NetworkNode({
           roughness={def.rough ?? 0.7}
           metalness={0}
           flatShading={def.kind === 'ico'}
-          transparent={def.late}
-          opacity={def.late ? 0.5 : 1}
+          // transparent on all matte nodes so the mount intro can fade them in;
+          // useFrame owns opacity from the first frame onward
+          transparent
+          opacity={0}
         />
       )}
       {SHOW_NODE_LABELS && def.label && (
@@ -272,12 +388,20 @@ function NetworkNode({
 }
 
 /** Camera dolly — flies into/through the cluster as scroll progress rises. */
-function Rig({ progressRef }: { progressRef: MutableRefObject<number> }) {
+function Rig({
+  progressRef,
+  intro,
+}: {
+  progressRef: MutableRefObject<number>;
+  intro: IntroState;
+}) {
   const look = useMemo(() => new Vector3(0, 0.1, 0), []);
   useFrame((state) => {
     const t = progressRef.current;
     const cam = state.camera;
-    cam.position.z = MathUtils.lerp(cam.position.z, 13 - t * 4.4, 0.08);
+    // mount push-in: starts 3.4 further out, settles to the resting z
+    const introPull = (1 - intro.cam) * 3.4;
+    cam.position.z = MathUtils.lerp(cam.position.z, 13 + introPull - t * 4.4, 0.08);
     cam.position.y = MathUtils.lerp(cam.position.y, 0.2 + t * 0.5, 0.08);
     cam.position.x = MathUtils.lerp(cam.position.x, t * 0.4, 0.08);
     cam.lookAt(look);
@@ -285,7 +409,13 @@ function Rig({ progressRef }: { progressRef: MutableRefObject<number> }) {
   return null;
 }
 
-function Network({ progressRef }: { progressRef: MutableRefObject<number> }) {
+function Network({
+  progressRef,
+  intro,
+}: {
+  progressRef: MutableRefObject<number>;
+  intro: IntroState;
+}) {
   const groupRef = useRef<Group>(null);
   const mouse = useRef({ x: 0, y: 0 });
 
@@ -313,10 +443,10 @@ function Network({ progressRef }: { progressRef: MutableRefObject<number> }) {
 
   return (
     <group ref={groupRef} position={[0.35, 0, 0]}>
-      <Edges progressRef={progressRef} />
-      <Packets progressRef={progressRef} />
+      <Edges progressRef={progressRef} intro={intro} />
+      <Packets progressRef={progressRef} intro={intro} />
       {NODES.map((def, i) => (
-        <NetworkNode key={i} def={def} index={i} progressRef={progressRef} />
+        <NetworkNode key={i} def={def} index={i} progressRef={progressRef} intro={intro} />
       ))}
     </group>
   );
@@ -329,12 +459,33 @@ export default function HeroScene({
   progressRef: MutableRefObject<number>;
   active: boolean;
 }) {
+  // Reduced motion never reaches this scene (HeroVisual gates it to the static
+  // image), but belt-and-braces: render pre-assembled, no intro timeline.
+  const reduced = useMemo(
+    () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    []
+  );
+  const intro = useRef<IntroState>(reduced ? { ...SETTLED } : { node: 0, edge: 0, packet: 0, cam: 0 }).current;
+
+  // One-time mount assembly: nodes fly in → threads draw → packets flow, with
+  // a camera push-in across the whole window. After ~1.6s every progress is 1
+  // and the ambient drift / pulse / scroll dolly behave exactly as before.
+  useGSAP(() => {
+    if (reduced) return;
+    gsap
+      .timeline()
+      .to(intro, { node: 1, duration: 0.9, ease: 'none' }, 0) // per-node ease + stagger applied in useFrame
+      .to(intro, { cam: 1, duration: 1.6, ease: 'power2.out' }, 0)
+      .to(intro, { edge: 1, duration: 0.75, ease: 'none' }, 0.45)
+      .to(intro, { packet: 1, duration: 0.5, ease: 'power1.inOut' }, 1.1);
+  }, []);
+
   return (
     <Canvas
       // 'never' fully halts rendering when the hero is off-screen
       frameloop={active ? 'always' : 'never'}
       dpr={[1, 1.75]}
-      camera={{ position: [0, 0.2, 13], fov: 38 }}
+      camera={{ position: [0, 0.2, reduced ? 13 : 16.4], fov: 38 }}
       gl={{ alpha: true, antialias: true }}
     >
       {/* Soft offline studio environment — built from Lightformers, no HDR fetch.
@@ -348,8 +499,8 @@ export default function HeroScene({
       <ambientLight intensity={0.35} />
       <directionalLight position={[4, 6, 5]} intensity={1.4} />
 
-      <Rig progressRef={progressRef} />
-      <Network progressRef={progressRef} />
+      <Rig progressRef={progressRef} intro={intro} />
+      <Network progressRef={progressRef} intro={intro} />
 
       {/* Soft ground shadow sells "objects in a room" on the white page */}
       <ContactShadows position={[0, -3.1, 0]} opacity={0.16} scale={12} blur={3} far={4} resolution={512} color="#2A1454" />
