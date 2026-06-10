@@ -25,6 +25,8 @@ export const CONTACT = {
 export const SOCIALS = {
   instagram: 'https://instagram.com/streamline_automations',
   facebook: 'https://www.facebook.com/people/Streamline-Automations/61587739632609/',
+  tiktok: 'https://www.tiktok.com/@streamline_automations',
+  youtube: 'https://www.youtube.com/@streamline_automations',
   linkedin: 'https://www.linkedin.com/in/christiaan-steffen-703805177/',
 } as const;
 
