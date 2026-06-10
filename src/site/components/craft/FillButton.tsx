@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
+import { Magnetic } from './Magnetic';
 
 type Variant = 'ink' | 'accent' | 'on-dark';
 
@@ -12,8 +13,9 @@ const V: Record<Variant, { ring: string; fill: string; hoverText: string }> = {
 
 /**
  * FillButton — outlined pill that fills from the bottom on hover, inverting the
- * label colour (Cuberto's signature button). Stays put (no magnet). Renders a
- * router <Link> (to) or an <a> (href). Reduced-motion → instant fill, no slide.
+ * label colour (Cuberto's signature button), with a subtle magnetic pull
+ * (auto-disabled on touch + reduced-motion). Renders a router <Link> (to) or
+ * an <a> (href). Reduced-motion → instant fill, no slide.
  */
 export default function FillButton({
   to,
@@ -51,26 +53,32 @@ export default function FillButton({
 
   if (to) {
     return (
-      <Link to={to} data-cursor={dataCursor} className={cls}>
-        {inner}
-      </Link>
+      <Magnetic strength={10}>
+        <Link to={to} data-cursor={dataCursor} className={cls}>
+          {inner}
+        </Link>
+      </Magnetic>
     );
   }
   if (href) {
     return (
-      <a
-        href={href}
-        data-cursor={dataCursor}
-        className={cls}
-        {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-      >
-        {inner}
-      </a>
+      <Magnetic strength={10}>
+        <a
+          href={href}
+          data-cursor={dataCursor}
+          className={cls}
+          {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        >
+          {inner}
+        </a>
+      </Magnetic>
     );
   }
   return (
-    <button type="button" onClick={onClick} data-cursor={dataCursor} className={cls}>
-      {inner}
-    </button>
+    <Magnetic strength={10}>
+      <button type="button" onClick={onClick} data-cursor={dataCursor} className={cls}>
+        {inner}
+      </button>
+    </Magnetic>
   );
 }
