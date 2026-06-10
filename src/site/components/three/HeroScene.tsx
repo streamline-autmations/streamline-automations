@@ -1,11 +1,14 @@
 /**
- * HeroScene — the homepage "liquid core": a glossy purple distort-material orb
- * with a tilted orbiting particle ring and a soft contact shadow, floating on
- * the white canvas. Transparent WebGL canvas — the page itself is the bg.
+ * HeroScene — the homepage "automation network": a hand-composed 3D node graph
+ * (matte purple / ink / white spheres + icosahedrons joined by hairline threads)
+ * with bright packets of light travelling the edges — data moving through a
+ * system. One translucent iridescent node is the focal point. Transparent
+ * WebGL canvas — the white page itself is the bg.
  *
  * Inputs (from HeroVisual):
- * - progressRef: hero scroll progress 0→1 (GSAP ScrollTrigger). The orb morphs
- *   harder, spins faster, lifts and shrinks slightly as you scroll away.
+ * - progressRef: hero scroll progress 0→1 (GSAP ScrollTrigger). The camera
+ *   dollies INTO the network, satellite nodes + extra edges activate, and the
+ *   packet flow accelerates — "the system building itself" as you scroll.
  * - active: frameloop gate — when the hero is off-screen we render nothing.
  *
  * Mouse parallax reads window-level pointer position (not canvas pointer —
@@ -13,62 +16,277 @@
  */
 import { useEffect, useMemo, useRef } from 'react';
 import type { MutableRefObject } from 'react';
-import { MathUtils } from 'three';
-import type { BufferGeometry, Group, Mesh } from 'three';
+import { Color, MathUtils, Object3D, Vector3 } from 'three';
+import type { Group, InstancedMesh, LineSegments, Mesh, MeshStandardMaterial } from 'three';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { ContactShadows, MeshDistortMaterial } from '@react-three/drei';
+import { ContactShadows, Environment, Html, Lightformer } from '@react-three/drei';
 
-const ACCENT = '#7B3FE4';
+/** Flip to true to show small HTML labels on the hub nodes (off = clean). */
+const SHOW_NODE_LABELS = false;
 
-function ParticleRing({ progressRef }: { progressRef: MutableRefObject<number> }) {
-  const COUNT = 420;
-  const geomRef = useRef<BufferGeometry>(null);
+const PURPLE = '#7B3FE4';
+const PURPLE_DEEP = '#5B2BB8';
+const PURPLE_SOFT = '#B596F0';
+const INK = '#15151C';
+const WHITE = '#F4F3F7';
+const GREY = '#D6D6DE';
 
-  // Per-particle orbit: angle, radius band around the orb, tiny y scatter.
-  const data = useMemo(() => {
-    const angle = new Float32Array(COUNT);
-    const radius = new Float32Array(COUNT);
-    const speed = new Float32Array(COUNT);
-    const yoff = new Float32Array(COUNT);
-    for (let i = 0; i < COUNT; i++) {
-      angle[i] = Math.random() * Math.PI * 2;
-      radius[i] = 2.15 + Math.random() * 0.85;
-      speed[i] = 0.12 + Math.random() * 0.25;
-      yoff[i] = (Math.random() - 0.5) * 0.35;
-    }
-    return { angle, radius, speed, yoff };
-  }, []);
+type NodeKind = 'sphere' | 'ico' | 'glass';
 
-  const positions = useMemo(() => new Float32Array(COUNT * 3), []);
+interface NodeDef {
+  p: [number, number, number];
+  r: number;
+  color?: string;
+  kind: NodeKind;
+  /** roughness band 0.6–0.8 — quiet richness, never gloss */
+  rough?: number;
+  /** satellite nodes scale/fade in as scroll progress rises */
+  late?: boolean;
+  label?: string;
+}
 
-  useFrame((_, delta) => {
-    const geom = geomRef.current;
-    if (!geom) return;
-    const t = progressRef.current;
-    for (let i = 0; i < COUNT; i++) {
-      data.angle[i] += delta * data.speed[i] * (0.5 + t * 1.4);
-      positions[i * 3] = Math.cos(data.angle[i]) * data.radius[i];
-      positions[i * 3 + 1] = data.yoff[i];
-      positions[i * 3 + 2] = Math.sin(data.angle[i]) * data.radius[i];
-    }
-    geom.attributes.position.needsUpdate = true;
+// Hand-placed for silhouette: a focal cluster around the glass node with a few
+// satellites pushed back in z. Asymmetric on purpose — composed, not generated.
+const NODES: NodeDef[] = [
+  { p: [0, 0.1, 0], r: 0.55, kind: 'glass', label: 'CRM' }, // 0 — iridescent focal
+  { p: [1.8, 1.25, -0.7], r: 0.8, color: PURPLE_DEEP, kind: 'sphere', rough: 0.75, label: 'WhatsApp' }, // 1
+  { p: [-1.9, -0.55, 0.3], r: 0.66, color: WHITE, kind: 'sphere', rough: 0.6, label: 'Lead' }, // 2
+  { p: [1.05, -1.45, 0.25], r: 0.48, color: PURPLE, kind: 'sphere', rough: 0.7, label: 'Booking' }, // 3
+  { p: [-1.05, 1.5, -0.4], r: 0.4, color: INK, kind: 'ico', rough: 0.65, label: 'Invoice' }, // 4
+  { p: [2.5, -0.5, 0.4], r: 0.34, color: INK, kind: 'sphere', rough: 0.7 }, // 5
+  { p: [-2.6, 0.9, -1.0], r: 0.3, color: PURPLE, kind: 'ico', rough: 0.7 }, // 6
+  { p: [0.3, 2.2, -1.3], r: 0.26, color: INK, kind: 'sphere', rough: 0.7 }, // 7
+  { p: [-0.7, -2.1, -0.6], r: 0.3, color: GREY, kind: 'sphere', rough: 0.65 }, // 8
+  { p: [-0.45, 0.85, 0.85], r: 0.18, color: PURPLE_SOFT, kind: 'sphere', rough: 0.6 }, // 9
+  // satellites — activate on scroll
+  { p: [3.4, 1.9, -2.0], r: 0.18, color: PURPLE, kind: 'sphere', rough: 0.7, late: true }, // 10
+  { p: [-3.4, -1.7, -1.4], r: 0.2, color: INK, kind: 'sphere', rough: 0.7, late: true }, // 11
+  { p: [2.9, -2.2, -1.6], r: 0.16, color: GREY, kind: 'ico', rough: 0.65, late: true }, // 12
+  { p: [-3.0, 2.3, -2.2], r: 0.15, color: PURPLE, kind: 'sphere', rough: 0.7, late: true }, // 13
+  { p: [1.3, 2.9, 0.5], r: 0.13, color: INK, kind: 'sphere', rough: 0.7, late: true }, // 14
+];
+
+// Intentional edge set — hub-and-spoke through the glass focal, never a mesh soup.
+const CORE_EDGES: [number, number][] = [
+  [0, 1], [0, 2], [0, 3], [0, 4], [0, 9],
+  [1, 5], [1, 7], [2, 6], [2, 8], [2, 9],
+  [3, 5], [3, 8], [4, 6], [4, 7],
+];
+// Activate as the camera dives in.
+const EXTRA_EDGES: [number, number][] = [
+  [1, 10], [5, 12], [6, 13], [8, 11], [7, 14], [10, 12], [4, 13], [3, 12],
+];
+const ALL_EDGES = [...CORE_EDGES, ...EXTRA_EDGES];
+
+const PACKET_COUNT = 7;
+
+function edgePositions(edges: [number, number][]) {
+  const arr = new Float32Array(edges.length * 6);
+  edges.forEach(([a, b], i) => {
+    arr.set(NODES[a].p, i * 6);
+    arr.set(NODES[b].p, i * 6 + 3);
+  });
+  return arr;
+}
+
+/** Thin hairline threads. Core set is always on; extra set fades in on scroll. */
+function Edges({ progressRef }: { progressRef: MutableRefObject<number> }) {
+  const corePos = useMemo(() => edgePositions(CORE_EDGES), []);
+  const extraPos = useMemo(() => edgePositions(EXTRA_EDGES), []);
+  const extraRef = useRef<LineSegments>(null);
+
+  useFrame(() => {
+    const mat = extraRef.current?.material as { opacity: number } | undefined;
+    if (mat) mat.opacity = 0.04 + progressRef.current * 0.3;
   });
 
   return (
-    // Tilted so the ring reads as an ellipse sweeping behind/in front of the orb
-    <points rotation={[-0.55, 0, 0.35]}>
-      <bufferGeometry ref={geomRef}>
-        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
-      </bufferGeometry>
-      <pointsMaterial color={ACCENT} size={0.035} sizeAttenuation transparent opacity={0.55} depthWrite={false} />
-    </points>
+    <>
+      <lineSegments>
+        <bufferGeometry>
+          <bufferAttribute attach="attributes-position" args={[corePos, 3]} />
+        </bufferGeometry>
+        <lineBasicMaterial color="#A9A4B8" transparent opacity={0.38} depthWrite={false} />
+      </lineSegments>
+      <lineSegments ref={extraRef}>
+        <bufferGeometry>
+          <bufferAttribute attach="attributes-position" args={[extraPos, 3]} />
+        </bufferGeometry>
+        <lineBasicMaterial color={PURPLE} transparent opacity={0.04} depthWrite={false} />
+      </lineSegments>
+    </>
   );
 }
 
-function LiquidCore({ progressRef }: { progressRef: MutableRefObject<number> }) {
+/**
+ * Packets — a few bright points travelling the edges. Instanced; each packet
+ * walks edge→connected edge so flow reads as routing, not random shuttling.
+ */
+function Packets({ progressRef }: { progressRef: MutableRefObject<number> }) {
+  const coreRef = useRef<InstancedMesh>(null);
+  const haloRef = useRef<InstancedMesh>(null);
+  const dummy = useMemo(() => new Object3D(), []);
+  const va = useMemo(() => new Vector3(), []);
+  const vb = useMemo(() => new Vector3(), []);
+
+  // node index → edges touching it (over the full edge set)
+  const adjacency = useMemo(() => {
+    const adj: number[][] = NODES.map(() => []);
+    ALL_EDGES.forEach(([a, b], i) => {
+      adj[a].push(i);
+      adj[b].push(i);
+    });
+    return adj;
+  }, []);
+
+  const packets = useMemo(
+    () =>
+      Array.from({ length: PACKET_COUNT }, (_, i) => ({
+        edge: i * 3 % CORE_EDGES.length,
+        t: (i * 0.37) % 1,
+        forward: i % 2 === 0,
+        speed: 0.22 + (i % 3) * 0.07,
+        seed: i * 1.7,
+      })),
+    []
+  );
+
+  useFrame((state, delta) => {
+    const core = coreRef.current;
+    const halo = haloRef.current;
+    if (!core || !halo) return;
+    const flow = 0.6 + progressRef.current * 2.4;
+
+    packets.forEach((pk, i) => {
+      pk.t += delta * pk.speed * flow;
+      if (pk.t >= 1) {
+        // arrive → continue along a connected edge (deterministic-ish pick)
+        const [a, b] = ALL_EDGES[pk.edge];
+        const arrived = pk.forward ? b : a;
+        const options = adjacency[arrived].filter((e) => e !== pk.edge);
+        const next = options.length
+          ? options[Math.floor(state.clock.elapsedTime * 7 + pk.seed) % options.length]
+          : pk.edge;
+        pk.edge = next;
+        pk.forward = ALL_EDGES[next][0] === arrived;
+        pk.t = 0;
+      }
+      const [a, b] = ALL_EDGES[pk.edge];
+      va.set(...NODES[a].p);
+      vb.set(...NODES[b].p);
+      const tt = pk.forward ? pk.t : 1 - pk.t;
+      dummy.position.lerpVectors(va, vb, tt);
+      dummy.scale.setScalar(1);
+      dummy.updateMatrix();
+      core.setMatrixAt(i, dummy.matrix);
+      dummy.scale.setScalar(2.6);
+      dummy.updateMatrix();
+      halo.setMatrixAt(i, dummy.matrix);
+    });
+    core.instanceMatrix.needsUpdate = true;
+    halo.instanceMatrix.needsUpdate = true;
+  });
+
+  return (
+    <>
+      <instancedMesh ref={coreRef} args={[undefined, undefined, PACKET_COUNT]} frustumCulled={false}>
+        <sphereGeometry args={[0.045, 12, 12]} />
+        <meshBasicMaterial color="#8F5BFF" toneMapped={false} />
+      </instancedMesh>
+      {/* soft purple halo — airy glow on white without postprocessing bloom */}
+      <instancedMesh ref={haloRef} args={[undefined, undefined, PACKET_COUNT]} frustumCulled={false}>
+        <sphereGeometry args={[0.045, 12, 12]} />
+        <meshBasicMaterial color={PURPLE} transparent opacity={0.16} depthWrite={false} toneMapped={false} />
+      </instancedMesh>
+    </>
+  );
+}
+
+/** One node mesh — matte PBR, gentle idle pulse; satellites grow in on scroll. */
+function NetworkNode({
+  def,
+  index,
+  progressRef,
+}: {
+  def: NodeDef;
+  index: number;
+  progressRef: MutableRefObject<number>;
+}) {
+  const meshRef = useRef<Mesh>(null);
+
+  useFrame((state) => {
+    const mesh = meshRef.current;
+    if (!mesh) return;
+    const et = state.clock.elapsedTime;
+    const pulse = 1 + Math.sin(et * (0.7 + (index % 4) * 0.18) + index * 1.9) * 0.035;
+    const activate = def.late ? 0.55 + Math.min(progressRef.current * 1.6, 1) * 0.45 : 1;
+    mesh.scale.setScalar(pulse * activate);
+    if (def.late) {
+      const mat = mesh.material as MeshStandardMaterial;
+      mat.opacity = 0.5 + Math.min(progressRef.current * 1.6, 1) * 0.5;
+    }
+  });
+
+  return (
+    <mesh ref={meshRef} position={def.p}>
+      {def.kind === 'ico' ? (
+        <icosahedronGeometry args={[def.r, 0]} />
+      ) : (
+        <sphereGeometry args={[def.r, 48, 48]} />
+      )}
+      {def.kind === 'glass' ? (
+        // The single premium focal point — translucent iridescent glass.
+        <meshPhysicalMaterial
+          color="#E9DFFF"
+          transmission={1}
+          thickness={1.4}
+          roughness={0.12}
+          ior={1.4}
+          iridescence={1}
+          iridescenceIOR={1.32}
+          clearcoat={1}
+          clearcoatRoughness={0.15}
+          envMapIntensity={1.2}
+        />
+      ) : (
+        <meshStandardMaterial
+          color={def.color}
+          roughness={def.rough ?? 0.7}
+          metalness={0}
+          flatShading={def.kind === 'ico'}
+          transparent={def.late}
+          opacity={def.late ? 0.5 : 1}
+        />
+      )}
+      {SHOW_NODE_LABELS && def.label && (
+        <Html
+          center
+          distanceFactor={9}
+          className="pointer-events-none select-none whitespace-nowrap rounded-full border border-[#E8E8EC] bg-white/85 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-[#6B6B7A] backdrop-blur"
+        >
+          {def.label}
+        </Html>
+      )}
+    </mesh>
+  );
+}
+
+/** Camera dolly — flies into/through the cluster as scroll progress rises. */
+function Rig({ progressRef }: { progressRef: MutableRefObject<number> }) {
+  const look = useMemo(() => new Vector3(0, 0.1, 0), []);
+  useFrame((state) => {
+    const t = progressRef.current;
+    const cam = state.camera;
+    cam.position.z = MathUtils.lerp(cam.position.z, 13 - t * 4.4, 0.08);
+    cam.position.y = MathUtils.lerp(cam.position.y, 0.2 + t * 0.5, 0.08);
+    cam.position.x = MathUtils.lerp(cam.position.x, t * 0.4, 0.08);
+    cam.lookAt(look);
+  });
+  return null;
+}
+
+function Network({ progressRef }: { progressRef: MutableRefObject<number> }) {
   const groupRef = useRef<Group>(null);
-  const orbRef = useRef<Mesh>(null);
-  const matRef = useRef<any>(null);
   const mouse = useRef({ x: 0, y: 0 });
 
   // Window-level pointer → normalized -1..1 (canvas only spans half the hero).
@@ -81,54 +299,26 @@ function LiquidCore({ progressRef }: { progressRef: MutableRefObject<number> }) 
     return () => window.removeEventListener('mousemove', onMove);
   }, []);
 
-  useFrame((_, delta) => {
+  useFrame((state) => {
     const g = groupRef.current;
-    const orb = orbRef.current;
-    if (!g || !orb) return;
-    const t = progressRef.current;
+    if (!g) return;
+    const et = state.clock.elapsedTime;
     const { x: mx, y: my } = mouse.current;
-
-    // Lazy lerp toward the pointer — the float that makes it feel alive.
-    g.position.x = MathUtils.lerp(g.position.x, mx * 0.35, 0.05);
-    g.position.y = MathUtils.lerp(g.position.y, -my * 0.28 + t * 0.5, 0.05);
-    g.rotation.x = MathUtils.lerp(g.rotation.x, my * 0.16, 0.05);
-    g.rotation.y = MathUtils.lerp(g.rotation.y, mx * 0.22, 0.05);
-
-    // Scroll response: recede + morph harder while the hero leaves.
-    g.scale.setScalar(1 - t * 0.16);
-    orb.rotation.y += delta * (0.16 + t * 0.5);
-    if (matRef.current) matRef.current.distort = 0.32 + t * 0.2;
+    // Slow ambient drift + lazy pointer parallax. Never a full rotation —
+    // the graph is composed for this viewpoint.
+    g.rotation.y = MathUtils.lerp(g.rotation.y, Math.sin(et * 0.12) * 0.07 + mx * 0.16, 0.04);
+    g.rotation.x = MathUtils.lerp(g.rotation.x, Math.sin(et * 0.09) * 0.04 + my * 0.1, 0.04);
+    g.position.y = Math.sin(et * 0.3) * 0.07;
   });
 
   return (
-    <>
-      {/* Bright, soft studio light — the orb must read glossy on pure white */}
-      <ambientLight intensity={0.7} />
-      <directionalLight position={[4, 6, 6]} intensity={1.7} />
-      <pointLight color="#B794F6" position={[-5, -2, 4]} intensity={18} />
-      <pointLight color="#FFFFFF" position={[-4, 4, -5]} intensity={20} />
-
-      <group ref={groupRef}>
-        <mesh ref={orbRef}>
-          <icosahedronGeometry args={[1.5, 6]} />
-          {/* MeshPhysical-based: clearcoat gives the wet-gloss highlight */}
-          <MeshDistortMaterial
-            ref={matRef}
-            color={ACCENT}
-            roughness={0.16}
-            metalness={0.05}
-            clearcoat={1}
-            clearcoatRoughness={0.18}
-            distort={0.32}
-            speed={1.5}
-          />
-        </mesh>
-        <ParticleRing progressRef={progressRef} />
-      </group>
-
-      {/* Soft ground shadow sells "object in a room" on the white page */}
-      <ContactShadows position={[0, -2.3, 0]} opacity={0.24} scale={9} blur={2.8} far={3.4} resolution={512} color="#2A1454" />
-    </>
+    <group ref={groupRef} position={[0.35, 0, 0]}>
+      <Edges progressRef={progressRef} />
+      <Packets progressRef={progressRef} />
+      {NODES.map((def, i) => (
+        <NetworkNode key={i} def={def} index={i} progressRef={progressRef} />
+      ))}
+    </group>
   );
 }
 
@@ -144,10 +334,25 @@ export default function HeroScene({
       // 'never' fully halts rendering when the hero is off-screen
       frameloop={active ? 'always' : 'never'}
       dpr={[1, 1.75]}
-      camera={{ position: [0, 0, 7.5], fov: 40 }}
+      camera={{ position: [0, 0.2, 13], fov: 38 }}
       gl={{ alpha: true, antialias: true }}
     >
-      <LiquidCore progressRef={progressRef} />
+      {/* Soft offline studio environment — built from Lightformers, no HDR fetch.
+          Matte nodes get gentle gradient shading; the glass node gets its sheen. */}
+      <Environment resolution={256} frames={1}>
+        <color attach="background" args={[new Color('#FFFFFF')]} />
+        <Lightformer intensity={1.6} position={[0, 4, 6]} scale={[10, 6, 1]} color="#FFFFFF" />
+        <Lightformer intensity={0.9} position={[-6, 2, 2]} scale={[6, 4, 1]} color="#EDE7FF" />
+        <Lightformer intensity={0.7} position={[6, -3, 2]} scale={[6, 6, 1]} color="#D9C8FF" />
+      </Environment>
+      <ambientLight intensity={0.35} />
+      <directionalLight position={[4, 6, 5]} intensity={1.4} />
+
+      <Rig progressRef={progressRef} />
+      <Network progressRef={progressRef} />
+
+      {/* Soft ground shadow sells "objects in a room" on the white page */}
+      <ContactShadows position={[0, -3.1, 0]} opacity={0.16} scale={12} blur={3} far={4} resolution={512} color="#2A1454" />
     </Canvas>
   );
 }

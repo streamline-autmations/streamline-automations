@@ -10,11 +10,14 @@ import ServicesSection from '../components/site/ServicesSection';
 import StatsSection from '../components/site/StatsSection';
 import AutomationScrolly from '../components/site/AutomationScrolly';
 import RentalSection from '../components/site/RentalSection';
-import HeroVisual, { OrbFallback } from '../components/three/HeroVisual';
+import HeroVisual, { NetworkFallback } from '../components/three/HeroVisual';
 import { EASE_ARR } from '../lib/motion';
 
 // Real, local, optimised client tiles.
 const TILE = (c: string) => `/assets/clients/${c}/tile.webp`;
+
+// Hero canvas colour. Flip to 'ink' to try the network on near-black (#0A0A0F).
+const HERO_BG: 'white' | 'ink' = 'white';
 
 /**
  * Home — alternating ink/white stacked panels (Cuberto card-slide). Hero (white)
@@ -22,13 +25,19 @@ const TILE = (c: string) => `/assets/clients/${c}/tile.webp`;
  * expands the middle with the remaining sections.
  */
 export default function Home() {
+  const heroInk = HERO_BG === 'ink';
   return (
     <>
-      {/* HERO — white, with the 3D liquid core floating right */}
-      <section className="relative flex min-h-[100svh] items-center overflow-hidden px-6 pt-32 pb-28 md:px-10">
-        {/* Desktop: lazy WebGL orb (scroll + mouse reactive). Mobile/reduced-motion: CSS orb. */}
+      {/* HERO — the 3D automation network floating right */}
+      <section
+        className={`relative flex min-h-[100svh] items-center overflow-hidden px-6 pt-32 pb-28 md:px-10 ${
+          heroInk ? 'bg-site-ink' : 'bg-white'
+        }`}
+      >
+        {/* Desktop: lazy WebGL network (alive at rest, scroll + mouse reactive).
+            Mobile/reduced-motion: static network render. */}
         <HeroVisual className="absolute inset-y-0 right-[-6%] z-0 hidden w-[54%] md:block" />
-        <OrbFallback className="absolute -right-24 -top-24 z-0 h-[260px] w-[260px] md:hidden" />
+        <NetworkFallback className="absolute right-[-38%] top-[-3%] z-0 aspect-[3/2] w-[115%] opacity-90 md:hidden" />
 
         <div className="relative z-10 mx-auto w-full max-w-6xl">
           <motion.p
@@ -48,14 +57,18 @@ export default function Home() {
               { text: 'business', serif: true },
               { text: 'while you sleep.' },
             ]}
-            className="max-w-5xl text-[clamp(44px,8vw,104px)] font-semibold leading-[0.98] tracking-[-0.02em] text-site-ink"
+            className={`max-w-5xl text-[clamp(44px,8vw,104px)] font-semibold leading-[0.98] tracking-[-0.02em] ${
+              heroInk ? 'text-white' : 'text-site-ink'
+            }`}
           />
 
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.5 }}
-            className="mt-8 max-w-xl text-[17px] leading-[1.65] text-site-text-body"
+            className={`mt-8 max-w-xl text-[17px] leading-[1.65] ${
+              heroInk ? 'text-white/70' : 'text-site-text-body'
+            }`}
           >
             Web design and automation for South African businesses. I build the website, the systems
             behind it, and the automations that do the busywork — so you don't have to.
@@ -67,13 +80,15 @@ export default function Home() {
             transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.6 }}
             className="mt-10 flex flex-wrap items-center gap-6"
           >
-            <FillButton to="/contact" variant="ink">
+            <FillButton to="/contact" variant={heroInk ? 'on-dark' : 'ink'}>
               Book a Free Call
             </FillButton>
             <Link
               to="/portfolio"
               data-cursor="link"
-              className="text-[15px] font-medium text-site-ink underline-offset-4 outline-none hover:underline focus-visible:text-site-accent focus-visible:underline"
+              className={`text-[15px] font-medium underline-offset-4 outline-none hover:underline focus-visible:text-site-accent focus-visible:underline ${
+                heroInk ? 'text-white' : 'text-site-ink'
+              }`}
             >
               See the work →
             </Link>

@@ -1,9 +1,9 @@
 /**
- * HeroVisual — gate + glue for the homepage 3D "liquid core".
+ * HeroVisual — gate + glue for the homepage 3D "automation network".
  *
  * - Lazy-loads the R3F scene so three.js never blocks first paint.
- * - ≤768px or prefers-reduced-motion → NO WebGL at all; renders the pure-CSS
- *   OrbFallback instead (also used as the Suspense loading state).
+ * - ≤768px or prefers-reduced-motion → NO WebGL at all; renders the static
+ *   NetworkFallback image instead (also used as the Suspense loading state).
  * - PROD INTEGRATION (graduated from /lab): a GSAP ScrollTrigger on the hero
  *   section writes its 0→1 progress into a ref; the scene reads that ref in
  *   useFrame. No drei ScrollControls — this is what lets the scene coexist
@@ -38,14 +38,20 @@ export function useNoWebGL() {
 }
 
 /**
- * OrbFallback — pure-CSS purple sphere: gradient ball + soft halo. Position it
- * via className (it sets no position of its own); children fill the box.
+ * NetworkFallback — static render of the automation network (no WebGL).
+ * Position it via className (it sets no position of its own).
  */
-export function OrbFallback({ className = '' }: { className?: string }) {
+export function NetworkFallback({ className = '' }: { className?: string }) {
   return (
     <div aria-hidden className={`pointer-events-none ${className}`}>
-      <div className="absolute left-1/2 top-1/2 aspect-square w-[86%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-site-accent opacity-[0.14] blur-[70px]" />
-      <div className="absolute left-1/2 top-1/2 aspect-square w-[64%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_33%_28%,#A87BF7_0%,#7B3FE4_45%,#5B2BD6_74%,#43169E_100%)] shadow-[0_48px_90px_-24px_rgba(123,63,228,0.5)]" />
+      <img
+        src="/hero-network.webp"
+        alt=""
+        loading="lazy"
+        decoding="async"
+        draggable={false}
+        className="absolute left-1/2 top-1/2 w-full max-w-none -translate-x-1/2 -translate-y-1/2 select-none object-contain"
+      />
     </div>
   );
 }
@@ -82,11 +88,11 @@ export default function HeroVisual({ className = '' }: { className?: string }) {
     return () => io.disconnect();
   }, [blocked]);
 
-  if (blocked) return <OrbFallback className={className} />;
+  if (blocked) return <NetworkFallback className={className} />;
 
   return (
     <div ref={wrapRef} className={className} aria-hidden>
-      <Suspense fallback={<OrbFallback className="absolute inset-0" />}>
+      <Suspense fallback={<NetworkFallback className="absolute inset-0" />}>
         <HeroScene progressRef={progressRef} active={inView} />
       </Suspense>
     </div>
