@@ -5,7 +5,8 @@ import Tag from '../components/craft/Tag';
 import SplitReveal from '../components/craft/SplitReveal';
 import FillButton from '../components/craft/FillButton';
 import { EASE_ARR, fadeUp, viewport } from '../lib/motion';
-import { CONTACT, SOCIALS, STOCK } from '../data/site';
+import { CONTACT, SOCIALS } from '../data/site';
+import EngineBackdrop from '../components/three/EngineBackdrop';
 
 const BUDGETS = ['R5k – R20k · website', 'R10k – R35k · system', 'Monthly rental', 'Not sure yet'];
 
@@ -75,19 +76,14 @@ export default function Contact() {
 
   return (
     <>
-      {/* HERO — ink + looping video */}
+      {/* HERO — ink + the scroll-reactive Engine (CSS blooms on mobile/RM) */}
       <Panel bg="ink" first className="flex min-h-[88svh] items-center overflow-hidden px-6 pt-32 pb-24 md:px-10">
-        <video
-          src={STOCK.ctaLoop}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover opacity-[0.28]"
-        />
-        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-site-ink/40 via-site-ink/30 to-site-ink/80" />
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="sc-bloom-a absolute -top-40 left-[18%] h-[560px] w-[560px] rounded-full bg-site-accent opacity-[0.16] blur-[150px]" />
+          <div className="sc-bloom-b absolute -bottom-44 right-[16%] h-[480px] w-[480px] rounded-full bg-[#5b2bd6] opacity-[0.12] blur-[150px]" />
+        </div>
+        {/* Core sits right of the left-aligned headline */}
+        <EngineBackdrop corePos={[3.0, -0.2, -0.8]} />
 
         <div className="relative mx-auto w-full max-w-6xl">
           <Tag variant="white" className="mb-7">

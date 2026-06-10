@@ -33,11 +33,6 @@ export const SOCIALS = {
 export const PRIMARY_CTA = { label: 'Book a Free Call', to: '/contact' } as const;
 export const SECONDARY_CTA = { label: 'See the work', to: '/portfolio' } as const;
 
-// Royalty-free placeholder loops (Pexels). Swap for owned/optimised footage later.
-export const STOCK = {
-  ctaLoop: 'https://videos.pexels.com/video-files/2611250/2611250-hd_1920_1080_30fps.mp4',
-} as const;
-
 /** Services for the nav dropdown. */
 export const SERVICES = [
   { label: 'Web Design & Creation', href: '/websites', desc: 'Sites that convert. Built in days.' },

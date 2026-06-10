@@ -6,7 +6,6 @@ import SplitReveal from '../../components/craft/SplitReveal';
 import FillButton from '../../components/craft/FillButton';
 import PreFooterCTA from '../../components/craft/PreFooterCTA';
 import { EASE_ARR, fadeUp, stagger, viewport } from '../../lib/motion';
-import { STOCK } from '../../data/site';
 
 const C = '/assets/clients/cw-electronics';
 
@@ -536,7 +535,7 @@ export default function CWElectronics() {
         </div>
       </Panel>
 
-      <PreFooterCTA videoSrc={STOCK.ctaLoop} />
+      <PreFooterCTA />
     </>
   );
 }

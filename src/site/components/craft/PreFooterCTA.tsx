@@ -2,52 +2,36 @@ import { motion } from 'framer-motion';
 import SplitReveal from './SplitReveal';
 import FillButton from './FillButton';
 import Marquee from './Marquee';
+import EngineBackdrop from '../three/EngineBackdrop';
 import { EASE_ARR } from '../../lib/motion';
 import { CONTACT, PRIMARY_CTA } from '../../data/site';
 
 /**
  * PreFooterCTA — the Cuberto "have an idea?" moment. A rounded-top ink section
  * (its corners reveal the white page behind for a smooth section transition),
- * a living gradient backdrop (drop in a looping video via `videoSrc`), one huge
- * headline with a serif-italic accent, an outlined fill-button CTA, and a slow
- * service marquee. One of only two dark surfaces on the site.
+ * the scroll-reactive 3D Engine running behind one huge headline with a
+ * serif-italic accent, an outlined fill-button CTA, and a slow service
+ * marquee. One of only two dark surfaces on the site. On mobile/reduced-motion
+ * the engine doesn't load and the CSS gradient blooms carry the backdrop.
  */
 export default function PreFooterCTA({
   headline = [{ text: 'Have an' }, { text: 'idea?', serif: true }],
   sub = "Tell me what you're building. No pitch, no pressure — just a plan.",
-  videoSrc,
-  poster,
 }: {
   headline?: { text: string; serif?: boolean }[];
   sub?: string;
-  videoSrc?: string;
-  poster?: string;
 }) {
   return (
     <section className="relative flex min-h-[78svh] flex-col items-center justify-center overflow-hidden rounded-t-[2.5rem] bg-site-ink py-28 text-white md:rounded-t-[4.5rem] md:py-32">
-      {/* Optional looping background video (muted, plays on its own) + ink scrim. */}
-      {videoSrc && (
-        <>
-          <video
-            src={videoSrc}
-            poster={poster}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            aria-hidden="true"
-            className="absolute inset-0 h-full w-full object-cover opacity-[0.32]"
-          />
-          <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-site-ink/50 via-site-ink/45 to-site-ink/85" />
-        </>
-      )}
-
-      {/* Living gradient backdrop (transform-only drift). */}
+      {/* Living gradient backdrop (transform-only drift) — also the no-WebGL fallback. */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="sc-bloom-a absolute -top-40 left-[18%] h-[560px] w-[560px] rounded-full bg-site-accent opacity-[0.16] blur-[150px]" />
         <div className="sc-bloom-b absolute -bottom-44 right-[16%] h-[480px] w-[480px] rounded-full bg-[#5b2bd6] opacity-[0.12] blur-[150px]" />
       </div>
+
+      {/* The Engine — enquiries flow in, bookings flow out. Core floats upper
+          right so the centred sub-copy + CTA stay on clean ink. */}
+      <EngineBackdrop corePos={[3.4, 0.9, -1.2]} />
 
       <div className="relative mx-auto w-full max-w-5xl px-6 text-center">
         <SplitReveal

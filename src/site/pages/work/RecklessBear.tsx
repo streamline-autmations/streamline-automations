@@ -6,7 +6,6 @@ import SplitReveal from '../../components/craft/SplitReveal';
 import FillButton from '../../components/craft/FillButton';
 import PreFooterCTA from '../../components/craft/PreFooterCTA';
 import { EASE_ARR, fadeUp, viewport } from '../../lib/motion';
-import { STOCK } from '../../data/site';
 
 const C = '/assets/clients/recklessbear';
 const NEXT = '/work/cw-electronics';
@@ -489,7 +488,7 @@ export default function RecklessBear() {
       </Panel>
 
       {/* 7 · PRE-FOOTER CTA */}
-      <PreFooterCTA videoSrc={STOCK.ctaLoop} />
+      <PreFooterCTA />
     </>
   );
 }
