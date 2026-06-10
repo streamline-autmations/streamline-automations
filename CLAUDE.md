@@ -4,6 +4,55 @@
 
 ---
 
+## Design authority & skill precedence
+
+This is the Streamline Automations marketing site. Active visual direction:
+**Cuberto-level motion craft on a white-minimal + single-purple-accent canvas.**
+NOT the old fluid.glass / brokerpilot "white-minimal subtle" direction — that is retired.
+
+### Skill precedence (hard order)
+1. **streamline-site** = brand truth. It wins on EVERYTHING: colours, fonts, spacing,
+   copy voice, clients, pricing, structure, the dark-section rule. Never overridden.
+2. **ui-ux-pro-max / frontend-design** = technique + ideas only. Use them for motion
+   patterns, composition, component craft — never to change brand tokens, fonts, colours,
+   the accent, the dark-section rule, or the copy voice. If they suggest a font or colour
+   outside the system, ignore it.
+3. Everything else (Vercel, cost, writing, web-design-guidelines) = supporting, no aesthetic authority.
+
+### The reconcile rule (do not violate)
+Cuberto-LEVEL craft, NOT Cuberto's maximalism. Steal the motion quality, cursor,
+magnetism, scroll feel, case-cover treatment, pre-footer graphic moment, generous
+whitespace and big type. Do NOT steal rainbow colour, busy collages, decorative clutter,
+or multiple accents. White-dominant + purple is locked. Do not re-pivot the aesthetic.
+
+### Locked brand tokens
+- Backgrounds: #FFFFFF / #FAFAFA / #F5F5F7 / #F0EBFF (purple tint)
+- Dark sections (surgical, 1–2 max): ink #0A0A0F, ink-soft #15151C, text-on-dark #F5F5F7
+- Borders: #E8E8EC / #D4D4DA
+- Text: primary #0A0A0F · body #3D3D47 · secondary #6B6B7A · muted #9E9EA8
+- Accent (ONE only): #7B3FE4, hover #6930D0
+- Type: DM Sans (everything) · Instrument Serif italic purple (ONE accent word per headline)
+  · JetBrains Mono (eyebrows/labels, uppercase, tracking)
+
+### Motion stack (single source each — never duplicate)
+- One `src/lib/gsap-setup.ts` registering all GSAP plugins once.
+- One `<LenisProvider>` synced to GSAP ScrollTrigger. Never two scroll systems.
+- Animate transform + opacity only. `gsap.matchMedia()` to simplify under 768px.
+  Respect `prefers-reduced-motion` everywhere. Custom cursor off on touch/coarse pointers.
+
+### Hard rules
+- Pricing only on /hosting. Every other service page ends with "Contact for a quote".
+- No fake testimonials, no invented metrics, no stock/placeholder images, no lorem ipsum.
+- Pill (rounded-full) primary CTAs. Generous section padding (py-28 min).
+- Min 44px tap targets. Target 90+ Lighthouse perf on mobile.
+
+### Definition of done for ANY visual change
+Every design change is verified visually before it's called done: run the dev server,
+screenshot the change with Playwright (desktop 1440 + mobile 390), and check it against
+the Cuberto reference intent. Code that "should look right" is not done — seen-and-matched is done.
+
+---
+
 ## WHO I AM
 
 Christiaan Steffen — solo founder of Streamline Automations, web design and automation agency,
@@ -53,10 +102,13 @@ not generic AI output. Reference the brand system below when in doubt.
 
 ## BRAND SYSTEM
 
-### Direction: "White Minimal" (fluid.glass / brokerpilot inspired)
-Clean white-dominant aesthetic. Generous whitespace. Hairline borders. Restrained purple accent.
-No dark backgrounds, no orange, no glassmorphism, no dot grids, no corner brackets — that was
-the old dark cyberpunk version and is retired on the white-version site.
+### Direction: Cuberto-level craft on white-minimal + purple
+Clean white-dominant aesthetic with Cuberto-level motion craft. Generous whitespace. Hairline
+borders. Restrained single purple accent. Dark backgrounds only as surgical ink sections
+(1–2 max per page, #0A0A0F) — never as a default. No orange, no glassmorphism, no dot grids,
+no corner brackets — that was the old dark cyberpunk version and is retired.
+(The earlier fluid.glass / brokerpilot "subtle" direction is also retired — see the
+"Design authority & skill precedence" block at the top.)
 
 ### Colours
 ```css
@@ -310,7 +362,7 @@ const HeavySection = lazy(() => import('./HeavySection'))
 - Use stock/placeholder/AI-generated images — real client screenshots only
 - Use lorem ipsum anywhere
 - Use "we" — solo agency, "I" is correct
-- Use dark backgrounds on the white-version site
+- Use dark backgrounds as a default — ink sections (#0A0A0F) are allowed only as 1–2 surgical contrast moments per page
 - Use orange anywhere on the white-version site (reserved for the old dark theme)
 - Use CSS modules, styled-components, or inline styles
 - Use `min-h-screen` (use `min-h-[100svh]` for iOS Safari)
