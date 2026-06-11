@@ -34,8 +34,9 @@ export default function HomeWhite() {
       className="relative z-10 min-h-[100svh] overflow-x-hidden bg-white font-['DM_Sans'] text-[#0A0A0F] antialiased"
     >
       <SEO
-        title="Streamline Automations — Websites that work. Systems that scale."
+        title="Web Design & Automation in the Vaal Triangle, Gauteng"
         description="Custom websites and automation systems for South African businesses. Built by Christiaan Steffen in the Vaal Triangle. No upfront cost — rent monthly, own after 18 months."
+        url="/"
       />
 
       <SiteHeader />

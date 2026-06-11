@@ -90,7 +90,7 @@ export default function SiteFooter() {
                 rel="noopener noreferrer"
                 className="mb-3 font-['DM_Sans'] text-[16px] text-white/[0.78] outline-none transition-colors duration-300 hover:text-white focus-visible:text-[#9B5FF5]"
               >
-                WhatsApp · 063 306 3861
+                WhatsApp · +27 68 757 9940
               </a>
               <a
                 href="https://instagram.com/streamline_automations"
@@ -111,9 +111,17 @@ export default function SiteFooter() {
           <span className="font-['JetBrains_Mono'] text-[11px] uppercase tracking-[0.14em] text-white/40">
             © 2026 Streamline Automations
           </span>
-          <span className="font-['JetBrains_Mono'] text-[11px] uppercase tracking-[0.14em] text-white/40">
-            Designed &amp; built in the Vaal Triangle, SA
-          </span>
+          <div className="flex items-center gap-5">
+            <Link
+              to="/privacy"
+              className="font-['JetBrains_Mono'] text-[11px] uppercase tracking-[0.14em] text-white/40 transition-colors duration-300 hover:text-white/70"
+            >
+              Privacy
+            </Link>
+            <span className="font-['JetBrains_Mono'] text-[11px] uppercase tracking-[0.14em] text-white/40">
+              Designed &amp; built in the Vaal Triangle, SA
+            </span>
+          </div>
         </div>
       </div>
     </footer>

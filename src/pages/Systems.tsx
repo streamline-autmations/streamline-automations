@@ -4,6 +4,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SEO from '../components/seo/SEO';
+import { service, breadcrumb } from '../lib/structured-data';
 import SiteHeader from '../components/white/SiteHeader';
 import SiteFooter from '../components/white/SiteFooter';
 import SectionHeader from '../components/white/ui/SectionHeader';
@@ -94,8 +95,22 @@ export default function SystemsPage() {
     <>
       <SiteHeader />
       <SEO
-        title="Systems & Automation"
-        description="CRMs, WhatsApp bots, dashboards, workflows — I automate the work that's eating your time."
+        title="Systems & Business Automation"
+        description="CRMs, WhatsApp bots, admin dashboards and n8n workflows — I automate the work that's eating your time. Business automation for South African companies in Gauteng."
+        url="/systems"
+        jsonLd={[
+          service({
+            name: 'Systems & Business Automation',
+            serviceType: 'Business process automation',
+            description:
+              'Custom CRMs, WhatsApp automation, admin dashboards, booking systems and n8n workflows that run the busywork for South African businesses.',
+            path: '/systems',
+          }),
+          breadcrumb([
+            { name: 'Home', path: '/' },
+            { name: 'Systems', path: '/systems' },
+          ]),
+        ]}
       />
       <main className="bg-white min-h-[100svh] font-['DM_Sans']">
         <section className="pt-36 md:pt-44 pb-24 md:pb-32 relative overflow-hidden">

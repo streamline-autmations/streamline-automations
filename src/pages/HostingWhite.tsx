@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import SEO from '../components/seo/SEO';
+import { service, breadcrumb } from '../lib/structured-data';
 import SiteHeader from '../components/white/SiteHeader';
 import SiteFooter from '../components/white/SiteFooter';
 import Button from '../components/white/ui/Button';
@@ -106,8 +107,22 @@ export default function HostingWhite() {
     <>
       <SiteHeader />
       <SEO
-        title="Hosting, Email & Maintenance — Streamline Automations"
-        description="South African web hosting with real support. Monthly plans with no upfront cost. Own your site after 18 months."
+        title="Website Hosting, Email & Maintenance"
+        description="South African web hosting with real support — domain, SSL, professional email and monthly maintenance. No upfront cost: rent monthly, own your site after 18 months."
+        url="/hosting"
+        jsonLd={[
+          service({
+            name: 'Website Hosting, Email & Maintenance',
+            serviceType: 'Web hosting and maintenance',
+            description:
+              'Managed web hosting, domain, SSL, professional email and monthly maintenance for South African businesses — on a no-upfront-cost monthly plan.',
+            path: '/hosting',
+          }),
+          breadcrumb([
+            { name: 'Home', path: '/' },
+            { name: 'Hosting', path: '/hosting' },
+          ]),
+        ]}
       />
       <main className="bg-white min-h-[100svh] font-['DM_Sans']">
 

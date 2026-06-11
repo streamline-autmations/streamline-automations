@@ -1,10 +1,7 @@
 User-agent: *
 Allow: /
 
-# Design-exploration homepage variants — not for indexing
-Disallow: /v1
-Disallow: /v2
-Disallow: /v3
-Disallow: /v4
+# Internal 3D test route — not for indexing
+Disallow: /lab
 
 Sitemap: https://streamline-automations.co.za/sitemap.xml

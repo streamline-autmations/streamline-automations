@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import SEO from '../../seo/SEO';
+import { creativeWork, breadcrumb } from '../../../lib/structured-data';
 import SiteHeader from '../SiteHeader';
 import SiteFooter from '../SiteFooter';
 import FinalCTA from '../home/FinalCTA';
@@ -104,17 +105,46 @@ export function CaseShell({
   seoTitle,
   seoDescription,
   seoImage,
+  path,
+  clientName,
   children,
 }: {
   seoTitle: string;
   seoDescription: string;
   seoImage?: string;
+  /** Route path, e.g. "/portfolio/blom-cosmetics" — drives canonical + structured data. */
+  path?: string;
+  /** Client name for breadcrumb + CreativeWork, e.g. "BLOM Cosmetics". */
+  clientName?: string;
   children: React.ReactNode;
 }) {
+  const jsonLd =
+    path && clientName
+      ? [
+          creativeWork({
+            name: `${clientName} — Case Study`,
+            description: seoDescription,
+            path,
+            image: seoImage,
+          }),
+          breadcrumb([
+            { name: 'Home', path: '/' },
+            { name: 'Portfolio', path: '/portfolio' },
+            { name: clientName, path },
+          ]),
+        ]
+      : undefined;
   return (
     <>
       <SiteHeader />
-      <SEO title={seoTitle} description={seoDescription} image={seoImage} />
+      <SEO
+        title={seoTitle}
+        description={seoDescription}
+        image={seoImage}
+        url={path}
+        type="article"
+        jsonLd={jsonLd}
+      />
       <main className="overflow-x-hidden bg-white font-['DM_Sans'] text-[#0A0A0F] min-h-[100svh]">
         {children}
         <FinalCTA />

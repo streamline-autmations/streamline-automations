@@ -2,6 +2,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import SEO from '../components/seo/SEO';
+import { breadcrumb } from '../lib/structured-data';
 import SiteHeader from '../components/white/SiteHeader';
 import SiteFooter from '../components/white/SiteFooter';
 import Button from '../components/white/ui/Button';
@@ -70,8 +71,13 @@ export default function AboutWhite() {
     <>
       <SiteHeader />
       <SEO
-        title="About — Streamline Automations"
-        description="Christiaan Steffen — solo founder building custom websites and automation systems for South African businesses from the Vaal Triangle."
+        title="About — Christiaan Steffen, Founder"
+        description="Christiaan Steffen — solo founder building custom websites and automation systems for South African businesses from the Vaal Triangle, Gauteng."
+        url="/about"
+        jsonLd={breadcrumb([
+          { name: 'Home', path: '/' },
+          { name: 'About', path: '/about' },
+        ])}
       />
       <main className="bg-white min-h-[100svh] font-['DM_Sans']">
 

@@ -14,9 +14,11 @@ const C = '/assets/clients/cw-electronics';
 export default function CWElectronics() {
   return (
     <CaseShell
-      seoTitle="CW Electronics — Case Study | Streamline Automations"
+      seoTitle="CW Electronics — E-commerce & Custom Admin Case Study"
       seoDescription="A full e-commerce store and custom owner-editable admin for a Johannesburg electronics importer — 700+ products live in under two weeks, retail + wholesale pricing, PayFast live."
       seoImage={`${C}/hero.webp`}
+      path="/portfolio/cw-electronics"
+      clientName="CW Electronics"
     >
       <CaseHero
         client="CW Electronics"

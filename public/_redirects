@@ -1,1 +1,7 @@
-/* /index.html 200
+# Netlify redirects. No SPA catch-all on purpose — every route is prerendered to a
+# static file (scripts/prerender.cjs) and unknown URLs fall through to 404.html with a
+# real 404 status. Legacy /portfolio/<slug> case-study URLs 301 to /work/*.
+/portfolio/blom-cosmetics    /work/blom             301!
+/portfolio/recklessbear      /work/recklessbear     301!
+/portfolio/cw-electronics    /work/cw-electronics   301!
+/portfolio/ameli             /work/ameli            301!

@@ -1,20 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ChevronDown, CheckCircle2, Calendar } from 'lucide-react';
 import { getCalApi } from "@calcom/embed-react";
 import { contactFormFields } from '../../../data/formFields';
 import Button from '../ui/Button';
 import { trackFormSubmitted } from '../../../lib/analytics';
 
+// Optional Cloudflare Turnstile — activates only when the site key is configured.
+const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY as string | undefined;
+const WEBHOOK_URL = 'https://dockerfile-1n82.onrender.com/webhook/streamline-contact-form';
+
 const ContactFormWhite: React.FC = () => {
   const [formData, setFormData] = useState<Record<string, string | File>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  // Spam defence: honeypot (bots fill hidden fields) + minimum time-on-form.
+  const [botField, setBotField] = useState('');
+  const mountedAt = useRef(Date.now());
+  const [captchaToken, setCaptchaToken] = useState('');
 
   useEffect(() => {
     (async function () {
       const cal = await getCalApi({"namespace":"strategy-call"});
       cal("ui", {"theme":"light","cssVarsPerTheme":{"light":{"cal-brand":"#7B3FE4"}},"hideEventTypeDetails":false,"layout":"month_view"});
     })();
+  }, []);
+
+  // Load + render Turnstile only when a key is set.
+  useEffect(() => {
+    if (!TURNSTILE_SITE_KEY) return;
+    const SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+    const render = () => {
+      const w = window as unknown as { turnstile?: { render: (el: string, o: Record<string, unknown>) => void } };
+      if (!w.turnstile) return;
+      w.turnstile.render('#cf-turnstile', {
+        sitekey: TURNSTILE_SITE_KEY,
+        theme: 'light',
+        callback: (token: string) => setCaptchaToken(token),
+        'error-callback': () => setCaptchaToken(''),
+        'expired-callback': () => setCaptchaToken(''),
+      });
+    };
+    if (!document.querySelector(`script[src="${SRC}"]`)) {
+      const s = document.createElement('script');
+      s.src = SRC;
+      s.async = true;
+      s.defer = true;
+      s.onload = render;
+      document.head.appendChild(s);
+    } else {
+      render();
+    }
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -31,6 +66,18 @@ const ContactFormWhite: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Honeypot tripped or submitted suspiciously fast → silently treat as success,
+    // never hit the webhook. (Don't tip off bots with an error.)
+    if (botField || Date.now() - mountedAt.current < 2500) {
+      setIsSubmitted(true);
+      return;
+    }
+    // If Turnstile is configured, require a token.
+    if (TURNSTILE_SITE_KEY && !captchaToken) {
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       const submissionData = new FormData();
@@ -42,7 +89,8 @@ const ContactFormWhite: React.FC = () => {
         }
       });
       submissionData.append('submittedAt', new Date().toISOString());
-      await fetch('https://dockerfile-1n82.onrender.com/webhook/streamline-contact-form', {
+      if (captchaToken) submissionData.append('cf-turnstile-response', captchaToken);
+      await fetch(WEBHOOK_URL, {
         method: 'POST',
         body: submissionData,
         mode: 'no-cors'
@@ -96,6 +144,19 @@ const ContactFormWhite: React.FC = () => {
         </p>
 
         <form onSubmit={handleSubmit}>
+          {/* Honeypot — hidden from humans, irresistible to bots. */}
+          <div aria-hidden="true" className="absolute left-[-9999px] top-[-9999px] h-0 w-0 overflow-hidden" style={{ opacity: 0 }}>
+            <label htmlFor="company_url">Leave this field empty</label>
+            <input
+              id="company_url"
+              name="company_url"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              value={botField}
+              onChange={(e) => setBotField(e.target.value)}
+            />
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {visibleFields.map((field) => {
               const isFullWidth = field.id === 'message' || field.id === 'customService';
@@ -164,18 +225,24 @@ const ContactFormWhite: React.FC = () => {
               );
             })}
 
+            {TURNSTILE_SITE_KEY && (
+              <div className="md:col-span-2">
+                <div id="cf-turnstile" />
+              </div>
+            )}
+
             <div className="md:col-span-2 pt-4" data-cursor="view">
               <Button
                 type="submit"
                 variant="primary"
                 size="lg"
                 className="w-full"
-                disabled={isSubmitting}
+                disabled={isSubmitting || (!!TURNSTILE_SITE_KEY && !captchaToken)}
               >
                 {isSubmitting ? 'Sending...' : 'Book a Free Call'}
               </Button>
               <p className="text-xs text-[#6B6B7A] text-center mt-3">
-                Or WhatsApp: 063 306 3861
+                Or WhatsApp: +27 68 757 9940
               </p>
             </div>
           </div>

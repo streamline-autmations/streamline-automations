@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import WordReveal from '../components/white/ui/WordReveal';
 import MagneticCTA from '../components/white/ui/MagneticCTA';
 import SEO from '../components/seo/SEO';
+import { breadcrumb } from '../lib/structured-data';
 import SiteHeader from '../components/white/SiteHeader';
 import SiteFooter from '../components/white/SiteFooter';
 import PortfolioCard from '../components/white/ui/PortfolioCard';
@@ -127,8 +128,13 @@ export default function PortfolioWhite() {
     <>
       <SiteHeader />
       <SEO
-        title="Portfolio — Streamline Automations"
-        description="Real client work. Custom websites, automation systems, and e-commerce builds for South African businesses."
+        title="Portfolio — Client Work & Case Studies"
+        description="Real client work. Custom websites, automation systems, and e-commerce builds for South African businesses — BLOM Cosmetics, RecklessBear, CW Electronics and more."
+        url="/portfolio"
+        jsonLd={breadcrumb([
+          { name: 'Home', path: '/' },
+          { name: 'Portfolio', path: '/portfolio' },
+        ])}
       />
       <main className="bg-white min-h-[100svh] font-['DM_Sans']">
 

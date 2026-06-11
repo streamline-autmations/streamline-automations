@@ -14,9 +14,11 @@ const C = '/assets/clients/recklessbear';
 export default function RecklessBear() {
   return (
     <CaseShell
-      seoTitle="RecklessBear — Case Study | Streamline Automations"
+      seoTitle="RecklessBear — Custom Apparel Site, CRM & AI Quote Engine"
       seoDescription="A bold custom apparel site, a custom admin + CRM, a 12-stage production tracking pipeline, WhatsApp order automation, and an AI quote engine that qualifies every lead. Active retainer."
       seoImage={`${C}/hero.webp`}
+      path="/portfolio/recklessbear"
+      clientName="RecklessBear"
     >
       <CaseHero
         client="RecklessBear"

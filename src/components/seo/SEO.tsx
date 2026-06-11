@@ -1,68 +1,130 @@
-import React from 'react';
-import { Helmet } from 'react-helmet-async';
+import { useEffect } from 'react';
+
+/**
+ * Dependency-free per-route head manager.
+ *
+ * We previously used react-helmet-async, but it silently wrote nothing to the head in
+ * this app (data-rh count was 0 at runtime), so per-route meta never applied. This sets
+ * title / meta / canonical / JSON-LD imperatively in an effect — it runs in the real
+ * browser, so the post-build prerender captures it into each route's static HTML, and
+ * client-side SPA navigation updates it too.
+ */
+
+const SITE_NAME = 'Streamline Automations';
+const SITE_URL = 'https://streamline-automations.co.za';
+const DEFAULT_OG = `${SITE_URL}/og-image.png`;
+
+const DEFAULT_DESCRIPTION =
+  'Custom websites and business automation for South African companies. Built by Christiaan Steffen in the Vaal Triangle, Gauteng — websites that convert, systems that run themselves.';
+
+const DEFAULT_KEYWORDS = [
+  'web design',
+  'business automation',
+  'web design Vaal Triangle',
+  'web design Vereeniging',
+  'web design Vanderbijlpark',
+  'web design Gauteng',
+  'WhatsApp automation South Africa',
+  'n8n automation',
+  'website hosting South Africa',
+];
+
+type JsonLd = Record<string, unknown> | Array<Record<string, unknown>>;
 
 interface SEOProps {
   title?: string;
   description?: string;
   image?: string;
+  /** Absolute URL, or a path like "/websites". If omitted, derived from the pathname. */
   url?: string;
   keywords?: string[];
+  noindex?: boolean;
+  type?: 'website' | 'article';
+  jsonLd?: JsonLd;
 }
 
-const SEO: React.FC<SEOProps> = ({ 
-  title, 
-  description = "Streamline Automations builds custom websites, AI agents, and admin systems that automate your business.", 
-  image = "https://res.cloudinary.com/dnlgohkcc/image/upload/v1771959592/Untitled_design_49_mxxpip.png", 
+function setMeta(attr: 'name' | 'property', key: string, content: string) {
+  let el = document.head.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`);
+  if (!el) {
+    el = document.createElement('meta');
+    el.setAttribute(attr, key);
+    document.head.appendChild(el);
+  }
+  el.setAttribute('content', content);
+}
+
+function setLink(rel: string, href: string) {
+  let el = document.head.querySelector<HTMLLinkElement>(`link[rel="${rel}"]`);
+  if (!el) {
+    el = document.createElement('link');
+    el.setAttribute('rel', rel);
+    document.head.appendChild(el);
+  }
+  el.setAttribute('href', href);
+}
+
+export default function SEO({
+  title,
+  description = DEFAULT_DESCRIPTION,
+  image = DEFAULT_OG,
   url,
-  keywords = [
-    "web design", 
-    "automation", 
-    "AI agents", 
-    "business systems", 
-    "software development",
-    "web design gauteng",
-    "web design vaal triangle",
-    "web design vereeniging",
-    "web design risiville",
-    "web design three rivers",
-    "automation gauteng"
-  ]
-}) => {
-  const siteTitle = "Streamline Automations";
-  const siteUrl = "https://streamline-automations.co.za";
-  const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
-  
-  // Construct canonical URL
-  // If url prop is provided, use it (assuming it's full URL)
-  // Otherwise, construct from siteUrl + current pathname (stripping query params)
-  const currentUrl = url || (typeof window !== 'undefined' ? `${siteUrl}${window.location.pathname}` : siteUrl);
+  keywords = DEFAULT_KEYWORDS,
+  noindex = false,
+  type = 'website',
+  jsonLd,
+}: SEOProps) {
+  const jsonLdNodes = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 
-  return (
-    <Helmet>
-      {/* Primary Meta Tags */}
-      <title>{fullTitle}</title>
-      <meta name="title" content={fullTitle} />
-      <meta name="description" content={description} />
-      <meta name="keywords" content={keywords.join(', ')} />
+  useEffect(() => {
+    const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
+    const canonicalUrl = url
+      ? url.startsWith('http')
+        ? url
+        : `${SITE_URL}${url}`
+      : `${SITE_URL}${window.location.pathname}`;
+    const absoluteImage = image.startsWith('http') ? image : `${SITE_URL}${image}`;
 
-      {/* Open Graph / Facebook */}
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content={currentUrl} />
-      <meta property="og:title" content={fullTitle} />
-      <meta property="og:description" content={description} />
-      <meta property="og:image" content={image} />
+    document.title = fullTitle;
+    document.documentElement.lang = 'en-ZA';
 
-      {/* Twitter */}
-      <meta property="twitter:card" content="summary_large_image" />
-      <meta property="twitter:url" content={currentUrl} />
-      <meta property="twitter:title" content={fullTitle} />
-      <meta property="twitter:description" content={description} />
-      <meta property="twitter:image" content={image} />
+    setMeta('name', 'title', fullTitle);
+    setMeta('name', 'description', description);
+    setMeta('name', 'keywords', keywords.join(', '));
+    setMeta(
+      'name',
+      'robots',
+      noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large',
+    );
+    setLink('canonical', canonicalUrl);
 
-      {/* Canonical URL */}
-      {currentUrl && <link rel="canonical" href={currentUrl} />}
-    </Helmet>
-  );
-};
+    setMeta('property', 'og:type', type);
+    setMeta('property', 'og:site_name', SITE_NAME);
+    setMeta('property', 'og:locale', 'en_ZA');
+    setMeta('property', 'og:url', canonicalUrl);
+    setMeta('property', 'og:title', fullTitle);
+    setMeta('property', 'og:description', description);
+    setMeta('property', 'og:image', absoluteImage);
+    setMeta('property', 'og:image:width', '1200');
+    setMeta('property', 'og:image:height', '630');
+    setMeta('property', 'og:image:alt', `${SITE_NAME} — web design & automation, South Africa`);
 
-export default SEO;
+    setMeta('name', 'twitter:card', 'summary_large_image');
+    setMeta('name', 'twitter:url', canonicalUrl);
+    setMeta('name', 'twitter:title', fullTitle);
+    setMeta('name', 'twitter:description', description);
+    setMeta('name', 'twitter:image', absoluteImage);
+
+    // Replace previously-injected per-route JSON-LD (leaves the static global graph alone).
+    document.querySelectorAll('script[data-seo-jsonld]').forEach((n) => n.remove());
+    for (const node of jsonLdNodes) {
+      const s = document.createElement('script');
+      s.type = 'application/ld+json';
+      s.setAttribute('data-seo-jsonld', '');
+      s.textContent = JSON.stringify(node);
+      document.head.appendChild(s);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [title, description, image, url, noindex, type, JSON.stringify(keywords), JSON.stringify(jsonLd)]);
+
+  return null;
+}

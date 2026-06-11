@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import SEO from '../components/seo/SEO';
 import SiteHeader from '../components/white/SiteHeader';
 import SiteFooter from '../components/white/SiteFooter';
@@ -23,10 +22,8 @@ export default function NotFound() {
       <SEO
         title="Page not found (404)"
         description="That page doesn't exist — but the work, the systems, and a free call all do."
+        noindex
       />
-      <Helmet>
-        <meta name="robots" content="noindex, follow" />
-      </Helmet>
 
       <main className="flex min-h-[100svh] flex-col bg-white font-['DM_Sans']">
         <section className="relative flex flex-1 items-center justify-center overflow-hidden px-6 pt-32 pb-24 md:pt-40">

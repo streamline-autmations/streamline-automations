@@ -1,5 +1,6 @@
 ﻿import { motion } from 'framer-motion';
 import SEO from '../components/seo/SEO';
+import { breadcrumb, faqPage } from '../lib/structured-data';
 import SiteHeader from '../components/white/SiteHeader';
 import SiteFooter from '../components/white/SiteFooter';
 import ContactFormWhite from '../components/white/contact/ContactFormWhite';
@@ -7,13 +8,55 @@ import WordReveal from '../components/white/ui/WordReveal';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
+// Real Q&As — kept in sync with the visible FAQ section below and the FAQPage schema.
+const FAQ_ITEMS = [
+  {
+    question: 'How much does a website cost?',
+    answer:
+      "There's no upfront cost. I build the site for free and you pay monthly — from R699/mo on the Starter plan up to R1,799/mo on Pro. Minimum three months, one month's notice to cancel. Pricing lives on the hosting page.",
+  },
+  {
+    question: 'Do I actually own my website?',
+    answer:
+      'Yes. After 18 months of paying monthly, the site is yours outright — full files, no strings. Before 18 months, cancelling means access is revoked and the files do not transfer.',
+  },
+  {
+    question: 'How long does a build take?',
+    answer:
+      'It depends on scope. A clean portfolio or service site can be handed over in about 4 days; a full e-commerce store with automation takes a couple of weeks. I give you a clear timeline before we start.',
+  },
+  {
+    question: 'Do you only work with businesses in the Vaal Triangle?',
+    answer:
+      "No. I'm based in the Vaal Triangle in Gauteng and work with businesses right across South Africa — Vereeniging, Vanderbijlpark, Johannesburg, Pretoria and beyond. The whole process runs remotely over WhatsApp, email and call.",
+  },
+  {
+    question: 'Can you automate my admin and WhatsApp?',
+    answer:
+      'Yes — that\'s half of what I do. Custom CRMs, WhatsApp order and lead automation, admin dashboards, booking systems and n8n workflows that handle the repetitive work so you don\'t have to.',
+  },
+  {
+    question: "What's included in hosting?",
+    answer:
+      'Hosting covers your domain, SSL certificate, professional email and monthly maintenance updates — all wrapped into the monthly plan, with real support when you need it.',
+  },
+];
+
 export default function ContactWhite() {
   return (
     <>
       <SiteHeader />
       <SEO
-        title="Contact — Streamline Automations"
-        description="Book a free 30-minute call or send a message. No pitch deck, just a plan."
+        title="Contact — Book a Free Call"
+        description="Book a free 30-minute call or send a message. No pitch deck, just a plan. Web design and automation for South African businesses, based in the Vaal Triangle."
+        url="/contact"
+        jsonLd={[
+          breadcrumb([
+            { name: 'Home', path: '/' },
+            { name: 'Contact', path: '/contact' },
+          ]),
+          faqPage(FAQ_ITEMS),
+        ]}
       />
       <main className="bg-white min-h-[100svh] font-['DM_Sans']">
 
@@ -158,6 +201,37 @@ export default function ContactWhite() {
                   </p>
                 </div>
               </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ — visible content paired with the FAQPage schema above */}
+        <section className="border-t border-[#E8E8EC] bg-[#FAFAFA] py-20 md:py-28">
+          <div className="mx-auto max-w-3xl px-6">
+            <span className="block font-['JetBrains_Mono'] text-[11px] font-medium uppercase tracking-[0.16em] text-[#7B3FE4]">
+              FAQ
+            </span>
+            <h2 className="mt-4 font-['DM_Sans'] text-[30px] font-semibold tracking-[-0.02em] text-[#0A0A0F] sm:text-[38px]">
+              Questions, <span className="font-['Instrument_Serif'] font-normal italic text-[#7B3FE4]">answered</span>.
+            </h2>
+
+            <div className="mt-10 divide-y divide-[#E8E8EC] border-t border-[#E8E8EC]">
+              {FAQ_ITEMS.map((item) => (
+                <details key={item.question} className="group py-5">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-['DM_Sans'] text-[17px] font-semibold text-[#0A0A0F] outline-none transition-colors duration-200 hover:text-[#7B3FE4] focus-visible:text-[#7B3FE4]">
+                    {item.question}
+                    <span
+                      aria-hidden="true"
+                      className="ml-2 flex-shrink-0 text-[22px] font-normal leading-none text-[#7B3FE4] transition-transform duration-300 group-open:rotate-45"
+                    >
+                      +
+                    </span>
+                  </summary>
+                  <p className="mt-3 max-w-2xl font-['DM_Sans'] text-[15.5px] leading-[1.65] text-[#3D3D47]">
+                    {item.answer}
+                  </p>
+                </details>
+              ))}
             </div>
           </div>
         </section>

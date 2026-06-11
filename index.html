@@ -1,23 +1,63 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-ZA">
   <head>
-    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) with Consent Mode v2 — analytics denied until consent (POPIA) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-6J62V4MCXZ"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        analytics_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied'
+      });
+      try {
+        if (localStorage.getItem('sl_consent') === 'granted') {
+          gtag('consent', 'update', {
+            ad_storage: 'granted',
+            analytics_storage: 'granted',
+            ad_user_data: 'granted',
+            ad_personalization: 'granted'
+          });
+        }
+      } catch (e) {}
       gtag('js', new Date());
-
       gtag('config', 'G-6J62V4MCXZ');
     </script>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Streamline Automations — Web Design &amp; Automation, South Africa</title>
     <meta
       name="description"
-      content="Websites that convert and systems that run themselves. Web design, automation, and hosting for South African businesses — built in the Vaal Triangle."
+      content="Websites that convert and systems that run themselves. Web design, automation, and hosting for South African businesses — built in the Vaal Triangle, Gauteng."
     />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="https://streamline-automations.co.za/" />
+
+    <!-- Favicons & PWA -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#7B3FE4" />
+
+    <!-- Open Graph / Twitter defaults (overridden per-route by react-helmet) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Streamline Automations" />
+    <meta property="og:locale" content="en_ZA" />
+    <meta property="og:url" content="https://streamline-automations.co.za/" />
+    <meta property="og:title" content="Streamline Automations — Web Design &amp; Automation, South Africa" />
+    <meta property="og:description" content="Websites that convert and systems that run themselves. Web design, automation, and hosting for South African businesses — built in the Vaal Triangle, Gauteng." />
+    <meta property="og:image" content="https://streamline-automations.co.za/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Streamline Automations — Web Design &amp; Automation, South Africa" />
+    <meta name="twitter:description" content="Websites that convert and systems that run themselves. Web design, automation, and hosting for South African businesses — built in the Vaal Triangle, Gauteng." />
+    <meta name="twitter:image" content="https://streamline-automations.co.za/og-image.png" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- v2 type system only: DM Sans (all) · Instrument Serif italic (accents) · JetBrains Mono (eyebrows) -->
@@ -69,43 +109,77 @@
         display: none !important;
       }
     </style>
+    <!-- Apollo website tracker — only loads once analytics consent is granted (POPIA) -->
     <script>function initApollo(){var n=Math.random().toString(36).substring(7),o=document.createElement("script");
     o.src="https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache="+n,o.async=!0,o.defer=!0,
     o.onload=function(){window.trackingFunctions.onLoad({appId:"69ae6480a307ae00197b3fd9"})},
-    document.head.appendChild(o)}initApollo();</script>
-    <!-- Schema Markup for Local SEO -->
+    document.head.appendChild(o)}
+    window.__initApollo=initApollo;
+    try{if(localStorage.getItem("sl_consent")==="granted")initApollo();}catch(e){}</script>
+    <!-- Schema Markup for Local SEO — ProfessionalService (LocalBusiness + Organization) + WebSite -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "ProfessionalService",
-      "name": "Streamline Automations",
-      "image": "https://streamline-automations.co.za/favicon.svg",
-      "description": "Web design and automation for South African businesses. Websites that convert, systems that run themselves — custom builds, WhatsApp automation, and hosting.",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Vaal Triangle",
-        "addressRegion": "Gauteng",
-        "addressCountry": "ZA"
-      },
-      "url": "https://streamline-automations.co.za",
-      "telephone": "+27687579940",
-      "openingHours": ["Mo-Fr 08:00-17:00", "Sa 09:00-13:00"],
-      "sameAs": [
-        "https://www.instagram.com/streamline_automations/",
-        "https://www.facebook.com/people/Streamline-Automations/61587739632609/",
-        "https://www.linkedin.com/in/christiaan-steffen-703805177/"
-      ],
-      "areaServed": [
-        "Gauteng",
-        "Johannesburg",
-        "Pretoria",
-        "South Africa"
-      ],
-      "serviceType": [
-        "Web Design",
-        "Business Automation",
-        "WhatsApp Automation",
-        "Website Hosting"
+      "@graph": [
+        {
+          "@type": "ProfessionalService",
+          "@id": "https://streamline-automations.co.za/#organization",
+          "name": "Streamline Automations",
+          "alternateName": "Streamline Automations — Web Design & Automation",
+          "description": "Web design and business automation for South African companies. Custom websites that convert, WhatsApp automation, admin systems and hosting — built in the Vaal Triangle, Gauteng.",
+          "url": "https://streamline-automations.co.za",
+          "logo": "https://streamline-automations.co.za/assets/logos/streamline-mark.webp",
+          "image": "https://streamline-automations.co.za/assets/logos/streamline-mark.webp",
+          "telephone": "+27687579940",
+          "email": "christiaan@streamline-automations.co.za",
+          "founder": { "@type": "Person", "name": "Christiaan Steffen" },
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Vaal Triangle",
+            "addressRegion": "Gauteng",
+            "addressCountry": "ZA"
+          },
+          "areaServed": [
+            { "@type": "City", "name": "Vereeniging" },
+            { "@type": "City", "name": "Vanderbijlpark" },
+            { "@type": "City", "name": "Three Rivers" },
+            { "@type": "City", "name": "Meyerton" },
+            { "@type": "City", "name": "Sasolburg" },
+            { "@type": "City", "name": "Vaal Triangle" },
+            { "@type": "City", "name": "Gauteng" },
+            { "@type": "City", "name": "South Africa" }
+          ],
+          "priceRange": "R699–R1,799 / month",
+          "openingHoursSpecification": [
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+              "opens": "08:00",
+              "closes": "17:00"
+            },
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": "Saturday",
+              "opens": "09:00",
+              "closes": "13:00"
+            }
+          ],
+          "sameAs": [
+            "https://www.instagram.com/streamline_automations/",
+            "https://www.facebook.com/people/Streamline-Automations/61587739632609/",
+            "https://www.linkedin.com/in/christiaan-steffen-703805177/",
+            "https://www.tiktok.com/@streamline_automations",
+            "https://www.youtube.com/@streamline_automations"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://streamline-automations.co.za/#website",
+          "url": "https://streamline-automations.co.za",
+          "name": "Streamline Automations",
+          "publisher": { "@id": "https://streamline-automations.co.za/#organization" },
+          "inLanguage": "en-ZA"
+        }
       ]
     }
     </script>

@@ -8,6 +8,7 @@ import PageTransition from './components/layout/PageTransition';
 import LenisProvider from './components/providers/LenisProvider';
 import DotRingCursor from './components/white/ui/DotRingCursor';
 import SiteLoader from './components/white/ui/SiteLoader';
+import CookieConsent from './components/layout/CookieConsent';
 import ComingSoon from './pages/ComingSoon';
 import { trackScrollDepth, resetScrollTracking, initOutboundLinkTracking, initBounceDetection, resetSessionTiming } from './lib/analytics';
 
@@ -38,6 +39,7 @@ const HomeVariant2 = lazy(() => import('./pages/HomeVariant2'));
 const HomeVariant3 = lazy(() => import('./pages/HomeVariant3'));
 const HomeVariant4 = lazy(() => import('./pages/HomeVariant4'));
 const NotFound = lazy(() => import('./pages/NotFound'));
+const Privacy = lazy(() => import('./pages/Privacy'));
 // Isolated 3D scroll lab — self-contained test route, no header/footer
 const Lab = lazy(() => import('./pages/lab/LabPage'));
 
@@ -89,6 +91,7 @@ function AnimatedRoutes() {
         <Route path="/packages" element={<PageTransition><Packages /></PageTransition>} />
         <Route path="/services" element={<PageTransition><Services /></PageTransition>} />
         <Route path="/about" element={<PageTransition><About /></PageTransition>} />
+        <Route path="/privacy" element={<PageTransition><Privacy /></PageTransition>} />
 
         {/* Legacy/deprecated routes — redirect to /websites */}
         <Route path="/services/branding" element={<Navigate to="/websites" replace />} />
@@ -141,6 +144,7 @@ function App() {
           <SiteLoader />
           <DotRingCursor />
           <BackToTop />
+          <CookieConsent />
         </LenisProvider>
       </Router>
     </HelmetProvider>

@@ -122,7 +122,16 @@ export default function SiteFooter() {
 
           <div className="flex flex-col gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-white/60 md:items-end">
             <span>© 2026 Streamline Automations · CIPC {CONTACT.cipc}</span>
-            <span>Built in the Vaal Triangle, SA</span>
+            <span className="flex items-center gap-4">
+              <Link
+                to="/privacy"
+                data-cursor="link"
+                className="outline-none transition-colors duration-300 hover:text-white focus-visible:text-white"
+              >
+                Privacy
+              </Link>
+              <span>Built in the Vaal Triangle, SA</span>
+            </span>
           </div>
         </div>
       </div>

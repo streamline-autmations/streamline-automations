@@ -7,6 +7,8 @@ import SiteLayout from './components/layout/SiteLayout';
 import Cursor from './components/craft/Cursor';
 import ContactOrb from './components/craft/ContactOrb';
 import PageTransition from './components/craft/PageTransition';
+import SiteSEO from './components/SiteSEO';
+import CookieConsent from '../components/layout/CookieConsent';
 import './styles/site.css';
 
 // Code-split every route (brief §10).
@@ -21,6 +23,7 @@ const Blom = lazy(() => import('./pages/work/Blom'));
 const RecklessBear = lazy(() => import('./pages/work/RecklessBear'));
 const CWElectronics = lazy(() => import('./pages/work/CWElectronics'));
 const Ameli = lazy(() => import('./pages/work/Ameli'));
+const Privacy = lazy(() => import('./pages/Privacy'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 // Isolated 3D scroll lab (lives outside src/site) — no header/footer/orb
 const Lab = lazy(() => import('../pages/lab/LabPage'));
@@ -40,6 +43,7 @@ function AnimatedRoutes() {
         <Route path="/portfolio" element={t(<Portfolio />)} />
         <Route path="/about" element={t(<About />)} />
         <Route path="/contact" element={t(<Contact />)} />
+        <Route path="/privacy" element={t(<Privacy />)} />
 
         {/* Case studies */}
         <Route path="/work/blom" element={t(<Blom />)} />
@@ -69,20 +73,25 @@ function Shell() {
 
   if (pathname === '/lab') {
     return (
-      <Suspense fallback={<div className="min-h-[100svh] bg-site-ink" />}>
-        <Lab />
-      </Suspense>
+      <>
+        <SiteSEO />
+        <Suspense fallback={<div className="min-h-[100svh] bg-site-ink" />}>
+          <Lab />
+        </Suspense>
+      </>
     );
   }
 
   return (
     <>
+      <SiteSEO />
       <ContactOrb />
       <SiteLayout>
         <Suspense fallback={<div className="min-h-[100svh] bg-white" />}>
           <AnimatedRoutes />
         </Suspense>
       </SiteLayout>
+      <CookieConsent />
     </>
   );
 }

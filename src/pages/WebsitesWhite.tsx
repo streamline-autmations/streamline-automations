@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import SEO from '../components/seo/SEO';
+import { service, breadcrumb } from '../lib/structured-data';
 import SiteHeader from '../components/white/SiteHeader';
 import SiteFooter from '../components/white/SiteFooter';
 import Button from '../components/white/ui/Button';
@@ -114,8 +115,22 @@ export default function WebsitesWhite() {
     <>
       <SiteHeader />
       <SEO
-        title="Web Design & Creation — Streamline Automations"
-        description="Custom websites for South African businesses. Fast, mobile-first, and built to convert. No templates. No drag-and-drop."
+        title="Web Design & Website Creation, South Africa"
+        description="Custom websites for South African businesses — fast, mobile-first, and built to convert. No templates, no drag-and-drop. Web design in the Vaal Triangle and across Gauteng."
+        url="/websites"
+        jsonLd={[
+          service({
+            name: 'Web Design & Website Creation',
+            serviceType: 'Web design and development',
+            description:
+              'Custom, hand-built websites for South African businesses — fast, mobile-first and built to convert. No templates or page builders.',
+            path: '/websites',
+          }),
+          breadcrumb([
+            { name: 'Home', path: '/' },
+            { name: 'Websites', path: '/websites' },
+          ]),
+        ]}
       />
       <main className="bg-white min-h-[100svh] font-['DM_Sans']">
 

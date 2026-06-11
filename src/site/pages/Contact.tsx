@@ -6,6 +6,7 @@ import SplitReveal from '../components/craft/SplitReveal';
 import FillButton from '../components/craft/FillButton';
 import { EASE_ARR, fadeUp, viewport } from '../lib/motion';
 import { CONTACT, SOCIALS } from '../data/site';
+import { FAQ_ITEMS } from '../data/faq';
 import EngineBackdrop from '../components/three/EngineBackdrop';
 
 const BUDGETS = ['R5k – R20k · website', 'R10k – R35k · system', 'Monthly rental', 'Not sure yet'];
@@ -215,6 +216,35 @@ export default function Contact() {
               <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">Based in</div>
               <p className="text-[15px] text-white/[0.7]">{CONTACT.location}</p>
             </div>
+          </div>
+        </div>
+      </Panel>
+
+      {/* FAQ — white. Visible content paired with the FAQPage schema (SiteSEO). */}
+      <Panel bg="white" className="px-6 py-24 md:px-10 md:py-32">
+        <div className="mx-auto w-full max-w-3xl">
+          <Tag variant="outline" className="mb-6">
+            FAQ
+          </Tag>
+          <h2 className="text-[clamp(30px,4vw,46px)] font-semibold leading-[1.05] tracking-[-0.02em] text-site-ink">
+            Questions, <span className="text-site-accent">answered</span>.
+          </h2>
+
+          <div className="mt-10 divide-y divide-site-line border-t border-site-line">
+            {FAQ_ITEMS.map((item) => (
+              <details key={item.question} className="group py-5">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[17px] font-semibold text-site-ink outline-none transition-colors duration-200 hover:text-site-accent focus-visible:text-site-accent">
+                  {item.question}
+                  <span
+                    aria-hidden="true"
+                    className="ml-2 flex-shrink-0 text-[22px] font-normal leading-none text-site-accent transition-transform duration-300 group-open:rotate-45"
+                  >
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 max-w-2xl text-[15.5px] leading-[1.65] text-site-text-body">{item.answer}</p>
+              </details>
+            ))}
           </div>
         </div>
       </Panel>

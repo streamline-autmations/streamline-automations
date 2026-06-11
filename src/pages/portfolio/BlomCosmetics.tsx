@@ -14,9 +14,11 @@ const C = '/assets/clients/blom';
 export default function BlomCosmetics() {
   return (
     <CaseShell
-      seoTitle="BLOM Cosmetics — Case Study | Streamline Automations"
+      seoTitle="BLOM Cosmetics — E-commerce & Automation Case Study"
       seoDescription="A full e-commerce store, custom admin dashboard, BLOM Academy course platform, and email + WhatsApp automation — unified on one Supabase backend. PayFast live."
       seoImage={`${C}/hero.webp`}
+      path="/portfolio/blom-cosmetics"
+      clientName="BLOM Cosmetics"
     >
       <CaseHero
         client="BLOM Cosmetics"

@@ -14,9 +14,11 @@ const C = '/assets/clients/ameli';
 export default function Ameli() {
   return (
     <CaseShell
-      seoTitle="Ameli Designs — Case Study | Streamline Automations"
+      seoTitle="Ameli Designs — Portfolio Site & Lead Automation Case Study"
       seoDescription="A fast, mobile-first portfolio site for a graphic designer, with automated email lead capture wired through n8n. Built and handed over in 4 days."
       seoImage={`${C}/hero.webp`}
+      path="/portfolio/ameli"
+      clientName="Ameli Designs"
     >
       <CaseHero
         client="Ameli Designs"
