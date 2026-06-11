@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "npm run build",
+  "buildCommand": "npx puppeteer browsers install chrome && npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
   "installCommand": "npm install",
