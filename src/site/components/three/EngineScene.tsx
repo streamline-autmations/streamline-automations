@@ -103,8 +103,10 @@ function Engine({
   const coreRef = useRef<Mesh>(null);
   const shellRef = useRef<Mesh>(null);
   const matRef = useRef<any>(null);
+  // World-space x of the travelling orb; starts at its classic corner anchor.
+  const travelX = useRef(corePos[0]);
 
-  useFrame(({ clock }, delta) => {
+  useFrame((state, delta) => {
     const t = progressRef.current;
     if (coreRef.current) {
       coreRef.current.rotation.y += delta * (0.1 + t * 0.45);
@@ -119,17 +121,25 @@ function Engine({
       matRef.current.emissiveIntensity = 0.5 + t * 0.5;
     }
     if (drift && orbRef.current) {
-      // Carried by the current: two incommensurate sines along the stream axis
-      // (so the path never visibly repeats) + a softer cross-stream bob, and a
-      // slight roll leaning into the direction of travel. Transform-only.
-      const e = clock.elapsedTime;
+      const e = state.clock.elapsedTime;
       const o = orbRef.current;
-      // Amplitudes stay small (≤0.55 along the stream) so the orb never
-      // wanders off its corner into the headline.
-      o.position.x = Math.sin(e * 0.14) * 0.38 + Math.sin(e * 0.047 + 2.1) * 0.17;
+      // Carried downstream: constant slow travel left → right (a touch faster
+      // as the section centres, like the particle flow), wrapping back to the
+      // left once fully past the right edge. The wrap point sits beyond the
+      // viewport AND beyond the fog's far plane, so the orb dissolves into the
+      // dark before it jumps — no visible pop. 1.14 = depth correction from
+      // the camera-at-8.5 viewport to the orb plane at z ≈ -1.2.
+      const edge = (state.viewport.width / 2) * 1.14 + 2.4;
+      // Clamp delta — the frameloop halts off-screen and the first frame back
+      // would otherwise teleport the orb.
+      travelX.current += Math.min(delta, 0.1) * (0.55 + t * 0.3);
+      if (travelX.current > edge) travelX.current = -edge;
+      o.position.x = travelX.current - corePos[0];
+      // Cross-stream bob + a slight roll leaning into the travel keep it
+      // feeling buoyant rather than conveyor-belted. Transform-only.
       o.position.y = Math.sin(e * 0.21 + 1.7) * 0.22;
       o.position.z = Math.cos(e * 0.11) * 0.3;
-      o.rotation.z = Math.cos(e * 0.14) * -0.07;
+      o.rotation.z = -0.05 + Math.cos(e * 0.14) * -0.04;
     }
   });
 
@@ -181,8 +191,8 @@ export default function EngineScene({
   /** Where the core (and its stream axis) sits — lets each surface keep the
    *  engine clear of its text column. */
   corePos?: [number, number, number];
-  /** Let the stream carry the orb in a slow non-repeating wander instead of
-   *  holding it static. */
+  /** Let the stream carry the orb: slow continuous left→right travel across
+   *  the full view, wrapping off-screen back to the left. */
   drift?: boolean;
 }) {
   return (

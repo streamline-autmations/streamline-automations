@@ -28,9 +28,9 @@ export default function PreFooterCTA({
         <div className="sc-bloom-b absolute -bottom-44 right-[16%] h-[480px] w-[480px] rounded-full bg-[#5b2bd6] opacity-[0.12] blur-[150px]" />
       </div>
 
-      {/* The Engine — enquiries flow in, bookings flow out. Core floats upper
-          right so the centred sub-copy + CTA stay on clean ink; drift lets the
-          stream carry it gently instead of holding it static. */}
+      {/* The Engine — enquiries flow in, bookings flow out. The orb rides the
+          stream left → right across the section, wrapping off-screen back to
+          the start; corePos anchors the stream axis above the sub-copy. */}
       <EngineBackdrop corePos={[3.9, 0.9, -1.2]} drift />
 
       <div className="relative mx-auto w-full max-w-5xl px-6 text-center">
