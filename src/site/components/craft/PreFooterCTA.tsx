@@ -21,7 +21,7 @@ export default function PreFooterCTA({
   sub?: string;
 }) {
   return (
-    <section className="relative flex min-h-[78svh] flex-col items-center justify-center overflow-hidden rounded-t-[2.5rem] bg-site-ink py-28 text-white md:rounded-t-[4.5rem] md:py-32">
+    <section data-header-dark="" className="relative flex min-h-[78svh] flex-col items-center justify-center overflow-hidden rounded-t-[2.5rem] bg-site-ink py-28 text-white md:rounded-t-[4.5rem] md:py-32">
       {/* Living gradient backdrop (transform-only drift) — also the no-WebGL fallback. */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="sc-bloom-a absolute -top-40 left-[18%] h-[560px] w-[560px] rounded-full bg-site-accent opacity-[0.16] blur-[150px]" />
@@ -32,6 +32,12 @@ export default function PreFooterCTA({
           stream left → right across the section, wrapping off-screen back to
           the start; corePos anchors the stream axis above the sub-copy. */}
       <EngineBackdrop corePos={[3.9, 0.9, -1.2]} drift />
+
+      {/* Soft ink vignette behind the copy so the engine never fights the headline */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[120%] w-[110%] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(ellipse_at_center,rgba(10,10,15,0.78)_0%,rgba(10,10,15,0.35)_45%,transparent_70%)]"
+      />
 
       <div className="relative mx-auto w-full max-w-5xl px-6 text-center">
         <SplitReveal
@@ -57,7 +63,7 @@ export default function PreFooterCTA({
           transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.2 }}
           className="mt-10 flex flex-col items-center gap-5"
         >
-          <FillButton to={PRIMARY_CTA.to} variant="on-dark" className="px-12 text-[16px]">
+          <FillButton to={PRIMARY_CTA.to} variant="solid-accent" className="px-12 text-[16px]">
             {PRIMARY_CTA.label}
           </FillButton>
           <a

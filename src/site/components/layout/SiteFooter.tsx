@@ -66,7 +66,7 @@ function SocialIcon({ href, label, Icon }: { href: string; label: string; Icon: 
  */
 export default function SiteFooter() {
   return (
-    <footer className="relative bg-site-ink pb-12 pt-[clamp(80px,12vh,130px)] text-white">
+    <footer data-header-dark="" className="relative bg-site-ink pb-12 pt-[clamp(80px,12vh,130px)] text-white">
       <div className="mx-auto w-full max-w-6xl px-6">
         <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}>
           <Link to="/" data-cursor="link" className="inline-block outline-none" aria-label="Streamline Automations — home">

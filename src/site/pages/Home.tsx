@@ -6,6 +6,7 @@ import PreFooterCTA from '../components/craft/PreFooterCTA';
 import FillButton from '../components/craft/FillButton';
 import Panel from '../components/craft/Panel';
 import Tag from '../components/craft/Tag';
+import ClientLogos from '../components/site/ClientLogos';
 import ServicesSection from '../components/site/ServicesSection';
 import StatsSection from '../components/site/StatsSection';
 import AutomationScrolly from '../components/site/AutomationScrolly';
@@ -36,7 +37,8 @@ export default function Home() {
       >
         {/* Desktop: lazy WebGL network (alive at rest, scroll + mouse reactive).
             Mobile/reduced-motion: static network render. */}
-        <HeroVisual className="absolute inset-y-0 right-[-6%] z-0 hidden w-[54%] md:block" />
+        {/* Pushed right + narrowed so the network never enters the headline column */}
+        <HeroVisual className="absolute inset-y-0 right-[-12%] z-0 hidden w-[48%] md:block" />
         <NetworkFallback className="absolute right-[-38%] top-[-3%] z-0 aspect-[3/2] w-[115%] opacity-90 md:hidden" />
 
         <div className="relative z-10 mx-auto w-full max-w-6xl">
@@ -80,7 +82,7 @@ export default function Home() {
             transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.6 }}
             className="mt-10 flex flex-wrap items-center gap-6"
           >
-            <FillButton to="/contact" variant={heroInk ? 'on-dark' : 'ink'}>
+            <FillButton to="/contact" variant="solid-accent">
               Book a Free Call
             </FillButton>
             <Link
@@ -96,10 +98,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* MANIFESTO — ink */}
-      <Panel bg="ink" className="flex min-h-[70svh] items-center px-6 py-28 md:px-10 md:py-36">
+      {/* TRUST BAR — real client logos, directly under the hero */}
+      <ClientLogos />
+
+      {/* MANIFESTO — off-white (the page stays white-dominant; ink is reserved
+          for the automation scrolly + pre-footer CTA) */}
+      <Panel bg="offwhite" className="flex min-h-[70svh] items-center px-6 py-28 md:px-10 md:py-36">
         <div className="mx-auto w-full max-w-5xl">
-          <Tag variant="outline-dark" className="mb-8">
+          <Tag variant="outline" className="mb-8">
             The problem
           </Tag>
           <SplitReveal
@@ -109,7 +115,7 @@ export default function Home() {
               { text: 'system', serif: true },
               { text: 'that runs it for you.' },
             ]}
-            className="max-w-[20ch] text-[clamp(30px,5vw,68px)] font-semibold leading-[1.05] tracking-[-0.02em] text-white"
+            className="max-w-[20ch] text-[clamp(30px,5vw,68px)] font-semibold leading-[1.05] tracking-[-0.02em] text-site-ink"
           />
           <motion.div
             initial={{ opacity: 0, y: 14 }}
@@ -118,7 +124,7 @@ export default function Home() {
             transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.15 }}
             className="mt-10"
           >
-            <FillButton to="/systems" variant="on-dark">
+            <FillButton to="/systems" variant="ink">
               See how it works
             </FillButton>
           </motion.div>

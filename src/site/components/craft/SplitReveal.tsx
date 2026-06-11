@@ -71,7 +71,9 @@ export default function SplitReveal({
           <span
             key={`${si}-${wi}`}
             aria-hidden="true"
-            className="inline-block overflow-hidden align-top px-[0.05em] pb-[0.04em]"
+            // px keeps italic/overhang glyphs from clipping; mr restores the real
+            // word space (DM Sans space ≈ 0.25em) that inline-block wrappers swallow.
+            className="inline-block overflow-hidden align-top px-[0.05em] pb-[0.04em] mr-[0.14em] last:mr-0"
           >
             <motion.span
               variants={word}

@@ -71,14 +71,14 @@ export default function AutomationScrolly() {
   if (!enhanced) {
     // Stacked timeline fallback (mobile / reduced-motion).
     return (
-      <section className="relative rounded-t-[2rem] bg-site-ink px-6 py-24 text-white md:rounded-t-[4rem] md:px-10">
+      <section data-header-dark="" className="relative rounded-t-[2rem] bg-site-ink px-6 py-24 text-white md:rounded-t-[4rem] md:px-10">
         <div className="mx-auto w-full max-w-3xl">
           <Tag variant="outline-dark" className="mb-8">
             How the automation runs
           </Tag>
           <SplitReveal
             as="h2"
-            segments={[{ text: 'From enquiry to' }, { text: 'done', serif: true }, { text: 'while you sleep.' }]}
+            segments={[{ text: 'From enquiry to' }, { text: 'done', serif: true }, { text: '— without you touching it.' }]}
             className="text-[clamp(30px,8vw,52px)] font-semibold leading-[1.05] tracking-[-0.02em] text-white"
           />
           <ol className="mt-12 flex flex-col gap-9 border-l border-white/15 pl-8">
@@ -99,7 +99,7 @@ export default function AutomationScrolly() {
   }
 
   return (
-    <section ref={scopeRef} className="relative rounded-t-[2rem] bg-site-ink text-white md:rounded-t-[4rem]">
+    <section ref={scopeRef} data-header-dark="" className="relative rounded-t-[2rem] bg-site-ink text-white md:rounded-t-[4rem]">
       <div
         ref={pinRef}
         className="relative flex min-h-[100svh] items-center overflow-hidden px-6 py-24 md:px-10"

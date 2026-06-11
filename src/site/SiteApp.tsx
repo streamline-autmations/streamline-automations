@@ -5,7 +5,6 @@ import LenisProvider from './providers/LenisProvider';
 import ScrollToTop from './components/layout/ScrollToTop';
 import SiteLayout from './components/layout/SiteLayout';
 import Cursor from './components/craft/Cursor';
-import ContactOrb from './components/craft/ContactOrb';
 import PageTransition from './components/craft/PageTransition';
 import SiteSEO from './components/SiteSEO';
 import CookieConsent from '../components/layout/CookieConsent';
@@ -64,9 +63,9 @@ function AnimatedRoutes() {
 }
 
 /**
- * Shell — routes /lab to the isolated 3D scroll test (no SiteLayout chrome,
- * no ContactOrb — it owns its own scroll via drei ScrollControls). Everything
- * else gets the normal header/content/footer tree.
+ * Shell — routes /lab to the isolated 3D scroll test (no SiteLayout chrome —
+ * it owns its own scroll via drei ScrollControls). Everything else gets the
+ * normal header/content/footer tree.
  */
 function Shell() {
   const { pathname } = useLocation();
@@ -85,7 +84,6 @@ function Shell() {
   return (
     <>
       <SiteSEO />
-      <ContactOrb />
       <SiteLayout>
         <Suspense fallback={<div className="min-h-[100svh] bg-white" />}>
           <AnimatedRoutes />

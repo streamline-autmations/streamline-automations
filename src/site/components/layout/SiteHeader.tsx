@@ -8,13 +8,13 @@ import RollText from '../craft/RollText';
 import Wordmark from '../craft/Wordmark';
 
 /** Top-level nav link with the vertical roll-on-hover + active-route state. */
-function NavRoll({ to, label, active }: { to: string; label: string; active: boolean }) {
+function NavRoll({ to, label, active, dark }: { to: string; label: string; active: boolean; dark: boolean }) {
   return (
     <Link
       to={to}
       data-cursor="link"
       className={`group inline-flex min-h-[44px] items-center text-[15px] font-medium outline-none transition-colors duration-300 ${
-        active ? 'text-site-accent' : 'text-site-ink'
+        active ? 'text-site-accent' : dark ? 'text-white' : 'text-site-ink'
       }`}
     >
       <RollText>{label}</RollText>
@@ -41,6 +41,7 @@ const overlayItem: Variants = {
  */
 export default function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
+  const [overDark, setOverDark] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const servicesRef = useRef<HTMLDivElement>(null);
@@ -50,12 +51,27 @@ export default function SiteHeader() {
     href === '/' ? location.pathname === '/' : location.pathname.startsWith(href);
   const servicesActive = ['/websites', '/systems', '/hosting'].some((p) => location.pathname.startsWith(p));
 
+  // Scroll state + "is an ink section under the header right now?" — sections
+  // opt in via data-header-dark. Rect check (not scroll math) so it survives
+  // pinned/transformed sections and route changes.
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 40);
+    const probeY = 40; // vertical centre of the header bar
+    const fn = () => {
+      setScrolled(window.scrollY > 40);
+      const dark = Array.from(document.querySelectorAll<HTMLElement>('[data-header-dark]')).some((el) => {
+        const r = el.getBoundingClientRect();
+        return r.top <= probeY && r.bottom >= probeY;
+      });
+      setOverDark(dark);
+    };
     fn();
     window.addEventListener('scroll', fn, { passive: true });
-    return () => window.removeEventListener('scroll', fn);
-  }, []);
+    window.addEventListener('resize', fn);
+    return () => {
+      window.removeEventListener('scroll', fn);
+      window.removeEventListener('resize', fn);
+    };
+  }, [location]);
 
   useEffect(() => {
     setOpen(false);
@@ -89,12 +105,14 @@ export default function SiteHeader() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-[1000] flex items-center justify-between px-6 py-[18px] md:px-10">
-      {/* Frosted backdrop fades in on scroll */}
+      {/* Frosted backdrop fades in on scroll — frosted ink over dark sections */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 border-b border-site-line transition-opacity duration-500"
+        className={`absolute inset-0 -z-10 border-b transition-[opacity,background-color,border-color] duration-500 ${
+          overDark ? 'border-white/10' : 'border-site-line'
+        }`}
         style={{
-          background: 'rgba(255,255,255,0.72)',
+          background: overDark ? 'rgba(10,10,15,0.55)' : 'rgba(255,255,255,0.72)',
           backdropFilter: 'blur(14px) saturate(1.2)',
           WebkitBackdropFilter: 'blur(14px) saturate(1.2)',
           opacity: scrolled ? 1 : 0,
@@ -105,7 +123,7 @@ export default function SiteHeader() {
       {/* LEFT — magnetic wordmark */}
       <Magnetic strength={10}>
         <Link to="/" data-cursor="link" className="inline-block outline-none" aria-label="Streamline Automations — home">
-          <Wordmark className="text-[21px] md:text-[23px]" />
+          <Wordmark tone={overDark ? 'light' : 'ink'} className="text-[21px] transition-colors duration-300 md:text-[23px]" />
         </Link>
       </Magnetic>
 
@@ -117,7 +135,7 @@ export default function SiteHeader() {
             aria-expanded={servicesOpen}
             data-cursor="link"
             className={`group inline-flex min-h-[44px] items-center gap-1.5 text-[15px] font-medium outline-none transition-colors duration-300 ${
-              servicesActive ? 'text-site-accent' : 'text-site-ink'
+              servicesActive ? 'text-site-accent' : overDark ? 'text-white' : 'text-site-ink'
             }`}
           >
             <RollText>Services</RollText>
@@ -159,15 +177,17 @@ export default function SiteHeader() {
           </AnimatePresence>
         </div>
 
-        <NavRoll to="/portfolio" label="Portfolio" active={isActive('/portfolio')} />
-        <NavRoll to="/about" label="About" active={isActive('/about')} />
-        <NavRoll to="/contact" label="Contact" active={isActive('/contact')} />
+        <NavRoll to="/portfolio" label="Portfolio" active={isActive('/portfolio')} dark={overDark} />
+        <NavRoll to="/about" label="About" active={isActive('/about')} dark={overDark} />
+        <NavRoll to="/contact" label="Contact" active={isActive('/contact')} dark={overDark} />
       </nav>
 
       {/* Mobile hamburger */}
       <button
         onClick={() => setOpen((v) => !v)}
-        className="relative z-[1001] flex min-h-[44px] min-w-[44px] items-center justify-center text-site-ink outline-none md:hidden"
+        className={`relative z-[1001] flex min-h-[44px] min-w-[44px] items-center justify-center outline-none transition-colors duration-300 md:hidden ${
+          open || !overDark ? 'text-site-ink' : 'text-white'
+        }`}
         aria-label={open ? 'Close menu' : 'Open menu'}
         aria-expanded={open}
       >

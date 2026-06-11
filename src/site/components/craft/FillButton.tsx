@@ -2,13 +2,15 @@ import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { Magnetic } from './Magnetic';
 
-type Variant = 'ink' | 'accent' | 'on-dark';
+type Variant = 'ink' | 'accent' | 'on-dark' | 'solid-accent';
 
 // Full static class strings so Tailwind keeps them (no dynamic concatenation).
+// 'solid-accent' is the PRIMARY CTA: already filled purple, darkens on hover.
 const V: Record<Variant, { ring: string; fill: string; hoverText: string }> = {
   ink: { ring: 'border-site-ink text-site-ink', fill: 'bg-site-ink', hoverText: 'group-hover:text-white' },
   accent: { ring: 'border-site-accent text-site-accent', fill: 'bg-site-accent', hoverText: 'group-hover:text-white' },
   'on-dark': { ring: 'border-white text-white', fill: 'bg-white', hoverText: 'group-hover:text-site-ink' },
+  'solid-accent': { ring: 'border-site-accent bg-site-accent text-white', fill: 'bg-site-accent-hover', hoverText: '' },
 };
 
 /**

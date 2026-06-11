@@ -32,7 +32,11 @@ export default function Panel({
 }) {
   const shape = first ? '' : 'relative z-[1] -mt-[2rem] rounded-t-[2rem] md:-mt-[4rem] md:rounded-t-[4rem]';
   return (
-    <section id={id} className={`relative ${shape} ${BG[bg]} ${className}`}>
+    <section
+      id={id}
+      {...(bg === 'ink' ? { 'data-header-dark': '' } : {})}
+      className={`relative ${shape} ${BG[bg]} ${className}`}
+    >
       {children}
     </section>
   );
