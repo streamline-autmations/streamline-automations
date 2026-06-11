@@ -3,13 +3,20 @@
 # Legacy case-study redirects live in public/_redirects.
 
 [build]
-  command = "npm run build"
+  # The post-build prerender step (scripts/prerender.cjs) drives Puppeteer, which needs a
+  # Chrome binary. Netlify only restores node_modules from cache, so puppeteer's postinstall
+  # Chrome download (kept outside node_modules in PUPPETEER_CACHE_DIR) is lost between builds.
+  # Install Chrome explicitly before building so the prerender always finds it.
+  command = "npx puppeteer browsers install chrome && npm run build"
   publish = "dist"
 
 [build.environment]
   # The LIVE site is the v2 (src/site) build — this MUST be true or the wrong app ships.
   VITE_SITE_V2 = "true"
   VITE_COMING_SOON = "false"
+  # Cache Chrome inside the repo dir so Netlify's build cache persists it across deploys
+  # (avoids re-downloading every build). Puppeteer reads this same path at launch.
+  PUPPETEER_CACHE_DIR = "/opt/build/repo/.cache/puppeteer"
 
 # Canonical host: redirect www -> apex.
 [[redirects]]
