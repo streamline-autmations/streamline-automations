@@ -18,9 +18,12 @@ const EngineScene = lazy(() => import('./EngineScene'));
 
 export default function EngineBackdrop({
   corePos,
+  drift = false,
 }: {
   /** Passed through to the scene — position the core clear of the text. */
   corePos?: [number, number, number];
+  /** Passed through to the scene — let the stream carry the orb. */
+  drift?: boolean;
 }) {
   const blocked = useNoWebGL();
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -56,7 +59,7 @@ export default function EngineBackdrop({
   return (
     <div ref={wrapRef} aria-hidden className="absolute inset-0 opacity-[0.9]">
       <Suspense fallback={null}>
-        <EngineScene progressRef={progressRef} active={inView} corePos={corePos} />
+        <EngineScene progressRef={progressRef} active={inView} corePos={corePos} drift={drift} />
       </Suspense>
     </div>
   );

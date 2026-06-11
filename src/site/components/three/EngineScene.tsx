@@ -11,7 +11,7 @@
 import { useMemo, useRef } from 'react';
 import type { MutableRefObject } from 'react';
 import { AdditiveBlending } from 'three';
-import type { BufferGeometry, Mesh } from 'three';
+import type { BufferGeometry, Group, Mesh } from 'three';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { MeshDistortMaterial } from '@react-three/drei';
 
@@ -93,15 +93,18 @@ function Stream({
 function Engine({
   progressRef,
   corePos,
+  drift,
 }: {
   progressRef: MutableRefObject<number>;
   corePos: [number, number, number];
+  drift: boolean;
 }) {
+  const orbRef = useRef<Group>(null);
   const coreRef = useRef<Mesh>(null);
   const shellRef = useRef<Mesh>(null);
   const matRef = useRef<any>(null);
 
-  useFrame((_, delta) => {
+  useFrame(({ clock }, delta) => {
     const t = progressRef.current;
     if (coreRef.current) {
       coreRef.current.rotation.y += delta * (0.1 + t * 0.45);
@@ -115,6 +118,19 @@ function Engine({
       matRef.current.distort = 0.16 + t * 0.24;
       matRef.current.emissiveIntensity = 0.5 + t * 0.5;
     }
+    if (drift && orbRef.current) {
+      // Carried by the current: two incommensurate sines along the stream axis
+      // (so the path never visibly repeats) + a softer cross-stream bob, and a
+      // slight roll leaning into the direction of travel. Transform-only.
+      const e = clock.elapsedTime;
+      const o = orbRef.current;
+      // Amplitudes stay small (≤0.55 along the stream) so the orb never
+      // wanders off its corner into the headline.
+      o.position.x = Math.sin(e * 0.14) * 0.38 + Math.sin(e * 0.047 + 2.1) * 0.17;
+      o.position.y = Math.sin(e * 0.21 + 1.7) * 0.22;
+      o.position.z = Math.cos(e * 0.11) * 0.3;
+      o.rotation.z = Math.cos(e * 0.14) * -0.07;
+    }
   });
 
   return (
@@ -123,25 +139,29 @@ function Engine({
       <pointLight color={ACCENT} intensity={40} position={[3, 2, 4]} />
       <pointLight color="#6930D0" intensity={20} position={[-4, -2, 3]} />
 
-      {/* Core — emissive carries the glow (no bloom pass back here) */}
-      <mesh ref={coreRef}>
-        <icosahedronGeometry args={[1.0, 6]} />
-        <MeshDistortMaterial
-          ref={matRef}
-          color="#14092E"
-          emissive={ACCENT}
-          emissiveIntensity={0.5}
-          roughness={0.2}
-          metalness={0.3}
-          distort={0.16}
-          speed={1.4}
-        />
-      </mesh>
+      {/* Core + shell ride together; the streams stay anchored to the axis so
+          the orb travels through them, not with them. */}
+      <group ref={orbRef}>
+        {/* Core — emissive carries the glow (no bloom pass back here) */}
+        <mesh ref={coreRef}>
+          <icosahedronGeometry args={[1.0, 6]} />
+          <MeshDistortMaterial
+            ref={matRef}
+            color="#14092E"
+            emissive={ACCENT}
+            emissiveIntensity={0.5}
+            roughness={0.2}
+            metalness={0.3}
+            distort={0.16}
+            speed={1.4}
+          />
+        </mesh>
 
-      <mesh ref={shellRef} scale={1.5}>
-        <icosahedronGeometry args={[1.0, 1]} />
-        <meshBasicMaterial color={ACCENT} wireframe transparent opacity={0.09} />
-      </mesh>
+        <mesh ref={shellRef} scale={1.5}>
+          <icosahedronGeometry args={[1.0, 1]} />
+          <meshBasicMaterial color={ACCENT} wireframe transparent opacity={0.09} />
+        </mesh>
+      </group>
 
       {/* enquiries in → bookings out, same story as /lab */}
       <Stream count={800} direction="in" color="#9D6FF0" opacity={0.5} size={0.045} progressRef={progressRef} />
@@ -154,12 +174,16 @@ export default function EngineScene({
   progressRef,
   active,
   corePos = [0, 0.2, 0],
+  drift = false,
 }: {
   progressRef: MutableRefObject<number>;
   active: boolean;
   /** Where the core (and its stream axis) sits — lets each surface keep the
    *  engine clear of its text column. */
   corePos?: [number, number, number];
+  /** Let the stream carry the orb in a slow non-repeating wander instead of
+   *  holding it static. */
+  drift?: boolean;
 }) {
   return (
     <Canvas
@@ -170,7 +194,7 @@ export default function EngineScene({
     >
       {/* Fog fades stream ends into the section's ink background */}
       <fog attach="fog" args={[INK, 6, 15]} />
-      <Engine progressRef={progressRef} corePos={corePos} />
+      <Engine progressRef={progressRef} corePos={corePos} drift={drift} />
     </Canvas>
   );
 }
