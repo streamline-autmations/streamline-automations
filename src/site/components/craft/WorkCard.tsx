@@ -3,26 +3,20 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion';
 import { EASE_ARR } from '../../lib/motion';
+import type { ProjectMedia } from '../../data/site';
 
 interface Props {
   to: string;
   label: string;
   title: string;
   blurb?: string;
-  image: string;
-  /** Optional muted autoplay-on-view video; falls back to image as poster. */
+  image?: string;
   video?: string;
-  /** 16/10 (default), 4/3, or 1/1 — controls media aspect. */
+  media?: ProjectMedia;
   ratio?: string;
   index?: number;
 }
 
-/**
- * WorkCard — full-bleed case cover. Large rounded media (image or muted
- * autoplay-on-view video) that reveals with a gentle scale/clip on scroll-in
- * and lifts slightly on hover. Cursor switches to "View". Video lazy-mounts
- * only when ≥40% in view and pauses off-screen; reduced-motion → static image.
- */
 export default function WorkCard({
   to,
   label,
@@ -30,15 +24,20 @@ export default function WorkCard({
   blurb,
   image,
   video,
+  media,
   ratio = '16/10',
   index = 0,
 }: Props) {
   const reduced = usePrefersReducedMotion();
   const wrapRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const resolvedImage = media?.type === 'image' ? media.src : media?.poster || image || '';
+  const resolvedVideo = media?.type === 'video' ? media.src : video;
+  const mobileFallback = media?.mobileFallback || resolvedImage;
+  const mediaAlt = media?.alt || title;
 
   useEffect(() => {
-    if (reduced || !video) return;
+    if (reduced || !resolvedVideo) return;
     const wrap = wrapRef.current;
     if (!wrap) return;
     const io = new IntersectionObserver(
@@ -48,11 +47,11 @@ export default function WorkCard({
         if (entry.isIntersecting) v.play().catch(() => undefined);
         else v.pause();
       },
-      { threshold: 0.4 }
+      { threshold: 0.4 },
     );
     io.observe(wrap);
     return () => io.disconnect();
-  }, [reduced, video]);
+  }, [reduced, resolvedVideo]);
 
   return (
     <motion.div
@@ -72,32 +71,35 @@ export default function WorkCard({
           className="relative w-full overflow-hidden rounded-3xl border border-site-line bg-site-surface shadow-[0_30px_80px_-20px_rgba(76,29,149,0.18),0_10px_30px_-10px_rgba(0,0,0,0.06)]"
           style={{ aspectRatio: ratio }}
         >
-          {reduced || !video ? (
-            <img
-              src={image}
-              alt={title}
-              loading="lazy"
-              draggable={false}
-              className={`absolute inset-0 h-full w-full select-none object-cover transition-transform duration-[900ms] ease-brand will-change-transform ${
-                reduced ? '' : 'group-hover:scale-[1.04]'
-              }`}
-            />
+          {reduced || !resolvedVideo ? (
+            <picture>
+              <source media="(max-width: 767px)" srcSet={mobileFallback} />
+              <img
+                src={resolvedImage}
+                alt={mediaAlt}
+                loading="lazy"
+                draggable={false}
+                className={`absolute inset-0 h-full w-full select-none object-cover transition-transform duration-[900ms] ease-brand will-change-transform ${
+                  reduced ? '' : 'group-hover:scale-[1.04]'
+                }`}
+              />
+            </picture>
           ) : (
             <video
               ref={videoRef}
-              src={video}
-              poster={image}
+              src={resolvedVideo}
+              poster={resolvedImage}
+              autoPlay
               muted
               loop
               playsInline
               preload="none"
-              aria-label={title}
+              aria-label={mediaAlt}
               className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-brand will-change-transform ${
                 reduced ? '' : 'group-hover:scale-[1.04]'
               }`}
             />
           )}
-          {/* subtle hover veil */}
           <div
             aria-hidden="true"
             className="absolute inset-0 bg-site-ink/0 transition-colors duration-500 ease-brand group-hover:bg-site-ink/[0.04]"
@@ -118,7 +120,7 @@ export default function WorkCard({
             aria-hidden="true"
             className="mt-1 shrink-0 text-[22px] text-site-text-muted transition-all duration-300 ease-brand group-hover:translate-x-1 group-hover:text-site-accent motion-reduce:group-hover:translate-x-0"
           >
-            →
+            -&gt;
           </span>
         </div>
       </Link>

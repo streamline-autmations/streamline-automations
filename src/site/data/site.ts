@@ -1,9 +1,8 @@
 /**
- * Single source of truth for v2 site constants — contact details, nav, logo,
- * social links. Change a number once, here, and it's correct everywhere.
+ * Single source of truth for v2 site constants, offer structure, pricing,
+ * project proof and contact details.
  */
 
-// WhatsApp — confirmed 2026-06-08 by Christiaan: +27 68 757 9940 (local 068 757 9940).
 const WHATSAPP_DISPLAY = '068 757 9940';
 const WHATSAPP_E164 = '27687579940';
 
@@ -13,10 +12,10 @@ export const CONTACT = {
   whatsappUrl: `https://wa.me/${WHATSAPP_E164}`,
   instagram: '@streamline_automations',
   instagramUrl: 'https://instagram.com/streamline_automations',
-  location: 'Vaal Triangle · Gauteng · South Africa',
+  location: 'Vaal Triangle / Gauteng / South Africa',
   hours: [
-    ['Mon – Fri', '8:00 – 17:00'],
-    ['Saturday', '9:00 – 13:00'],
+    ['Mon - Fri', '8:00 - 17:00'],
+    ['Saturday', '9:00 - 13:00'],
     ['Sunday', 'Closed'],
   ] as const,
   cipc: '2025/069691/07',
@@ -30,34 +29,210 @@ export const SOCIALS = {
   linkedin: 'https://www.linkedin.com/in/christiaan-steffen-703805177/',
 } as const;
 
-// Logo: the old image wordmark is retired — use <Wordmark /> (craft/Wordmark.tsx).
+export const PRIMARY_CTA = { label: 'Book a Free Call', href: '/contact', to: '/contact' } as const;
+export const SECONDARY_CTA = { label: 'See real work', href: '/portfolio', to: '/portfolio' } as const;
 
-export const PRIMARY_CTA = { label: 'Book a Free Call', to: '/contact' } as const;
-export const SECONDARY_CTA = { label: 'See the work', to: '/portfolio' } as const;
-
-/** Services for the nav dropdown. */
-export const SERVICES = [
-  { label: 'Web Design & Creation', href: '/websites', desc: 'Sites that convert. Built in days.' },
-  { label: 'Systems & Automation', href: '/systems', desc: 'Build the system once.' },
-  { label: 'Hosting, Email & Maintenance', href: '/hosting', desc: 'Your foundation. Handled.' },
+export const OFFER_PILLARS = [
+  {
+    no: '01',
+    label: 'Websites',
+    title: 'Websites',
+    href: '/websites',
+    description: 'Clean professional websites that turn visitors into enquiries.',
+    tags: ['Business websites', 'Service websites', 'E-commerce', 'Landing pages', 'Portfolio sites'],
+  },
+  {
+    no: '02',
+    label: 'Systems',
+    title: 'Systems & Automation',
+    href: '/systems',
+    description: 'Booking flows, smart forms and dashboards that reduce manual admin.',
+    tags: [
+      'Booking flows',
+      'Smart forms',
+      'Simple CRM capture',
+      'WhatsApp/email notifications',
+      'Admin dashboards',
+      'Order/lead tracking',
+    ],
+  },
+  {
+    no: '03',
+    label: 'Care',
+    title: 'Hosting & Maintenance',
+    href: '/hosting',
+    description: 'The ongoing support that keeps the site live, secure and updated.',
+    tags: ['Hosting', 'Domain/DNS help', 'Email setup', 'SSL', 'Updates', 'Minor changes', 'Support retainers'],
+  },
 ] as const;
 
-/** Primary nav (desktop right + mobile overlay). */
 export const NAV_LINKS = [
-  { label: 'Home', href: '/' },
-  { label: 'Web Design', href: '/websites' },
-  { label: 'Systems', href: '/systems' },
-  { label: 'Hosting', href: '/hosting' },
-  { label: 'Portfolio', href: '/portfolio' },
+  { label: 'Work', href: '/portfolio' },
+  { label: 'Pricing', href: '/hosting' },
   { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
 ] as const;
 
-/** Footer nav columns. */
 export const FOOTER_NAV: Array<[string, string]> = [
-  ['Web Design', '/websites'],
-  ['Systems', '/systems'],
-  ['Hosting', '/hosting'],
-  ['Portfolio', '/portfolio'],
+  ['Work', '/portfolio'],
+  ['Pricing', '/hosting'],
   ['About', '/about'],
   ['Contact', '/contact'],
+  ['Websites', '/websites'],
+  ['Systems', '/systems'],
 ];
+
+export const PACKAGES = [
+  {
+    name: 'Online Presence',
+    price: 'From R6,500',
+    bestFor: 'A clean professional website.',
+    timeframe: '3-5 working days',
+    popular: false,
+    features: [
+      'Up to 5 pages',
+      'Responsive design',
+      'Contact form',
+      'Basic SEO setup',
+      'Google Maps/social links',
+      'Fast performance',
+      '3-5 working days',
+    ],
+  },
+  {
+    name: 'Client Magnet',
+    price: 'From R12,000',
+    bestFor: 'Websites that capture leads and bookings.',
+    timeframe: '5-7 working days',
+    popular: true,
+    features: [
+      'Everything in Online Presence',
+      'Booking integration',
+      'Smart enquiry forms',
+      'Lead capture into simple CRM',
+      'Email/WhatsApp notifications',
+      'Booking confirmations/reminders',
+      'Basic follow-ups',
+      '5-7 working days',
+    ],
+  },
+  {
+    name: 'Business Accelerator',
+    price: 'From R25,000 setup + monthly support',
+    bestFor: 'Businesses that need a system, not just a site.',
+    timeframe: '7-10 working days setup',
+    popular: false,
+    features: [
+      'Everything in Client Magnet',
+      'Dashboard/admin visibility',
+      'Lead/order/booking tracking',
+      'Editable site sections where practical',
+      'Advanced follow-up logic',
+      'Monthly optimisation',
+      'Priority support',
+      '7-10 working days setup',
+    ],
+  },
+] as const;
+
+export const MAINTENANCE_PLANS = [
+  {
+    name: 'Essential',
+    price: 'R499/month',
+    description: 'Hosting checks, small updates, backups and basic support.',
+    popular: false,
+  },
+  {
+    name: 'Growth',
+    price: 'R1,199/month',
+    description: 'Faster content changes, priority fixes and light system improvements.',
+    popular: true,
+  },
+  {
+    name: 'Partner',
+    price: 'R2,499/month or custom',
+    description: 'Hands-on support for sites, dashboards, automations and ongoing improvements.',
+    popular: false,
+  },
+] as const;
+
+export const RENT_TO_OWN = {
+  title: 'Rent-to-own is still available',
+  note: 'No upfront build fee. Pay monthly. Own the site after 18 months.',
+  plans: ['Starter from R699/month', 'Business from R1,099/month', 'Pro from R1,799/month'],
+} as const;
+
+export type ProjectMedia = {
+  type: 'image' | 'video';
+  src: string;
+  poster?: string;
+  mobileFallback?: string;
+  alt: string;
+};
+
+export const FEATURED_PROJECTS = [
+  {
+    no: '01',
+    name: 'BLOM Cosmetics',
+    href: '/work/blom',
+    label: 'E-commerce / Academy / Automation',
+    outcome: 'A store, course platform, admin system and WhatsApp workflow in one build.',
+    tags: ['E-commerce', 'Course platform', 'Admin dashboard', 'PayFast', 'n8n'],
+    media: {
+      type: 'image',
+      src: '/assets/clients/blom/mockup-1.webp',
+      mobileFallback: '/assets/clients/blom/mobile-shop.webp',
+      alt: 'BLOM Cosmetics e-commerce and academy screens',
+    },
+  },
+  {
+    no: '02',
+    name: 'CW Electronics',
+    href: '/work/cw-electronics',
+    label: 'E-commerce / Custom Admin',
+    outcome: 'A product catalogue and owner-editable store for a Johannesburg electronics importer.',
+    tags: ['Product catalogue', 'Retail/wholesale', 'Admin dashboard', 'PayFast'],
+    media: {
+      type: 'image',
+      src: '/assets/clients/cw-electronics/hero.webp',
+      mobileFallback: '/assets/clients/cw-electronics/mobile-home.webp',
+      alt: 'CW Electronics e-commerce website interface',
+    },
+  },
+  {
+    no: '03',
+    name: 'RecklessBear',
+    href: '/work/recklessbear',
+    label: 'Site / CRM / AI Quote Flow',
+    outcome: 'A custom apparel system with CRM, production tracking and quote automation.',
+    tags: ['CRM', 'Production tracking', 'AI quote engine', 'WhatsApp'],
+    media: {
+      type: 'image',
+      src: '/assets/clients/recklessbear/mockup-3phone.webp',
+      mobileFallback: '/assets/clients/recklessbear/mobile-home.webp',
+      alt: 'RecklessBear website and automation screens',
+    },
+  },
+  {
+    no: '04',
+    name: 'Ameli Designs',
+    href: '/work/ameli',
+    label: 'Portfolio / Lead Capture',
+    outcome: 'A fast portfolio site with automated email lead capture.',
+    tags: ['Portfolio site', 'Lead capture', 'Email automation'],
+    media: {
+      type: 'image',
+      src: '/assets/clients/ameli/mockup-1.webp',
+      mobileFallback: '/assets/clients/ameli/mobile-home.webp',
+      alt: 'Ameli Designs portfolio website mockup',
+    },
+  },
+] as const;
+
+export const PROOF_ITEMS = [
+  { name: 'BLOM Cosmetics', tags: ['E-commerce', 'Course platform', 'Admin dashboard'] },
+  { name: 'CW Electronics', tags: ['Product catalogue', 'PayFast', 'Owner admin'] },
+  { name: 'RecklessBear', tags: ['CRM', 'Automation workflow', 'AI quote flow'] },
+  { name: 'Ameli Designs', tags: ['Portfolio', 'Lead capture'] },
+  { name: 'JJ Glasswork', tags: ['Service site', 'Email leads'] },
+] as const;
