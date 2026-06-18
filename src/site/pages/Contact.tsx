@@ -9,7 +9,13 @@ import { CONTACT, SOCIALS } from '../data/site';
 import { FAQ_ITEMS } from '../data/faq';
 import EngineBackdrop from '../components/three/EngineBackdrop';
 
-const BUDGETS = ['R5k – R20k · website', 'R10k – R35k · system', 'Monthly rental', 'Not sure yet'];
+const BUDGETS = [
+  'Online Presence - from R6,500',
+  'Client Magnet - from R12,000',
+  'Business Accelerator - from R25,000 + support',
+  'Maintenance retainer',
+  'Not sure yet',
+];
 
 /** Underline-style input (Cuberto contacts feel). */
 function Field({
@@ -93,7 +99,7 @@ export default function Contact() {
           <SplitReveal
             as="h1"
             trigger="mount"
-            segments={[{ text: 'Have an' }, { text: 'idea?', serif: true }, { text: "Let's build it." }]}
+            segments={[{ text: 'Book a' }, { text: 'free', serif: true }, { text: 'call.' }]}
             className="max-w-[14ch] text-[clamp(48px,9vw,116px)] font-semibold leading-[0.96] tracking-[-0.03em] text-white"
           />
           <motion.p
@@ -102,8 +108,8 @@ export default function Contact() {
             transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.4 }}
             className="mt-8 max-w-lg text-[17px] leading-[1.65] text-white/70"
           >
-            Tell me what you're building — a website, a system, or the automation that does the
-            busywork. No pitch, no pressure. I usually reply same day.
+            Tell me what you need: a professional website, a booking flow, a dashboard, or the
+            automation behind it. No pitch deck. Just a clear next step.
           </motion.p>
         </div>
       </Panel>
@@ -119,7 +125,7 @@ export default function Contact() {
               Tell me about the <span className="text-site-accent">project</span>.
             </h2>
             <p className="mt-5 max-w-sm text-[16px] leading-[1.65] text-site-text-body">
-              Fill this in and it opens WhatsApp with the details ready to send. Prefer email? It's
+              Fill this in and it opens WhatsApp with the details ready to send. Prefer email? It is
               right below.
             </p>
           </div>
@@ -138,7 +144,7 @@ export default function Contact() {
             />
 
             <div>
-              <span className="mb-3 block font-mono text-[11px] uppercase tracking-[0.14em] text-site-text-muted">Budget</span>
+              <span className="mb-3 block font-mono text-[11px] uppercase tracking-[0.14em] text-site-text-muted">Package or budget</span>
               <div className="flex flex-wrap gap-3">
                 {BUDGETS.map((b) => (
                   <button

@@ -3,12 +3,6 @@ import SEO from '../../components/seo/SEO';
 import { service, breadcrumb, creativeWork, faqPage } from '../../lib/structured-data';
 import { FAQ_ITEMS } from '../data/faq';
 
-/**
- * Centralised per-route head for the v2 site. Mounted once inside the Router; reads
- * the pathname and feeds the imperative <SEO> head manager. Keeps all titles,
- * descriptions and JSON-LD for every route in one place instead of in 11 page files.
- */
-
 type Meta = {
   title?: string;
   description?: string;
@@ -21,82 +15,82 @@ const crumb = (...items: Array<[string, string]>) =>
   breadcrumb(items.map(([name, path]) => ({ name, path })));
 
 const caseStudy = (name: string, path: string, description: string, image: string): Meta => ({
-  title: `${name} — Case Study`,
+  title: `${name} - Case Study`,
   description,
   type: 'article',
   jsonLd: [
-    creativeWork({ name: `${name} — Case Study`, description, path, image }),
-    crumb(['Home', '/'], ['Portfolio', '/portfolio'], [name, path]),
+    creativeWork({ name: `${name} - Case Study`, description, path, image }),
+    crumb(['Home', '/'], ['Work', '/portfolio'], [name, path]),
   ],
 });
 
 const ROUTES: Record<string, Meta> = {
   '/': {
-    title: 'Web Design & Automation in the Vaal Triangle, Gauteng',
+    title: 'Websites & Business Systems in Gauteng',
     description:
-      'Custom websites and automation systems for South African businesses. Built by Christiaan Steffen in the Vaal Triangle. No upfront cost — rent monthly, own after 18 months.',
+      'Professional websites, booking flows, dashboards and automations for South African small businesses. Built by Christiaan Steffen in the Vaal Triangle, Gauteng.',
   },
   '/websites': {
-    title: 'Web Design & Website Creation, South Africa',
+    title: 'Web Design for South African Small Businesses',
     description:
-      'Custom websites for South African businesses — fast, mobile-first, and built to convert. No templates, no drag-and-drop. Web design in the Vaal Triangle and across Gauteng.',
+      'Clean professional websites that turn visitors into enquiries. Built for salons, spas, gyms, contractors, shops and service businesses in South Africa.',
     jsonLd: [
       service({
         name: 'Web Design & Website Creation',
         serviceType: 'Web design and development',
         description:
-          'Custom, hand-built websites for South African businesses — fast, mobile-first and built to convert. No templates or page builders.',
+          'Clean professional websites that turn visitors into enquiries for South African small businesses.',
         path: '/websites',
       }),
-      crumb(['Home', '/'], ['Web Design', '/websites']),
+      crumb(['Home', '/'], ['Websites', '/websites']),
     ],
   },
   '/systems': {
-    title: 'Systems & Business Automation',
+    title: 'Business Systems & Automation',
     description:
-      "CRMs, WhatsApp bots, admin dashboards and n8n workflows — I automate the work that's eating your time. Business automation for South African companies in Gauteng.",
+      'Booking flows, smart forms, dashboards, simple CRM capture and WhatsApp/email notifications for South African small businesses.',
     jsonLd: [
       service({
         name: 'Systems & Business Automation',
         serviceType: 'Business process automation',
         description:
-          'Custom CRMs, WhatsApp automation, admin dashboards, booking systems and n8n workflows that run the busywork for South African businesses.',
+          'Booking flows, smart forms, dashboards, CRM capture and WhatsApp/email notifications for South African small businesses.',
         path: '/systems',
       }),
       crumb(['Home', '/'], ['Systems', '/systems']),
     ],
   },
   '/hosting': {
-    title: 'Website Hosting, Email & Maintenance',
+    title: 'Packages & Pricing',
     description:
-      'South African web hosting with real support — domain, SSL, professional email and monthly maintenance. No upfront cost: rent monthly, own your site after 18 months.',
+      'Website and business system packages for South African small businesses. Online Presence, Client Magnet, Business Accelerator and maintenance retainers.',
     jsonLd: [
       service({
-        name: 'Website Hosting, Email & Maintenance',
-        serviceType: 'Web hosting and maintenance',
+        name: 'Packages & Pricing',
+        serviceType: 'Website design, business systems and maintenance',
         description:
-          'Managed web hosting, domain, SSL, professional email and monthly maintenance for South African businesses — on a no-upfront-cost monthly plan.',
+          'Package-style pricing for professional websites, booking flows, dashboards, automation and maintenance retainers for South African small businesses.',
         path: '/hosting',
       }),
-      crumb(['Home', '/'], ['Hosting', '/hosting']),
+      crumb(['Home', '/'], ['Pricing', '/hosting']),
     ],
   },
   '/portfolio': {
-    title: 'Portfolio — Client Work & Case Studies',
+    title: 'Work - Real Websites & Systems',
     description:
-      'Real client work. Custom websites, automation systems, and e-commerce builds for South African businesses — BLOM Cosmetics, RecklessBear, CW Electronics and more.',
-    jsonLd: [crumb(['Home', '/'], ['Portfolio', '/portfolio'])],
+      'Real Streamline Automations builds: BLOM Cosmetics, RecklessBear, CW Electronics, Ameli Designs and more websites, dashboards and automation systems.',
+    jsonLd: [crumb(['Home', '/'], ['Work', '/portfolio'])],
   },
   '/about': {
-    title: 'About — Christiaan Steffen, Founder',
+    title: 'About Christiaan Steffen',
     description:
-      'Christiaan Steffen — solo founder building custom websites and automation systems for South African businesses from the Vaal Triangle, Gauteng.',
+      'Christiaan Steffen is the solo founder behind Streamline Automations, building websites and business systems for South African businesses from the Vaal Triangle, Gauteng.',
     jsonLd: [crumb(['Home', '/'], ['About', '/about'])],
   },
   '/contact': {
-    title: 'Contact — Book a Free Call',
+    title: 'Book a Free Call',
     description:
-      'Book a free call or send a message. No pitch deck, just a plan. Web design and automation for South African businesses, based in the Vaal Triangle.',
+      'Book a free call with Christiaan about a website, booking flow, dashboard, automation or maintenance plan for your South African small business.',
     jsonLd: [crumb(['Home', '/'], ['Contact', '/contact']), faqPage(FAQ_ITEMS)],
   },
   '/privacy': {
@@ -108,7 +102,7 @@ const ROUTES: Record<string, Meta> = {
   '/work/blom': caseStudy(
     'BLOM Cosmetics',
     '/work/blom',
-    'A full e-commerce store, custom admin dashboard, BLOM Academy course platform, and email + WhatsApp automation — unified on one Supabase backend. PayFast live.',
+    'A full e-commerce store, custom admin dashboard, BLOM Academy course platform, and email + WhatsApp automation unified on one Supabase backend. PayFast live.',
     '/assets/clients/blom/hero.webp',
   ),
   '/work/recklessbear': caseStudy(
@@ -120,13 +114,13 @@ const ROUTES: Record<string, Meta> = {
   '/work/cw-electronics': caseStudy(
     'CW Electronics',
     '/work/cw-electronics',
-    'A full e-commerce store and custom owner-editable admin for a Johannesburg electronics importer — 700+ products live in under two weeks, retail + wholesale pricing, PayFast live.',
+    'A full e-commerce store and custom owner-editable admin for a Johannesburg electronics importer. Retail + wholesale pricing and PayFast live.',
     '/assets/clients/cw-electronics/hero.webp',
   ),
   '/work/ameli': caseStudy(
     'Ameli Designs',
     '/work/ameli',
-    'A fast, mobile-first portfolio site for a graphic designer, with automated email lead capture wired through n8n. Built and handed over in 4 days.',
+    'A fast, mobile-first portfolio site for a graphic designer, with automated email lead capture wired through n8n.',
     '/assets/clients/ameli/hero.webp',
   ),
 };
@@ -135,7 +129,6 @@ export default function SiteSEO() {
   const { pathname } = useLocation();
   const meta = ROUTES[pathname];
 
-  // Unknown route (incl. /lab and 404) — keep it out of the index.
   if (!meta) {
     return <SEO title="Page not found (404)" url={pathname} noindex />;
   }
