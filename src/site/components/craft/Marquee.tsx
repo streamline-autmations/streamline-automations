@@ -1,7 +1,7 @@
 import { Fragment, type CSSProperties } from 'react';
 
 /**
- * Marquee — a seamless horizontal drift of repeated labels. The track holds two
+ * Marquee — a continuous horizontal drift of repeated labels. The track holds two
  * identical sets and translates -50% on loop, so the wrap is invisible. CSS
  * animation (.sc-marquee-track in site.css) pauses under prefers-reduced-motion.
  */

@@ -109,7 +109,7 @@ export default function Websites() {
           </Tag>
           <SplitReveal
             as="h2"
-            segments={[{ text: 'Everything,' }, { text: 'handled', serif: true }, { text: '.' }]}
+            segments={[{ text: 'Everything,' }, { text: 'handled.', serif: true }]}
             className="max-w-[16ch] text-[clamp(34px,5vw,68px)] font-semibold leading-[1.02] tracking-[-0.02em] text-white"
           />
 

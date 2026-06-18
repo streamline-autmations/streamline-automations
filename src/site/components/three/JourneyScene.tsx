@@ -1,5 +1,5 @@
 /**
- * JourneyScene — the "How the automation runs" node journey. Six nodes (one per
+ * JourneyScene — the "How the automation runs" node flow. Six nodes (one per
  * automation step) float in an ink void, joined into a pipeline. The section's
  * pinned ScrollTrigger progress (0→1) drives the CAMERA from node to node in
  * order: the active node brightens + scales, completed edges light up, and
@@ -12,7 +12,7 @@
  *
  * At rest (progress 0) the nodes sit clustered near centre, drifting, packets
  * idling — alive before any scroll. The first beat pulls the camera in while
- * the cluster spreads out along the journey path.
+ * the cluster spreads out along the automation path.
  */
 import { useMemo, useRef } from 'react';
 import type { MutableRefObject } from 'react';
@@ -70,7 +70,7 @@ const CLUSTER_JITTER: [number, number, number][] = [
 ];
 
 // Camera offset from the active node, per beat — alternating sides so each
-// leg of the journey banks a little instead of flying a straight rail.
+// leg of the flow banks a little instead of flying a straight rail.
 const CAM_OFFSETS: [number, number, number][] = [
   [-0.65, 0.45, 4.3],
   [0.7, 0.35, 4.2],
@@ -178,7 +178,7 @@ function JourneyWorld({ progressRef }: { progressRef: MutableRefObject<number> }
         0.07
       );
       if (!glass) {
-        // upcoming nodes sit dimmed in the dark until the journey reaches them
+        // upcoming nodes sit dimmed in the dark until the flow reaches them
         cTmp.copy(baseColors[i]).multiplyScalar(isActive ? 1 : done ? 0.8 : 0.38);
         mat.color.lerp(cTmp, 0.07);
       }

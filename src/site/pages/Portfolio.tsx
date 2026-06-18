@@ -60,7 +60,7 @@ export default function Portfolio() {
           <SplitReveal
             as="h1"
             trigger="mount"
-            segments={[{ text: 'Real builds for real' }, { text: 'businesses', serif: true }, { text: '.' }]}
+            segments={[{ text: 'Real builds for real' }, { text: 'businesses.', serif: true }]}
             className="max-w-5xl text-[clamp(44px,8vw,104px)] font-semibold leading-[0.98] tracking-[-0.02em] text-site-ink"
           />
 

@@ -41,7 +41,7 @@ export default function Hosting() {
           <SplitReveal
             as="h1"
             trigger="mount"
-            segments={[{ text: 'Packages for websites that become' }, { text: 'systems', serif: true }, { text: '.' }]}
+            segments={[{ text: 'Packages for websites that become' }, { text: 'systems.', serif: true }]}
             className="max-w-[15ch] text-[clamp(44px,8vw,104px)] font-semibold leading-[0.98] tracking-[-0.02em] text-site-ink"
           />
 
@@ -144,7 +144,7 @@ export default function Hosting() {
             </Tag>
             <SplitReveal
               as="h2"
-              segments={[{ text: 'Keep the site' }, { text: 'looked after', serif: true }, { text: '.' }]}
+              segments={[{ text: 'Keep the site' }, { text: 'looked after.', serif: true }]}
               className="max-w-[15ch] text-[clamp(34px,5vw,64px)] font-semibold leading-[1.02] tracking-[-0.02em] text-site-ink"
             />
             <p className="mt-6 max-w-md text-[16px] leading-[1.65] text-site-text-body">
@@ -188,7 +188,7 @@ export default function Hosting() {
             </Tag>
             <SplitReveal
               as="h2"
-              segments={[{ text: 'Need the monthly' }, { text: 'route', serif: true }, { text: '?' }]}
+              segments={[{ text: 'Need the monthly' }, { text: 'route?', serif: true }]}
               className="max-w-[14ch] text-[clamp(34px,5vw,64px)] font-semibold leading-[1.02] tracking-[-0.02em] text-white"
             />
           </div>

@@ -179,7 +179,7 @@ function FeaturedWork() {
             </Tag>
             <SplitReveal
               as="h2"
-              segments={[{ text: 'Serious builds, shown' }, { text: 'properly', serif: true }, { text: '.' }]}
+              segments={[{ text: 'Serious builds, shown' }, { text: 'properly.', serif: true }]}
               className="max-w-[16ch] text-[clamp(34px,5vw,68px)] font-semibold leading-[1.02] tracking-[-0.02em] text-white"
             />
           </div>
@@ -273,7 +273,17 @@ function PackagesPreview() {
               </div>
               <p className="mt-5 text-[28px] font-semibold tracking-[-0.03em] text-site-ink">{item.price}</p>
               <p className="mt-3 text-[14.5px] leading-[1.55] text-site-text-body">{item.bestFor}</p>
-              <p className="mt-7 border-t border-site-line pt-5 font-mono text-[11px] uppercase tracking-[0.14em] text-site-text-muted">
+              <ul className="mt-6 flex flex-col gap-2 border-t border-site-line pt-5">
+                {item.features.slice(0, 3).map((feature) => (
+                  <li key={feature} className="flex gap-2 text-[13.5px] leading-[1.45] text-site-text-secondary">
+                    <span aria-hidden="true" className="mt-[1px] text-site-accent">
+                      +
+                    </span>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.14em] text-site-text-muted">
                 {item.timeframe}
               </p>
             </motion.div>
@@ -366,8 +376,7 @@ export default function Home() {
               trigger="mount"
               segments={[
                 { text: "I don't just build websites. I build systems that" },
-                { text: 'sell', serif: true },
-                { text: '.' },
+                { text: 'sell.', serif: true },
               ]}
               className="max-w-[11ch] text-[clamp(46px,7.6vw,100px)] font-semibold leading-[0.96] tracking-[-0.03em] text-site-ink"
             />
