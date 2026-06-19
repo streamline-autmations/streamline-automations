@@ -126,7 +126,7 @@ export default function SiteFooter() {
               <Link
                 to="/privacy"
                 data-cursor="link"
-                className="outline-none transition-colors duration-300 hover:text-white focus-visible:text-white"
+                className="inline-flex min-h-[44px] items-center outline-none transition-colors duration-300 hover:text-white focus-visible:text-white"
               >
                 Privacy
               </Link>

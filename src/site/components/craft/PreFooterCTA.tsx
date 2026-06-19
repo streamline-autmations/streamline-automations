@@ -70,7 +70,7 @@ export default function PreFooterCTA({
             href={CONTACT.whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[13.5px] text-white/70 outline-none transition-colors duration-200 hover:text-white focus-visible:text-white focus-visible:underline"
+            className="inline-flex min-h-[44px] items-center text-[13.5px] text-white/70 outline-none transition-colors duration-200 hover:text-white focus-visible:text-white focus-visible:underline"
           >
             Or WhatsApp me directly — {CONTACT.whatsappDisplay}
           </a>

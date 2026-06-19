@@ -118,6 +118,14 @@ body.sc-cur-drag .sc-cur-dot { opacity: 0; }
   .sc-marquee-track { animation: none; }
 }
 
+.sc-logo-rail {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.sc-logo-rail::-webkit-scrollbar {
+  display: none;
+}
+
 /* ── Contact orb rotating text ring (craft/ContactOrb.tsx) ──────── */
 @keyframes scOrbSpin {
   to { transform: rotate(360deg); }

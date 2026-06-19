@@ -93,7 +93,7 @@ export default function Websites() {
             <Link
               to="/portfolio"
               data-cursor="link"
-              className="text-[15px] font-medium text-site-ink underline-offset-4 outline-none hover:underline focus-visible:text-site-accent focus-visible:underline"
+              className="inline-flex min-h-[44px] items-center text-[15px] font-medium text-site-ink underline-offset-4 outline-none hover:underline focus-visible:text-site-accent focus-visible:underline"
             >
               See the work →
             </Link>
@@ -162,7 +162,7 @@ export default function Websites() {
             <Link
               to="/portfolio"
               data-cursor="link"
-              className="group hidden shrink-0 pb-2 text-[15px] font-medium text-site-text-secondary outline-none md:inline-flex"
+              className="group hidden min-h-[44px] shrink-0 items-center text-[15px] font-medium text-site-text-secondary outline-none md:inline-flex"
             >
               <span className="transition-colors duration-300 group-hover:text-site-accent">All work →</span>
             </Link>

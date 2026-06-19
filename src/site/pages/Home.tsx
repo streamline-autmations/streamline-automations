@@ -186,7 +186,7 @@ function FeaturedWork() {
           <Link
             to="/portfolio"
             data-cursor="link"
-            className="text-[15px] font-medium text-white/70 underline-offset-4 outline-none transition-colors hover:text-white hover:underline focus-visible:text-white focus-visible:underline"
+            className="inline-flex min-h-[44px] items-center text-[15px] font-medium text-white/70 underline-offset-4 outline-none transition-colors hover:text-white hover:underline focus-visible:text-white focus-visible:underline"
           >
             All work -&gt;
           </Link>
@@ -199,7 +199,7 @@ function FeaturedWork() {
                 to={project.href}
                 data-cursor="view"
                 data-cursor-label="View"
-                className="group grid gap-6 rounded-[32px] border border-white/10 bg-white/[0.035] p-4 outline-none transition-[border-color,background-color,transform] duration-300 ease-brand hover:-translate-y-1 hover:border-site-accent/60 hover:bg-white/[0.055] focus-visible:ring-2 focus-visible:ring-site-accent motion-reduce:hover:translate-y-0 md:grid-cols-[1.25fr_0.75fr] md:p-5"
+                className="group grid gap-6 rounded-[32px] border border-white/10 bg-white/[0.035] p-4 outline-none transition-[border-color,background-color,transform] duration-300 ease-brand hover:-translate-y-1 hover:border-site-accent/60 hover:bg-white/[0.055] active:scale-[0.99] active:border-site-accent/70 focus-visible:ring-2 focus-visible:ring-site-accent motion-reduce:hover:translate-y-0 md:grid-cols-[1.25fr_0.75fr] md:p-5"
               >
                 <ProjectMediaFrame media={project.media} name={project.no} />
                 <div className="flex flex-col justify-between p-2 md:p-5">
@@ -403,7 +403,7 @@ export default function Home() {
               <Link
                 to={SECONDARY_CTA.href}
                 data-cursor="link"
-                className="text-[15px] font-medium text-site-ink underline-offset-4 outline-none hover:underline focus-visible:text-site-accent focus-visible:underline"
+                className="inline-flex min-h-[44px] items-center text-[15px] font-medium text-site-ink underline-offset-4 outline-none hover:underline focus-visible:text-site-accent focus-visible:underline"
               >
                 {SECONDARY_CTA.label} -&gt;
               </Link>
