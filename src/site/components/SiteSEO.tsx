@@ -127,7 +127,9 @@ const ROUTES: Record<string, Meta> = {
 
 export default function SiteSEO() {
   const { pathname } = useLocation();
-  const meta = ROUTES[pathname];
+  const normalisedPathname =
+    pathname.length > 1 && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+  const meta = ROUTES[normalisedPathname];
 
   if (!meta) {
     return <SEO title="Page not found (404)" url={pathname} noindex />;
@@ -137,7 +139,7 @@ export default function SiteSEO() {
     <SEO
       title={meta.title}
       description={meta.description}
-      url={pathname}
+      url={normalisedPathname}
       type={meta.type}
       noindex={meta.noindex}
       jsonLd={meta.jsonLd}

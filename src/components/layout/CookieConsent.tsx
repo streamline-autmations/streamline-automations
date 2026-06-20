@@ -63,10 +63,10 @@ export default function CookieConsent() {
       role="dialog"
       aria-live="polite"
       aria-label="Cookie consent"
-      className="fixed inset-x-3 bottom-3 z-[1000] mx-auto max-w-2xl rounded-2xl border border-[#E8E8EC] bg-white/95 p-5 shadow-[0_12px_40px_rgba(10,10,15,0.12)] backdrop-blur-md sm:inset-x-auto sm:left-1/2 sm:right-auto sm:-translate-x-1/2 sm:p-6"
+      className="fixed inset-x-3 bottom-3 z-[1000] mx-auto max-w-md rounded-2xl border border-[#E8E8EC] bg-white/95 p-4 shadow-[0_12px_40px_rgba(10,10,15,0.12)] backdrop-blur-md sm:inset-x-auto sm:left-auto sm:right-6 sm:bottom-6 sm:mx-0 sm:max-w-[420px]"
     >
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <p className="font-['DM_Sans'] text-[14px] leading-[1.6] text-[#3D3D47]">
+      <div className="flex flex-col gap-3">
+        <p className="font-['DM_Sans'] text-[13px] leading-[1.5] text-[#3D3D47]">
           I use cookies for analytics to understand how the site is used. You can accept or
           decline — declining keeps only what's essential.{' '}
           <Link to="/privacy" className="font-medium text-[#7B3FE4] underline-offset-2 hover:underline">
@@ -77,13 +77,13 @@ export default function CookieConsent() {
         <div className="flex flex-shrink-0 gap-3">
           <button
             onClick={() => decide(false)}
-            className="min-h-[44px] rounded-full border border-[#E8E8EC] bg-white px-5 py-2.5 text-[14px] font-semibold text-[#0A0A0F] transition-colors duration-200 hover:border-[#D4D4DA]"
+            className="min-h-[44px] flex-1 rounded-full border border-[#E8E8EC] bg-white px-5 py-2.5 text-[14px] font-semibold text-[#0A0A0F] transition-colors duration-200 hover:border-[#D4D4DA]"
           >
             Decline
           </button>
           <button
             onClick={() => decide(true)}
-            className="min-h-[44px] rounded-full bg-[#7B3FE4] px-5 py-2.5 text-[14px] font-semibold text-white transition-colors duration-200 hover:bg-[#6930D0]"
+            className="min-h-[44px] flex-1 rounded-full bg-[#7B3FE4] px-5 py-2.5 text-[14px] font-semibold text-white transition-colors duration-200 hover:bg-[#6930D0]"
           >
             Accept
           </button>
