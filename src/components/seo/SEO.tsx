@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 /**
  * Dependency-free per-route head manager.
  *
- * We previously used react-helmet-async, but it silently wrote nothing to the head in
+ * react-helmet-async previously wrote nothing to the head in
  * this app (data-rh count was 0 at runtime), so per-route meta never applied. This sets
  * title / meta / canonical / JSON-LD imperatively in an effect — it runs in the real
  * browser, so the post-build prerender captures it into each route's static HTML, and
@@ -15,7 +15,7 @@ const SITE_URL = 'https://streamline-automations.co.za';
 const DEFAULT_OG = `${SITE_URL}/og-image.png`;
 
 const DEFAULT_DESCRIPTION =
-  'Custom websites and business automation for South African companies. Built by Christiaan Steffen in the Vaal Triangle, Gauteng — websites that convert, systems that run themselves.';
+  'Professional websites, booking flows, dashboards and automations for South African small businesses. Built by Christiaan Steffen in the Vaal Triangle, Gauteng.';
 
 const DEFAULT_KEYWORDS = [
   'web design',

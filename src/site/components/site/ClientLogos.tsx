@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import Marquee from '../craft/Marquee';
 import { EASE_ARR } from '../../lib/motion';
@@ -14,13 +15,27 @@ const LOGO_NAMES = LOGOS.map((l) => l.name);
 
 /**
  * ClientLogos — trust bar under the hero.
- * Desktop: staggered fade-in row, greyscale→colour on hover.
- * Mobile: continuous Marquee drift so logos don't wrap/crunch.
+ * Mobile: Marquee drift (no cramped wrapping).
+ * Desktop: interactive tap buttons, greyscale→colour + purple glow on active.
  */
 export default function ClientLogos() {
+  const [activeLogo, setActiveLogo] = useState<string | null>(null);
+  const clearTimer = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (clearTimer.current) window.clearTimeout(clearTimer.current);
+    };
+  }, []);
+
+  const activateLogo = (name: string) => {
+    setActiveLogo(name);
+    if (clearTimer.current) window.clearTimeout(clearTimer.current);
+    clearTimer.current = window.setTimeout(() => setActiveLogo(null), 900);
+  };
+
   return (
     <section className="border-t border-site-line bg-white py-8 md:py-14">
-      {/* Label */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -33,7 +48,7 @@ export default function ClientLogos() {
         </span>
       </motion.div>
 
-      {/* Mobile — Marquee */}
+      {/* Mobile — continuous Marquee drift */}
       <div className="md:hidden">
         <Marquee
           items={LOGO_NAMES}
@@ -43,22 +58,34 @@ export default function ClientLogos() {
         />
       </div>
 
-      {/* Desktop — staggered row with image logos */}
+      {/* Desktop — interactive tap buttons with active glow */}
       <div className="mx-auto hidden w-full max-w-6xl items-center justify-between gap-x-8 px-10 md:flex">
         {LOGOS.map((l, i) => (
-          <motion.img
+          <motion.button
             key={l.name}
-            src={l.src}
-            alt={l.name}
-            loading="lazy"
-            decoding="async"
-            draggable={false}
+            type="button"
+            aria-label={`${l.name} project logo`}
+            onClick={() => activateLogo(l.name)}
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
+            whileTap={{ scale: 0.96 }}
             viewport={{ once: true, margin: '-40px' }}
             transition={{ duration: 0.5, ease: EASE_ARR, delay: 0.07 * i }}
-            className="h-7 max-w-[130px] select-none object-contain opacity-50 grayscale transition-[opacity,filter] duration-300 ease-brand hover:opacity-100 hover:grayscale-0"
-          />
+            className="group flex min-h-[44px] items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-offset-2"
+          >
+            <img
+              src={l.src}
+              alt={l.name}
+              loading="lazy"
+              decoding="async"
+              draggable={false}
+              className={`h-7 w-auto max-w-[130px] select-none object-contain transition-[opacity,filter,transform] duration-300 ease-brand ${
+                activeLogo === l.name
+                  ? 'scale-[1.04] opacity-100 grayscale-0'
+                  : 'opacity-50 grayscale group-hover:opacity-100 group-hover:grayscale-0'
+              }`}
+            />
+          </motion.button>
         ))}
       </div>
     </section>

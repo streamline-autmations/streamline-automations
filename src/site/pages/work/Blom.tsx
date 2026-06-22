@@ -76,7 +76,7 @@ export default function Blom() {
             <Link
               to="/portfolio"
               data-cursor="link"
-              className="text-[15px] font-medium text-site-ink underline-offset-4 outline-none hover:underline focus-visible:text-site-accent focus-visible:underline"
+              className="inline-flex min-h-[44px] items-center text-[15px] font-medium text-site-ink underline-offset-4 outline-none hover:underline focus-visible:text-site-accent focus-visible:underline"
             >
               All work →
             </Link>

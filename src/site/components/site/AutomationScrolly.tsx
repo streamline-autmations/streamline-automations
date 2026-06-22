@@ -16,7 +16,7 @@ const STEPS = [
 
 /**
  * AutomationScrolly — the pinned showpiece. On desktop (motion allowed) the
- * section pins and a 3D node journey plays behind the text: the camera travels
+ * section pins and a 3D node flow plays behind the text: the camera travels
  * node→node through the pipeline as you scrub the 6 stages, packets flowing
  * along completed edges. The same ScrollTrigger drives BOTH the step state
  * (React) and the scene (progress ref read in useFrame — Lenis-safe, same
@@ -104,7 +104,7 @@ export default function AutomationScrolly() {
         ref={pinRef}
         className="relative flex min-h-[100svh] items-center overflow-hidden px-6 py-24 md:px-10"
       >
-        {/* 3D node journey behind the text — opaque ink canvas, rounded to
+        {/* 3D node flow behind the text — opaque ink canvas, rounded to
             match the section's card top while it slides over the white panel */}
         <div
           aria-hidden

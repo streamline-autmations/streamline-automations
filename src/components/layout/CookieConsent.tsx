@@ -63,10 +63,10 @@ export default function CookieConsent() {
       role="dialog"
       aria-live="polite"
       aria-label="Cookie consent"
-      className="fixed inset-x-4 bottom-4 z-[1000] max-w-[520px] rounded-[1.25rem] border border-[#E8E8EC] bg-white/95 p-4 shadow-[0_16px_50px_rgba(10,10,15,0.14)] backdrop-blur-md sm:inset-x-auto sm:left-5 sm:right-auto sm:p-5"
+      className="fixed inset-x-3 bottom-3 z-[1000] mx-auto max-w-md rounded-2xl border border-[#E8E8EC] bg-white/95 p-4 shadow-[0_12px_40px_rgba(10,10,15,0.12)] backdrop-blur-md sm:inset-x-auto sm:left-auto sm:right-6 sm:bottom-6 sm:mx-0 sm:max-w-[420px]"
     >
       <div className="flex flex-col gap-3">
-        <p className="font-['DM_Sans'] text-[13px] leading-[1.55] text-[#3D3D47] sm:text-[13.5px]">
+        <p className="font-['DM_Sans'] text-[13px] leading-[1.5] text-[#3D3D47]">
           I use cookies for analytics to understand how the site is used. You can accept or
           decline - declining keeps only what's essential.{' '}
           <Link to="/privacy" className="font-medium text-[#7B3FE4] underline-offset-2 hover:underline">
@@ -77,13 +77,13 @@ export default function CookieConsent() {
         <div className="flex gap-2.5">
           <button
             onClick={() => decide(false)}
-            className="min-h-[44px] flex-1 rounded-full border border-[#E8E8EC] bg-white px-5 py-2.5 text-[14px] font-semibold text-[#0A0A0F] transition-colors duration-200 hover:border-[#D4D4DA] sm:flex-none"
+            className="min-h-[44px] flex-1 rounded-full border border-[#E8E8EC] bg-white px-5 py-2.5 text-[14px] font-semibold text-[#0A0A0F] transition-colors duration-200 hover:border-[#D4D4DA]"
           >
             Decline
           </button>
           <button
             onClick={() => decide(true)}
-            className="min-h-[44px] flex-1 rounded-full bg-[#7B3FE4] px-5 py-2.5 text-[14px] font-semibold text-white transition-colors duration-200 hover:bg-[#6930D0] sm:flex-none"
+            className="min-h-[44px] flex-1 rounded-full bg-[#7B3FE4] px-5 py-2.5 text-[14px] font-semibold text-white transition-colors duration-200 hover:bg-[#6930D0]"
           >
             Accept
           </button>

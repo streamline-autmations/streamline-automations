@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import Panel from '../components/craft/Panel';
 import Tag from '../components/craft/Tag';
@@ -22,38 +22,64 @@ function Field({
   label,
   value,
   onChange,
+  name,
   type = 'text',
   placeholder,
   textarea = false,
+  required = false,
+  error,
 }: {
   label: string;
   value: string;
   onChange: (v: string) => void;
+  name: string;
   type?: string;
   placeholder?: string;
   textarea?: boolean;
+  required?: boolean;
+  error?: string;
 }) {
+  const id = `contact-${name}`;
+  const errorId = `${id}-error`;
   const cls =
-    'w-full border-0 border-b border-site-line bg-transparent pb-3 pt-2 text-[19px] text-site-ink outline-none transition-colors duration-300 placeholder:text-site-text-muted focus:border-site-accent md:text-[22px]';
+    'w-full border-0 border-b bg-transparent pb-3 pt-2 text-[19px] text-site-ink outline-none transition-colors duration-300 placeholder:text-site-text-muted focus:border-site-accent md:text-[22px]';
   return (
-    <label className="block">
-      <span className="mb-2 block font-mono text-[11px] uppercase tracking-[0.14em] text-site-text-muted">{label}</span>
+    <label htmlFor={id} className="block">
+      <span className="mb-2 block font-mono text-[11px] uppercase tracking-[0.14em] text-site-text-muted">
+        {label}
+        {required && <span className="text-site-accent"> *</span>}
+      </span>
       {textarea ? (
         <textarea
+          id={id}
+          name={name}
           rows={2}
           value={value}
           placeholder={placeholder}
+          required={required}
+          aria-invalid={Boolean(error)}
+          aria-describedby={error ? errorId : undefined}
           onChange={(e) => onChange(e.target.value)}
-          className={`${cls} resize-none`}
+          className={`${cls} resize-none ${error ? 'border-site-accent' : 'border-site-line'}`}
         />
       ) : (
         <input
+          id={id}
+          name={name}
           type={type}
           value={value}
           placeholder={placeholder}
+          required={required}
+          aria-invalid={Boolean(error)}
+          aria-describedby={error ? errorId : undefined}
           onChange={(e) => onChange(e.target.value)}
-          className={cls}
+          className={`${cls} ${error ? 'border-site-accent' : 'border-site-line'}`}
         />
+      )}
+      {error && (
+        <span id={errorId} className="mt-2 block text-[13px] font-medium text-site-accent">
+          {error}
+        </span>
       )}
     </label>
   );
@@ -70,14 +96,31 @@ export default function Contact() {
   const [email, setEmail] = useState('');
   const [project, setProject] = useState('');
   const [budget, setBudget] = useState('');
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [status, setStatus] = useState('');
 
-  const submit = () => {
+  const submit = (event?: FormEvent) => {
+    event?.preventDefault();
+    const nextErrors: Record<string, string> = {};
+    if (!name.trim()) nextErrors.name = 'Add your name so I know who I am speaking to.';
+    if (email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      nextErrors.email = 'Use a valid email address, or leave it blank and use WhatsApp only.';
+    }
+    if (!project.trim()) nextErrors.project = 'Tell me what you need built.';
+
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) {
+      setStatus('Please complete the required details before WhatsApp opens.');
+      return;
+    }
+
     const lines = [
-      `Hi Christiaan, I'm ${name || 'someone'} and I'd like to talk about a project.`,
-      project ? `\nWhat I'm building: ${project}` : '',
+      `Hi Christiaan, I'm ${name.trim()} and I'd like to talk about a project.`,
+      project ? `\nWhat I'm building: ${project.trim()}` : '',
       budget ? `\nBudget: ${budget}` : '',
-      email ? `\nEmail: ${email}` : '',
+      email ? `\nEmail: ${email.trim()}` : '',
     ].join('');
+    setStatus('Opening WhatsApp with your details ready to send.');
     window.open(`${CONTACT.whatsappUrl}?text=${encodeURIComponent(lines)}`, '_blank', 'noopener');
   };
 
@@ -130,17 +173,20 @@ export default function Contact() {
             </p>
           </div>
 
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport} className="flex flex-col gap-9">
+          <motion.form variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport} className="flex flex-col gap-9" noValidate onSubmit={submit}>
             <div className="grid gap-9 sm:grid-cols-2">
-              <Field label="Your name" value={name} onChange={setName} placeholder="Jane Dlamini" />
-              <Field label="Email" type="email" value={email} onChange={setEmail} placeholder="jane@business.co.za" />
+              <Field label="Your name" name="name" value={name} onChange={setName} placeholder="Jane Dlamini" required error={errors.name} />
+              <Field label="Email" name="email" type="email" value={email} onChange={setEmail} placeholder="jane@business.co.za" error={errors.email} />
             </div>
             <Field
               label="What are you building?"
+              name="project"
               value={project}
               onChange={setProject}
               placeholder="A booking site, an admin system, WhatsApp automation…"
               textarea
+              required
+              error={errors.project}
             />
 
             <div>
@@ -175,7 +221,17 @@ export default function Contact() {
                 …or email me →
               </a>
             </div>
-          </motion.div>
+            {status && (
+              <p
+                role={Object.keys(errors).length > 0 ? 'alert' : 'status'}
+                className={`text-[14px] font-medium ${
+                  Object.keys(errors).length > 0 ? 'text-site-accent' : 'text-site-text-body'
+                }`}
+              >
+                {status}
+              </p>
+            )}
+          </motion.form>
         </div>
       </Panel>
 

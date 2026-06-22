@@ -31,7 +31,7 @@ export default function ServicesSection() {
               <Link
                 to={pillar.href}
                 data-cursor="link"
-                className="group relative flex min-h-[430px] flex-col justify-between overflow-hidden rounded-[28px] border border-site-line bg-white p-7 outline-none transition-[transform,border-color,box-shadow] duration-300 ease-brand hover:-translate-y-1 hover:border-site-accent/40 hover:shadow-[0_30px_80px_-30px_rgba(123,63,228,0.34)] focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0 md:p-8"
+                className="group relative flex min-h-[430px] flex-col justify-between overflow-hidden rounded-[28px] border border-site-line bg-white p-7 outline-none transition-[transform,border-color,box-shadow] duration-300 ease-brand hover:-translate-y-1 hover:border-site-accent/40 hover:shadow-[0_30px_80px_-30px_rgba(123,63,228,0.34)] active:scale-[0.985] active:border-site-accent/50 focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0 md:p-8"
               >
                 <div
                   aria-hidden="true"

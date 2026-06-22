@@ -10,7 +10,7 @@ const word: Variants = {
 
 export interface Segment {
   text: string;
-  /** Render this segment with the site's italic accent treatment. */
+  /** Render this segment in the purple accent colour. */
   serif?: boolean;
 }
 
@@ -30,9 +30,8 @@ interface Props {
  * SplitReveal - the canonical masked heading reveal. Each word sits in its own
  * overflow-clip and rises into place with a staggered brand ease.
  *
- * Word-level masking means the heading wraps naturally and never overflows at
- * large display sizes. Real words are aria-hidden; the full phrase is exposed
- * via aria-label for screen readers. Reduced motion renders instantly.
+ * Real space characters are rendered between words so copied text, browser
+ * extraction and assistive tech keep the heading readable.
  */
 export default function SplitReveal({
   segments,
@@ -60,7 +59,7 @@ export default function SplitReveal({
     seg.text
       .split(' ')
       .filter(Boolean)
-      .map((w, wi) => ({ word: w, serif: seg.serif, key: `${si}-${wi}` }))
+      .map((w, wi) => ({ word: w, serif: seg.serif, key: `${si}-${wi}` })),
   );
   const label = segments.map((s) => s.text).join(' ').replace(/\s+([.,!?;:])/g, '$1');
   const needsSpaceAfter = (index: number) => {
@@ -79,7 +78,7 @@ export default function SplitReveal({
         <Fragment key={token.key}>
           <span
             aria-hidden="true"
-            className="inline-block overflow-hidden align-top px-[0.025em] pb-[0.04em]"
+            className="inline-block overflow-hidden align-top px-[0.05em] pb-[0.04em]"
           >
             <motion.span
               variants={word}

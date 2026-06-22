@@ -97,7 +97,7 @@ export default function SiteHeader() {
       />
 
       <Magnetic strength={10}>
-        <Link to="/" data-cursor="link" className="inline-block outline-none" aria-label="Streamline Automations home">
+        <Link to="/" data-cursor="link" className="inline-flex min-h-[44px] items-center outline-none" aria-label="Streamline Automations home">
           <Wordmark tone={overDark ? 'light' : 'ink'} className="text-[21px] transition-colors duration-300 md:text-[23px]" />
         </Link>
       </Magnetic>
@@ -122,6 +122,7 @@ export default function SiteHeader() {
         }`}
         aria-label={open ? 'Close menu' : 'Open menu'}
         aria-expanded={open}
+        aria-controls="site-mobile-menu"
       >
         <div className="flex w-6 flex-col gap-[6px]">
           <span className={`h-[2px] rounded bg-current transition-all duration-300 motion-reduce:transition-none ${open ? 'translate-y-[8px] rotate-45' : ''}`} />
@@ -133,6 +134,10 @@ export default function SiteHeader() {
       <AnimatePresence>
         {open && (
           <motion.div
+            id="site-mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site menu"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -140,7 +145,7 @@ export default function SiteHeader() {
             className="fixed inset-0 z-[1000] flex flex-col overflow-y-auto bg-white md:hidden"
           >
             <div className="px-8 pt-[22px]">
-              <Link to="/" className="inline-block outline-none" aria-label="Streamline Automations home">
+              <Link to="/" className="inline-flex min-h-[44px] items-center outline-none" aria-label="Streamline Automations home">
                 <Wordmark className="text-[21px]" />
               </Link>
             </div>

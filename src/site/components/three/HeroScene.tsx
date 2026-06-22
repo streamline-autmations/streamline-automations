@@ -9,7 +9,7 @@
  * - progressRef: hero scroll progress 0→1 (GSAP ScrollTrigger). The camera
  *   dollies INTO the network, satellite nodes + extra edges activate, and the
  *   packet flow accelerates — "the system building itself" as you scroll.
- * - active: frameloop gate — when the hero is off-screen we render nothing.
+ * - active: frameloop gate — when the hero is outside the viewport, render nothing.
  *
  * Mouse parallax reads window-level pointer position (not canvas pointer —
  * the canvas only covers the right half of the hero).

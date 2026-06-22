@@ -64,7 +64,7 @@ export default function WorkCard({
         to={to}
         data-cursor="view"
         data-cursor-label="Explore"
-        className="group block rounded-3xl outline-none focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-offset-4"
+        className="group block rounded-3xl outline-none transition-transform duration-200 ease-brand active:scale-[0.985] focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-offset-4"
       >
         <div
           ref={wrapRef}
