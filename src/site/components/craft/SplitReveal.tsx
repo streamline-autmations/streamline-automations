@@ -1,4 +1,4 @@
-import { ElementType } from 'react';
+import { ElementType, Fragment } from 'react';
 import { motion, type Variants } from 'framer-motion';
 import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion';
 import { EASE_ARR } from '../../lib/motion';
@@ -10,12 +10,12 @@ const word: Variants = {
 
 export interface Segment {
   text: string;
-  /** Render this segment in the purple accent colour (same DM Sans font). */
+  /** Render this segment with the site's italic accent treatment. */
   serif?: boolean;
 }
 
 interface Props {
-  /** Heading content split into styled segments (joined with spaces). */
+  /** Heading content split into styled segments. */
   segments: Segment[];
   as?: ElementType;
   className?: string;
@@ -27,19 +27,18 @@ interface Props {
 }
 
 /**
- * SplitReveal — the canonical masked heading reveal. Each word sits in its own
+ * SplitReveal - the canonical masked heading reveal. Each word sits in its own
  * overflow-clip and rises into place with a staggered brand ease.
  *
- * Word-level masking (not GSAP SplitText line-splitting) means the heading wraps
- * naturally and never overflows at large display sizes — safe site-wide. Real
- * words are aria-hidden; the full phrase is exposed via aria-label for SR.
- * Reduced-motion renders the final state instantly.
+ * Word-level masking means the heading wraps naturally and never overflows at
+ * large display sizes. Real words are aria-hidden; the full phrase is exposed
+ * via aria-label for screen readers. Reduced motion renders instantly.
  */
 export default function SplitReveal({
   segments,
   as: Tag = 'h2',
   className = '',
-  serifClassName = 'text-site-accent',
+  serifClassName = 'font-instrument text-site-accent',
   trigger = 'inview',
   stagger = 0.07,
   delay = 0.05,
@@ -57,7 +56,17 @@ export default function SplitReveal({
           viewport: { once: true, margin: '-80px' },
         };
 
-  const label = segments.map((s) => s.text).join(' ');
+  const tokens = segments.flatMap((seg, si) =>
+    seg.text
+      .split(' ')
+      .filter(Boolean)
+      .map((w, wi) => ({ word: w, serif: seg.serif, key: `${si}-${wi}` }))
+  );
+  const label = segments.map((s) => s.text).join(' ').replace(/\s+([.,!?;:])/g, '$1');
+  const needsSpaceAfter = (index: number) => {
+    const next = tokens[index + 1]?.word;
+    return Boolean(next && !/^[.,!?;:)]/.test(next));
+  };
 
   return (
     <MotionTag
@@ -66,24 +75,22 @@ export default function SplitReveal({
       className={className}
       aria-label={label}
     >
-      {segments.map((seg, si) =>
-        seg.text.split(' ').map((w, wi) => (
+      {tokens.map((token, index) => (
+        <Fragment key={token.key}>
           <span
-            key={`${si}-${wi}`}
             aria-hidden="true"
-            // px keeps italic/overhang glyphs from clipping; mr restores the real
-            // word space (DM Sans space ≈ 0.25em) that inline-block wrappers swallow.
-            className="inline-block overflow-hidden align-top px-[0.05em] pb-[0.04em] mr-[0.14em] last:mr-0"
+            className="inline-block overflow-hidden align-top px-[0.025em] pb-[0.04em]"
           >
             <motion.span
               variants={word}
-              className={`inline-block pb-[0.16em] ${seg.serif ? serifClassName : ''}`}
+              className={`inline-block pb-[0.16em] ${token.serif ? serifClassName : ''}`}
             >
-              {w}
+              {token.word}
             </motion.span>
           </span>
-        ))
-      )}
+          {needsSpaceAfter(index) ? ' ' : null}
+        </Fragment>
+      ))}
     </MotionTag>
   );
 }
