@@ -9,6 +9,8 @@ import ServicesSection from '../components/site/ServicesSection';
 import ClientLogos from '../components/site/ClientLogos';
 import StatsSection from '../components/site/StatsSection';
 import AutomationScrolly from '../components/site/AutomationScrolly';
+import CaseStudyCycler from '../components/site/CaseStudyCycler';
+import CountUp from '../components/site/CountUp';
 import {
   FEATURED_PROJECTS,
   PACKAGES,
@@ -38,22 +40,37 @@ const STEPS = [
   },
 ] as const;
 
+const BOOKING_STEPS = ['Customer submits form', 'Slot confirmed', 'WhatsApp sent'] as const;
+const DASHBOARD_STATS = [
+  { label: 'Leads', to: 24 },
+  { label: 'Orders', to: 8 },
+  { label: 'Follow-ups', to: 12 },
+] as const;
+
 function HeroSystemPreview() {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24, scale: 0.98 }}
+      initial={{ opacity: 0, y: 28, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.7, ease: EASE_ARR, delay: 0.25 }}
+      transition={{ duration: 0.8, ease: EASE_ARR, delay: 0.3 }}
       className="relative mt-14 md:mt-0"
       aria-label="Website, booking and dashboard system preview"
     >
+      {/* Ambient glow */}
       <div className="absolute -inset-8 rounded-[42px] bg-site-accent-soft blur-3xl" aria-hidden="true" />
+
       <div className="relative overflow-hidden rounded-[32px] border border-site-line bg-white p-4 shadow-[0_40px_120px_-45px_rgba(76,29,149,0.34)]">
         <div className="rounded-[24px] border border-site-line bg-site-offwhite p-3">
           <div className="rounded-[20px] border border-site-line bg-white p-4">
+
+            {/* Browser chrome */}
             <div className="flex items-center justify-between border-b border-site-line pb-4">
               <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-site-accent" />
+                {/* Pulsing accent dot */}
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="absolute inset-0 animate-ping rounded-full bg-site-accent opacity-60" />
+                  <span className="relative h-2.5 w-2.5 rounded-full bg-site-accent" />
+                </span>
                 <span className="h-2.5 w-2.5 rounded-full bg-site-line-mid" />
                 <span className="h-2.5 w-2.5 rounded-full bg-site-line" />
               </div>
@@ -63,6 +80,7 @@ function HeroSystemPreview() {
             </div>
 
             <div className="grid gap-3 pt-4 sm:grid-cols-[1.15fr_0.85fr]">
+              {/* Website preview card */}
               <div className="rounded-2xl bg-site-ink p-5 text-white">
                 <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/50">
                   Website
@@ -70,46 +88,72 @@ function HeroSystemPreview() {
                 <h3 className="mt-14 text-[28px] font-semibold leading-[1.02] tracking-[-0.03em]">
                   Bookings without the back-and-forth.
                 </h3>
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {['Mobile-first', 'Fast', 'Enquiry-led'].map((item) => (
-                    <span key={item} className="rounded-full border border-white/15 px-3 py-1 text-[11px] text-white/75">
-                      {item}
-                    </span>
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1, delayChildren: 0.9 } } }}
+                  className="mt-6 flex flex-wrap gap-2"
+                >
+                  {['Mobile-first', 'Fast', 'Enquiry-led'].map((tag) => (
+                    <motion.span
+                      key={tag}
+                      variants={{ hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: EASE_ARR } } }}
+                      className="rounded-full border border-white/15 px-3 py-1 text-[11px] text-white/75"
+                    >
+                      {tag}
+                    </motion.span>
                   ))}
-                </div>
+                </motion.div>
               </div>
 
               <div className="grid gap-3">
+                {/* Booking flow */}
                 <div className="rounded-2xl border border-site-line bg-white p-4">
                   <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-site-text-muted">
                     Booking flow
                   </span>
-                  <div className="mt-4 space-y-2">
-                    {['Customer submits form', 'Slot confirmed', 'WhatsApp sent'].map((item, i) => (
-                      <div key={item} className="flex items-center gap-2 rounded-full bg-site-offwhite px-3 py-2">
+                  <motion.div
+                    initial="hidden"
+                    animate="visible"
+                    variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.15, delayChildren: 0.7 } } }}
+                    className="mt-4 space-y-2"
+                  >
+                    {BOOKING_STEPS.map((item, i) => (
+                      <motion.div
+                        key={item}
+                        variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.45, ease: EASE_ARR } } }}
+                        className="flex items-center gap-2 rounded-full bg-site-offwhite px-3 py-2"
+                      >
                         <span className="flex h-5 w-5 items-center justify-center rounded-full bg-site-accent text-[10px] font-semibold text-white">
                           {i + 1}
                         </span>
                         <span className="text-[12px] font-medium text-site-text-body">{item}</span>
-                      </div>
+                      </motion.div>
                     ))}
-                  </div>
+                  </motion.div>
                 </div>
+
+                {/* Dashboard stats with CountUp */}
                 <div className="rounded-2xl border border-site-line bg-site-accent-soft p-4">
                   <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-site-text-muted">
                     Dashboard
                   </span>
                   <div className="mt-4 grid grid-cols-3 gap-2">
-                    {['Leads', 'Orders', 'Follow-ups'].map((item, i) => (
-                      <div key={item} className="rounded-xl bg-white px-3 py-4 text-center">
-                        <span className="block text-[18px] font-semibold text-site-ink">0{i}</span>
-                        <span className="mt-1 block text-[10px] text-site-text-muted">{item}</span>
+                    {DASHBOARD_STATS.map((stat) => (
+                      <div key={stat.label} className="rounded-xl bg-white px-3 py-4 text-center">
+                        <CountUp
+                          to={stat.to}
+                          duration={1800}
+                          className="block text-[18px] font-semibold text-site-ink"
+                        />
+                        <span className="mt-1 block text-[10px] text-site-text-muted">{stat.label}</span>
                       </div>
                     ))}
                   </div>
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>
@@ -392,6 +436,7 @@ export default function Home() {
 
       <ClientLogos />
       <ServicesSection />
+      <CaseStudyCycler />
       <StatsSection />
       <FeaturedWork />
       <PackagesPreview />
