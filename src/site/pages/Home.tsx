@@ -6,15 +6,19 @@ import FillButton from '../components/craft/FillButton';
 import Panel from '../components/craft/Panel';
 import Tag from '../components/craft/Tag';
 import ServicesSection from '../components/site/ServicesSection';
+import ClientLogos from '../components/site/ClientLogos';
+import StatsSection from '../components/site/StatsSection';
+import AutomationScrolly from '../components/site/AutomationScrolly';
 import {
   FEATURED_PROJECTS,
   PACKAGES,
   PRIMARY_CTA,
-  PROOF_ITEMS,
   SECONDARY_CTA,
   type ProjectMedia,
 } from '../data/site';
 import { EASE_ARR, fadeUp, stagger, viewport } from '../lib/motion';
+
+// ProofStrip removed — ClientLogos handles the trust bar with real logos + hover colour
 
 const STEPS = [
   {
@@ -113,25 +117,6 @@ function HeroSystemPreview() {
   );
 }
 
-function ProofStrip() {
-  return (
-    <Panel bg="white" className="border-y border-site-line px-6 py-8 md:px-10">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-5 md:flex-row md:items-center md:justify-between">
-        <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-site-text-muted">
-          Real builds
-        </span>
-        <div className="flex flex-wrap gap-2 md:justify-end">
-          {PROOF_ITEMS.map((item) => (
-            <div key={item.name} className="rounded-full border border-site-line bg-white px-4 py-2">
-              <span className="text-[13px] font-semibold text-site-ink">{item.name}</span>
-              <span className="ml-2 text-[12px] text-site-text-muted">{item.tags[0]}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </Panel>
-  );
-}
 
 function ProjectMediaFrame({ media, name }: { media: ProjectMedia; name: string }) {
   const image = media.type === 'image' ? media.src : media.poster || media.mobileFallback || '';
@@ -405,11 +390,13 @@ export default function Home() {
         </div>
       </section>
 
-      <ProofStrip />
+      <ClientLogos />
       <ServicesSection />
+      <StatsSection />
       <FeaturedWork />
       <PackagesPreview />
       <HowItWorks />
+      <AutomationScrolly />
       <AboutPreview />
       <PreFooterCTA />
     </>
