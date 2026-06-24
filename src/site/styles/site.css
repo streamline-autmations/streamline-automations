@@ -126,21 +126,6 @@ body.sc-cur-drag .sc-cur-dot { opacity: 0; }
   display: none;
 }
 
-/* ── Contact orb rotating text ring (craft/ContactOrb.tsx) ──────── */
-@keyframes scOrbSpin {
-  to { transform: rotate(360deg); }
-}
-.sc-orb-spin {
-  animation: scOrbSpin 18s linear infinite;
-  transform-origin: 50% 50%;
-}
-.group:hover .sc-orb-spin {
-  animation-duration: 7s;
-}
-@media (prefers-reduced-motion: reduce) {
-  .sc-orb-spin { animation: none; }
-}
-
 /* ── Pre-footer living blooms (craft/PreFooterCTA.tsx) ──────────── */
 @keyframes scBloomA {
   from { transform: translate(0, 0); }

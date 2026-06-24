@@ -11,6 +11,7 @@ import StatsSection from '../components/site/StatsSection';
 import AutomationScrolly from '../components/site/AutomationScrolly';
 import CaseStudyCycler from '../components/site/CaseStudyCycler';
 import CountUp from '../components/site/CountUp';
+import HeroParticleNetwork from '../components/site/HeroParticleNetwork';
 import {
   FEATURED_PROJECTS,
   PACKAGES,
@@ -165,7 +166,7 @@ function HeroSystemPreview() {
 function ProjectMediaFrame({ media, name }: { media: ProjectMedia; name: string }) {
   const image = media.type === 'image' ? media.src : media.poster || media.mobileFallback || '';
   return (
-    <div className="relative aspect-[16/11] overflow-hidden rounded-[26px] border border-white/10 bg-white/[0.04]">
+    <div className="relative aspect-[16/11] overflow-hidden rounded-[26px] border border-site-line bg-site-surface">
       {media.type === 'video' ? (
         <video
           src={media.src}
@@ -190,7 +191,7 @@ function ProjectMediaFrame({ media, name }: { media: ProjectMedia; name: string 
           />
         </picture>
       )}
-      <div className="absolute left-4 top-4 rounded-full border border-white/15 bg-site-ink/55 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-white/70 backdrop-blur">
+      <div className="absolute left-4 top-4 rounded-full border border-site-line bg-white/80 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-site-text-secondary backdrop-blur">
         {name}
       </div>
     </div>
@@ -199,25 +200,25 @@ function ProjectMediaFrame({ media, name }: { media: ProjectMedia; name: string 
 
 function FeaturedWork() {
   return (
-    <Panel bg="ink" className="px-6 py-24 md:px-10 md:py-32">
+    <Panel bg="offwhite" className="px-6 py-24 md:px-10 md:py-32">
       <div className="mx-auto w-full max-w-6xl">
         <div className="mb-14 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <div>
-            <Tag variant="outline-dark" className="mb-6">
+            <Tag variant="outline" className="mb-6">
               Featured work
             </Tag>
             <SplitReveal
               as="h2"
               segments={[{ text: 'Serious builds, shown' }, { text: 'properly.', serif: true }]}
-              className="max-w-[16ch] text-[clamp(34px,5vw,68px)] font-semibold leading-[1.02] tracking-[-0.02em] text-white"
+              className="max-w-[16ch] text-[clamp(34px,5vw,68px)] font-semibold leading-[1.02] tracking-[-0.02em] text-site-ink"
             />
           </div>
           <Link
             to="/portfolio"
             data-cursor="link"
-            className="inline-flex min-h-[44px] items-center text-[15px] font-medium text-white/70 underline-offset-4 outline-none transition-colors hover:text-white hover:underline focus-visible:text-white focus-visible:underline"
+            className="inline-flex min-h-[44px] items-center text-[15px] font-medium text-site-text-secondary underline-offset-4 outline-none transition-colors hover:text-site-ink hover:underline focus-visible:text-site-ink focus-visible:underline"
           >
-            All work -&gt;
+            All work →
           </Link>
         </div>
 
@@ -228,7 +229,7 @@ function FeaturedWork() {
                 to={project.href}
                 data-cursor="view"
                 data-cursor-label="View"
-                className="group grid gap-6 rounded-[32px] border border-white/10 bg-white/[0.035] p-4 outline-none transition-[border-color,background-color,transform] duration-300 ease-brand hover:-translate-y-1 hover:border-site-accent/60 hover:bg-white/[0.055] active:scale-[0.99] active:border-site-accent/70 focus-visible:ring-2 focus-visible:ring-site-accent motion-reduce:hover:translate-y-0 md:grid-cols-[1.25fr_0.75fr] md:p-5"
+                className="group grid gap-6 rounded-[32px] border border-site-line bg-white p-4 outline-none transition-[border-color,background-color,transform] duration-300 ease-brand hover:-translate-y-1 hover:border-site-accent/50 hover:bg-white active:scale-[0.99] focus-visible:ring-2 focus-visible:ring-site-accent motion-reduce:hover:translate-y-0 md:grid-cols-[1.25fr_0.75fr] md:p-5"
               >
                 <ProjectMediaFrame media={project.media} name={project.no} />
                 <div className="flex flex-col justify-between p-2 md:p-5">
@@ -236,20 +237,20 @@ function FeaturedWork() {
                     <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-site-accent">
                       Project / {project.no}
                     </span>
-                    <h3 className="mt-5 text-[clamp(28px,4vw,48px)] font-semibold leading-[1.02] tracking-[-0.03em] text-white">
+                    <h3 className="mt-5 text-[clamp(28px,4vw,48px)] font-semibold leading-[1.02] tracking-[-0.03em] text-site-ink">
                       {project.name}
                     </h3>
-                    <p className="mt-4 max-w-md text-[15.5px] leading-[1.6] text-white/70">{project.outcome}</p>
+                    <p className="mt-4 max-w-md text-[15.5px] leading-[1.6] text-site-text-body">{project.outcome}</p>
                   </div>
                   <div className="mt-9">
                     <div className="flex flex-wrap gap-2">
                       {project.tags.map((tag) => (
-                        <span key={tag} className="rounded-full border border-white/10 px-3 py-1.5 text-[12px] text-white/65">
+                        <span key={tag} className="rounded-full border border-site-line px-3 py-1.5 text-[12px] text-site-text-secondary">
                           {tag}
                         </span>
                       ))}
                     </div>
-                    <span className="mt-8 inline-flex min-h-[44px] items-center rounded-full border border-white/15 px-5 text-[14px] font-semibold text-white transition-colors group-hover:border-site-accent group-hover:bg-site-accent">
+                    <span className="mt-8 inline-flex min-h-[44px] items-center rounded-full border border-site-line px-5 text-[14px] font-semibold text-site-ink transition-colors group-hover:border-site-accent group-hover:bg-site-accent group-hover:text-white">
                       View project
                     </span>
                   </div>
@@ -387,62 +388,7 @@ function AboutPreview() {
 export default function Home() {
   return (
     <>
-      <section className="relative flex min-h-[100svh] items-center overflow-hidden bg-white px-6 pt-32 pb-24 md:px-10">
-        <div className="absolute inset-x-0 top-0 h-[58%] bg-[linear-gradient(180deg,#F2EBFF_0%,rgba(255,255,255,0)_74%)]" aria-hidden="true" />
-        <div className="relative z-10 mx-auto grid w-full max-w-6xl gap-10 md:grid-cols-[1.08fr_0.92fr] md:items-center">
-          <div>
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: EASE_ARR }}
-              className="mb-6 font-mono text-[12px] uppercase tracking-[0.18em] text-site-text-muted"
-            >
-              Web design + business systems / Vaal Triangle / Gauteng
-            </motion.p>
-
-            <SplitReveal
-              as="h1"
-              trigger="mount"
-              segments={[
-                { text: "I don't just build websites. I build systems that" },
-                { text: 'sell.', serif: true },
-              ]}
-              className="max-w-[11ch] text-[clamp(46px,7.6vw,100px)] font-semibold leading-[0.96] tracking-[-0.03em] text-site-ink"
-            />
-
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.5 }}
-              className="mt-8 max-w-xl text-[17px] leading-[1.65] text-site-text-body"
-            >
-              I help South African small businesses replace messy manual admin with professional
-              websites, booking flows, dashboards and automations that keep the business organised.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.6 }}
-              className="mt-10 flex flex-wrap items-center gap-6"
-            >
-              <FillButton to={PRIMARY_CTA.href} variant="solid-accent">
-                {PRIMARY_CTA.label}
-              </FillButton>
-              <Link
-                to={SECONDARY_CTA.href}
-                data-cursor="link"
-                className="inline-flex min-h-[44px] items-center text-[15px] font-medium text-site-ink underline-offset-4 outline-none hover:underline focus-visible:text-site-accent focus-visible:underline"
-              >
-                {SECONDARY_CTA.label} -&gt;
-              </Link>
-            </motion.div>
-          </div>
-
-          <HeroSystemPreview />
-        </div>
-      </section>
-
+      <HeroParticleNetwork />
       <ClientLogos />
       <ServicesSection />
       <CaseStudyCycler />
