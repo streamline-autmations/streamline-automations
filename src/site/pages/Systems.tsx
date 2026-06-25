@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import SplitReveal from '../components/craft/SplitReveal';
 import WorkCard from '../components/craft/WorkCard';
 import PreFooterCTA from '../components/craft/PreFooterCTA';
@@ -78,16 +77,12 @@ export default function Systems() {
             transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.6 }}
             className="mt-10 flex flex-wrap items-center gap-6"
           >
-            <FillButton to="/contact" variant="ink">
+            <FillButton to="/contact" variant="solid-accent">
               Book a Free Call
             </FillButton>
-            <Link
-              to="/portfolio"
-              data-cursor="link"
-              className="inline-flex min-h-[44px] items-center text-[15px] font-medium text-site-ink underline-offset-4 outline-none hover:underline focus-visible:text-site-accent focus-visible:underline"
-            >
+            <FillButton to="/portfolio" variant="ink">
               See the work →
-            </Link>
+            </FillButton>
           </motion.div>
         </div>
       </section>

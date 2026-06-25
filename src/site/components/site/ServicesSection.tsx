@@ -50,12 +50,7 @@ export default function ServicesSection() {
                 <div className="relative mt-10">
                   <div className="flex flex-wrap gap-2">
                     {pillar.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full border border-site-line bg-site-offwhite px-3 py-1.5 text-[12px] font-medium text-site-text-secondary"
-                      >
-                        {tag}
-                      </span>
+                      <Tag key={tag} variant="outline" className="bg-site-offwhite">{tag}</Tag>
                     ))}
                   </div>
                   <span

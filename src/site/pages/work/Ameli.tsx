@@ -55,12 +55,7 @@ export default function Ameli() {
             className="mt-8 flex flex-wrap gap-3"
           >
             {['Portfolio site', 'Lead automation', 'Optimised gallery', '4-day build'].map((t) => (
-              <span
-                key={t}
-                className="inline-flex min-h-[36px] items-center rounded-full border border-site-line px-4 text-[13px] font-medium text-site-text-secondary"
-              >
-                {t}
-              </span>
+              <Tag key={t} variant="outline">{t}</Tag>
             ))}
           </motion.div>
 

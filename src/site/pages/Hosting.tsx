@@ -61,7 +61,7 @@ export default function Hosting() {
             transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.6 }}
             className="mt-10"
           >
-            <FillButton to={PRIMARY_CTA.href} variant="ink">
+            <FillButton to={PRIMARY_CTA.href} variant="solid-accent">
               {PRIMARY_CTA.label}
             </FillButton>
           </motion.div>
@@ -122,7 +122,7 @@ export default function Hosting() {
                 </ul>
 
                 <div className="mt-9">
-                  <FillButton to={PRIMARY_CTA.href} variant={plan.popular ? 'solid-accent' : 'ink'} className="w-full">
+                  <FillButton to={PRIMARY_CTA.href} variant="solid-accent" className="w-full">
                     {PRIMARY_CTA.label}
                   </FillButton>
                 </div>

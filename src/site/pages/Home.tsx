@@ -250,8 +250,9 @@ function FeaturedWork() {
                         </span>
                       ))}
                     </div>
-                    <span className="mt-8 inline-flex min-h-[44px] items-center rounded-full border border-site-line px-5 text-[14px] font-semibold text-site-ink transition-colors group-hover:border-site-accent group-hover:bg-site-accent group-hover:text-white">
-                      View project
+                    <span className="relative mt-8 inline-flex min-h-[44px] items-center overflow-hidden rounded-full border border-site-line px-5 group-hover:border-site-ink motion-reduce:transition-none">
+                      <span aria-hidden="true" className="absolute inset-0 translate-y-full bg-site-ink transition-transform duration-[600ms] ease-brand group-hover:translate-y-0 motion-reduce:transition-none" />
+                      <span className="relative z-10 text-[14px] font-semibold text-site-ink transition-colors duration-[350ms] ease-brand group-hover:text-white">View project</span>
                     </span>
                   </div>
                 </div>
@@ -363,9 +364,11 @@ function AboutPreview() {
           <Tag variant="outline" className="mb-6">
             Built by Christiaan
           </Tag>
-          <h2 className="max-w-[13ch] text-[clamp(34px,5vw,64px)] font-semibold leading-[1.02] tracking-[-0.02em] text-site-ink">
-            Solo founder. Direct build. No layers.
-          </h2>
+          <SplitReveal
+            as="h2"
+            segments={[{ text: 'Solo founder.' }, { text: 'Direct', serif: true }, { text: 'build. No layers.' }]}
+            className="max-w-[13ch] text-[clamp(34px,5vw,64px)] font-semibold leading-[1.02] tracking-[-0.02em] text-site-ink"
+          />
         </div>
         <div className="self-end">
           <p className="text-[16px] leading-[1.65] text-site-text-body">

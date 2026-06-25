@@ -164,9 +164,11 @@ export default function Contact() {
             <Tag variant="outline" className="mb-6">
               Start here
             </Tag>
-            <h2 className="text-[clamp(30px,4vw,48px)] font-semibold leading-[1.05] tracking-[-0.02em] text-site-ink">
-              Tell me about the <span className="text-site-accent">project</span>.
-            </h2>
+            <SplitReveal
+              as="h2"
+              segments={[{ text: 'Tell me about the' }, { text: 'project.', serif: true }]}
+              className="text-[clamp(30px,4vw,48px)] font-semibold leading-[1.05] tracking-[-0.02em] text-site-ink"
+            />
             <p className="mt-5 max-w-sm text-[16px] leading-[1.65] text-site-text-body">
               Fill this in and it opens WhatsApp with the details ready to send. Prefer email? It is
               right below.
@@ -288,9 +290,11 @@ export default function Contact() {
           <Tag variant="outline" className="mb-6">
             FAQ
           </Tag>
-          <h2 className="text-[clamp(30px,4vw,46px)] font-semibold leading-[1.05] tracking-[-0.02em] text-site-ink">
-            Questions, <span className="text-site-accent">answered</span>.
-          </h2>
+          <SplitReveal
+            as="h2"
+            segments={[{ text: 'Questions,' }, { text: 'answered.', serif: true }]}
+            className="text-[clamp(30px,4vw,46px)] font-semibold leading-[1.05] tracking-[-0.02em] text-site-ink"
+          />
 
           <div className="mt-10 divide-y divide-site-line border-t border-site-line">
             {FAQ_ITEMS.map((item) => (

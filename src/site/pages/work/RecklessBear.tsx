@@ -62,14 +62,7 @@ export default function RecklessBear() {
             className="mt-8 flex flex-wrap gap-2.5"
           >
             {['Custom Website', 'AI Quote Engine', 'Admin + CRM', '12-Stage Production', 'WhatsApp Automation'].map(
-              (t) => (
-                <span
-                  key={t}
-                  className="inline-flex min-h-[34px] items-center rounded-full border border-site-line px-4 text-[12.5px] font-medium text-site-text-secondary"
-                >
-                  {t}
-                </span>
-              )
+              (t) => <Tag key={t} variant="outline">{t}</Tag>
             )}
           </motion.div>
 
@@ -233,12 +226,7 @@ export default function RecklessBear() {
               </p>
               <div className="mt-6 flex flex-wrap gap-2.5">
                 {['Voiceflow', '24/7 capture', 'Books appointments', 'Escalates to CEO'].map((p) => (
-                  <span
-                    key={p}
-                    className="inline-flex min-h-[34px] items-center rounded-full border border-site-line px-4 text-[12.5px] font-medium text-site-text-secondary"
-                  >
-                    {p}
-                  </span>
+                  <Tag key={p} variant="outline">{p}</Tag>
                 ))}
               </div>
             </motion.div>
