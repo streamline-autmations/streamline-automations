@@ -6,7 +6,7 @@ import SplitReveal from '../components/craft/SplitReveal';
 import ServicesSection from '../components/site/ServicesSection';
 import ClientLogos from '../components/site/ClientLogos';
 import CaseStudyCycler from '../components/site/CaseStudyCycler';
-import HeroVideoScroll from '../components/site/HeroVideoScroll';
+import HeroNetworkScroll from '../components/site/HeroNetworkScroll';
 import { fadeUp, viewport } from '../lib/motion';
 
 function RentalCallout() {
@@ -69,7 +69,7 @@ function RentalCallout() {
 export default function Home() {
   return (
     <>
-      <HeroVideoScroll />
+      <HeroNetworkScroll />
       <ClientLogos />
       <ServicesSection />
       <CaseStudyCycler />
