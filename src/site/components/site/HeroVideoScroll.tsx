@@ -44,6 +44,12 @@ export default function HeroVideoScroll() {
   const [progress, setProgress] = useState(0); // 0–100 load progress
   const [ready,    setReady]    = useState(false);
 
+  // ── Hide nav during the laptop-zoom phase ────────────────────────────────
+  useEffect(() => {
+    document.documentElement.setAttribute('data-hero-loading', 'true');
+    return () => document.documentElement.removeAttribute('data-hero-loading');
+  }, []);
+
   // ── Preload all frames ────────────────────────────────────────────────────
   useEffect(() => {
     frames.current = new Array(TOTAL_FRAMES);
@@ -98,7 +104,8 @@ export default function HeroVideoScroll() {
       if (!ready) return;
 
       if (reduced) {
-        // Show end frame + text instantly
+        // Show end frame + text + nav instantly
+        document.documentElement.removeAttribute('data-hero-loading');
         drawFrame(TOTAL_FRAMES - 1);
         if (textRef.current) {
           textRef.current.style.opacity = '1';
@@ -108,6 +115,10 @@ export default function HeroVideoScroll() {
       }
 
       const obj = { frame: 0 };
+      // v3 (sparking network) starts at frame 202 of 404 = 50% progress.
+      // Text and nav both reveal starting at 55% so they arrive with the sparks.
+      const REVEAL_START = 0.55;
+      const REVEAL_RANGE = 0.20; // fully visible by 75%
 
       ScrollTrigger.create({
         trigger: wrapRef.current,
@@ -115,7 +126,7 @@ export default function HeroVideoScroll() {
         end: `+=${SCROLL_VH * 100}%`,
         pin: true,
         pinType: 'transform',
-        scrub: 0.5, // tight scrub = responsive to scroll
+        scrub: 0.5,
         onUpdate(self) {
           const targetFrame = Math.round(self.progress * (TOTAL_FRAMES - 1));
           if (targetFrame !== Math.round(obj.frame)) {
@@ -123,9 +134,16 @@ export default function HeroVideoScroll() {
             drawFrame(targetFrame);
           }
 
-          // Text fades in over the last 15% of scroll
+          // Reveal nav at the same threshold
+          if (self.progress >= REVEAL_START) {
+            document.documentElement.removeAttribute('data-hero-loading');
+          } else {
+            document.documentElement.setAttribute('data-hero-loading', 'true');
+          }
+
+          // Text fades in with the sparks
           if (textRef.current) {
-            const t = Math.max(0, (self.progress - 0.85) / 0.15);
+            const t = Math.min(1, Math.max(0, (self.progress - REVEAL_START) / REVEAL_RANGE));
             textRef.current.style.opacity = String(t);
             textRef.current.style.transform = `translateY(${(1 - t) * 22}px)`;
           }
@@ -136,7 +154,7 @@ export default function HeroVideoScroll() {
   );
 
   return (
-    <div ref={wrapRef} className="relative min-h-[100svh] w-full bg-[#0A0A0F]">
+    <div ref={wrapRef} data-header-dark="" className="relative min-h-[100svh] w-full bg-[#0A0A0F]">
 
       {/* Canvas — the image sequence renders here */}
       <canvas

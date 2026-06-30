@@ -43,6 +43,9 @@ export default function SiteHeader() {
   const [overDark, setOverDark] = useState(false);
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [heroLoading, setHeroLoading] = useState(
+    () => typeof document !== 'undefined' && document.documentElement.hasAttribute('data-hero-loading'),
+  );
   const servicesRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
@@ -97,6 +100,16 @@ export default function SiteHeader() {
     };
   }, [location]);
 
+  // Watch for data-hero-loading attribute set by HeroVideoScroll
+  useEffect(() => {
+    const obs = new MutationObserver(() => {
+      setHeroLoading(document.documentElement.hasAttribute('data-hero-loading'));
+    });
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-hero-loading'] });
+    setHeroLoading(document.documentElement.hasAttribute('data-hero-loading'));
+    return () => obs.disconnect();
+  }, []);
+
   useEffect(() => {
     setOpen(false);
   }, [location]);
@@ -117,7 +130,11 @@ export default function SiteHeader() {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-[1000] flex items-center justify-between px-6 py-[18px] md:px-10">
+    <header
+      className={`fixed inset-x-0 top-0 z-[1000] flex items-center justify-between px-6 py-[18px] transition-opacity duration-700 md:px-10 ${
+        heroLoading ? 'pointer-events-none opacity-0' : 'opacity-100'
+      }`}
+    >
       <div
         aria-hidden="true"
         className={`absolute inset-0 -z-10 border-b transition-[opacity,background-color,border-color] duration-500 ${

@@ -2,11 +2,12 @@ import { motion } from 'framer-motion';
 import PreFooterCTA from '../components/craft/PreFooterCTA';
 import FillButton from '../components/craft/FillButton';
 import Panel from '../components/craft/Panel';
+import SplitReveal from '../components/craft/SplitReveal';
 import ServicesSection from '../components/site/ServicesSection';
 import ClientLogos from '../components/site/ClientLogos';
 import CaseStudyCycler from '../components/site/CaseStudyCycler';
 import HeroVideoScroll from '../components/site/HeroVideoScroll';
-import { fadeUp, viewport } from '../lib/motion';
+import { fadeUp, stagger, viewport } from '../lib/motion';
 
 function RentalCallout() {
   return (
@@ -23,9 +24,16 @@ function RentalCallout() {
             <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-site-accent">
               Website rental
             </p>
-            <h2 className="mt-5 text-[clamp(34px,5vw,64px)] font-semibold leading-[1.02] tracking-[-0.03em] text-site-ink">
-              No upfront cost. Pay monthly. Own it after 18 months.
-            </h2>
+            <SplitReveal
+              as="h2"
+              segments={[
+                { text: 'No upfront cost.' },
+                { text: 'Pay monthly.' },
+                { text: 'Own it after', serif: true },
+                { text: '18 months.' },
+              ]}
+              className="mt-5 text-[clamp(34px,5vw,64px)] font-semibold leading-[1.02] tracking-[-0.03em] text-site-ink"
+            />
           </div>
 
           <div className="flex flex-col gap-8 md:items-end">

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { EASE_ARR } from '../../lib/motion';
 
 type LogoItem = { type: 'image'; name: string; src: string };
-type TextItem = { type: 'text'; name: string };
+type TextItem = { type: 'text'; name: string; color: string };
 type ClientItem = LogoItem | TextItem;
 
 const CLIENTS: ClientItem[] = [
@@ -13,8 +13,8 @@ const CLIENTS: ClientItem[] = [
   { type: 'image', name: 'Ameli Designs',        src: '/assets/clients/ameli/logo.webp' },
   { type: 'image', name: 'JJ Glasswork',         src: '/assets/clients/jj-glass/logo.webp' },
   { type: 'image', name: 'NSA Mining',           src: '/assets/clients/nsa-mining/logo.jpg' },
-  { type: 'text',  name: 'TUSCANY SA' },
-  { type: 'text',  name: 'AFRICAN NOMAD' },
+  { type: 'text',  name: 'TUSCANY SA',    color: '#A07244' }, // warm amber — Italian hospitality
+  { type: 'text',  name: 'AFRICAN NOMAD', color: '#5C8C6A' }, // sage green — earthy/nature
 ];
 
 function ClientItem({ item }: { item: ClientItem }) {
@@ -27,7 +27,7 @@ function ClientItem({ item }: { item: ClientItem }) {
           loading="lazy"
           decoding="async"
           draggable={false}
-          className="h-full w-auto max-w-[130px] select-none object-contain grayscale opacity-[0.45] transition-opacity duration-200 ease-brand group-hover:opacity-[0.75]"
+          className="h-full w-auto max-w-[130px] select-none object-contain grayscale opacity-[0.45] transition-all duration-300 ease-brand group-hover:grayscale-0 group-hover:opacity-100"
         />
       </div>
     );
@@ -35,7 +35,10 @@ function ClientItem({ item }: { item: ClientItem }) {
 
   return (
     <div className="group flex h-10 shrink-0 cursor-default items-center">
-      <span className="select-none font-sans text-[13px] font-semibold uppercase tracking-[0.12em] text-site-text-muted transition-colors duration-200 ease-brand group-hover:text-site-text-secondary whitespace-nowrap">
+      <span
+        className="select-none whitespace-nowrap font-sans text-[13px] font-semibold uppercase tracking-[0.12em] text-site-text-muted transition-colors duration-300 ease-brand group-hover:text-[--logo-hover]"
+        style={{ '--logo-hover': item.color } as CSSProperties}
+      >
         {item.name}
       </span>
     </div>
