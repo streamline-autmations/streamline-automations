@@ -7,7 +7,7 @@ import ServicesSection from '../components/site/ServicesSection';
 import ClientLogos from '../components/site/ClientLogos';
 import CaseStudyCycler from '../components/site/CaseStudyCycler';
 import HeroVideoScroll from '../components/site/HeroVideoScroll';
-import { fadeUp, stagger, viewport } from '../lib/motion';
+import { fadeUp, viewport } from '../lib/motion';
 
 function RentalCallout() {
   return (

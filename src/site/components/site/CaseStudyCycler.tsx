@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ScrollTrigger, useGSAP } from '../../lib/gsap';
@@ -30,16 +30,18 @@ const mediaVariants = {
  * Pin uses pinType:'transform' to play nice with Lenis + the overflow-x root.
  */
 export default function CaseStudyCycler() {
-  const [enhanced, setEnhanced] = useState(false);
+  // Determine desktop+motion support synchronously so the correct layout
+  // renders on the first paint — avoids a flash of the mobile fallback.
+  const [enhanced] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return (
+      window.matchMedia('(min-width: 768px)').matches &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    );
+  });
   const [active, setActive] = useState(0);
   const scopeRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const desktop = window.matchMedia('(min-width: 768px)').matches;
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    setEnhanced(desktop && !reduce);
-  }, []);
 
   useGSAP(
     () => {
