@@ -10,10 +10,9 @@ import { FAQ_ITEMS } from '../data/faq';
 import EngineBackdrop from '../components/three/EngineBackdrop';
 
 const BUDGETS = [
-  'Online Presence - from R6,500',
-  'Client Magnet - from R12,000',
-  'Business Accelerator - from R25,000 + support',
-  'Maintenance retainer',
+  'New website',
+  'Automation / system',
+  'Hosting & care',
   'Not sure yet',
 ];
 

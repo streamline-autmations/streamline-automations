@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, type Variants } from 'framer-motion';
 import { EASE, EASE_ARR } from '../../lib/motion';
@@ -6,6 +6,11 @@ import { NAV_LINKS, CONTACT, PRIMARY_CTA } from '../../data/site';
 import { Magnetic } from '../craft/Magnetic';
 import RollText from '../craft/RollText';
 import Wordmark from '../craft/Wordmark';
+
+const SERVICE_LINKS = [
+  { href: '/websites', label: 'Websites', desc: 'Custom sites, fast' },
+  { href: '/systems', label: 'Systems', desc: 'Automation & dashboards' },
+] as const;
 
 function NavRoll({ to, label, active, dark }: { to: string; label: string; active: boolean; dark: boolean }) {
   return (
@@ -37,6 +42,8 @@ export default function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [overDark, setOverDark] = useState(false);
   const [open, setOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const servicesRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
   const isActive = (href: string) =>
@@ -132,6 +139,72 @@ export default function SiteHeader() {
       </Magnetic>
 
       <nav className="hidden items-center gap-9 md:flex">
+        {/* Services dropdown */}
+        <div
+          ref={servicesRef}
+          className="relative"
+          onMouseEnter={() => setServicesOpen(true)}
+          onMouseLeave={() => setServicesOpen(false)}
+        >
+          <button
+            type="button"
+            data-cursor="link"
+            aria-haspopup="true"
+            aria-expanded={servicesOpen}
+            className={`group inline-flex min-h-[44px] items-center gap-1 text-[15px] font-medium outline-none transition-colors duration-300 ${
+              isActive('/websites') || isActive('/systems')
+                ? 'text-site-accent'
+                : overDark
+                ? 'text-white'
+                : 'text-site-ink'
+            }`}
+          >
+            <RollText>Services</RollText>
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 12 12"
+              className={`h-3 w-3 shrink-0 transition-transform duration-300 ${servicesOpen ? 'rotate-180' : ''}`}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M2 4l4 4 4-4" />
+            </svg>
+          </button>
+
+          <AnimatePresence>
+            {servicesOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: 8, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 8, scale: 0.97 }}
+                transition={{ duration: 0.18, ease: EASE_ARR }}
+                className="absolute left-0 top-full z-50 pt-3"
+              >
+                <div className="min-w-[220px] overflow-hidden rounded-2xl border border-site-line bg-white p-2 shadow-[0_12px_40px_-8px_rgba(0,0,0,0.12)]">
+                  {SERVICE_LINKS.map((link) => (
+                    <Link
+                      key={link.href}
+                      to={link.href}
+                      data-cursor="link"
+                      className={`flex min-h-[52px] flex-col justify-center rounded-xl px-4 py-2.5 outline-none transition-colors duration-200 hover:bg-site-surface focus-visible:bg-site-surface ${
+                        isActive(link.href) ? 'bg-site-surface' : ''
+                      }`}
+                    >
+                      <span className={`text-[14px] font-semibold leading-none ${isActive(link.href) ? 'text-site-accent' : 'text-site-ink'}`}>
+                        {link.label}
+                      </span>
+                      <span className="mt-1 text-[12px] text-site-text-secondary">{link.desc}</span>
+                    </Link>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
         {NAV_LINKS.map((link) => (
           <NavRoll key={link.href} to={link.href} label={link.label} active={isActive(link.href)} dark={overDark} />
         ))}
@@ -189,7 +262,7 @@ export default function SiteHeader() {
               <span className="mb-4 font-mono text-[11px] uppercase tracking-[0.22em] text-site-text-muted">
                 Menu
               </span>
-              {NAV_LINKS.map((l, i) => (
+              {[...SERVICE_LINKS, ...NAV_LINKS].map((l, i) => (
                 <span key={l.href} className="overflow-hidden">
                   <motion.span variants={overlayItem} className="block">
                     <Link
