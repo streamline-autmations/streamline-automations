@@ -9,6 +9,8 @@ import { fadeUp, viewport } from '../../lib/motion';
 const [WEBSITES, SYSTEMS, CARE] = OFFER_PILLARS;
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+// Snappy ease-in for exits — collapses feel intentional, not sluggish
+const EASE_IN: [number, number, number, number] = [0.4, 0, 0.6, 1];
 
 const SERVICES = [
   {
@@ -39,14 +41,15 @@ function TitleLine({ parts, dark }: { parts: readonly TitlePart[]; dark: boolean
     <>
       {parts.map((part, i) =>
         typeof part === 'string' ? (
-          <span key={i} className={`transition-colors duration-400 ${dark ? 'text-white' : 'text-site-ink'}`}>
+          <span
+            key={i}
+            style={{ transition: 'color 0.45s cubic-bezier(0.22,1,0.36,1)' }}
+            className={dark ? 'text-white' : 'text-site-ink'}
+          >
             {part}
           </span>
         ) : (
-          <em
-            key={i}
-            className={`font-instrument not-italic transition-colors duration-400 ${dark ? 'text-site-accent' : 'text-site-accent'}`}
-          >
+          <em key={i} className="font-instrument not-italic text-site-accent">
             {part.serif}
           </em>
         ),
@@ -57,46 +60,66 @@ function TitleLine({ parts, dark }: { parts: readonly TitlePart[]; dark: boolean
 
 function ServiceRow({
   svc,
-  isActive,
+  isOpen,
   isDimmed,
-  onEnter,
-  onLeave,
+  onToggle,
 }: {
   svc: ServiceItem;
-  isActive: boolean;
+  isOpen: boolean;
   isDimmed: boolean;
-  onEnter: () => void;
-  onLeave: () => void;
+  onToggle: () => void;
 }) {
+  const [hovered, setHovered] = useState(false);
+
+  // Hover preview only applies when nothing is open
+  const showHoverHint = hovered && !isOpen && !isDimmed;
+
   return (
     <motion.div
       layout
-      onHoverStart={onEnter}
-      onHoverEnd={onLeave}
-      onFocus={onEnter}
-      onBlur={onLeave}
+      layoutRoot
+      onClick={onToggle}
+      onHoverStart={() => setHovered(true)}
+      onHoverEnd={() => setHovered(false)}
       animate={{
-        x: isActive ? 14 : isDimmed ? -3 : 0,
-        y: isActive ? -8 : 0,
-        opacity: isDimmed ? 0.45 : 1,
-        backgroundColor: isActive ? '#0A0A0F' : '#FFFFFF',
-        boxShadow: isActive
-          ? '0 24px 64px -12px rgba(0,0,0,0.30), 0 0 0 1px rgba(255,255,255,0.06)'
-          : '0 0 0 0 transparent',
+        x: isOpen ? 16 : showHoverHint ? 6 : isDimmed ? -4 : 0,
+        y: isOpen ? -10 : 0,
+        opacity: isDimmed ? 0.38 : 1,
+        backgroundColor: isOpen ? '#0A0A0F' : '#FFFFFF',
+        borderColor: isOpen
+          ? 'rgba(255,255,255,0.07)'
+          : showHoverHint
+          ? '#D4D4DA'
+          : '#E8E8EC',
+        boxShadow: isOpen
+          ? '0 32px 80px -16px rgba(0,0,0,0.38), 0 0 0 1px rgba(255,255,255,0.06) inset'
+          : showHoverHint
+          ? '0 8px 28px -8px rgba(0,0,0,0.10)'
+          : '0 0px 0px 0px transparent',
       }}
-      transition={{ duration: 0.45, ease: EASE }}
-      className="cursor-pointer select-none overflow-hidden rounded-[20px] border border-site-line px-8 py-6 outline-none md:px-10 md:py-7"
+      transition={{
+        x:           { duration: isOpen ? 0.52 : 0.38, ease: isOpen ? EASE : EASE },
+        y:           { duration: isOpen ? 0.52 : 0.38, ease: isOpen ? EASE : EASE },
+        opacity:     { duration: 0.28, ease: EASE },
+        backgroundColor: { duration: isOpen ? 0.48 : 0.34, ease: EASE },
+        borderColor: { duration: 0.3, ease: EASE },
+        boxShadow:   { duration: isOpen ? 0.5 : 0.28, ease: EASE },
+      }}
+      className="cursor-pointer select-none overflow-hidden rounded-[20px] border px-8 py-6 outline-none md:px-10 md:py-7"
       tabIndex={0}
       role="button"
-      aria-expanded={isActive}
-      aria-label={`${svc.pillar.label} — ${svc.body.slice(0, 40)}…`}
+      aria-expanded={isOpen}
+      aria-label={`${svc.pillar.label}`}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onToggle(); }
+      }}
     >
       {/* ── Always-visible header row ── */}
       <div className="flex items-center gap-6 md:gap-10">
         {/* Number */}
         <motion.span
-          animate={{ color: isActive ? '#7B3FE4' : '#9E9EA8' }}
-          transition={{ duration: 0.35, ease: EASE }}
+          animate={{ color: isOpen ? '#7B3FE4' : showHoverHint ? '#6B6B7A' : '#9E9EA8' }}
+          transition={{ duration: 0.32, ease: EASE }}
           className="shrink-0 font-mono text-[12px] uppercase tracking-[0.18em]"
         >
           {svc.no}
@@ -104,16 +127,16 @@ function ServiceRow({
 
         {/* Title */}
         <h3 className="flex-1 text-[clamp(20px,2.8vw,38px)] font-semibold leading-[1.05] tracking-[-0.025em]">
-          <TitleLine parts={svc.title} dark={isActive} />
+          <TitleLine parts={svc.title} dark={isOpen} />
         </h3>
 
-        {/* Arrow */}
+        {/* Arrow — rotates to × on open */}
         <motion.span
           animate={{
-            rotate: isActive ? -45 : 0,
-            color: isActive ? '#7B3FE4' : '#9E9EA8',
+            rotate: isOpen ? -45 : showHoverHint ? 8 : 0,
+            color: isOpen ? '#7B3FE4' : showHoverHint ? '#6B6B7A' : '#9E9EA8',
           }}
-          transition={{ duration: 0.35, ease: EASE }}
+          transition={{ duration: 0.38, ease: EASE }}
           className="shrink-0 text-[22px] leading-none"
           aria-hidden="true"
         >
@@ -123,19 +146,39 @@ function ServiceRow({
 
       {/* ── Expandable body ── */}
       <AnimatePresence initial={false}>
-        {isActive && (
+        {isOpen && (
           <motion.div
             key="body"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0, transition: { duration: 0.35, ease: EASE, delay: 0.08 } }}
-            exit={{ opacity: 0, y: 10, transition: { duration: 0.2, ease: EASE } }}
+            initial={{ opacity: 0, y: 22 }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              transition: { duration: 0.42, ease: EASE, delay: 0.14 },
+            }}
+            exit={{
+              opacity: 0,
+              y: 6,
+              transition: { duration: 0.16, ease: EASE_IN },
+            }}
             className="mt-6 border-t border-white/10 pt-6"
           >
-            <p className="max-w-[52ch] text-[15.5px] leading-[1.65] text-white/65">
+            {/* Body copy — slight extra delay so bg flip lands first */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 0.38, ease: EASE, delay: 0.22 } }}
+              exit={{ opacity: 0, transition: { duration: 0.1 } }}
+              className="max-w-[52ch] text-[15.5px] leading-[1.65] text-white/65"
+            >
               {svc.body}
-            </p>
+            </motion.p>
 
-            <div className="mt-5 flex flex-wrap gap-2">
+            {/* Tags — staggered after copy */}
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0, transition: { duration: 0.36, ease: EASE, delay: 0.3 } }}
+              exit={{ opacity: 0, transition: { duration: 0.1 } }}
+              className="mt-5 flex flex-wrap gap-2"
+            >
               {svc.pillar.tags.map((tag) => (
                 <span
                   key={tag}
@@ -144,13 +187,19 @@ function ServiceRow({
                   {tag}
                 </span>
               ))}
-            </div>
+            </motion.div>
 
-            <div className="mt-7">
+            {/* CTA — last to arrive */}
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0, transition: { duration: 0.36, ease: EASE, delay: 0.38 } }}
+              exit={{ opacity: 0, transition: { duration: 0.1 } }}
+              className="mt-7"
+            >
               <FillButton to={svc.pillar.href} variant="on-dark">
                 Learn more
               </FillButton>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -159,7 +208,7 @@ function ServiceRow({
 }
 
 export default function ServicesSection() {
-  const [hovered, setHovered] = useState<number | null>(null);
+  const [selected, setSelected] = useState<number | null>(null);
 
   return (
     <Panel bg="white" className="px-6 py-24 md:px-10 md:py-32">
@@ -182,7 +231,7 @@ export default function ServicesSection() {
             viewport={viewport}
             className="max-w-[38ch] text-[16px] leading-[1.65] text-site-text-secondary md:text-right"
           >
-            Hover any row to see what's included. Each service is a complete offering — not an upsell.
+            Click any row to see what's included. Each service is a complete offering — not an upsell.
           </motion.p>
         </div>
 
@@ -192,10 +241,9 @@ export default function ServicesSection() {
             <ServiceRow
               key={svc.no}
               svc={svc}
-              isActive={hovered === i}
-              isDimmed={hovered !== null && hovered !== i}
-              onEnter={() => setHovered(i)}
-              onLeave={() => setHovered(null)}
+              isOpen={selected === i}
+              isDimmed={selected !== null && selected !== i}
+              onToggle={() => setSelected((s) => (s === i ? null : i))}
             />
           ))}
         </div>
