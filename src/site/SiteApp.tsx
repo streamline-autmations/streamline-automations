@@ -10,6 +10,11 @@ import SiteSEO from './components/SiteSEO';
 import CookieConsent from '../components/layout/CookieConsent';
 import './styles/site.css';
 
+// Hero preview routes — raw hero with no layout chrome
+import HeroKineticType from './components/site/HeroKineticType';
+import HeroCursorDepth from './components/site/HeroCursorDepth';
+import HeroBeforeAfter from './components/site/HeroBeforeAfter';
+
 // Code-split every route (brief §10).
 const Home = lazy(() => import('./pages/Home'));
 const Websites = lazy(() => import('./pages/Websites'));
@@ -67,6 +72,12 @@ function AnimatedRoutes() {
  * it owns its own scroll via drei ScrollControls). Everything else gets the
  * normal header/content/footer tree.
  */
+const HERO_PREVIEW_ROUTES: Record<string, React.ReactNode> = {
+  '/hero/1': <HeroKineticType />,
+  '/hero/3': <HeroCursorDepth />,
+  '/hero/4': <HeroBeforeAfter />,
+};
+
 function Shell() {
   const { pathname } = useLocation();
 
@@ -79,6 +90,10 @@ function Shell() {
         </Suspense>
       </>
     );
+  }
+
+  if (HERO_PREVIEW_ROUTES[pathname]) {
+    return <>{HERO_PREVIEW_ROUTES[pathname]}</>;
   }
 
   return (

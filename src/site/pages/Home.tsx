@@ -4,17 +4,14 @@ import SplitReveal from '../components/craft/SplitReveal';
 import PreFooterCTA from '../components/craft/PreFooterCTA';
 import FillButton from '../components/craft/FillButton';
 import Panel from '../components/craft/Panel';
-import Tag from '../components/craft/Tag';
 import ServicesSection from '../components/site/ServicesSection';
 import ClientLogos from '../components/site/ClientLogos';
 import StatsSection from '../components/site/StatsSection';
 import AutomationScrolly from '../components/site/AutomationScrolly';
 import CaseStudyCycler from '../components/site/CaseStudyCycler';
-import CountUp from '../components/site/CountUp';
-import HeroParticleNetwork from '../components/site/HeroParticleNetwork';
+import HeroVideoScroll from '../components/site/HeroVideoScroll';
 import {
   FEATURED_PROJECTS,
-  PACKAGES,
   PRIMARY_CTA,
   SECONDARY_CTA,
   type ProjectMedia,
@@ -41,126 +38,6 @@ const STEPS = [
   },
 ] as const;
 
-const BOOKING_STEPS = ['Customer submits form', 'Slot confirmed', 'WhatsApp sent'] as const;
-const DASHBOARD_STATS = [
-  { label: 'Leads', to: 24 },
-  { label: 'Orders', to: 8 },
-  { label: 'Follow-ups', to: 12 },
-] as const;
-
-function HeroSystemPreview() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 28, scale: 0.97 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.8, ease: EASE_ARR, delay: 0.3 }}
-      className="relative mt-14 md:mt-0"
-      aria-label="Website, booking and dashboard system preview"
-    >
-      {/* Ambient glow */}
-      <div className="absolute -inset-8 rounded-[42px] bg-site-accent-soft blur-3xl" aria-hidden="true" />
-
-      <div className="relative overflow-hidden rounded-[32px] border border-site-line bg-white p-4 shadow-[0_40px_120px_-45px_rgba(76,29,149,0.34)]">
-        <div className="rounded-[24px] border border-site-line bg-site-offwhite p-3">
-          <div className="rounded-[20px] border border-site-line bg-white p-4">
-
-            {/* Browser chrome */}
-            <div className="flex items-center justify-between border-b border-site-line pb-4">
-              <div className="flex items-center gap-2">
-                {/* Pulsing accent dot */}
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="absolute inset-0 animate-ping rounded-full bg-site-accent opacity-60" />
-                  <span className="relative h-2.5 w-2.5 rounded-full bg-site-accent" />
-                </span>
-                <span className="h-2.5 w-2.5 rounded-full bg-site-line-mid" />
-                <span className="h-2.5 w-2.5 rounded-full bg-site-line" />
-              </div>
-              <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-site-text-muted">
-                Live system
-              </span>
-            </div>
-
-            <div className="grid gap-3 pt-4 sm:grid-cols-[1.15fr_0.85fr]">
-              {/* Website preview card */}
-              <div className="rounded-2xl bg-site-ink p-5 text-white">
-                <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/50">
-                  Website
-                </span>
-                <h3 className="mt-14 text-[28px] font-semibold leading-[1.02] tracking-[-0.03em]">
-                  Bookings without the back-and-forth.
-                </h3>
-                <motion.div
-                  initial="hidden"
-                  animate="visible"
-                  variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1, delayChildren: 0.9 } } }}
-                  className="mt-6 flex flex-wrap gap-2"
-                >
-                  {['Mobile-first', 'Fast', 'Enquiry-led'].map((tag) => (
-                    <motion.span
-                      key={tag}
-                      variants={{ hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: EASE_ARR } } }}
-                      className="rounded-full border border-white/15 px-3 py-1 text-[11px] text-white/75"
-                    >
-                      {tag}
-                    </motion.span>
-                  ))}
-                </motion.div>
-              </div>
-
-              <div className="grid gap-3">
-                {/* Booking flow */}
-                <div className="rounded-2xl border border-site-line bg-white p-4">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-site-text-muted">
-                    Booking flow
-                  </span>
-                  <motion.div
-                    initial="hidden"
-                    animate="visible"
-                    variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.15, delayChildren: 0.7 } } }}
-                    className="mt-4 space-y-2"
-                  >
-                    {BOOKING_STEPS.map((item, i) => (
-                      <motion.div
-                        key={item}
-                        variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.45, ease: EASE_ARR } } }}
-                        className="flex items-center gap-2 rounded-full bg-site-offwhite px-3 py-2"
-                      >
-                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-site-accent text-[10px] font-semibold text-white">
-                          {i + 1}
-                        </span>
-                        <span className="text-[12px] font-medium text-site-text-body">{item}</span>
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                </div>
-
-                {/* Dashboard stats with CountUp */}
-                <div className="rounded-2xl border border-site-line bg-site-accent-soft p-4">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-site-text-muted">
-                    Dashboard
-                  </span>
-                  <div className="mt-4 grid grid-cols-3 gap-2">
-                    {DASHBOARD_STATS.map((stat) => (
-                      <div key={stat.label} className="rounded-xl bg-white px-3 py-4 text-center">
-                        <CountUp
-                          to={stat.to}
-                          duration={1800}
-                          className="block text-[18px] font-semibold text-site-ink"
-                        />
-                        <span className="mt-1 block text-[10px] text-site-text-muted">{stat.label}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
 
 
 function ProjectMediaFrame({ media, name }: { media: ProjectMedia; name: string }) {
@@ -200,16 +77,13 @@ function ProjectMediaFrame({ media, name }: { media: ProjectMedia; name: string 
 
 function FeaturedWork() {
   return (
-    <Panel bg="offwhite" className="px-6 py-24 md:px-10 md:py-32">
+    <Panel bg="white" className="px-6 py-24 md:px-10 md:py-32">
       <div className="mx-auto w-full max-w-6xl">
         <div className="mb-14 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <div>
-            <Tag variant="outline" className="mb-6">
-              Featured work
-            </Tag>
             <SplitReveal
               as="h2"
-              segments={[{ text: 'Serious builds, shown' }, { text: 'properly.', serif: true }]}
+              segments={[{ text: 'Serious builds, shown properly.' }]}
               className="max-w-[16ch] text-[clamp(34px,5vw,68px)] font-semibold leading-[1.02] tracking-[-0.02em] text-site-ink"
             />
           </div>
@@ -265,62 +139,52 @@ function FeaturedWork() {
   );
 }
 
-function PackagesPreview() {
+function RentalCallout() {
   return (
     <Panel bg="offwhite" className="px-6 py-24 md:px-10 md:py-32">
-      <div className="mx-auto w-full max-w-6xl">
-        <div className="mb-14 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-          <div>
-            <Tag variant="outline" className="mb-6">
-              Packages
-            </Tag>
-            <SplitReveal
-              as="h2"
-              segments={[{ text: 'Start with the' }, { text: 'right', serif: true }, { text: 'level.' }]}
-              className="max-w-[16ch] text-[clamp(34px,5vw,64px)] font-semibold leading-[1.02] tracking-[-0.02em] text-site-ink"
-            />
+      <motion.div
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewport}
+        className="mx-auto w-full max-w-6xl overflow-hidden rounded-[32px] bg-site-accent-soft px-8 py-16 md:px-16 md:py-20"
+      >
+        <div className="flex flex-col gap-12 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-[22ch]">
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-site-accent">
+              Website rental
+            </p>
+            <h2 className="mt-5 text-[clamp(34px,5vw,64px)] font-semibold leading-[1.02] tracking-[-0.03em] text-site-ink">
+              No upfront cost. Pay monthly. Own it after 18 months.
+            </h2>
           </div>
-          <FillButton to="/hosting" variant="ink">
-            See pricing
-          </FillButton>
-        </div>
 
-        <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={viewport} className="grid gap-5 md:grid-cols-3">
-          {PACKAGES.map((item) => (
+          <div className="flex flex-col gap-8 md:items-end">
             <motion.div
-              key={item.name}
-              variants={fadeUp}
-              className={`rounded-[28px] border bg-white p-7 ${
-                item.popular ? 'border-site-accent shadow-[0_30px_80px_-34px_rgba(123,63,228,0.42)]' : 'border-site-line'
-              }`}
+              variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1, delayChildren: 0.3 } } }}
+              className="flex flex-col gap-3"
             >
-              <div className="flex items-start justify-between gap-4">
-                <h3 className="text-[24px] font-semibold leading-[1.1] tracking-[-0.02em] text-site-ink">{item.name}</h3>
-                {item.popular && (
-                  <span className="rounded-full border border-site-accent px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-site-accent">
-                    Popular
-                  </span>
-                )}
-              </div>
-              <p className="mt-5 text-[28px] font-semibold tracking-[-0.03em] text-site-ink">{item.price}</p>
-              <p className="mt-3 text-[14.5px] leading-[1.55] text-site-text-body">{item.bestFor}</p>
-              <ul className="mt-6 flex flex-col gap-2 border-t border-site-line pt-5">
-                {item.features.slice(0, 3).map((feature) => (
-                  <li key={feature} className="flex gap-2 text-[13.5px] leading-[1.45] text-site-text-secondary">
-                    <span aria-hidden="true" className="mt-[1px] text-site-accent">
-                      +
-                    </span>
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.14em] text-site-text-muted">
-                {item.timeframe}
-              </p>
+              {[
+                'I build the site free upfront',
+                'You pay a fixed monthly fee',
+                "After 18 months — it's yours",
+              ].map((point) => (
+                <motion.div
+                  key={point}
+                  variants={fadeUp}
+                  className="flex items-center gap-3"
+                >
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-site-accent" aria-hidden="true" />
+                  <span className="text-[15px] text-site-text-body">{point}</span>
+                </motion.div>
+              ))}
             </motion.div>
-          ))}
-        </motion.div>
-      </div>
+            <FillButton to="/hosting" variant="ink">
+              See plans
+            </FillButton>
+          </div>
+        </div>
+      </motion.div>
     </Panel>
   );
 }
@@ -330,24 +194,18 @@ function HowItWorks() {
     <Panel bg="white" className="px-6 py-24 md:px-10 md:py-32">
       <div className="mx-auto grid w-full max-w-6xl gap-14 md:grid-cols-[0.85fr_1.15fr] md:items-start">
         <div>
-          <Tag variant="outline" className="mb-6">
-            How it works
-          </Tag>
           <SplitReveal
             as="h2"
-            segments={[{ text: 'Simple process.' }, { text: 'Useful', serif: true }, { text: 'output.' }]}
+            segments={[{ text: 'Simple process. Useful output.' }]}
             className="max-w-[14ch] text-[clamp(34px,5vw,64px)] font-semibold leading-[1.02] tracking-[-0.02em] text-site-ink"
           />
         </div>
 
         <motion.ol variants={stagger} initial="hidden" whileInView="visible" viewport={viewport} className="divide-y divide-site-line border-y border-site-line">
           {STEPS.map((step) => (
-            <motion.li key={step.no} variants={fadeUp} className="grid gap-4 py-7 sm:grid-cols-[72px_1fr]">
-              <span className="font-mono text-[13px] uppercase tracking-[0.16em] text-site-accent">{step.no}</span>
-              <div>
-                <h3 className="text-[22px] font-semibold tracking-[-0.02em] text-site-ink">{step.title}</h3>
-                <p className="mt-2 max-w-xl text-[15.5px] leading-[1.6] text-site-text-body">{step.body}</p>
-              </div>
+            <motion.li key={step.no} variants={fadeUp} className="py-7">
+              <h3 className="text-[22px] font-semibold tracking-[-0.02em] text-site-ink">{step.title}</h3>
+              <p className="mt-2 max-w-xl text-[15.5px] leading-[1.6] text-site-text-body">{step.body}</p>
             </motion.li>
           ))}
         </motion.ol>
@@ -358,31 +216,36 @@ function HowItWorks() {
 
 function AboutPreview() {
   return (
-    <Panel bg="offwhite" className="px-6 py-24 md:px-10 md:py-32">
-      <div className="mx-auto grid w-full max-w-6xl gap-10 rounded-[32px] border border-site-line bg-white p-7 md:grid-cols-[1fr_0.9fr] md:p-10">
-        <div>
-          <Tag variant="outline" className="mb-6">
-            Built by Christiaan
-          </Tag>
-          <SplitReveal
-            as="h2"
-            segments={[{ text: 'Solo founder.' }, { text: 'Direct', serif: true }, { text: 'build. No layers.' }]}
-            className="max-w-[13ch] text-[clamp(34px,5vw,64px)] font-semibold leading-[1.02] tracking-[-0.02em] text-site-ink"
-          />
+    <Panel bg="white" className="px-6 py-28 md:px-10 md:py-40">
+      <div className="mx-auto w-full max-w-6xl">
+        <div
+          className="text-[clamp(40px,6vw,80px)] font-semibold leading-[0.95] tracking-[-0.04em] text-site-ink"
+          aria-label="Solo. Direct. No layers."
+        >
+          <SplitReveal as="div" segments={[{ text: 'Solo.' }]} delay={0} />
+          <SplitReveal as="div" segments={[{ text: 'Direct.' }]} delay={0.12} />
+          <SplitReveal as="div" segments={[{ text: 'No layers.' }]} delay={0.24} />
         </div>
-        <div className="self-end">
-          <p className="text-[16px] leading-[1.65] text-site-text-body">
-            I am based around the Vaal Triangle and Gauteng. You deal with the person planning,
-            designing, building and supporting the system.
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.65, ease: EASE_ARR, delay: 0.18 }}
+          className="mt-12 flex flex-col gap-8 border-t border-site-line pt-10 md:flex-row md:items-end md:justify-between"
+        >
+          <p className="max-w-[44ch] text-[17px] leading-[1.65] text-site-text-body">
+            Based in the Vaal Triangle. You deal with the person planning,
+            designing, building and supporting the system — not an account manager.
           </p>
           <Link
             to="/about"
             data-cursor="link"
-            className="mt-7 inline-flex min-h-[44px] items-center text-[15px] font-semibold text-site-ink underline-offset-4 outline-none hover:text-site-accent hover:underline focus-visible:text-site-accent focus-visible:underline"
+            className="shrink-0 inline-flex min-h-[44px] items-center text-[15px] font-semibold text-site-ink underline-offset-4 outline-none transition-colors hover:text-site-accent hover:underline focus-visible:text-site-accent focus-visible:underline"
           >
-            About me -&gt;
+            About me →
           </Link>
-        </div>
+        </motion.div>
       </div>
     </Panel>
   );
@@ -391,13 +254,13 @@ function AboutPreview() {
 export default function Home() {
   return (
     <>
-      <HeroParticleNetwork />
+      <HeroVideoScroll />
       <ClientLogos />
       <ServicesSection />
       <CaseStudyCycler />
       <StatsSection />
       <FeaturedWork />
-      <PackagesPreview />
+      <RentalCallout />
       <HowItWorks />
       <AutomationScrolly />
       <AboutPreview />

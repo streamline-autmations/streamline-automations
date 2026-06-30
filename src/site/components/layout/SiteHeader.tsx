@@ -43,21 +43,50 @@ export default function SiteHeader() {
     href === '/' ? location.pathname === '/' : location.pathname.startsWith(href);
 
   useEffect(() => {
-    const probeY = 40;
-    const fn = () => {
-      setScrolled(window.scrollY > 40);
-      const dark = Array.from(document.querySelectorAll<HTMLElement>('[data-header-dark]')).some((el) => {
-        const r = el.getBoundingClientRect();
-        return r.top <= probeY && r.bottom >= probeY;
-      });
-      setOverDark(dark);
+    // Sentinel: 40px-tall div at document top. Leaving viewport = scrolled past 40px.
+    const sentinel = document.createElement('div');
+    sentinel.setAttribute('aria-hidden', 'true');
+    sentinel.style.cssText = 'position:absolute;top:0;left:0;height:40px;width:1px;pointer-events:none;visibility:hidden;z-index:-1';
+    document.body.prepend(sentinel);
+    const scrollObs = new IntersectionObserver(([entry]) => setScrolled(!entry.isIntersecting));
+    scrollObs.observe(sentinel);
+
+    // Probe zone: 1px slice at y=40 detects dark sections crossing the header.
+    const intersectingDark = new Set<Element>();
+    let darkObs: IntersectionObserver | null = null;
+
+    const setupDarkObs = () => {
+      darkObs?.disconnect();
+      intersectingDark.clear();
+      const bottomMargin = Math.max(window.innerHeight - 41, 0);
+      darkObs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) intersectingDark.add(e.target);
+            else intersectingDark.delete(e.target);
+          });
+          setOverDark(intersectingDark.size > 0);
+        },
+        { rootMargin: `-40px 0px -${bottomMargin}px 0px` },
+      );
+      document.querySelectorAll<HTMLElement>('[data-header-dark]').forEach((el) => darkObs!.observe(el));
     };
-    fn();
-    window.addEventListener('scroll', fn, { passive: true });
-    window.addEventListener('resize', fn);
+    setupDarkObs();
+
+    let resizeTimer: ReturnType<typeof setTimeout>;
+    const onResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(setupDarkObs, 200);
+    };
+    window.addEventListener('resize', onResize, { passive: true });
+
     return () => {
-      window.removeEventListener('scroll', fn);
-      window.removeEventListener('resize', fn);
+      scrollObs.disconnect();
+      darkObs?.disconnect();
+      intersectingDark.clear();
+      clearTimeout(resizeTimer);
+      sentinel.remove();
+      window.removeEventListener('resize', onResize);
     };
   }, [location]);
 

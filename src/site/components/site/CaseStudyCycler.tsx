@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ScrollTrigger, useGSAP } from '../../lib/gsap';
-import Tag from '../craft/Tag';
 import SplitReveal from '../craft/SplitReveal';
 import FillButton from '../craft/FillButton';
 import { EASE_ARR } from '../../lib/motion';
@@ -66,7 +65,7 @@ export default function CaseStudyCycler() {
       ref={scopeRef}
       data-header-dark=""
       aria-label="Featured client work"
-      className="bg-site-ink"
+      className="relative z-[1] -mt-[2rem] rounded-t-[2rem] bg-site-ink md:-mt-[4rem] md:rounded-t-[4rem]"
     >
       {/* ── Desktop pinned cycler ── */}
       {enhanced && (
@@ -83,10 +82,6 @@ export default function CaseStudyCycler() {
           <div className="relative mx-auto grid w-full max-w-6xl grid-cols-[1fr_1fr] items-center gap-16">
             {/* Left — text */}
             <div className="flex flex-col">
-              <Tag variant="outline-dark" className="mb-8 w-fit">
-                Featured work
-              </Tag>
-
               {/* Progress dots */}
               <div className="mb-10 flex gap-2" aria-hidden="true">
                 {PROJECTS.map((_, i) => (
@@ -173,21 +168,6 @@ export default function CaseStudyCycler() {
             </AnimatePresence>
           </div>
 
-          {/* Scroll hint */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2, duration: 0.8 }}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2"
-            aria-hidden="true"
-          >
-            <div className="flex flex-col items-center gap-2">
-              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/30">
-                Scroll
-              </span>
-              <div className="h-8 w-[1px] bg-gradient-to-b from-white/30 to-transparent" />
-            </div>
-          </motion.div>
         </div>
       )}
 
@@ -195,12 +175,9 @@ export default function CaseStudyCycler() {
       <div className={`px-6 py-20 ${enhanced ? 'md:hidden' : ''}`}>
         <div className="mx-auto w-full max-w-6xl">
           <div className="mb-12">
-            <Tag variant="outline-dark" className="mb-6">
-              Featured work
-            </Tag>
             <SplitReveal
               as="h2"
-              segments={[{ text: 'Serious builds,' }, { text: 'shown properly', serif: true }, { text: '.' }]}
+              segments={[{ text: 'Serious builds, shown properly.' }]}
               className="max-w-[18ch] text-[clamp(32px,6vw,56px)] font-semibold leading-[1.02] tracking-[-0.02em] text-white"
             />
           </div>

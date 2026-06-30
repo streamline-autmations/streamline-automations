@@ -99,7 +99,7 @@ export default function AutomationScrolly() {
   }
 
   return (
-    <section ref={scopeRef} data-header-dark="" className="relative rounded-t-[2rem] bg-site-ink text-white md:rounded-t-[4rem]">
+    <section ref={scopeRef} data-header-dark="" className="relative z-[1] -mt-[2rem] rounded-t-[2rem] bg-site-ink text-white md:-mt-[4rem] md:rounded-t-[4rem]">
       <div
         ref={pinRef}
         className="relative flex min-h-[100svh] items-center overflow-hidden px-6 py-24 md:px-10"

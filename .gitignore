@@ -36,4 +36,14 @@ dist-ssr
 # Local QA screenshots + scratch logs (not part of the site)
 /*.jpeg
 /*.jpg
+/*.png
 /claude-overnight-log.txt
+
+# IDE skill mirrors — only .claude/skills/ is canonical for Claude Code
+.agents/
+.trae/
+.continue/
+
+# Auto-installed plugin skills (managed by Claude Code, not checked in)
+.claude/skills/higgsfield-*/
+.agents/skills/higgsfield-*/

@@ -62,17 +62,6 @@ export default function ClientLogos() {
 
   return (
     <section className="border-t border-site-line bg-white py-16">
-      {/* Eyebrow */}
-      <motion.p
-        initial={{ opacity: 0, y: 8 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-40px' }}
-        transition={{ duration: 0.5, ease: EASE_ARR }}
-        className="mb-10 text-center font-mono text-[11px] uppercase tracking-[0.08em] text-site-text-muted"
-      >
-        Trusted by businesses across South Africa
-      </motion.p>
-
       {/* Marquee — all screen sizes */}
       <motion.div
         initial={{ opacity: 0 }}
