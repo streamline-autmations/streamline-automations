@@ -20,7 +20,7 @@
  */
 import { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ScrollTrigger, useGSAP } from '../../../lib/gsap-setup';
+import { gsap, ScrollTrigger, useGSAP } from '../../../lib/gsap-setup';
 import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion';
 
 const MOBILE_QUERY = '(max-width: 767px)';
@@ -37,6 +37,9 @@ const FRAME_SRCS = Array.from({ length: TOTAL_FRAMES }, (_, i) => frameSrc(i + 1
 // How many viewport-heights of scroll the sequence spans (shorter on mobile).
 // ~25% longer than the original 4/6 so the frames advance more gradually.
 const SCROLL_VH = IS_MOBILE ? 5 : 7.5;
+// Minimum time (seconds) the sequence takes to play from 0% to 100%, even on
+// a huge/violent scroll or flick — enforced via a hard rate cap, see below.
+const SCRUB_SECONDS = 3.5;
 
 export default function HeroBuilderScroll() {
   const wrapRef   = useRef<HTMLDivElement>(null);
@@ -129,42 +132,68 @@ export default function HeroBuilderScroll() {
         return;
       }
 
-      const obj = { frame: 0 };
       // Nav and hero copy both arrive only once the wordmark has fully
       // dissolved to black, in the final ~3% of the sequence — nothing
       // appears until the whole build is done.
       const TEXT_REVEAL_START = 0.97;
       const TEXT_REVEAL_RANGE = 0.025;
+      // Hard cap on how fast the sequence can advance, in progress-units per
+      // second (1 / SCRUB_SECONDS = a full 0→1 pass takes at least that many
+      // seconds). GSAP's `scrub` option only smooths a *linked animation's*
+      // playhead — it does nothing for a raw `self.progress` read in
+      // onUpdate, and even wired through a dummy tween it only approximates
+      // a catch-up, not a guaranteed floor: a single huge jump (a hard fling,
+      // or a precision scroll wheel) can still resolve in a fraction of a
+      // second. Driving displayed progress by hand on gsap.ticker and
+      // clamping its rate of change is the only way to guarantee the floor
+      // holds for every jump size, while still tracking 1:1 with normal,
+      // slower scrolling (the clamp never engages below the max rate).
+      const MAX_RATE = 1 / SCRUB_SECONDS;
 
-      ScrollTrigger.create({
+      const trigger = ScrollTrigger.create({
         trigger: wrapRef.current,
         start: 'top top',
         end: `+=${SCROLL_VH * 100}%`,
         pin: true,
         pinType: 'transform',
         anticipatePin: 1,
-        scrub: 0.5,
-        onUpdate(self) {
-          const targetFrame = Math.round(self.progress * (TOTAL_FRAMES - 1));
-          if (targetFrame !== Math.round(obj.frame)) {
-            obj.frame = targetFrame;
-            drawFrame(targetFrame);
-          }
-
-          if (self.progress >= TEXT_REVEAL_START) {
-            document.documentElement.removeAttribute('data-hero-loading');
-          } else {
-            document.documentElement.setAttribute('data-hero-loading', 'true');
-          }
-
-          // Text fades in only after the wordmark has faded to black
-          if (textRef.current) {
-            const t = Math.min(1, Math.max(0, (self.progress - TEXT_REVEAL_START) / TEXT_REVEAL_RANGE));
-            textRef.current.style.opacity = String(t);
-            textRef.current.style.transform = `translateY(${(1 - t) * 22}px)`;
-          }
-        },
       });
+
+      let displayed = 0;
+      let lastFrame = -1;
+      let lastTime = performance.now();
+
+      const onTick = () => {
+        const now = performance.now();
+        const dt = Math.min((now - lastTime) / 1000, 0.1);
+        lastTime = now;
+
+        const target = trigger.progress;
+        const diff = target - displayed;
+        const maxStep = MAX_RATE * dt;
+        displayed = Math.abs(diff) <= maxStep ? target : displayed + Math.sign(diff) * maxStep;
+
+        const targetFrame = Math.round(displayed * (TOTAL_FRAMES - 1));
+        if (targetFrame !== lastFrame) {
+          lastFrame = targetFrame;
+          drawFrame(targetFrame);
+        }
+
+        if (displayed >= TEXT_REVEAL_START) {
+          document.documentElement.removeAttribute('data-hero-loading');
+        } else {
+          document.documentElement.setAttribute('data-hero-loading', 'true');
+        }
+
+        // Text fades in only after the wordmark has faded to black
+        if (textRef.current) {
+          const t = Math.min(1, Math.max(0, (displayed - TEXT_REVEAL_START) / TEXT_REVEAL_RANGE));
+          textRef.current.style.opacity = String(t);
+          textRef.current.style.transform = `translateY(${(1 - t) * 22}px)`;
+        }
+      };
+
+      gsap.ticker.add(onTick);
 
       // This pin only mounts once frames finish preloading — by then every
       // section below has already created its own ScrollTrigger and cached
@@ -172,6 +201,10 @@ export default function HeroBuilderScroll() {
       // spacer now shifts everything below it, so those cached positions go
       // stale by exactly this pin's height until we force a recompute.
       ScrollTrigger.refresh();
+
+      return () => {
+        gsap.ticker.remove(onTick);
+      };
     },
     { scope: wrapRef, dependencies: [ready] },
   );
