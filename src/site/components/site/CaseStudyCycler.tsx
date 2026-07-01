@@ -9,11 +9,13 @@ import { FEATURED_PROJECTS } from '../../data/site';
 const PROJECTS = FEATURED_PROJECTS;
 
 /**
- * CaseStudyCycler — full-bleed horizontal slides. The section pins to the
+ * CaseStudyCycler — horizontal filmstrip of cards. The section pins to the
  * viewport (any width, desktop and mobile alike) while vertical scroll
  * drives a horizontal translate on the slide track — cheap transform-only
- * tween, no per-project canvas/video swap. Each project fills the entire
- * screen edge-to-edge; scrolling advances one full screen at a time.
+ * tween, no per-project canvas/video swap. Cards are sized under the
+ * viewport (not edge-to-edge) with a gap between them, so the next card
+ * peeks in at the edge as you scroll. Each card carries just a name + one
+ * -line label over a bottom scrim — no numbers/tags/buttons.
  * Reduced-motion gets a static stacked grid — no pin, no horizontal scroll.
  *
  * Pin uses GSAP's default (native position:fixed), same as HeroBuilderScroll
@@ -116,14 +118,17 @@ export default function CaseStudyCycler() {
           ref={wrapRef}
           className="relative h-[100svh] max-h-[100svh] w-full overflow-hidden"
         >
-          <div ref={trackRef} className="flex h-full w-max will-change-transform">
+          <div
+            ref={trackRef}
+            className="flex h-full w-max items-center gap-5 px-6 will-change-transform md:gap-8 md:px-10"
+          >
             {PROJECTS.map((project, i) => (
               <Link
                 key={project.href}
                 to={project.href}
                 data-cursor="view"
                 data-cursor-label="View"
-                className="relative block h-full w-screen shrink-0"
+                className="group relative block h-[62vh] w-[86vw] shrink-0 overflow-hidden rounded-[24px] sm:h-[68vh] sm:w-[70vw] md:h-[72vh] md:w-[52vw] lg:w-[42vw]"
               >
                 {project.media.type === 'video' ? (
                   <video
@@ -135,7 +140,7 @@ export default function CaseStudyCycler() {
                     playsInline
                     preload="none"
                     aria-label={project.media.alt}
-                    className="h-full w-full object-cover transition-transform duration-700 ease-brand hover:scale-[1.03]"
+                    className="h-full w-full object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.04]"
                   />
                 ) : (
                   <img
@@ -143,9 +148,18 @@ export default function CaseStudyCycler() {
                     alt={project.media.alt}
                     loading={i === 0 ? 'eager' : 'lazy'}
                     draggable={false}
-                    className="h-full w-full object-cover transition-transform duration-700 ease-brand hover:scale-[1.03]"
+                    className="h-full w-full object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.04]"
                   />
                 )}
+
+                {/* Minimal caption — name + one-line label only, no numbers/tags/CTA */}
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[35%] bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 p-5 md:p-6">
+                  <h3 className="text-[19px] font-semibold tracking-[-0.02em] text-white md:text-[22px]">
+                    {project.name}
+                  </h3>
+                  <p className="mt-1 text-[13px] text-white/65 md:text-[13.5px]">{project.label}</p>
+                </div>
               </Link>
             ))}
           </div>
