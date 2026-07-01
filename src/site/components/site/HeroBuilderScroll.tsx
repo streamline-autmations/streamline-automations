@@ -7,9 +7,8 @@
  * ctx.drawImage() — pre-decoded frames are silky smooth, no video seek lag.
  *
  * Desktop uses the full 410-frame/2K sequence; mobile (<768px) swaps to a
- * lighter 205-frame/900x1600 sequence — same clip, half the frame rate and
- * smaller dimensions, ~14MB instead of ~54MB, so it doesn't blow the mobile
- * data budget on a cellular connection.
+ * lighter 205-frame/1080x1920 sequence — same clip, half the frame rate,
+ * so it doesn't blow the mobile data budget on a cellular connection.
  *
  * Pin uses GSAP's default (native position:fixed), not pinType:'transform' —
  * that override is only needed when an ancestor has a CSS transform (e.g. a
@@ -35,8 +34,9 @@ function frameSrc(i: number) {
 }
 
 const FRAME_SRCS = Array.from({ length: TOTAL_FRAMES }, (_, i) => frameSrc(i + 1));
-// How many viewport-heights of scroll the sequence spans (shorter on mobile)
-const SCROLL_VH = IS_MOBILE ? 4 : 6;
+// How many viewport-heights of scroll the sequence spans (shorter on mobile).
+// ~25% longer than the original 4/6 so the frames advance more gradually.
+const SCROLL_VH = IS_MOBILE ? 5 : 7.5;
 
 export default function HeroBuilderScroll() {
   const wrapRef   = useRef<HTMLDivElement>(null);
