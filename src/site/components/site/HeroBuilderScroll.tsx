@@ -11,7 +11,13 @@
  * smaller dimensions, ~14MB instead of ~54MB, so it doesn't blow the mobile
  * data budget on a cellular connection.
  *
- * pinType:'transform' — the #top overflow-x-hidden root breaks fixed pins.
+ * Pin uses GSAP's default (native position:fixed), not pinType:'transform' —
+ * that override is only needed when an ancestor has a CSS transform (e.g. a
+ * Lenis wrapper running in virtual-scroll mode), which doesn't apply here;
+ * Lenis drives real window.scrollTo. Forcing 'transform' pinning makes GSAP
+ * recompute the pin position in JS on every scroll tick instead of letting
+ * the browser's compositor handle it for free — on mobile that's exactly
+ * what showed up as visible shake/stutter during fast scrolling.
  */
 import { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -78,20 +84,23 @@ export default function HeroBuilderScroll() {
   };
 
   // ── Size canvas to match display ─────────────────────────────────────────
-  // Only re-measure on an actual width change (orientation/breakpoint).
-  // Mobile browsers fire `resize` when the address bar shows/hides on
-  // scroll — resizing the canvas mid-scrub on those events is what made the
-  // hero visibly shake/jump while scrolling on mobile.
+  // Keeps the canvas bitmap in sync with its container, including when the
+  // container's height changes (e.g. 100svh recalculating as a mobile
+  // address bar shows/hides) — skipping that would leave the canvas frozen
+  // at a stale size and looking cut off / not full-screen.
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    let lastWidth = -1;
+    let lastW = -1;
+    let lastH = -1;
     const resize = () => {
       const w = canvas.offsetWidth;
-      if (w === lastWidth) return;
-      lastWidth = w;
+      const h = canvas.offsetHeight;
+      if (w === lastW && h === lastH) return;
+      lastW = w;
+      lastH = h;
       canvas.width  = w;
-      canvas.height = canvas.offsetHeight;
+      canvas.height = h;
       drawFrame(0);
     };
     resize();
@@ -132,7 +141,6 @@ export default function HeroBuilderScroll() {
         start: 'top top',
         end: `+=${SCROLL_VH * 100}%`,
         pin: true,
-        pinType: 'transform',
         anticipatePin: 1,
         scrub: 0.5,
         onUpdate(self) {
