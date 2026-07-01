@@ -17,6 +17,7 @@ import HeroBeforeAfter from './components/site/HeroBeforeAfter';
 
 // Code-split every route (brief §10).
 const Home = lazy(() => import('./pages/Home'));
+const HomeV2 = lazy(() => import('./pages/HomeV2'));
 const Websites = lazy(() => import('./pages/Websites'));
 const Systems = lazy(() => import('./pages/Systems'));
 const Hosting = lazy(() => import('./pages/Hosting'));
@@ -41,6 +42,7 @@ function AnimatedRoutes() {
     <AnimatePresence mode="wait" initial={false}>
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={t(<Home />)} />
+        <Route path="/home-v2" element={t(<HomeV2 />)} />
         <Route path="/websites" element={t(<Websites />)} />
         <Route path="/systems" element={t(<Systems />)} />
         <Route path="/hosting" element={t(<Hosting />)} />
