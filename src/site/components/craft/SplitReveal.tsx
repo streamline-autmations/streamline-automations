@@ -37,7 +37,7 @@ export default function SplitReveal({
   segments,
   as: Tag = 'h2',
   className = '',
-  serifClassName = 'text-site-accent',
+  serifClassName = 'font-instrument text-site-accent',
   trigger = 'inview',
   stagger = 0.07,
   delay = 0.05,
@@ -78,7 +78,8 @@ export default function SplitReveal({
         <Fragment key={token.key}>
           <span
             aria-hidden="true"
-            className="inline-block overflow-hidden align-top px-[0.05em] pb-[0.04em]"
+            className="inline-block overflow-hidden align-top pb-[0.04em]"
+            style={needsSpaceAfter(index) ? { marginRight: '0.25em' } : undefined}
           >
             <motion.span
               variants={word}
@@ -87,7 +88,6 @@ export default function SplitReveal({
               {token.word}
             </motion.span>
           </span>
-          {needsSpaceAfter(index) ? ' ' : null}
         </Fragment>
       ))}
     </MotionTag>

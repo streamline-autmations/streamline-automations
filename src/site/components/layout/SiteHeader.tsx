@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, type Variants } from 'framer-motion';
 import { EASE, EASE_ARR } from '../../lib/motion';
@@ -6,6 +6,11 @@ import { NAV_LINKS, CONTACT, PRIMARY_CTA } from '../../data/site';
 import { Magnetic } from '../craft/Magnetic';
 import RollText from '../craft/RollText';
 import Wordmark from '../craft/Wordmark';
+
+const SERVICE_LINKS = [
+  { href: '/websites', label: 'Websites', desc: 'Custom sites, fast' },
+  { href: '/systems', label: 'Systems', desc: 'Automation & dashboards' },
+] as const;
 
 function NavRoll({ to, label, active, dark }: { to: string; label: string; active: boolean; dark: boolean }) {
   return (
@@ -37,29 +42,102 @@ export default function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [overDark, setOverDark] = useState(false);
   const [open, setOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [heroLoading, setHeroLoading] = useState(
+    () => typeof document !== 'undefined' && document.documentElement.hasAttribute('data-hero-loading'),
+  );
+  // Hide-on-scroll-down / show-on-scroll-up, once the hero build is done.
+  const [scrollHidden, setScrollHidden] = useState(false);
+  const servicesRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
   const isActive = (href: string) =>
     href === '/' ? location.pathname === '/' : location.pathname.startsWith(href);
 
   useEffect(() => {
-    const probeY = 40;
-    const fn = () => {
-      setScrolled(window.scrollY > 40);
-      const dark = Array.from(document.querySelectorAll<HTMLElement>('[data-header-dark]')).some((el) => {
-        const r = el.getBoundingClientRect();
-        return r.top <= probeY && r.bottom >= probeY;
-      });
-      setOverDark(dark);
+    // Sentinel: 40px-tall div at document top. Leaving viewport = scrolled past 40px.
+    const sentinel = document.createElement('div');
+    sentinel.setAttribute('aria-hidden', 'true');
+    sentinel.style.cssText = 'position:absolute;top:0;left:0;height:40px;width:1px;pointer-events:none;visibility:hidden;z-index:-1';
+    document.body.prepend(sentinel);
+    const scrollObs = new IntersectionObserver(([entry]) => setScrolled(!entry.isIntersecting));
+    scrollObs.observe(sentinel);
+
+    // Probe zone: 1px slice at y=40 detects dark sections crossing the header.
+    const intersectingDark = new Set<Element>();
+    let darkObs: IntersectionObserver | null = null;
+
+    const setupDarkObs = () => {
+      darkObs?.disconnect();
+      intersectingDark.clear();
+      const bottomMargin = Math.max(window.innerHeight - 41, 0);
+      darkObs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) intersectingDark.add(e.target);
+            else intersectingDark.delete(e.target);
+          });
+          setOverDark(intersectingDark.size > 0);
+        },
+        { rootMargin: `-40px 0px -${bottomMargin}px 0px` },
+      );
+      document.querySelectorAll<HTMLElement>('[data-header-dark]').forEach((el) => darkObs!.observe(el));
     };
-    fn();
-    window.addEventListener('scroll', fn, { passive: true });
-    window.addEventListener('resize', fn);
+    setupDarkObs();
+
+    let resizeTimer: ReturnType<typeof setTimeout>;
+    const onResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(setupDarkObs, 200);
+    };
+    window.addEventListener('resize', onResize, { passive: true });
+
     return () => {
-      window.removeEventListener('scroll', fn);
-      window.removeEventListener('resize', fn);
+      scrollObs.disconnect();
+      darkObs?.disconnect();
+      intersectingDark.clear();
+      clearTimeout(resizeTimer);
+      sentinel.remove();
+      window.removeEventListener('resize', onResize);
     };
   }, [location]);
+
+  // Watch for data-hero-loading attribute set by HeroVideoScroll
+  useEffect(() => {
+    const obs = new MutationObserver(() => {
+      setHeroLoading(document.documentElement.hasAttribute('data-hero-loading'));
+    });
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-hero-loading'] });
+    setHeroLoading(document.documentElement.hasAttribute('data-hero-loading'));
+    return () => obs.disconnect();
+  }, []);
+
+  // Hide the header once the user scrolls down, reveal it on scroll up.
+  // Stays hidden entirely while the hero build is still playing.
+  useEffect(() => {
+    if (heroLoading) {
+      setScrollHidden(false);
+      return;
+    }
+    let lastY = window.scrollY;
+    let ticking = false;
+    const TOP_ZONE = 80; // always show near the very top of the page
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        const delta = y - lastY;
+        if (y < TOP_ZONE) setScrollHidden(false);
+        else if (delta > 4) setScrollHidden(true);
+        else if (delta < -4) setScrollHidden(false);
+        lastY = y;
+        ticking = false;
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [heroLoading]);
 
   useEffect(() => {
     setOpen(false);
@@ -81,7 +159,15 @@ export default function SiteHeader() {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-[1000] flex items-center justify-between px-6 py-[18px] md:px-10">
+    <header
+      className={`fixed inset-x-0 top-0 z-[1000] flex items-center justify-between px-6 py-[18px] transition-[opacity,transform] duration-300 md:px-10 ${
+        heroLoading
+          ? 'pointer-events-none opacity-0'
+          : scrollHidden
+          ? 'pointer-events-none -translate-y-full opacity-0'
+          : 'translate-y-0 opacity-100'
+      }`}
+    >
       <div
         aria-hidden="true"
         className={`absolute inset-0 -z-10 border-b transition-[opacity,background-color,border-color] duration-500 ${
@@ -103,6 +189,72 @@ export default function SiteHeader() {
       </Magnetic>
 
       <nav className="hidden items-center gap-9 md:flex">
+        {/* Services dropdown */}
+        <div
+          ref={servicesRef}
+          className="relative"
+          onMouseEnter={() => setServicesOpen(true)}
+          onMouseLeave={() => setServicesOpen(false)}
+        >
+          <button
+            type="button"
+            data-cursor="link"
+            aria-haspopup="true"
+            aria-expanded={servicesOpen}
+            className={`group inline-flex min-h-[44px] items-center gap-1 text-[15px] font-medium outline-none transition-colors duration-300 ${
+              isActive('/websites') || isActive('/systems')
+                ? 'text-site-accent'
+                : overDark
+                ? 'text-white'
+                : 'text-site-ink'
+            }`}
+          >
+            <RollText>Services</RollText>
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 12 12"
+              className={`h-3 w-3 shrink-0 transition-transform duration-300 ${servicesOpen ? 'rotate-180' : ''}`}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M2 4l4 4 4-4" />
+            </svg>
+          </button>
+
+          <AnimatePresence>
+            {servicesOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: 8, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 8, scale: 0.97 }}
+                transition={{ duration: 0.18, ease: EASE_ARR }}
+                className="absolute left-0 top-full z-50 pt-3"
+              >
+                <div className="min-w-[220px] overflow-hidden rounded-2xl border border-site-line bg-white p-2 shadow-[0_12px_40px_-8px_rgba(0,0,0,0.12)]">
+                  {SERVICE_LINKS.map((link) => (
+                    <Link
+                      key={link.href}
+                      to={link.href}
+                      data-cursor="link"
+                      className={`flex min-h-[52px] flex-col justify-center rounded-xl px-4 py-2.5 outline-none transition-colors duration-200 hover:bg-site-surface focus-visible:bg-site-surface ${
+                        isActive(link.href) ? 'bg-site-surface' : ''
+                      }`}
+                    >
+                      <span className={`text-[14px] font-semibold leading-none ${isActive(link.href) ? 'text-site-accent' : 'text-site-ink'}`}>
+                        {link.label}
+                      </span>
+                      <span className="mt-1 text-[12px] text-site-text-secondary">{link.desc}</span>
+                    </Link>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
         {NAV_LINKS.map((link) => (
           <NavRoll key={link.href} to={link.href} label={link.label} active={isActive(link.href)} dark={overDark} />
         ))}
@@ -160,7 +312,7 @@ export default function SiteHeader() {
               <span className="mb-4 font-mono text-[11px] uppercase tracking-[0.22em] text-site-text-muted">
                 Menu
               </span>
-              {NAV_LINKS.map((l, i) => (
+              {[...SERVICE_LINKS, ...NAV_LINKS].map((l, i) => (
                 <span key={l.href} className="overflow-hidden">
                   <motion.span variants={overlayItem} className="block">
                     <Link

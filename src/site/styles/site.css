@@ -19,13 +19,13 @@
   color: #ffffff;
 }
 
-/* One font, site-wide: any lingering serif/italic accent renders as DM Sans
-   (hierarchy comes from size + weight + colour, not a second typeface). */
+/* Surgical italic accent word, per the Streamline brand system. */
 .site-root .font-serif,
 .site-root .font-instrument {
-  font-family: 'DM Sans', system-ui, sans-serif;
-  font-style: normal;
-  letter-spacing: -0.01em;
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.015em;
 }
 
 /* ── Dot + ring custom cursor (craft/Cursor.tsx) ──────────────────
@@ -124,21 +124,6 @@ body.sc-cur-drag .sc-cur-dot { opacity: 0; }
 }
 .sc-logo-rail::-webkit-scrollbar {
   display: none;
-}
-
-/* ── Contact orb rotating text ring (craft/ContactOrb.tsx) ──────── */
-@keyframes scOrbSpin {
-  to { transform: rotate(360deg); }
-}
-.sc-orb-spin {
-  animation: scOrbSpin 18s linear infinite;
-  transform-origin: 50% 50%;
-}
-.group:hover .sc-orb-spin {
-  animation-duration: 7s;
-}
-@media (prefers-reduced-motion: reduce) {
-  .sc-orb-spin { animation: none; }
 }
 
 /* ── Pre-footer living blooms (craft/PreFooterCTA.tsx) ──────────── */

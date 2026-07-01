@@ -111,7 +111,13 @@ export default function SiteFooter() {
           </motion.div>
         </div>
 
-        <div className="mt-[clamp(56px,8vh,90px)] flex flex-col gap-8 border-t border-white/10 pt-[36px] md:flex-row md:items-center md:justify-between">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          className="mt-[clamp(56px,8vh,90px)] flex flex-col gap-8 border-t border-white/10 pt-[36px] md:flex-row md:items-center md:justify-between"
+        >
           {/* Social icons */}
           <div className="flex flex-wrap items-center gap-4">
             <SocialIcon href={SOCIALS.instagram} label="Instagram" Icon={FaInstagram} />
@@ -133,7 +139,7 @@ export default function SiteFooter() {
               <span>Built in the Vaal Triangle, SA</span>
             </span>
           </div>
-        </div>
+        </motion.div>
       </div>
     </footer>
   );

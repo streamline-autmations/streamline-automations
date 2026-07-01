@@ -22,7 +22,7 @@ export default function CookieConsent() {
     try {
       if (!localStorage.getItem(STORAGE_KEY)) setVisible(true);
     } catch {
-      /* storage blocked — don't nag */
+      /* storage blocked - don't nag */
     }
   }, []);
 
@@ -68,13 +68,13 @@ export default function CookieConsent() {
       <div className="flex flex-col gap-3">
         <p className="font-['DM_Sans'] text-[13px] leading-[1.5] text-[#3D3D47]">
           I use cookies for analytics to understand how the site is used. You can accept or
-          decline — declining keeps only what's essential.{' '}
+          decline - declining keeps only what's essential.{' '}
           <Link to="/privacy" className="font-medium text-[#7B3FE4] underline-offset-2 hover:underline">
             Privacy policy
           </Link>
           .
         </p>
-        <div className="flex flex-shrink-0 gap-3">
+        <div className="flex gap-2.5">
           <button
             onClick={() => decide(false)}
             className="min-h-[44px] flex-1 rounded-full border border-[#E8E8EC] bg-white px-5 py-2.5 text-[14px] font-semibold text-[#0A0A0F] transition-colors duration-200 hover:border-[#D4D4DA]"

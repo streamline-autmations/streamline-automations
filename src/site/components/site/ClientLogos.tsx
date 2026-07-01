@@ -1,86 +1,94 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState, type CSSProperties } from 'react';
 import { motion } from 'framer-motion';
 import { EASE_ARR } from '../../lib/motion';
 
-// Real client logos only (already optimised webp in /public/assets/clients).
-const LOGOS = [
-  { name: 'BLOM Cosmetics', src: '/assets/clients/blom/logo.webp' },
-  { name: 'RecklessBear Apparel', src: '/assets/clients/recklessbear/logo-word.webp' },
-  { name: 'CW Electronics', src: '/assets/clients/cw-electronics/logo.webp' },
-  { name: 'Ameli Designs', src: '/assets/clients/ameli/logo.webp' },
-  { name: 'JJ Glasswork', src: '/assets/clients/jj-glass/logo.webp' },
+type LogoItem = { type: 'image'; name: string; src: string };
+type TextItem = { type: 'text'; name: string; color: string };
+type ClientItem = LogoItem | TextItem;
+
+const CLIENTS: ClientItem[] = [
+  { type: 'image', name: 'BLOM Cosmetics',       src: '/assets/clients/blom/logo.webp' },
+  { type: 'image', name: 'RecklessBear Apparel', src: '/assets/clients/recklessbear/logo-word.webp' },
+  { type: 'image', name: 'CW Electronics',       src: '/assets/clients/cw-electronics/logo.webp' },
+  { type: 'image', name: 'Ameli Designs',        src: '/assets/clients/ameli/logo.webp' },
+  { type: 'image', name: 'JJ Glasswork',         src: '/assets/clients/jj-glass/logo.webp' },
+  { type: 'image', name: 'NSA Mining',           src: '/assets/clients/nsa-mining/logo.jpg' },
+  { type: 'text',  name: 'TUSCANY SA',    color: '#A07244' }, // warm amber — Italian hospitality
+  { type: 'text',  name: 'AFRICAN NOMAD', color: '#5C8C6A' }, // sage green — earthy/nature
 ];
 
-/**
- * ClientLogos — the trust bar directly under the hero. Greyscale at rest,
- * full colour on hover; quiet by design so the hero keeps the stage.
- */
-export default function ClientLogos() {
-  const [activeLogo, setActiveLogo] = useState<string | null>(null);
-  const clearTimer = useRef<number | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (clearTimer.current) window.clearTimeout(clearTimer.current);
-    };
-  }, []);
-
-  const activateLogo = (name: string) => {
-    setActiveLogo(name);
-    if (clearTimer.current) window.clearTimeout(clearTimer.current);
-    clearTimer.current = window.setTimeout(() => setActiveLogo(null), 900);
-  };
+function ClientItem({ item }: { item: ClientItem }) {
+  if (item.type === 'image') {
+    return (
+      <div className="group flex h-10 shrink-0 cursor-default items-center">
+        <img
+          src={item.src}
+          alt={item.name}
+          loading="lazy"
+          decoding="async"
+          draggable={false}
+          className="h-full w-auto max-w-[130px] select-none object-contain grayscale opacity-[0.45] transition-all duration-300 ease-brand group-hover:grayscale-0 group-hover:opacity-100"
+        />
+      </div>
+    );
+  }
 
   return (
-    <section className="border-t border-site-line bg-white px-6 py-12 md:px-10 md:py-14">
-      <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-8 md:flex-row md:justify-between md:gap-12">
-        <motion.span
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.5, ease: EASE_ARR }}
-          className="shrink-0 font-mono text-[11px] uppercase tracking-[0.22em] text-site-text-muted"
-        >
-          Trusted by real SA businesses
-        </motion.span>
+    <div className="group flex h-10 shrink-0 cursor-default items-center">
+      <span
+        className="select-none whitespace-nowrap font-sans text-[13px] font-semibold uppercase tracking-[0.12em] text-site-text-muted transition-colors duration-300 ease-brand group-hover:text-[--logo-hover]"
+        style={{ '--logo-hover': item.color } as CSSProperties}
+      >
+        {item.name}
+      </span>
+    </div>
+  );
+}
 
+/** Two identical sets for the seamless -50% loop. */
+function TrackSet() {
+  return (
+    <div className="flex shrink-0 items-center gap-12 pr-12" aria-hidden>
+      {CLIENTS.map((item, i) => (
+        <ClientItem key={i} item={item} />
+      ))}
+    </div>
+  );
+}
+
+/**
+ * ClientLogos — continuous marquee trust strip on all screen sizes.
+ * Pauses on hover. Respects prefers-reduced-motion (animation stops via CSS).
+ */
+export default function ClientLogos() {
+  const [paused, setPaused] = useState(false);
+
+  return (
+    <section className="border-t border-site-line bg-white py-16">
+      {/* Marquee — all screen sizes */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, margin: '-40px' }}
+        transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.1 }}
+        className="overflow-hidden"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+      >
         <div
-          className="sc-logo-rail -mx-6 flex w-screen snap-x snap-mandatory items-center gap-3 overflow-x-auto px-6 pb-2 md:mx-0 md:w-auto md:flex-wrap md:justify-end md:gap-x-8 md:gap-y-6 md:overflow-visible md:px-0 md:pb-0"
+          className="sc-marquee-track flex w-max items-center"
+          style={
+            {
+              '--marquee-dur': '42s',
+              animationPlayState: paused ? 'paused' : 'running',
+            } as CSSProperties
+          }
           aria-label="Client logos"
         >
-          {LOGOS.map((l, i) => (
-            <motion.button
-              key={l.name}
-              type="button"
-              aria-label={`${l.name} project logo`}
-              onClick={() => activateLogo(l.name)}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              whileTap={{ scale: 0.96 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.5, ease: EASE_ARR, delay: 0.06 * i }}
-              className={`group flex min-h-[56px] shrink-0 snap-center items-center justify-center rounded-2xl border px-5 outline-none transition-[border-color,box-shadow,background-color,transform] duration-300 ease-brand focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-offset-2 md:min-h-[44px] md:border-transparent md:px-0 ${
-                activeLogo === l.name
-                  ? 'border-site-accent bg-site-accent-soft shadow-[0_18px_40px_-24px_rgba(123,63,228,0.85)]'
-                  : 'border-site-line bg-white'
-              }`}
-            >
-              <img
-                src={l.src}
-                alt={l.name}
-                loading="lazy"
-                decoding="async"
-                draggable={false}
-                className={`h-8 w-auto max-w-[128px] select-none object-contain transition-[opacity,filter,transform] duration-300 ease-brand md:h-7 md:max-w-[150px] ${
-                  activeLogo === l.name
-                    ? 'scale-[1.02] opacity-100 grayscale-0'
-                    : 'opacity-60 grayscale group-hover:opacity-100 group-hover:grayscale-0'
-                }`}
-              />
-            </motion.button>
-          ))}
+          <TrackSet />
+          <TrackSet />
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

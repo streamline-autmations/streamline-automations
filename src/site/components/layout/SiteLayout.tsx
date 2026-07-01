@@ -1,6 +1,7 @@
 import { useEffect, type ReactNode } from 'react';
 import SiteHeader from './SiteHeader';
 import SiteFooter from './SiteFooter';
+import Cursor from '../craft/Cursor';
 
 /**
  * SiteLayout — persistent chrome for the v2 app: header, animated page content,
@@ -28,6 +29,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
 
   return (
     <div className="site-root flex min-h-[100svh] flex-col bg-white">
+      <Cursor />
       <SiteHeader />
       <main className="flex-1">{children}</main>
       <SiteFooter />

@@ -18,6 +18,11 @@ import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(ScrollTrigger, SplitText, CustomEase, useGSAP);
 
+// Mobile browsers resize the viewport (and fire `resize`) when the address
+// bar shows/hides on scroll. Without this, every pinned ScrollTrigger
+// recalculates mid-scroll and the pinned section visibly jumps/shakes.
+ScrollTrigger.config({ ignoreMobileResize: true });
+
 // Brand easing — the exact cubic-bezier(0.22, 1, 0.36, 1) used across the site,
 // registered once so any GSAP tween can reference it by name: `ease: 'brand'`.
 // (Control points map directly to the SVG path below.)

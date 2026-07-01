@@ -5,6 +5,7 @@ import { gsap, useGSAP } from '../../../../lib/gsap-setup';
 import MagneticCTA from '../../ui/MagneticCTA';
 import usePrefersReducedMotion from '../../../../hooks/usePrefersReducedMotion';
 import useScrollToHash from './useScrollToHash';
+import LiquidGradient from '../../ui/LiquidGradient';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -172,30 +173,15 @@ export default function HeroPortal() {
       data-screen-label="Hero"
       className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden [--progress:0]"
     >
-      {/* ── Atmosphere (E): drifting gradient mesh + grain + glow orbs ── */}
-      <div aria-hidden="true" className="gradient-mesh" />
-      <div aria-hidden="true" className="grain-layer" />
+      {/* ── Atmosphere: mesh gradient + grain overlay ── */}
+      <LiquidGradient />
+      <div aria-hidden="true" className="grain-layer" style={{ zIndex: 3 }} />
 
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0">
-        <motion.div
-          className="absolute -left-[6%] top-[8%] h-[560px] w-[560px] rounded-full blur-[70px]"
-          style={{ background: 'radial-gradient(circle, rgba(123,63,228,0.18), transparent 65%)' }}
-          animate={reduced ? undefined : { x: [0, 40, 0], y: [0, 30, 0] }}
-          transition={{ duration: 18, ease: 'easeInOut', repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute -right-[8%] bottom-[6%] h-[620px] w-[620px] rounded-full blur-[80px]"
-          style={{ background: 'radial-gradient(circle, rgba(168,72,206,0.17), transparent 65%)' }}
-          animate={reduced ? undefined : { x: [0, -36, 0], y: [0, -28, 0] }}
-          transition={{ duration: 22, ease: 'easeInOut', repeat: Infinity }}
-        />
-      </div>
-
-      {/* cursor-tracked glow */}
+      {/* cursor-tracked glow — sits above gradient + grain */}
       <motion.div
         aria-hidden="true"
         style={{ x: sx, y: sy }}
-        className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-[900px] w-[900px] -translate-x-1/2 -translate-y-1/2"
+        className="pointer-events-none absolute left-1/2 top-1/2 z-[4] h-[900px] w-[900px] -translate-x-1/2 -translate-y-1/2"
       >
         <div
           className="h-full w-full"

@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import SplitReveal from '../components/craft/SplitReveal';
+import SystemsHeroScroll from '../components/site/SystemsHeroScroll';
 import WorkCard from '../components/craft/WorkCard';
 import PreFooterCTA from '../components/craft/PreFooterCTA';
 import FillButton from '../components/craft/FillButton';
@@ -39,58 +39,8 @@ const FLOW: { n: string; title: string; line: string }[] = [
 export default function Systems() {
   return (
     <>
-      {/* HERO — white */}
-      <section className="flex min-h-[100svh] items-center px-6 pt-32 pb-24 md:px-10">
-        <div className="mx-auto w-full max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: EASE_ARR }}
-            className="mb-7"
-          >
-            <Tag variant="outline">Systems & Automation</Tag>
-          </motion.div>
-
-          <SplitReveal
-            as="h1"
-            trigger="mount"
-            segments={[
-              { text: 'Stop doing it by' },
-              { text: 'hand', serif: true },
-              { text: 'build the system once.' },
-            ]}
-            className="max-w-5xl text-[clamp(44px,8vw,104px)] font-semibold leading-[0.98] tracking-[-0.02em] text-site-ink"
-          />
-
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.5 }}
-            className="mt-8 max-w-xl text-[17px] leading-[1.65] text-site-text-body"
-          >
-            Custom CRMs, admin dashboards, WhatsApp automation and n8n workflows that do the
-            repetitive work for you. Usually 5–14 days.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.6 }}
-            className="mt-10 flex flex-wrap items-center gap-6"
-          >
-            <FillButton to="/contact" variant="ink">
-              Book a Free Call
-            </FillButton>
-            <Link
-              to="/portfolio"
-              data-cursor="link"
-              className="inline-flex min-h-[44px] items-center text-[15px] font-medium text-site-ink underline-offset-4 outline-none hover:underline focus-visible:text-site-accent focus-visible:underline"
-            >
-              See the work →
-            </Link>
-          </motion.div>
-        </div>
-      </section>
+      {/* HERO — scroll sequence */}
+      <SystemsHeroScroll />
 
       {/* WHAT I BUILD — ink */}
       <Panel bg="ink" className="px-6 py-24 md:px-10 md:py-32">

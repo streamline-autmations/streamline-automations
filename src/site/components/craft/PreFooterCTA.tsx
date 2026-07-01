@@ -14,18 +14,27 @@ import { CONTACT, PRIMARY_CTA } from '../../data/site';
  * the CSS gradient blooms carry the backdrop.
  */
 export default function PreFooterCTA({
-  headline = [{ text: 'Have an' }, { text: 'idea?', serif: true }],
+  headline = [{ text: 'Have an' }, { text: 'idea?' }],
   sub = "Tell me what you're building. No pitch, no pressure — just a plan.",
 }: {
   headline?: { text: string; serif?: boolean }[];
   sub?: string;
 }) {
   return (
-    <section data-header-dark="" className="relative flex min-h-[78svh] flex-col items-center justify-center overflow-hidden rounded-t-[2.5rem] bg-site-ink py-28 text-white md:rounded-t-[4.5rem] md:py-32">
-      {/* Living gradient backdrop (transform-only drift) — also the no-WebGL fallback. */}
+    <section data-header-dark="" className="relative z-[1] -mt-[2rem] flex min-h-[78svh] flex-col items-center justify-center overflow-hidden rounded-t-[2.5rem] bg-site-ink py-28 text-white md:-mt-[4rem] md:rounded-t-[4.5rem] md:py-32">
+      {/* AI-generated electric network background */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="sc-bloom-a absolute -top-40 left-[18%] h-[560px] w-[560px] rounded-full bg-site-accent opacity-[0.16] blur-[150px]" />
-        <div className="sc-bloom-b absolute -bottom-44 right-[16%] h-[480px] w-[480px] rounded-full bg-[#5b2bd6] opacity-[0.12] blur-[150px]" />
+        <img
+          src="/assets/prefooter-bg.png"
+          alt=""
+          className="h-full w-full object-cover opacity-60"
+          loading="lazy"
+          draggable={false}
+        />
+        {/* Dark radial overlay so text stays readable */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(10,10,15,0.45)_0%,rgba(10,10,15,0.75)_100%)]" />
+        {/* Bottom fade — blends into the footer's bg-site-ink with no hard edge */}
+        <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-[#0A0A0F] via-[rgba(10,10,15,0.7)] to-transparent" />
       </div>
 
       {/* The Engine — enquiries flow in, bookings flow out. The orb rides the
