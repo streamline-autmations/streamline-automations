@@ -42,7 +42,7 @@ const FRAME_SRCS = Array.from({ length: TOTAL_FRAMES }, (_, i) => frameSrc(i + 1
 //   2. BLACK_HOLD_VH  — pure black, nothing happens, a breathing gap
 //   3. REVEAL_VH      — hero copy + nav fade in
 const FRAME_VH      = IS_MOBILE ? 5   : 7.5;
-const BLACK_HOLD_VH = IS_MOBILE ? 2   : 3;
+const BLACK_HOLD_VH = IS_MOBILE ? 1   : 1.5;
 const REVEAL_VH     = IS_MOBILE ? 1.5 : 2;
 const SCROLL_VH = FRAME_VH + BLACK_HOLD_VH + REVEAL_VH;
 
