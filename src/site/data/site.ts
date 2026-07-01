@@ -135,31 +135,16 @@ export const PACKAGES = [
   },
 ] as const;
 
-export const MAINTENANCE_PLANS = [
-  {
-    name: 'Essential',
-    price: 'R499/month',
-    description: 'Hosting checks, small updates, backups and basic support.',
-    popular: false,
-  },
-  {
-    name: 'Growth',
-    price: 'R1,199/month',
-    description: 'Faster content changes, priority fixes and light system improvements.',
-    popular: true,
-  },
-  {
-    name: 'Partner',
-    price: 'R2,499/month or custom',
-    description: 'Hands-on support for sites, dashboards, automations and ongoing improvements.',
-    popular: false,
-  },
-] as const;
+export const MAINTENANCE_PLANS = {
+  floor: 'From R499/month',
+  description:
+    'Hosting checks, updates, backups and support — scoped to your site once it\'s live. Tell me what you need and I\'ll put together a plan.',
+} as const;
 
 export const RENT_TO_OWN = {
   title: 'Rent-to-own is still available',
-  note: 'No upfront build fee. Pay monthly. Own the site after 18 months.',
-  plans: ['Starter from R699/month', 'Business from R1,099/month', 'Pro from R1,799/month'],
+  note: 'No upfront build fee. Pay monthly. Own the site outright after 18 months.',
+  floor: 'From R699/month',
 } as const;
 
 export type ProjectMedia = {

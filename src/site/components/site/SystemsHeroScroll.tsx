@@ -32,6 +32,12 @@ export default function SystemsHeroScroll() {
   const wrapRef   = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const textRef   = useRef<HTMLDivElement>(null);
+  const eyebrowRef = useRef<HTMLParagraphElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const bodyRef    = useRef<HTMLParagraphElement>(null);
+  const ctaRef     = useRef<HTMLDivElement>(null);
+  const cascadeRefs = [eyebrowRef, headingRef, bodyRef, ctaRef];
+  const CASCADE_STAGGER = 0.14;
   const frames    = useRef<HTMLImageElement[]>([]);
   const reduced   = usePrefersReducedMotion();
   const [progress, setProgress] = useState(0);
@@ -52,6 +58,18 @@ export default function SystemsHeroScroll() {
       frames.current[idx] = img;
     });
   }, []);
+
+  const applyCascade = (t: number) => {
+    const n = cascadeRefs.length;
+    cascadeRefs.forEach((ref, i) => {
+      const el = ref.current;
+      if (!el) return;
+      const span = 1 - (n - 1) * CASCADE_STAGGER;
+      const local = Math.min(1, Math.max(0, (t - i * CASCADE_STAGGER) / span));
+      el.style.opacity = String(local);
+      el.style.transform = `translateY(${(1 - local) * 18}px)`;
+    });
+  };
 
   const drawFrame = (index: number) => {
     const canvas = canvasRef.current;
@@ -84,7 +102,7 @@ export default function SystemsHeroScroll() {
       if (!ready) return;
       if (reduced) {
         drawFrame(TOTAL_FRAMES - 1);
-        if (textRef.current) { textRef.current.style.opacity = '1'; textRef.current.style.transform = 'none'; }
+        applyCascade(1);
         return;
       }
       ScrollTrigger.create({
@@ -96,11 +114,8 @@ export default function SystemsHeroScroll() {
         scrub: 0.5,
         onUpdate(self) {
           drawFrame(Math.round(self.progress * (TOTAL_FRAMES - 1)));
-          if (textRef.current) {
-            const t = Math.max(0, (self.progress - 0.82) / 0.18);
-            textRef.current.style.opacity = String(t);
-            textRef.current.style.transform = `translateY(${(1 - t) * 22}px)`;
-          }
+          const t = Math.max(0, (self.progress - 0.82) / 0.18);
+          applyCascade(t);
         },
       });
     },
@@ -127,23 +142,38 @@ export default function SystemsHeroScroll() {
         style={{ background: 'linear-gradient(to top, rgba(10,10,15,0.98) 0%, rgba(10,10,15,0.6) 40%, transparent 100%)' }}
       />
 
-      {/* Hero copy */}
+      {/* Hero copy — cascades in, element by element */}
       <div
         ref={textRef}
         className="absolute inset-x-0 bottom-0 flex flex-col items-start px-6 pb-20 md:px-16 lg:px-24"
-        style={{ opacity: reduced ? 1 : 0, transform: reduced ? 'none' : 'translateY(22px)' }}
       >
-        <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.22em] text-[#9E9EA8]">
+        <p
+          ref={eyebrowRef}
+          className="mb-4 font-mono text-[11px] uppercase tracking-[0.22em] text-[#9E9EA8]"
+          style={{ opacity: reduced ? 1 : 0, transform: reduced ? 'none' : 'translateY(18px)' }}
+        >
           Systems &amp; Automation
         </p>
-        <h1 className="max-w-[16ch] text-[clamp(36px,5.5vw,76px)] font-semibold leading-[1.02] tracking-[-0.03em] text-[#F5F5F7]">
+        <h1
+          ref={headingRef}
+          className="max-w-[16ch] text-[clamp(36px,5.5vw,76px)] font-semibold leading-[1.02] tracking-[-0.03em] text-[#F5F5F7]"
+          style={{ opacity: reduced ? 1 : 0, transform: reduced ? 'none' : 'translateY(18px)' }}
+        >
           Stop doing it by hand.{' '}
           <em className="not-italic text-[#7B3FE4]">Build the system</em> once.
         </h1>
-        <p className="mt-5 max-w-[40ch] text-[16px] leading-[1.65] text-[#9E9EA8]">
+        <p
+          ref={bodyRef}
+          className="mt-5 max-w-[40ch] text-[16px] leading-[1.65] text-[#9E9EA8]"
+          style={{ opacity: reduced ? 1 : 0, transform: reduced ? 'none' : 'translateY(18px)' }}
+        >
           Custom CRMs, WhatsApp automation and n8n workflows that handle the repetitive work. Usually 5-14 days.
         </p>
-        <div className="mt-8 flex flex-wrap items-center gap-4">
+        <div
+          ref={ctaRef}
+          className="mt-8 flex flex-wrap items-center gap-4"
+          style={{ opacity: reduced ? 1 : 0, transform: reduced ? 'none' : 'translateY(18px)' }}
+        >
           <Link
             to="/contact"
             className="inline-flex min-h-[48px] items-center rounded-full bg-[#7B3FE4] px-8 text-[15px] font-semibold text-white transition-colors duration-300 hover:bg-[#6930D0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7B3FE4] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0F]"

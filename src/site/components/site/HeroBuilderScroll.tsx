@@ -54,21 +54,56 @@ const TEXT_REVEAL_RANGE  = REVEAL_VH / SCROLL_VH;
 // a huge/violent scroll or flick — enforced via a hard rate cap, see below.
 const SCRUB_SECONDS = 3.5;
 
+// Once a visitor has scrolled all the way through the build-up in this tab,
+// re-mounting the hero (nav to another page and back) shouldn't replay it —
+// they land straight on the finished hero copy, on real black, with no
+// canvas/frame flash first. Scrolling up still scrubs the sequence in
+// reverse; this only changes what greets them on arrival.
+const HERO_SEEN_KEY = 'sa-hero-seen';
+const heroAlreadySeen = () => {
+  try {
+    return typeof window !== 'undefined' && sessionStorage.getItem(HERO_SEEN_KEY) === '1';
+  } catch {
+    return false;
+  }
+};
+const markHeroSeen = () => {
+  try {
+    sessionStorage.setItem(HERO_SEEN_KEY, '1');
+  } catch {
+    /* private-mode storage denial — non-fatal, just replays next time */
+  }
+};
+
 export default function HeroBuilderScroll() {
-  const wrapRef   = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const textRef   = useRef<HTMLDivElement>(null);
-  const frames    = useRef<HTMLImageElement[]>([]);
-  const loaded    = useRef(0);
-  const reduced   = usePrefersReducedMotion();
+  const wrapRef    = useRef<HTMLDivElement>(null);
+  const canvasRef  = useRef<HTMLCanvasElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const textRef    = useRef<HTMLDivElement>(null);
+  // Cascaded reveal — eyebrow, heading, paragraph and CTAs rise in one after
+  // another (same masked-rise language as SplitReveal) instead of the whole
+  // block moving as one flat unit.
+  const eyebrowRef = useRef<HTMLParagraphElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const bodyRef    = useRef<HTMLParagraphElement>(null);
+  const ctaRef     = useRef<HTMLDivElement>(null);
+  const cascadeRefs = [eyebrowRef, headingRef, bodyRef, ctaRef];
+  const CASCADE_STAGGER = 0.14;
+  const frames     = useRef<HTMLImageElement[]>([]);
+  const loaded     = useRef(0);
+  const reduced    = usePrefersReducedMotion();
   const [progress, setProgress] = useState(0); // 0–100 load progress
   const [ready,    setReady]    = useState(false);
+  const [skipIntro] = useState(heroAlreadySeen);
 
   // ── Hide nav during the build-up phase ───────────────────────────────────
+  // Skipped entirely on a repeat visit this session — the nav should just be
+  // there, not hidden-then-revealed for a sequence that isn't going to play.
   useEffect(() => {
+    if (skipIntro) return;
     document.documentElement.setAttribute('data-hero-loading', 'true');
     return () => document.documentElement.removeAttribute('data-hero-loading');
-  }, []);
+  }, [skipIntro]);
 
   // ── Preload all frames ────────────────────────────────────────────────────
   useEffect(() => {
@@ -88,6 +123,19 @@ export default function HeroBuilderScroll() {
       frames.current[idx] = img;
     });
   }, []);
+
+  // ── Cascaded text reveal — each element gets its own slice of `t` ────────
+  const applyCascade = (t: number) => {
+    const n = cascadeRefs.length;
+    cascadeRefs.forEach((ref, i) => {
+      const el = ref.current;
+      if (!el) return;
+      const span = 1 - (n - 1) * CASCADE_STAGGER;
+      const local = Math.min(1, Math.max(0, (t - i * CASCADE_STAGGER) / span));
+      el.style.opacity = String(local);
+      el.style.transform = `translateY(${(1 - local) * 18}px)`;
+    });
+  };
 
   // ── Draw a single frame to canvas ────────────────────────────────────────
   const drawFrame = (index: number) => {
@@ -126,8 +174,8 @@ export default function HeroBuilderScroll() {
 
   // ── Draw first frame once loaded ──────────────────────────────────────────
   useEffect(() => {
-    if (ready) drawFrame(reduced ? TOTAL_FRAMES - 1 : 0);
-  }, [ready, reduced]);
+    if (ready) drawFrame(reduced || skipIntro ? TOTAL_FRAMES - 1 : 0);
+  }, [ready, reduced, skipIntro]);
 
   // ── GSAP scroll scrub ────────────────────────────────────────────────────
   useGSAP(
@@ -150,10 +198,9 @@ export default function HeroBuilderScroll() {
         // Show end frame + text + nav instantly
         document.documentElement.removeAttribute('data-hero-loading');
         drawFrame(TOTAL_FRAMES - 1);
-        if (textRef.current) {
-          textRef.current.style.opacity = '1';
-          textRef.current.style.transform = 'none';
-        }
+        if (overlayRef.current) overlayRef.current.style.opacity = '1';
+        applyCascade(1);
+        markHeroSeen();
         return;
       }
 
@@ -178,9 +225,21 @@ export default function HeroBuilderScroll() {
         anticipatePin: 1,
       });
 
-      let displayed = 0;
-      let lastFrame = -1;
+      // Repeat visit this session — arrive already past the build-up instead
+      // of replaying it. The pin/scrub itself stays fully intact (scrolling
+      // back up still scrubs the sequence in reverse); this only sets the
+      // starting scroll position and initial paint to "already revealed".
+      let displayed = skipIntro ? 1 : 0;
+      let lastFrame = skipIntro ? TOTAL_FRAMES - 1 : -1;
+      if (skipIntro) {
+        drawFrame(TOTAL_FRAMES - 1);
+        if (overlayRef.current) overlayRef.current.style.opacity = '1';
+        applyCascade(1);
+        document.documentElement.removeAttribute('data-hero-loading');
+        window.scrollTo(0, trigger.end);
+      }
       let lastTime = performance.now();
+      let seenMarked = skipIntro;
 
       const onTick = () => {
         const now = performance.now();
@@ -202,6 +261,26 @@ export default function HeroBuilderScroll() {
           drawFrame(targetFrame);
         }
 
+        // A solid ink overlay fades in over the black-hold gap and stays up
+        // through the reveal — masks any JPEG-compression noise in the
+        // sequence's "faded to black" end frames so the cut to the hero copy
+        // reads as a clean break on true black, not a hold on a slightly-off
+        // dark frame with the copy fading in on top of it.
+        if (overlayRef.current) {
+          const holdRange = TEXT_REVEAL_START - FRAME_END_FRACTION;
+          const o = holdRange > 0
+            ? Math.min(1, Math.max(0, (displayed - FRAME_END_FRACTION) / holdRange))
+            : displayed >= FRAME_END_FRACTION ? 1 : 0;
+          overlayRef.current.style.opacity = String(o);
+        }
+
+        // Once the visitor has scrolled all the way past the reveal, skip
+        // the build-up on their next visit to this hero this session.
+        if (!seenMarked && target >= 0.98) {
+          seenMarked = true;
+          markHeroSeen();
+        }
+
         // Gate the nav on the real scroll position (target), not the
         // rate-capped `displayed` value — otherwise a fast scroll/flick past
         // the hero leaves the header invisible and un-clickable for the next
@@ -214,11 +293,8 @@ export default function HeroBuilderScroll() {
         }
 
         // Text fades in only after the wordmark has faded to black
-        if (textRef.current) {
-          const t = Math.min(1, Math.max(0, (displayed - TEXT_REVEAL_START) / TEXT_REVEAL_RANGE));
-          textRef.current.style.opacity = String(t);
-          textRef.current.style.transform = `translateY(${(1 - t) * 22}px)`;
-        }
+        const t = Math.min(1, Math.max(0, (displayed - TEXT_REVEAL_START) / TEXT_REVEAL_RANGE));
+        applyCascade(t);
       };
 
       gsap.ticker.add(onTick);
@@ -228,7 +304,7 @@ export default function HeroBuilderScroll() {
         trigger.kill();
       };
     },
-    { scope: wrapRef, dependencies: [reduced] },
+    { scope: wrapRef, dependencies: [reduced, skipIntro] },
   );
 
   return (
@@ -239,6 +315,16 @@ export default function HeroBuilderScroll() {
         ref={canvasRef}
         aria-hidden="true"
         className="absolute inset-0 h-full w-full"
+      />
+
+      {/* Solid ink overlay — fades in over the black-hold gap so the cut to
+          the hero copy lands on true black, not a frame that only reads as
+          "basically black". See onTick for the fade math. */}
+      <div
+        ref={overlayRef}
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[#0A0A0F]"
+        style={{ opacity: reduced || skipIntro ? 1 : 0 }}
       />
 
       {/* Loading bar — hidden once ready */}
@@ -266,30 +352,42 @@ export default function HeroBuilderScroll() {
         }}
       />
 
-      {/* Hero copy — fades in as the wordmark forms */}
+      {/* Hero copy — cascades in, element by element, as the wordmark forms */}
       <div
         ref={textRef}
         className="absolute inset-x-0 bottom-0 flex flex-col items-center px-6 pb-20 text-center"
-        style={{
-          opacity: reduced ? 1 : 0,
-          transform: reduced ? 'none' : 'translateY(22px)',
-        }}
       >
-        <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.22em] text-[#9E9EA8]">
+        <p
+          ref={eyebrowRef}
+          className="mb-5 font-mono text-[11px] uppercase tracking-[0.22em] text-[#9E9EA8]"
+          style={{ opacity: reduced ? 1 : 0, transform: reduced ? 'none' : 'translateY(18px)' }}
+        >
           Web design &amp; automation
         </p>
 
-        <h1 className="max-w-[14ch] text-[clamp(36px,5.5vw,76px)] font-semibold leading-[1.02] tracking-[-0.03em] text-[#F5F5F7]">
+        <h1
+          ref={headingRef}
+          className="max-w-[14ch] text-[clamp(36px,5.5vw,76px)] font-semibold leading-[1.02] tracking-[-0.03em] text-[#F5F5F7]"
+          style={{ opacity: reduced ? 1 : 0, transform: reduced ? 'none' : 'translateY(18px)' }}
+        >
           Built to work,{' '}
           <em className="not-italic text-[#7B3FE4]">not just</em> look good.
         </h1>
 
-        <p className="mt-6 max-w-[36ch] text-[17px] leading-[1.65] text-[#9E9EA8]">
+        <p
+          ref={bodyRef}
+          className="mt-6 max-w-[36ch] text-[17px] leading-[1.65] text-[#9E9EA8]"
+          style={{ opacity: reduced ? 1 : 0, transform: reduced ? 'none' : 'translateY(18px)' }}
+        >
           I build websites and automation systems for South African businesses.
           Fast. Clean. Connected.
         </p>
 
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-5">
+        <div
+          ref={ctaRef}
+          className="mt-10 flex flex-wrap items-center justify-center gap-5"
+          style={{ opacity: reduced ? 1 : 0, transform: reduced ? 'none' : 'translateY(18px)' }}
+        >
           <FillButton to="/contact" variant="on-dark">
             Book a Free Call
           </FillButton>

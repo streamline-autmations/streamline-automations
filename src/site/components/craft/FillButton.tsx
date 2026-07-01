@@ -1,8 +1,13 @@
 import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { Magnetic } from './Magnetic';
+import InvertText from './InvertText';
 
 type Variant = 'ink' | 'on-dark';
+
+// The sweep label's own colour, inverted — so InvertText can flip the letters
+// to something visible against it (the cursor dot is already the same colour
+// as the sweep label itself, since both are "opposite of the section").
+const INVERT_COLOR: Record<Variant, string> = { ink: '#0A0A0F', 'on-dark': '#FFFFFF' };
 
 // Full static class strings so Tailwind keeps them (no dynamic concatenation).
 // Every button is transparent by default — it takes on whatever colour the
@@ -19,8 +24,8 @@ const V: Record<Variant, { ring: string; fill: string; text: string }> = {
  * copy of the button — inverted fill + inverted label, moving as one piece —
  * slides up from below and covers the base label, so it reads as a new
  * button sliding in rather than the same label just recolouring in place.
- * Subtle magnetic pull (auto-disabled on touch + reduced-motion). Renders a
- * router <Link> (to) or an <a> (href). Reduced-motion → instant swap, no slide.
+ * Static — no magnetic pull. Renders a router <Link> (to) or an <a> (href).
+ * Reduced-motion → instant swap, no slide.
  */
 export default function FillButton({
   to,
@@ -42,6 +47,10 @@ export default function FillButton({
   external?: boolean;
 }) {
   const v = V[variant];
+  // Tells the cursor what colour this button's hover-fill sweep turns it —
+  // it can't be inferred from computed background-color since the fill is a
+  // translated sibling <span>, not the anchor's own background.
+  const cursorBg = variant === 'on-dark' ? 'light' : 'dark';
   const cls = `group relative inline-flex min-h-[60px] items-center justify-center overflow-hidden rounded-full border px-11 py-5 text-[16px] font-semibold outline-none focus-visible:ring-2 focus-visible:ring-offset-2 md:min-h-[64px] md:px-12 md:text-[17px] ${
     variant === 'on-dark' ? 'focus-visible:ring-white' : 'focus-visible:ring-site-accent'
   } ${v.ring} ${className}`;
@@ -59,39 +68,40 @@ export default function FillButton({
         aria-hidden="true"
         className={`pointer-events-none absolute inset-0 z-10 flex translate-y-full items-center justify-center transition-transform duration-[550ms] ease-brand group-hover:translate-y-0 motion-reduce:transition-none ${v.fill}`}
       >
-        <span className={v.text}>{children}</span>
+        <span className={`${v.text} pointer-events-auto`}>
+          {typeof children === 'string' ? (
+            <InvertText invertColor={INVERT_COLOR[variant]}>{children}</InvertText>
+          ) : (
+            children
+          )}
+        </span>
       </span>
     </>
   );
 
   if (to) {
     return (
-      <Magnetic strength={10}>
-        <Link to={to} data-cursor={dataCursor} className={cls}>
-          {inner}
-        </Link>
-      </Magnetic>
+      <Link to={to} data-cursor={dataCursor} data-cursor-bg={cursorBg} className={cls}>
+        {inner}
+      </Link>
     );
   }
   if (href) {
     return (
-      <Magnetic strength={10}>
-        <a
-          href={href}
-          data-cursor={dataCursor}
-          className={cls}
-          {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-        >
-          {inner}
-        </a>
-      </Magnetic>
+      <a
+        href={href}
+        data-cursor={dataCursor}
+        data-cursor-bg={cursorBg}
+        className={cls}
+        {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      >
+        {inner}
+      </a>
     );
   }
   return (
-    <Magnetic strength={10}>
-      <button type="button" onClick={onClick} data-cursor={dataCursor} className={cls}>
-        {inner}
-      </button>
-    </Magnetic>
+    <button type="button" onClick={onClick} data-cursor={dataCursor} data-cursor-bg={cursorBg} className={cls}>
+      {inner}
+    </button>
   );
 }

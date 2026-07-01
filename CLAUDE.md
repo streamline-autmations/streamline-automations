@@ -25,6 +25,23 @@ magnetism, scroll feel, case-cover treatment, pre-footer graphic moment, generou
 whitespace and big type. Do NOT steal rainbow colour, busy collages, decorative clutter,
 or multiple accents. White-dominant + purple is locked. Do not re-pivot the aesthetic.
 
+### Bold, simple, clean — not "AI generated"
+Christiaan's explicit call (2026-07-01): the site should read as bold, simple, clean,
+minimal — not busy. The fastest way to make it look cheap/generic/AI-slop is stacking
+lots of small decorative touches instead of a few confident ones. Concretely:
+- Prefer **one strong idea per section**, not three small embellishments layered on
+  top of each other (e.g. a border-draw + a count-up + a stagger + a hover glow all on
+  the same stat card). Pick the one that carries the moment, drop the rest.
+- No decorative micro-flourishes added "because it's possible": no extra corner tags,
+  no small orbiting dots/particles, no gratuitous gradient blooms, no badge-on-badge,
+  no icon-plus-label-plus-eyebrow-plus-underline on the same element. If a section
+  already has a strong headline treatment (SplitReveal) it does not also need a second
+  competing animation on the same line.
+- Favour big type, generous negative space and a single motion beat per section over
+  small multi-part compositions. When in doubt, cut an element rather than add one.
+- This applies to every new section and every review pass — check new work against it
+  before calling it done, not just against the colour/type tokens below.
+
 ### Locked brand tokens
 - Backgrounds: #FFFFFF / #FAFAFA / #F5F5F7 / #F0EBFF (purple tint)
 - Dark sections (surgical, 1–2 max): ink #0A0A0F, ink-soft #15151C, text-on-dark #F5F5F7
@@ -41,7 +58,10 @@ or multiple accents. White-dominant + purple is locked. Do not re-pivot the aest
   Respect `prefers-reduced-motion` everywhere. Custom cursor off on touch/coarse pointers.
 
 ### Hard rules
-- Pricing only on /hosting. Every other service page ends with "Contact for a quote".
+- Pricing only on /hosting, and only as single **floor** figures (e.g. "From R699/month"),
+  never side-by-side tier comparisons — no price grids/menus anywhere on the site. The goal
+  is premium/boutique positioning: give a budget anchor, then drive to a call for the real
+  quote. Every other service page ends with "Contact for a quote".
 - No fake testimonials, no invented metrics, no stock/placeholder images, no lorem ipsum.
 - Pill (rounded-full) primary CTAs. Generous section padding (py-28 min).
 - Min 44px tap targets. Target 90+ Lighthouse perf on mobile.

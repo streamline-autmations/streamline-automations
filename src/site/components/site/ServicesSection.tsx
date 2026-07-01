@@ -4,7 +4,6 @@ import Panel from '../craft/Panel';
 import SplitReveal from '../craft/SplitReveal';
 import FillButton from '../craft/FillButton';
 import { OFFER_PILLARS } from '../../data/site';
-import { fadeUp, viewport } from '../../lib/motion';
 
 const [WEBSITES, SYSTEMS, CARE] = OFFER_PILLARS;
 
@@ -215,24 +214,15 @@ export default function ServicesSection() {
       <div className="mx-auto w-full max-w-6xl">
 
         {/* Section intro */}
-        <div className="mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div className="mb-14 flex flex-col items-center text-center">
           <SplitReveal
             as="h2"
             segments={[
               { text: 'Three ways I can' },
               { text: 'help.', serif: true },
             ]}
-            className="max-w-[14ch] text-[clamp(38px,5.5vw,72px)] font-semibold leading-[0.98] tracking-[-0.03em] text-site-ink"
+            className="mx-auto max-w-[14ch] text-[clamp(42px,7vw,88px)] font-semibold leading-[1.0] tracking-[-0.03em] text-site-ink"
           />
-          <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            className="max-w-[38ch] text-[16px] leading-[1.65] text-site-text-secondary md:text-right"
-          >
-            Click any row to see what's included. Each service is a complete offering — not an upsell.
-          </motion.p>
         </div>
 
         {/* Accordion rows */}

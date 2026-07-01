@@ -6,29 +6,29 @@ import { fadeUp, viewport } from '../../lib/motion';
 import { CONTACT, FOOTER_NAV, SOCIALS } from '../../data/site';
 import { Magnetic } from '../craft/Magnetic';
 import RollText from '../craft/RollText';
+import InvertText from '../craft/InvertText';
 
 /**
  * ContactPill — a big outlined pill that fills white (ink text) on hover, with a
- * vertical sweep. Magnetic. Used for the email + WhatsApp contact details.
+ * vertical sweep. Static — no magnetic pull. Used for the email + WhatsApp contact details.
  */
 function ContactPill({ href, label, external = false }: { href: string; label: string; external?: boolean }) {
   return (
-    <Magnetic strength={10} className="inline-block">
-      <a
-        href={href}
-        data-cursor="link"
-        {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-        className="group relative inline-flex min-h-[60px] items-center overflow-hidden rounded-full border border-white/20 px-8 py-4 outline-none transition-colors duration-300 ease-brand focus-visible:ring-2 focus-visible:ring-white"
-      >
-        <span
-          aria-hidden="true"
-          className="absolute inset-0 translate-y-full bg-white transition-transform duration-[450ms] ease-brand group-hover:translate-y-0 motion-reduce:transition-none"
-        />
-        <span className="relative z-10 text-[clamp(17px,2vw,20px)] font-medium text-white transition-colors duration-300 ease-brand group-hover:text-site-ink">
-          {label}
-        </span>
-      </a>
-    </Magnetic>
+    <a
+      href={href}
+      data-cursor="link"
+      data-cursor-bg="light"
+      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      className="group relative inline-flex min-h-[60px] items-center overflow-hidden rounded-full border border-white/20 px-8 py-4 outline-none transition-colors duration-300 ease-brand focus-visible:ring-2 focus-visible:ring-white"
+    >
+      <span
+        aria-hidden="true"
+        className="absolute inset-0 translate-y-full bg-white transition-transform duration-[450ms] ease-brand group-hover:translate-y-0 motion-reduce:transition-none"
+      />
+      <span className="relative z-10 text-[clamp(17px,2vw,20px)] font-medium text-white transition-colors duration-300 ease-brand group-hover:text-site-ink">
+        {label}
+      </span>
+    </a>
   );
 }
 
@@ -45,6 +45,7 @@ function SocialIcon({ href, label, Icon }: { href: string; label: string; Icon: 
         rel="noopener noreferrer"
         aria-label={label}
         data-cursor="link"
+        data-cursor-bg="light"
         className="group relative flex h-[58px] w-[58px] items-center justify-center overflow-hidden rounded-full border border-white/15 outline-none transition-colors duration-300 ease-brand focus-visible:ring-2 focus-visible:ring-white"
       >
         <span
@@ -93,7 +94,7 @@ export default function SiteFooter() {
                   data-cursor="link"
                   className="group inline-flex min-h-[48px] items-center text-[clamp(22px,2.6vw,30px)] font-semibold leading-none tracking-[-0.01em] text-white outline-none focus-visible:text-[#9B5FF5] md:justify-self-end"
                 >
-                  <RollText>{label}</RollText>
+                  <RollText invertColor="#0A0A0F">{label}</RollText>
                 </Link>
               ))}
             </div>
@@ -121,7 +122,7 @@ export default function SiteFooter() {
               data-cursor="link"
               className="inline-flex min-h-[44px] items-center outline-none transition-colors duration-300 hover:text-white focus-visible:text-white"
             >
-              Privacy Policy
+              <InvertText invertColor="#0A0A0F">Privacy Policy</InvertText>
             </Link>
             <span>© 2026 Streamline Automations</span>
           </div>

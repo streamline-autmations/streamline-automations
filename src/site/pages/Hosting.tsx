@@ -153,29 +153,20 @@ export default function Hosting() {
             </p>
           </div>
 
-          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={viewport} className="grid gap-4">
-            {MAINTENANCE_PLANS.map((plan) => (
-              <motion.div
-                key={plan.name}
-                variants={fadeUp}
-                className={`grid gap-4 rounded-2xl border bg-white p-6 sm:grid-cols-[1fr_auto] sm:items-center ${
-                  plan.popular ? 'border-site-accent' : 'border-site-line'
-                }`}
-              >
-                <div>
-                  <div className="flex flex-wrap items-center gap-3">
-                    <h3 className="text-[20px] font-semibold tracking-[-0.02em] text-site-ink">{plan.name}</h3>
-                    {plan.popular && (
-                      <span className="rounded-full border border-site-accent px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-site-accent">
-                        Popular
-                      </span>
-                    )}
-                  </div>
-                  <p className="mt-2 max-w-xl text-[14.5px] leading-[1.55] text-site-text-secondary">{plan.description}</p>
-                </div>
-                <p className="text-[22px] font-semibold tracking-[-0.02em] text-site-ink">{plan.price}</p>
-              </motion.div>
-            ))}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={viewport}
+            transition={{ duration: 0.6, ease: EASE_ARR }}
+            className="grid gap-4 rounded-2xl border border-site-line bg-white p-6 sm:grid-cols-[1fr_auto] sm:items-center"
+          >
+            <div>
+              <h3 className="text-[20px] font-semibold tracking-[-0.02em] text-site-ink">Maintenance retainer</h3>
+              <p className="mt-2 max-w-xl text-[14.5px] leading-[1.55] text-site-text-secondary">
+                {MAINTENANCE_PLANS.description}
+              </p>
+            </div>
+            <p className="text-[22px] font-semibold tracking-[-0.02em] text-site-ink">{MAINTENANCE_PLANS.floor}</p>
           </motion.div>
         </div>
       </Panel>
@@ -195,13 +186,8 @@ export default function Hosting() {
           <div className="rounded-[28px] border border-white/10 bg-white/[0.04] p-7">
             <h3 className="text-[24px] font-semibold tracking-[-0.02em] text-white">{RENT_TO_OWN.title}</h3>
             <p className="mt-4 text-[15.5px] leading-[1.65] text-white/70">{RENT_TO_OWN.note}</p>
-            <div className="mt-7 flex flex-wrap gap-2">
-              {RENT_TO_OWN.plans.map((plan) => (
-                <span key={plan} className="rounded-full border border-white/10 px-3 py-1.5 text-[12px] text-white/65">
-                  {plan}
-                </span>
-              ))}
-            </div>
+            <p className="mt-7 text-[22px] font-semibold tracking-[-0.02em] text-white">{RENT_TO_OWN.floor}</p>
+            <p className="mt-1 text-[13px] text-white/50">Tier and scope confirmed on a call.</p>
           </div>
         </div>
       </Panel>

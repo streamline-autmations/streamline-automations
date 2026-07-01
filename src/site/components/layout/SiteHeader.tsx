@@ -5,8 +5,10 @@ import { EASE, EASE_ARR } from '../../lib/motion';
 import { NAV_LINKS, CONTACT, PRIMARY_CTA } from '../../data/site';
 import { Magnetic } from '../craft/Magnetic';
 import RollText from '../craft/RollText';
+import InvertText from '../craft/InvertText';
 import Wordmark from '../craft/Wordmark';
 import FillButton from '../craft/FillButton';
+import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion';
 
 const SERVICE_LINKS = [
   { href: '/websites', label: 'Websites', desc: 'Custom sites, fast' },
@@ -18,11 +20,11 @@ function NavRoll({ to, label, active, dark }: { to: string; label: string; activ
     <Link
       to={to}
       data-cursor="link"
-      className={`group inline-flex min-h-[44px] items-center text-[15px] font-medium outline-none transition-colors duration-300 ${
+      className={`group inline-flex min-h-[44px] items-center text-[17px] font-medium outline-none transition-colors duration-300 ${
         active ? 'text-site-accent' : dark ? 'text-white' : 'text-site-ink'
       }`}
     >
-      <RollText>{label}</RollText>
+      <RollText invertColor={dark ? '#0A0A0F' : '#FFFFFF'}>{label}</RollText>
     </Link>
   );
 }
@@ -39,6 +41,19 @@ const overlayItem: Variants = {
   exit: { y: '110%', transition: { duration: 0.3, ease: EASE_ARR } },
 };
 
+// Desktop nav entrance — same masked-rise language as the headings
+// (SplitReveal) and the mobile menu, replayed on every route change so the
+// bar never just "appears" between pages.
+const navContainer: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.06, delayChildren: 0.05 } },
+};
+
+const navItem: Variants = {
+  hidden: { y: '100%' },
+  visible: { y: 0, transition: { duration: 0.55, ease: EASE_ARR } },
+};
+
 export default function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [overDark, setOverDark] = useState(false);
@@ -51,6 +66,8 @@ export default function SiteHeader() {
   const [scrollHidden, setScrollHidden] = useState(false);
   const servicesRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
+  const reduced = usePrefersReducedMotion();
+  const navAnimate = reduced ? { initial: 'visible' as const } : { initial: 'hidden' as const, animate: 'visible' as const };
 
   const isActive = (href: string) =>
     href === '/' ? location.pathname === '/' : location.pathname.startsWith(href);
@@ -161,7 +178,7 @@ export default function SiteHeader() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-[1000] flex items-center justify-between px-6 py-[18px] transition-[opacity,transform] duration-300 md:px-10 ${
+      className={`fixed inset-x-0 top-0 z-[1000] flex items-center justify-between px-6 py-6 transition-[opacity,transform] duration-300 md:px-10 ${
         heroLoading
           ? 'pointer-events-none opacity-0'
           : scrollHidden
@@ -183,104 +200,105 @@ export default function SiteHeader() {
         }}
       />
 
-      <Magnetic strength={10}>
-        <Link to="/" data-cursor="link" className="inline-flex min-h-[44px] items-center outline-none" aria-label="Streamline Automations home">
-          <Wordmark tone={overDark ? 'light' : 'ink'} className="text-[21px] transition-colors duration-300 md:text-[23px]" />
-        </Link>
-      </Magnetic>
-
-      <nav className="hidden items-center gap-9 md:flex">
-        {/* Services dropdown */}
-        <div
-          ref={servicesRef}
-          className="relative"
-          onMouseEnter={() => setServicesOpen(true)}
-          onMouseLeave={() => setServicesOpen(false)}
+      <span className="overflow-hidden">
+        <motion.span
+          key={`logo-${location.pathname}`}
+          variants={navItem}
+          {...navAnimate}
+          className="block"
         >
-          <button
-            type="button"
-            data-cursor="link"
-            aria-haspopup="true"
-            aria-expanded={servicesOpen}
-            className={`group inline-flex min-h-[44px] items-center gap-1 text-[15px] font-medium outline-none transition-colors duration-300 ${
-              isActive('/websites') || isActive('/systems')
-                ? 'text-site-accent'
-                : overDark
-                ? 'text-white'
-                : 'text-site-ink'
-            }`}
-          >
-            <RollText>Services</RollText>
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 12 12"
-              className={`h-3 w-3 shrink-0 transition-transform duration-300 ${servicesOpen ? 'rotate-180' : ''}`}
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M2 4l4 4 4-4" />
-            </svg>
-          </button>
+          <Magnetic strength={10}>
+            <Link to="/" data-cursor="link" className="inline-flex min-h-[44px] items-center outline-none" aria-label="Streamline Automations home">
+              <Wordmark tone={overDark ? 'light' : 'ink'} className="text-[23px] transition-colors duration-300 md:text-[26px]" />
+            </Link>
+          </Magnetic>
+        </motion.span>
+      </span>
 
-          <AnimatePresence>
-            {servicesOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: 8, scale: 0.97 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 8, scale: 0.97 }}
-                transition={{ duration: 0.18, ease: EASE_ARR }}
-                className="absolute left-0 top-full z-50 pt-3"
+      <motion.nav
+        key={`nav-${location.pathname}`}
+        variants={navContainer}
+        {...navAnimate}
+        className="hidden items-center gap-10 md:flex"
+      >
+        {/* Services dropdown */}
+        <span className="overflow-hidden">
+          <motion.span variants={navItem} className="block">
+            <div
+              ref={servicesRef}
+              className="relative"
+              onMouseEnter={() => setServicesOpen(true)}
+              onMouseLeave={() => setServicesOpen(false)}
+            >
+              <button
+                type="button"
+                data-cursor="link"
+                aria-haspopup="true"
+                aria-expanded={servicesOpen}
+                className={`group inline-flex min-h-[44px] items-center gap-1.5 text-[17px] font-medium outline-none transition-colors duration-300 ${
+                  isActive('/websites') || isActive('/systems')
+                    ? 'text-site-accent'
+                    : overDark
+                    ? 'text-white'
+                    : 'text-site-ink'
+                }`}
               >
-                <div className="min-w-[220px] overflow-hidden rounded-2xl border border-site-line bg-white p-2 shadow-[0_12px_40px_-8px_rgba(0,0,0,0.12)]">
-                  {SERVICE_LINKS.map((link) => (
-                    <Link
-                      key={link.href}
-                      to={link.href}
-                      data-cursor="link"
-                      className={`flex min-h-[52px] flex-col justify-center rounded-xl px-4 py-2.5 outline-none transition-colors duration-200 hover:bg-site-surface focus-visible:bg-site-surface ${
-                        isActive(link.href) ? 'bg-site-surface' : ''
-                      }`}
-                    >
-                      <span className={`text-[14px] font-semibold leading-none ${isActive(link.href) ? 'text-site-accent' : 'text-site-ink'}`}>
-                        {link.label}
-                      </span>
-                      <span className="mt-1 text-[12px] text-site-text-secondary">{link.desc}</span>
-                    </Link>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+                <RollText invertColor={overDark ? '#0A0A0F' : '#FFFFFF'}>Services</RollText>
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 12 12"
+                  className={`h-3.5 w-3.5 shrink-0 transition-transform duration-300 ${servicesOpen ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M2 4l4 4 4-4" />
+                </svg>
+              </button>
+
+              <AnimatePresence>
+                {servicesOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8, scale: 0.97 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 8, scale: 0.97 }}
+                    transition={{ duration: 0.18, ease: EASE_ARR }}
+                    className="absolute left-0 top-full z-50 pt-3"
+                  >
+                    <div className="min-w-[220px] overflow-hidden rounded-2xl border border-site-line bg-white p-2 shadow-[0_12px_40px_-8px_rgba(0,0,0,0.12)]">
+                      {SERVICE_LINKS.map((link) => (
+                        <Link
+                          key={link.href}
+                          to={link.href}
+                          data-cursor="link"
+                          className={`flex min-h-[52px] flex-col justify-center rounded-xl px-4 py-2.5 outline-none transition-colors duration-200 hover:bg-site-surface focus-visible:bg-site-surface ${
+                            isActive(link.href) ? 'bg-site-surface' : ''
+                          }`}
+                        >
+                          <span className={`text-[14px] font-semibold leading-none ${isActive(link.href) ? 'text-site-accent' : 'text-site-ink'}`}>
+                            <InvertText invertColor="#FFFFFF">{link.label}</InvertText>
+                          </span>
+                          <span className="mt-1 text-[12px] text-site-text-secondary">{link.desc}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </motion.span>
+        </span>
 
         {NAV_LINKS.map((link) => (
-          <NavRoll key={link.href} to={link.href} label={link.label} active={isActive(link.href)} dark={overDark} />
-        ))}
-        <Link
-          to={PRIMARY_CTA.href}
-          data-cursor="link"
-          className={`group relative inline-flex min-h-[44px] items-center overflow-hidden rounded-full border px-6 text-[14px] font-semibold outline-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 ${
-            overDark ? 'border-white text-white focus-visible:ring-white' : 'border-site-ink text-site-ink focus-visible:ring-site-accent'
-          }`}
-        >
-          <span
-            aria-hidden="true"
-            className={`absolute inset-0 z-0 translate-y-full transition-transform duration-500 ease-brand group-hover:translate-y-0 ${
-              overDark ? 'bg-white' : 'bg-site-ink'
-            }`}
-          />
-          <span
-            className={`relative z-10 transition-colors duration-300 ease-brand ${
-              overDark ? 'group-hover:text-site-ink' : 'group-hover:text-white'
-            }`}
-          >
-            {PRIMARY_CTA.label}
+          <span key={link.href} className="overflow-hidden">
+            <motion.span variants={navItem} className="block">
+              <NavRoll to={link.href} label={link.label} active={isActive(link.href)} dark={overDark} />
+            </motion.span>
           </span>
-        </Link>
-      </nav>
+        ))}
+      </motion.nav>
 
       <button
         onClick={() => setOpen((v) => !v)}
@@ -291,10 +309,10 @@ export default function SiteHeader() {
         aria-expanded={open}
         aria-controls="site-mobile-menu"
       >
-        <div className="flex w-6 flex-col gap-[6px]">
-          <span className={`h-[2px] rounded bg-current transition-all duration-300 motion-reduce:transition-none ${open ? 'translate-y-[8px] rotate-45' : ''}`} />
+        <div className="flex w-7 flex-col gap-[7px]">
+          <span className={`h-[2px] rounded bg-current transition-all duration-300 motion-reduce:transition-none ${open ? 'translate-y-[9px] rotate-45' : ''}`} />
           <span className={`h-[2px] rounded bg-current transition-all duration-200 ${open ? 'opacity-0' : ''}`} />
-          <span className={`h-[2px] rounded bg-current transition-all duration-300 motion-reduce:transition-none ${open ? '-translate-y-[8px] -rotate-45' : ''}`} />
+          <span className={`h-[2px] rounded bg-current transition-all duration-300 motion-reduce:transition-none ${open ? '-translate-y-[9px] -rotate-45' : ''}`} />
         </div>
       </button>
 
@@ -339,7 +357,7 @@ export default function SiteHeader() {
                       <span className="font-mono text-[12px] font-normal tracking-[0.1em] text-site-text-muted">
                         0{i + 1}
                       </span>
-                      {l.label}
+                      <InvertText invertColor="#FFFFFF">{l.label}</InvertText>
                     </Link>
                   </motion.span>
                 </span>

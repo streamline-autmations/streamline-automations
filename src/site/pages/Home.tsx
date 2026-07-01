@@ -6,76 +6,70 @@ import SplitReveal from '../components/craft/SplitReveal';
 import ServicesSection from '../components/site/ServicesSection';
 import ClientLogos from '../components/site/ClientLogos';
 import CaseStudyCycler from '../components/site/CaseStudyCycler';
+import StatsSection from '../components/site/StatsSection';
 import HeroBuilderScroll from '../components/site/HeroBuilderScroll';
 import { RENT_TO_OWN } from '../data/site';
 import { fadeUp, viewport } from '../lib/motion';
 
-const TIERS = RENT_TO_OWN.plans.map((p) => {
-  const [name, priceRaw] = p.split(' from ');
-  return { name, price: priceRaw.replace('/month', '') };
-});
-
 /**
- * RentalCallout — same white panel + layout language as ServicesSection
- * (heading left / supporting copy right, clean bordered cards, no eyebrow
- * label, no accent glow) so the two sections read as one cohesive system
- * instead of the callout feeling like a separate, more "salesy" panel.
+ * RentalCallout — one strong idea: headline making the offer plainly, paired
+ * with a single bold price card so the section isn't text-only. No small
+ * mono labels carrying the message — the price and the payoff are both big.
  */
 function RentalCallout() {
   return (
     <Panel bg="white" className="px-6 py-28 md:px-10 md:py-36">
-      <div className="mx-auto w-full max-w-6xl">
-        <div className="mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+      <div className="mx-auto grid w-full max-w-6xl gap-12 md:grid-cols-[1.1fr_0.9fr] md:items-center md:gap-16">
+        <div>
           <SplitReveal
             as="h2"
             segments={[
-              { text: 'No upfront cost.' },
-              { text: 'Pay monthly.' },
-              { text: 'Own it after', serif: true },
-              { text: '18 months.' },
+              { text: 'I build it.' },
+              { text: 'You pay monthly.' },
+              { text: "It's yours", serif: true },
+              { text: 'in 18 months.' },
             ]}
-            className="max-w-[16ch] text-[clamp(38px,5.5vw,72px)] font-semibold leading-[0.98] tracking-[-0.03em] text-site-ink"
+            className="max-w-[14ch] text-[clamp(38px,5.5vw,72px)] font-semibold leading-[0.98] tracking-[-0.03em] text-site-ink"
           />
           <motion.p
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
             viewport={viewport}
-            className="max-w-[38ch] text-[16px] leading-[1.65] text-site-text-secondary md:text-right"
+            className="mt-8 max-w-[42ch] text-[18px] leading-[1.65] text-site-text-body"
           >
-            I build it free. You pay a flat monthly fee. Cancel or own it outright after 18 months — your call.
+            No deposit, no upfront invoice. Just a flat monthly fee for the build and hosting —
+            and after 18 months the site is yours outright, full files, no strings.
           </motion.p>
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            className="mt-10"
+          >
+            <FillButton to="/hosting" variant="ink">
+              See how it works
+            </FillButton>
+          </motion.div>
         </div>
 
         <motion.div
-          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}
-          initial="hidden"
-          whileInView="visible"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={viewport}
-          className="grid grid-cols-1 gap-3 sm:grid-cols-3"
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="rounded-[2rem] bg-site-accent-soft px-9 py-11 md:px-11 md:py-14"
         >
-          {TIERS.map((tier) => (
-            <motion.div
-              key={tier.name}
-              variants={fadeUp}
-              className="rounded-[20px] border border-site-line px-6 py-6 transition-colors duration-300 ease-brand hover:border-site-line-mid"
-            >
-              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-site-text-muted">
-                {tier.name}
-              </p>
-              <p className="mt-2 text-[28px] font-semibold tracking-[-0.02em] text-site-ink">
-                {tier.price}
-                <span className="text-[14px] font-normal text-site-text-secondary">/mo</span>
-              </p>
-            </motion.div>
-          ))}
+          <p className="text-[15px] font-medium text-site-text-secondary">Starting from</p>
+          <p className="mt-2 text-[clamp(48px,7vw,80px)] font-semibold leading-none tracking-[-0.03em] text-site-ink">
+            {RENT_TO_OWN.floor.replace('From ', '').replace('/month', '')}
+            <span className="text-[clamp(20px,2.4vw,28px)] font-medium text-site-text-secondary">/mo</span>
+          </p>
+          <p className="mt-5 border-t border-site-ink/10 pt-6 text-[19px] font-semibold leading-[1.4] text-site-ink">
+            Own it outright at 18 months.
+          </p>
         </motion.div>
-
-        <div className="mt-12">
-          <FillButton to="/hosting" variant="ink">
-            See full plans
-          </FillButton>
-        </div>
       </div>
     </Panel>
   );
@@ -88,6 +82,7 @@ export default function Home() {
       <ClientLogos />
       <ServicesSection />
       <CaseStudyCycler />
+      <StatsSection />
       <RentalCallout />
       <PreFooterCTA />
     </>

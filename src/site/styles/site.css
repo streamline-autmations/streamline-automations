@@ -64,6 +64,11 @@ body.sc-cur-link .sc-cur-dot {
   width: 22px;
   height: 22px;
 }
+/* Over InvertText elements, the text's own colour-flip circle IS the cursor —
+   an opaque dot on top would just hide it. */
+body.sc-cur-text .sc-cur-dot {
+  opacity: 0;
+}
 .sc-cur-ring {
   width: 0;
   height: 0;
@@ -92,10 +97,10 @@ body.sc-cur-link .sc-cur-dot {
 }
 body.sc-cur-view .sc-cur-ring,
 body.sc-cur-drag .sc-cur-ring {
-  width: 60px;
-  height: 60px;
+  width: 78px;
+  height: 78px;
   opacity: 1;
-  box-shadow: 0 0 28px rgba(123, 63, 228, 0.55);
+  box-shadow: 0 0 32px rgba(123, 63, 228, 0.55);
 }
 body.sc-cur-view .sc-cur-ring .sc-cur-label,
 body.sc-cur-drag .sc-cur-ring .sc-cur-label { opacity: 1; }
@@ -104,6 +109,28 @@ body.sc-cur-drag .sc-cur-dot { opacity: 0; }
 @media (hover: none), (pointer: coarse) {
   .sc-cur-dot,
   .sc-cur-ring { display: none; }
+}
+
+/* ── Invert-on-hover text (craft/InvertText.tsx) ───────────────────
+   A duplicate of the text sits on top, clipped to a small circle that
+   follows the pointer (in element-local coordinates) — only the letters
+   directly under the circle flip to the opposite colour. Plain text links
+   only (not RollText nav items, which already have their own hover motion). */
+.sc-invert-text {
+  position: relative;
+  display: inline-block;
+}
+.sc-invert-text-overlay {
+  position: absolute;
+  inset: 0;
+  color: var(--invert-color);
+  pointer-events: none;
+  clip-path: circle(var(--ir, 0px) at var(--ix, 50%) var(--iy, 50%));
+  transition: clip-path 0.08s linear;
+  white-space: nowrap;
+}
+@media (hover: none), (pointer: coarse) {
+  .sc-invert-text-overlay { display: none; }
 }
 
 /* ── Marquee (craft/Marquee.tsx) ──────────────────────────────────
@@ -148,4 +175,17 @@ body.sc-cur-drag .sc-cur-dot { opacity: 0; }
 @media (prefers-reduced-motion: reduce) {
   .sc-bloom-a,
   .sc-bloom-b { animation: none; }
+}
+
+/* ── Contact orb ring spin (craft/ContactOrb.tsx) ─────────────────── */
+@keyframes scOrbSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.sc-orb-spin {
+  animation: scOrbSpin 14s linear infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sc-orb-spin { animation: none; }
 }

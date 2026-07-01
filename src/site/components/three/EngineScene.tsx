@@ -174,8 +174,8 @@ function Engine({
       </group>
 
       {/* enquiries in → bookings out, same story as /lab */}
-      <Stream count={800} direction="in" color="#9D6FF0" opacity={0.5} size={0.045} progressRef={progressRef} />
-      <Stream count={800} direction="out" color="#E9DFFF" opacity={0.65} size={0.05} progressRef={progressRef} />
+      <Stream count={1200} direction="in" color="#9D6FF0" opacity={0.65} size={0.055} progressRef={progressRef} />
+      <Stream count={1200} direction="out" color="#E9DFFF" opacity={0.8} size={0.06} progressRef={progressRef} />
     </group>
   );
 }

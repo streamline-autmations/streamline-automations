@@ -2,6 +2,7 @@ import { useEffect, type ReactNode } from 'react';
 import SiteHeader from './SiteHeader';
 import SiteFooter from './SiteFooter';
 import Cursor from '../craft/Cursor';
+import ContactOrb from '../craft/ContactOrb';
 
 /**
  * SiteLayout — persistent chrome for the v2 app: header, animated page content,
@@ -33,6 +34,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
       <SiteHeader />
       <main className="flex-1">{children}</main>
       <SiteFooter />
+      <ContactOrb />
     </div>
   );
 }

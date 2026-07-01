@@ -107,39 +107,21 @@ export default function CaseStudyCycler() {
       aria-label="Featured client work"
       className="relative z-[1] -mt-[2rem] rounded-t-[2rem] bg-site-ink md:-mt-[4rem] md:rounded-t-[4rem]"
     >
-      {/* Heading zone — the electric-grid loop (same clip as the /systems
-          hero) plays behind it as an attention-grabbing moment before the
-          pinned scroller. Placeholder placement — first pass, per Christiaan. */}
-      <div className="relative overflow-hidden">
-        <video
-          aria-hidden="true"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="none"
-          className="absolute inset-0 h-full w-full object-cover opacity-40"
+      {/* Heading — scrolls in normally, ahead of the pin. Sits lower in the
+          section with generous dark space above it, instead of crowding
+          the top edge right after the previous panel. */}
+      <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 pb-16 pt-32 sm:flex-row sm:items-end sm:justify-between md:px-10 md:pb-20 md:pt-48">
+        <SplitReveal
+          as="h2"
+          segments={[{ text: 'Featured projects' }]}
+          className="max-w-[16ch] text-[clamp(42px,7vw,88px)] font-semibold leading-[1.0] tracking-[-0.03em] text-white"
+        />
+        <Link
+          to="/portfolio"
+          className="shrink-0 text-[14px] font-medium text-white/60 underline-offset-4 hover:text-white hover:underline"
         >
-          <source src="/assets/videos/systems-grid-loop.mp4" type="video/mp4" />
-        </video>
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-site-ink/40 via-site-ink/70 to-site-ink" />
-
-        {/* Heading — scrolls in normally, ahead of the pin. Sits lower in the
-            section with generous dark space above it, instead of crowding
-            the top edge right after the previous panel. */}
-        <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 pb-16 pt-32 sm:flex-row sm:items-end sm:justify-between md:px-10 md:pb-20 md:pt-48">
-          <SplitReveal
-            as="h2"
-            segments={[{ text: 'Featured projects' }]}
-            className="max-w-[16ch] text-[clamp(42px,7vw,88px)] font-semibold leading-[1.0] tracking-[-0.03em] text-white"
-          />
-          <Link
-            to="/portfolio"
-            className="shrink-0 text-[14px] font-medium text-white/60 underline-offset-4 hover:text-white hover:underline"
-          >
-            All work →
-          </Link>
-        </div>
+          All work →
+        </Link>
       </div>
 
       {enabled ? (
