@@ -99,14 +99,20 @@ export default function HeroVideoScroll() {
   }, [ready, reduced]);
 
   // ── GSAP scroll scrub ────────────────────────────────────────────────────
+  // The pin is created synchronously on mount, independent of `ready` — if it
+  // waited on frame preload, the page's real scroll height would only become
+  // final once every frame had loaded, and anything below (e.g. the
+  // featured-work cycler) that measures its own scroll position before then
+  // would cache it against a much shorter, pre-pin layout. Since a mid-scroll
+  // pin can't be safely corrected by refresh(), that section stays
+  // permanently desynced and renders on top of/inside the hero. Only the
+  // frame *drawing* is gated on `ready`; the pin itself never waits.
   useGSAP(
     () => {
-      if (!ready) return;
-
       if (reduced) {
         // Show end frame + text + nav instantly
         document.documentElement.removeAttribute('data-hero-loading');
-        drawFrame(TOTAL_FRAMES - 1);
+        if (ready) drawFrame(TOTAL_FRAMES - 1);
         if (textRef.current) {
           textRef.current.style.opacity = '1';
           textRef.current.style.transform = 'none';
@@ -120,7 +126,7 @@ export default function HeroVideoScroll() {
       const REVEAL_START = 0.55;
       const REVEAL_RANGE = 0.20; // fully visible by 75%
 
-      ScrollTrigger.create({
+      const trigger = ScrollTrigger.create({
         trigger: wrapRef.current,
         start: 'top top',
         end: `+=${SCROLL_VH * 100}%`,
@@ -128,10 +134,12 @@ export default function HeroVideoScroll() {
         pinType: 'transform',
         scrub: 0.5,
         onUpdate(self) {
-          const targetFrame = Math.round(self.progress * (TOTAL_FRAMES - 1));
-          if (targetFrame !== Math.round(obj.frame)) {
-            obj.frame = targetFrame;
-            drawFrame(targetFrame);
+          if (ready) {
+            const targetFrame = Math.round(self.progress * (TOTAL_FRAMES - 1));
+            if (targetFrame !== Math.round(obj.frame)) {
+              obj.frame = targetFrame;
+              drawFrame(targetFrame);
+            }
           }
 
           // Reveal nav at the same threshold
@@ -149,8 +157,10 @@ export default function HeroVideoScroll() {
           }
         },
       });
+
+      return () => trigger.kill();
     },
-    { scope: wrapRef, dependencies: [ready] },
+    { scope: wrapRef, dependencies: [reduced] },
   );
 
   return (
