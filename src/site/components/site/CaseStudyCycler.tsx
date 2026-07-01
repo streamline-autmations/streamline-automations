@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ScrollTrigger, useGSAP } from '../../lib/gsap';
+import { gsap, ScrollTrigger, useGSAP } from '../../lib/gsap';
 import SplitReveal from '../craft/SplitReveal';
 import FillButton from '../craft/FillButton';
 import { EASE_ARR } from '../../lib/motion';
@@ -24,42 +24,80 @@ const mediaVariants = {
 /**
  * CaseStudyCycler — pinned GSAP scroll on desktop: the layout locks to the
  * viewport while the user scrolls through 4 projects. Text + media cross-fade
- * between projects as scroll progress advances. On mobile / reduced-motion it
- * renders as a clean stacked grid — no pin, no WebGL.
+ * between projects as scroll progress advances. On mobile it pins too, but
+ * drives a horizontal slide (scroll down → cards move sideways) instead —
+ * cheap transform-only tween, no per-project canvas/video cost. Reduced-motion
+ * (any width) gets a static stacked grid — no pin at all.
  *
  * Pin uses pinType:'transform' to play nice with Lenis + the overflow-x root.
+ * anticipatePin:1 removes the small jump/snap the instant a pin engages.
  */
 export default function CaseStudyCycler() {
-  // Determine desktop+motion support synchronously so the correct layout
-  // renders on the first paint — avoids a flash of the mobile fallback.
-  const [enhanced] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    return (
-      window.matchMedia('(min-width: 768px)').matches &&
-      !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    );
+  // Determine desktop/mobile/motion support synchronously so the correct
+  // layout renders on the first paint — avoids a flash of the wrong variant.
+  const [{ desktop, mobile }] = useState(() => {
+    if (typeof window === 'undefined') return { desktop: false, mobile: false };
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isDesktopWidth = window.matchMedia('(min-width: 768px)').matches;
+    return { desktop: isDesktopWidth && !reduced, mobile: !isDesktopWidth && !reduced };
   });
   const [active, setActive] = useState(0);
+  const [mobileActive, setMobileActive] = useState(0);
   const scopeRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
+  const mobileWrapRef = useRef<HTMLDivElement>(null);
+  const mobileTrackRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      if (!enhanced || !pinRef.current) return;
+      if (!desktop || !pinRef.current) return;
       const st = ScrollTrigger.create({
         trigger: pinRef.current,
         start: 'top top',
-        end: '+=' + PROJECTS.length * 480,
+        end: '+=' + PROJECTS.length * 100 + '%',
         pin: pinRef.current,
         pinType: 'transform',
+        anticipatePin: 1,
         onUpdate: (self) => {
           const i = Math.min(PROJECTS.length - 1, Math.floor(self.progress * PROJECTS.length));
           setActive((cur) => (cur === i ? cur : i));
         },
       });
+      // Fonts finishing their swap can shift text height slightly after the
+      // trigger's start position was first measured — refresh once they're
+      // ready so the pin doesn't visually "jump" on the first scroll into it.
+      document.fonts?.ready.then(() => ScrollTrigger.refresh());
       return () => st.kill();
     },
-    { scope: scopeRef, dependencies: [enhanced] }
+    { scope: scopeRef, dependencies: [desktop] }
+  );
+
+  useGSAP(
+    () => {
+      if (!mobile || !mobileWrapRef.current || !mobileTrackRef.current) return;
+      const wrap = mobileWrapRef.current;
+      const track = mobileTrackRef.current;
+      const st = ScrollTrigger.create({
+        trigger: wrap,
+        start: 'top top',
+        end: '+=' + PROJECTS.length * 100 + '%',
+        pin: wrap,
+        pinType: 'transform',
+        anticipatePin: 1,
+        onUpdate: (self) => {
+          const w = wrap.clientWidth;
+          gsap.set(track, { x: -self.progress * (PROJECTS.length - 1) * w });
+          const i = Math.min(
+            PROJECTS.length - 1,
+            Math.round(self.progress * (PROJECTS.length - 1))
+          );
+          setMobileActive((cur) => (cur === i ? cur : i));
+        },
+      });
+      document.fonts?.ready.then(() => ScrollTrigger.refresh());
+      return () => st.kill();
+    },
+    { scope: scopeRef, dependencies: [mobile] }
   );
 
   return (
@@ -70,10 +108,10 @@ export default function CaseStudyCycler() {
       className="relative z-[1] -mt-[2rem] rounded-t-[2rem] bg-site-ink md:-mt-[4rem] md:rounded-t-[4rem]"
     >
       {/* ── Desktop pinned cycler ── */}
-      {enhanced && (
+      {desktop && (
         <div
           ref={pinRef}
-          className="relative hidden min-h-[100svh] w-full flex-col justify-center overflow-hidden px-10 py-24 md:flex"
+          className="relative hidden h-[100svh] max-h-[100svh] w-full flex-col justify-center overflow-hidden px-10 py-12 md:flex lg:py-16"
         >
           {/* Background ambient */}
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -141,7 +179,7 @@ export default function CaseStudyCycler() {
                 initial="enter"
                 animate="center"
                 exit="exit"
-                className="relative aspect-[4/3] overflow-hidden rounded-[28px] border border-white/10"
+                className="relative aspect-[3/2] max-h-[52vh] overflow-hidden rounded-[28px] border border-white/10 lg:max-h-[58vh]"
               >
                 {PROJECTS[active].media.type === 'video' ? (
                   <video
@@ -173,8 +211,90 @@ export default function CaseStudyCycler() {
         </div>
       )}
 
-      {/* ── Mobile / reduced-motion fallback: stacked grid ── */}
-      <div className={`px-6 py-20 ${enhanced ? 'md:hidden' : ''}`}>
+      {/* ── Mobile pinned cycler: scroll down drives a horizontal slide ── */}
+      {mobile && (
+        <div
+          ref={mobileWrapRef}
+          className="relative flex h-[100svh] max-h-[100svh] w-full flex-col justify-center overflow-hidden py-10 md:hidden"
+        >
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+            <div className="absolute -top-24 left-[6%] h-[280px] w-[280px] rounded-full bg-site-accent opacity-[0.07] blur-[100px]" />
+          </div>
+
+          <div className="relative mb-6 flex items-center justify-between px-6" aria-hidden="true">
+            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-site-accent">
+              Project / {PROJECTS[mobileActive].no}
+            </span>
+            <div className="flex gap-2">
+              {PROJECTS.map((_, i) => (
+                <span
+                  key={i}
+                  className={`h-[3px] rounded-full transition-all duration-500 ease-brand ${
+                    i === mobileActive ? 'w-6 bg-site-accent' : 'w-2 bg-white/20'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="relative overflow-hidden">
+            <div ref={mobileTrackRef} className="flex will-change-transform">
+              {PROJECTS.map((project) => (
+                <div key={project.href} className="w-full shrink-0 px-6">
+                  <Link
+                    to={project.href}
+                    data-cursor="view"
+                    data-cursor-label="View"
+                    className="group block overflow-hidden rounded-[22px] border border-white/10"
+                  >
+                    <div className="relative aspect-[4/5] max-h-[46vh] overflow-hidden bg-white/[0.035]">
+                      {project.media.type === 'video' ? (
+                        <video
+                          src={project.media.src}
+                          poster={(project.media as { poster?: string }).poster}
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                          preload="none"
+                          aria-label={project.media.alt}
+                          className="h-full w-full object-contain"
+                        />
+                      ) : (
+                        <img
+                          src={
+                            (project.media as { mobileFallback?: string }).mobileFallback ??
+                            project.media.src
+                          }
+                          alt={project.media.alt}
+                          loading={project.no === PROJECTS[0].no ? 'eager' : 'lazy'}
+                          draggable={false}
+                          // mobileFallback assets are full phone-screenshot portraits
+                          // (~9:19.5) — object-contain guarantees nothing is cropped
+                          // instead of forcing them into a landscape crop.
+                          className="h-full w-full object-contain"
+                        />
+                      )}
+                    </div>
+                  </Link>
+                  <h3 className="mt-5 text-[24px] font-semibold leading-[1.05] tracking-[-0.02em] text-white">
+                    {project.name}
+                  </h3>
+                  <p className="mt-3 text-[14px] leading-[1.55] text-white/65">{project.outcome}</p>
+                  <div className="mt-5">
+                    <FillButton to={project.href} variant="on-dark">
+                      View project
+                    </FillButton>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Reduced-motion fallback: static stacked grid, no pin ── */}
+      <div className={`px-6 py-20 ${desktop || mobile ? 'hidden' : ''}`}>
         <div className="mx-auto w-full max-w-6xl">
           <div className="mb-12">
             <SplitReveal

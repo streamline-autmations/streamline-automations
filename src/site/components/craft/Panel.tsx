@@ -1,11 +1,12 @@
 import { ReactNode } from 'react';
 
-type PanelBg = 'white' | 'offwhite' | 'ink';
+type PanelBg = 'white' | 'offwhite' | 'ink' | 'accent';
 
 const BG: Record<PanelBg, string> = {
   white: 'bg-white text-site-ink',
   offwhite: 'bg-site-offwhite text-site-ink',
   ink: 'bg-site-ink text-white',
+  accent: 'bg-site-accent-soft text-site-ink',
 };
 
 /**

@@ -412,6 +412,7 @@ export default function HeroNetworkScroll() {
         end: `+=${SCROLL_VH * 100}%`,
         pin: true,
         pinType: 'transform',
+        anticipatePin: 1,
         scrub: 0.5,
         onUpdate(self) {
           scrollProgress.current = self.progress;

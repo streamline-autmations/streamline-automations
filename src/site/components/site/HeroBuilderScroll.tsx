@@ -141,6 +141,7 @@ export default function HeroBuilderScroll() {
         start: 'top top',
         end: `+=${SCROLL_VH * 100}%`,
         pin: true,
+        pinType: 'transform',
         anticipatePin: 1,
         scrub: 0.5,
         onUpdate(self) {
@@ -164,6 +165,13 @@ export default function HeroBuilderScroll() {
           }
         },
       });
+
+      // This pin only mounts once frames finish preloading — by then every
+      // section below has already created its own ScrollTrigger and cached
+      // a start position against the pre-hero layout. Inserting this pin's
+      // spacer now shifts everything below it, so those cached positions go
+      // stale by exactly this pin's height until we force a recompute.
+      ScrollTrigger.refresh();
     },
     { scope: wrapRef, dependencies: [ready] },
   );
