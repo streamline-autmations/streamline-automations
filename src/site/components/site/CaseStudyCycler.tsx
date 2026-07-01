@@ -247,7 +247,7 @@ export default function CaseStudyCycler() {
                     data-cursor-label="View"
                     className="group block overflow-hidden rounded-[22px] border border-white/10"
                   >
-                    <div className="relative aspect-[4/5] max-h-[46vh] overflow-hidden bg-white/[0.035]">
+                    <div className="relative aspect-[3/2] max-h-[42vh] overflow-hidden bg-white/[0.035]">
                       {project.media.type === 'video' ? (
                         <video
                           src={project.media.src}
@@ -258,21 +258,15 @@ export default function CaseStudyCycler() {
                           playsInline
                           preload="none"
                           aria-label={project.media.alt}
-                          className="h-full w-full object-contain"
+                          className="h-full w-full object-cover"
                         />
                       ) : (
                         <img
-                          src={
-                            (project.media as { mobileFallback?: string }).mobileFallback ??
-                            project.media.src
-                          }
+                          src={project.media.src}
                           alt={project.media.alt}
                           loading={project.no === PROJECTS[0].no ? 'eager' : 'lazy'}
                           draggable={false}
-                          // mobileFallback assets are full phone-screenshot portraits
-                          // (~9:19.5) — object-contain guarantees nothing is cropped
-                          // instead of forcing them into a landscape crop.
-                          className="h-full w-full object-contain"
+                          className="h-full w-full object-cover"
                         />
                       )}
                     </div>
