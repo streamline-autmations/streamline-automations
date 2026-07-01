@@ -2,7 +2,16 @@ import { useEffect, useRef, useState } from 'react';
 
 /**
  * Cursor — native OS pointer stays visible; a small solid dot rides at its tip
- * ~1:1, always filled (never an outline) and inverted via mix-blend-difference.
+ * ~1:1, always filled (never an outline).
+ *
+ * Colour swap is section-based, not mix-blend-mode/backdrop-filter: both of
+ * those left the dot looking like a hollow ring at small sizes on a fast,
+ * continuously-transformed element (a real Chromium compositing limitation,
+ * not a CSS mistake — confirmed by testing at multiple sizes). Instead the
+ * dot checks, on every mousemove, whether the element under the pointer sits
+ * inside a `[data-header-dark]` section (the same attribute SiteHeader
+ * already uses to swap its own light/dark styling) and toggles a plain
+ * background-color class — guaranteed solid, no blend compositing involved.
  *
  * - Dot lerp 0.9, ring lerp 0.18, both driven on one requestAnimationFrame.
  * - Hover states via event delegation (works for lazily-added nodes):
@@ -48,6 +57,9 @@ export default function Cursor() {
     const onMove = (e: MouseEvent) => {
       mx = e.clientX;
       my = e.clientY;
+      const target = document.elementFromPoint(mx, my);
+      const onDark = !!target?.closest('[data-header-dark]');
+      document.body.classList.toggle('sc-cur-on-dark', onDark);
     };
 
     const tick = () => {
@@ -98,7 +110,7 @@ export default function Cursor() {
       document.removeEventListener('mouseover', onOver);
       document.documentElement.removeEventListener('mouseleave', onLeave);
       document.documentElement.removeEventListener('mouseenter', onEnter);
-      document.body.classList.remove('sc-cursor', 'sc-cur-link', 'sc-cur-view', 'sc-cur-drag');
+      document.body.classList.remove('sc-cursor', 'sc-cur-link', 'sc-cur-view', 'sc-cur-drag', 'sc-cur-on-dark');
     };
   }, [active]);
 

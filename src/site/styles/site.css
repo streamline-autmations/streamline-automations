@@ -41,18 +41,24 @@
   border-radius: 9999px;
   will-change: transform;
 }
-/* White + mix-blend-difference: renders black on the white site, white on dark
-   sections, and inverts whatever it overlaps — always filled, never an outline. */
+/* Plain solid background-color, swapped via a body class (Cursor.tsx checks
+   [data-header-dark] under the pointer on every mousemove) instead of
+   mix-blend-mode/backdrop-filter — both left the dot looking like a hollow
+   ring at small sizes on a fast, continuously-transformed element (a real
+   Chromium compositing limitation). This is a guaranteed solid fill. */
 .sc-cur-dot {
   width: 10px;
   height: 10px;
-  background: #ffffff;
-  mix-blend-mode: difference;
+  background: #0a0a0f;
   transform: translate(-50%, -50%);
   transition:
     width 0.3s cubic-bezier(0.22, 1, 0.36, 1),
     height 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.15s linear;
+}
+body.sc-cur-on-dark .sc-cur-dot {
+  background: #ffffff;
 }
 body.sc-cur-link .sc-cur-dot {
   width: 22px;
