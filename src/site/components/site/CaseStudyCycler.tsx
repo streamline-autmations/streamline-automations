@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { gsap, ScrollTrigger, useGSAP } from '../../lib/gsap';
@@ -25,6 +25,31 @@ export default function CaseStudyCycler() {
     if (typeof window === 'undefined') return false;
     return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   });
+  // The hero above pins itself only once its frame sequence finishes
+  // preloading, and only then does the page reach its true (much taller)
+  // height. If we create our own ScrollTrigger before that, it caches a
+  // start/end against the short pre-hero layout — a fast scroller can reach
+  // this section while that's still true, and since refreshing mid-pin
+  // doesn't safely correct it, the whole cycler stays permanently stuck
+  // (looks like a big dead gap, cards frozen mid-track). So: wait for the
+  // hero's "I've pinned and the layout is now final" signal before creating
+  // ours. The window flag covers the case where that already fired before
+  // this effect attached its listener (fast/cached preload).
+  const [pinSafe, setPinSafe] = useState(
+    () => typeof window !== 'undefined' && (window as unknown as { __heroPinReady?: boolean }).__heroPinReady === true
+  );
+  useEffect(() => {
+    if (pinSafe) return;
+    const onReady = () => setPinSafe(true);
+    window.addEventListener('hero-pin-ready', onReady);
+    // Safety net: pages/situations where the hero never fires this (e.g. it
+    // errors out) shouldn't leave this section dead forever.
+    const fallback = window.setTimeout(() => setPinSafe(true), 8000);
+    return () => {
+      window.removeEventListener('hero-pin-ready', onReady);
+      window.clearTimeout(fallback);
+    };
+  }, [pinSafe]);
   const [active, setActive] = useState(0);
   const scopeRef = useRef<HTMLElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -33,18 +58,24 @@ export default function CaseStudyCycler() {
 
   useGSAP(
     () => {
-      if (!enabled || !wrapRef.current || !trackRef.current) return;
+      if (!enabled || !pinSafe || !wrapRef.current || !trackRef.current) return;
       const wrap = wrapRef.current;
       const track = trackRef.current;
 
       const st = ScrollTrigger.create({
         trigger: wrap,
         start: 'top top',
-        end: () => '+=' + Math.max(track.scrollWidth - wrap.clientWidth, 1),
+        // Fixed scroll distance (vh multiples), NOT the raw pixel overflow —
+        // the overflow between card track and viewport is often only a few
+        // hundred px, which a single scroll flick blows straight through,
+        // making the whole pin feel broken/instant. Scaling by project count
+        // guarantees a deliberate, controllable scroll length regardless of
+        // how little the cards actually overflow.
+        end: '+=' + PROJECTS.length * 100 + '%',
         pin: wrap,
         pinType: 'transform',
         anticipatePin: 1,
-        scrub: 0.4,
+        scrub: 0.6,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
           const maxX = track.scrollWidth - wrap.clientWidth;
@@ -57,16 +88,12 @@ export default function CaseStudyCycler() {
         },
       });
       stRef.current = st;
-      // Fonts finishing their swap can shift card height slightly after the
-      // trigger's distances were first measured — refresh once ready so the
-      // pin doesn't visually jump or cut the last card short.
-      document.fonts?.ready.then(() => ScrollTrigger.refresh());
       return () => {
         st.kill();
         stRef.current = null;
       };
     },
-    { scope: scopeRef, dependencies: [enabled] }
+    { scope: scopeRef, dependencies: [enabled, pinSafe] }
   );
 
   const goTo = (i: number) => {

@@ -212,6 +212,16 @@ export default function HeroBuilderScroll() {
       // spacer now shifts everything below it, so those cached positions go
       // stale by exactly this pin's height until we force a recompute.
       ScrollTrigger.refresh();
+      // Sections below (e.g. the featured-work cycler) defer creating their
+      // OWN ScrollTrigger until they hear this — creating one any earlier
+      // risks it being built against this stale pre-hero layout, and since
+      // refresh() doesn't safely correct an already-mid-scroll pin, that
+      // section would stay permanently desynced for the rest of the visit.
+      // The flag covers listeners that attach after this already fired
+      // (e.g. fast/cached repeat visits where preload finishes almost
+      // instantly, before the section below has mounted its effect).
+      (window as unknown as { __heroPinReady?: boolean }).__heroPinReady = true;
+      window.dispatchEvent(new Event('hero-pin-ready'));
 
       return () => {
         gsap.ticker.remove(onTick);
