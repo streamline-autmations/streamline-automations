@@ -10,14 +10,19 @@ import { FEATURED_PROJECTS } from '../../data/site';
 const PROJECTS = FEATURED_PROJECTS;
 
 /**
- * CaseStudyCycler — horizontal filmstrip. The section pins to the viewport
- * (any width, desktop and mobile alike) while vertical scroll drives a
- * horizontal translate on the card track — cheap transform-only tween, no
- * per-project canvas/video swap. Cards are sized so the next one peeks in at
- * the edge (filmstrip feel, not one-at-a-time). Reduced-motion gets a static
- * wrapped grid — no pin, no horizontal scroll at all.
+ * CaseStudyCycler — full-bleed horizontal slides. The section pins to the
+ * viewport (any width, desktop and mobile alike) while vertical scroll
+ * drives a horizontal translate on the slide track — cheap transform-only
+ * tween, no per-project canvas/video swap. Each project fills the entire
+ * screen edge-to-edge; scrolling advances one full screen at a time.
+ * Reduced-motion gets a static stacked grid — no pin, no horizontal scroll.
  *
- * Pin uses pinType:'transform' to play nice with Lenis + the overflow-x root.
+ * Pin uses GSAP's default (native position:fixed), same as HeroBuilderScroll
+ * and for the same reason: pinType:'transform' forces GSAP to recompute the
+ * pin position in JS on every scroll tick instead of letting the browser's
+ * compositor handle it for free — on mobile that shows up as visible
+ * shake/stutter. Lenis drives real window.scrollTo (and is disabled outright
+ * under 768px), so the default pin has nothing to conflict with here.
  * anticipatePin:1 removes the small jump/snap the instant a pin engages.
  */
 export default function CaseStudyCycler() {
@@ -50,11 +55,9 @@ export default function CaseStudyCycler() {
       window.clearTimeout(fallback);
     };
   }, [pinSafe]);
-  const [active, setActive] = useState(0);
   const scopeRef = useRef<HTMLElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const stRef = useRef<ScrollTrigger | null>(null);
 
   useGSAP(
     () => {
@@ -73,36 +76,19 @@ export default function CaseStudyCycler() {
         // how little the cards actually overflow.
         end: '+=' + PROJECTS.length * 100 + '%',
         pin: wrap,
-        pinType: 'transform',
         anticipatePin: 1,
         scrub: 0.6,
+        fastScrollEnd: true,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
           const maxX = track.scrollWidth - wrap.clientWidth;
           gsap.set(track, { x: -self.progress * maxX });
-          const i = Math.min(
-            PROJECTS.length - 1,
-            Math.round(self.progress * (PROJECTS.length - 1))
-          );
-          setActive((cur) => (cur === i ? cur : i));
         },
       });
-      stRef.current = st;
-      return () => {
-        st.kill();
-        stRef.current = null;
-      };
+      return () => st.kill();
     },
     { scope: scopeRef, dependencies: [enabled, pinSafe] }
   );
-
-  const goTo = (i: number) => {
-    const st = stRef.current;
-    if (!st) return;
-    const progress = i / (PROJECTS.length - 1);
-    const target = st.start + progress * (st.end - st.start);
-    window.scrollTo({ top: target, behavior: 'smooth' });
-  };
 
   return (
     <section
@@ -142,81 +128,66 @@ export default function CaseStudyCycler() {
           ref={wrapRef}
           className="relative h-[100svh] max-h-[100svh] w-full overflow-hidden"
         >
-          <div className="flex h-full flex-col justify-center">
-            <div ref={trackRef} className="flex w-max gap-5 will-change-transform pl-6 md:gap-8 md:pl-10">
-              {PROJECTS.map((project, i) => (
-                <div key={project.href} className="group w-[78vw] shrink-0 sm:w-[56vw] md:w-[42vw] lg:w-[34vw] xl:w-[30vw]">
-                  <Link
-                    to={project.href}
-                    data-cursor="view"
-                    data-cursor-label="View"
-                    className="relative block aspect-[4/3] overflow-hidden rounded-[22px] border border-white/10 bg-white/[0.035] transition-[border-color,background-color] duration-300 ease-brand group-hover:border-site-accent/50 group-hover:bg-white/[0.06]"
-                  >
-                    {project.media.type === 'video' ? (
-                      <video
-                        src={project.media.src}
-                        poster={(project.media as { poster?: string }).poster}
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        preload="none"
-                        aria-label={project.media.alt}
-                        className="h-full w-full object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.04]"
-                      />
-                    ) : (
-                      <img
-                        src={project.media.src}
-                        alt={project.media.alt}
-                        loading={i === 0 ? 'eager' : 'lazy'}
-                        draggable={false}
-                        className="h-full w-full object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.04]"
-                      />
-                    )}
-                    <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(10,10,15,0.45)_0%,transparent_55%)]" />
-                    <span className="absolute left-4 top-4 font-mono text-[11px] uppercase tracking-[0.2em] text-site-accent">
-                      Project / {project.no}
-                    </span>
-                  </Link>
-                  <h3 className="mt-6 text-[22px] font-semibold leading-[1.05] tracking-[-0.02em] text-white md:text-[26px]">
+          <div ref={trackRef} className="flex h-full w-max will-change-transform">
+            {PROJECTS.map((project, i) => (
+              <div key={project.href} className="group relative h-full w-screen shrink-0">
+                <Link
+                  to={project.href}
+                  data-cursor="view"
+                  data-cursor-label="View"
+                  className="absolute inset-0 block"
+                >
+                  {project.media.type === 'video' ? (
+                    <video
+                      src={project.media.src}
+                      poster={(project.media as { poster?: string }).poster}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      preload="none"
+                      aria-label={project.media.alt}
+                      className="h-full w-full object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.03]"
+                    />
+                  ) : (
+                    <img
+                      src={project.media.src}
+                      alt={project.media.alt}
+                      loading={i === 0 ? 'eager' : 'lazy'}
+                      draggable={false}
+                      className="h-full w-full object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.03]"
+                    />
+                  )}
+                  <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(10,10,15,0.92)_0%,rgba(10,10,15,0.55)_28%,rgba(10,10,15,0.05)_55%,transparent_70%)]" />
+                </Link>
+
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 px-6 pb-12 md:px-14 md:pb-16">
+                  <span className="mb-3 block font-mono text-[11px] uppercase tracking-[0.2em] text-site-accent">
+                    Project / {project.no}
+                  </span>
+                  <h3 className="max-w-[18ch] text-[clamp(28px,5vw,48px)] font-semibold leading-[1.05] tracking-[-0.02em] text-white">
                     {project.name}
                   </h3>
-                  <p className="mt-2 max-w-[38ch] text-[14px] leading-[1.55] text-white/65">
+                  <p className="mt-3 max-w-[48ch] text-[15px] leading-[1.6] text-white/70 md:text-[16px]">
                     {project.outcome}
                   </p>
-                  <div className="mt-3 flex flex-wrap gap-2">
+                  <div className="mt-4 flex flex-wrap gap-2">
                     {project.tags.slice(0, 3).map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-full border border-white/10 px-3 py-1 text-[11px] text-white/50"
+                        className="rounded-full border border-white/15 px-3 py-1 text-[11px] text-white/60"
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
-                  <div className="mt-5">
+                  <div className="pointer-events-auto mt-6">
                     <FillButton to={project.href} variant="on-dark">
                       View project
                     </FillButton>
                   </div>
                 </div>
-              ))}
-              {/* Trailing spacer mirrors the leading pl-* inset so the last card can reach it */}
-              <div className="w-1 shrink-0 md:w-4" aria-hidden="true" />
-            </div>
-          </div>
-
-          {/* Progress dots */}
-          <div className="pointer-events-auto absolute bottom-8 left-1/2 flex -translate-x-1/2 gap-2 md:bottom-10">
-            {PROJECTS.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => goTo(i)}
-                aria-label={`Go to project ${i + 1}`}
-                className={`h-[3px] rounded-full transition-all duration-500 ease-brand ${
-                  i === active ? 'w-8 bg-site-accent' : 'w-3 bg-white/20'
-                }`}
-              />
+              </div>
             ))}
           </div>
         </div>
