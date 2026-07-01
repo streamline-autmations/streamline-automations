@@ -64,7 +64,7 @@ export default function ClientLogos() {
   const [paused, setPaused] = useState(false);
 
   return (
-    <section className="border-t border-site-line bg-white py-16">
+    <section className="border-t border-site-line bg-white py-20 md:py-24">
       {/* Marquee — all screen sizes */}
       <motion.div
         initial={{ opacity: 0 }}

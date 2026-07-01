@@ -1,15 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 
 /**
- * Cursor — a fast solid dot tracking the pointer ~1:1 plus a larger hollow ring
- * that trails with smooth lerp. The signature craft piece.
+ * Cursor — native OS pointer stays visible; a small solid dot rides at its tip
+ * ~1:1, always filled (never an outline) and inverted via mix-blend-difference.
  *
  * - Dot lerp 0.9, ring lerp 0.18, both driven on one requestAnimationFrame.
  * - Hover states via event delegation (works for lazily-added nodes):
- *     a / button / [role=button] / [data-cursor="link"] → ring grows, dot hides
+ *     a / button / [role=button] / [data-cursor="link"] → dot grows, still filled
  *     [data-cursor="view"]  → big filled purple ring + "View"  label
  *     [data-cursor="drag"]  → big filled purple ring + "Drag"  label
- * - Native cursor hidden only on fine pointers (body.sc-cursor + CSS in site.css).
  * - Coarse/touch pointers: the rAF never starts and the CSS hides it entirely.
  * - prefers-reduced-motion: reduce → never initialises (renders nothing).
  *

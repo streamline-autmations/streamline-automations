@@ -23,7 +23,7 @@ const TIERS = RENT_TO_OWN.plans.map((p) => {
  */
 function RentalCallout() {
   return (
-    <Panel bg="white" className="px-6 py-24 md:px-10 md:py-32">
+    <Panel bg="white" className="px-6 py-28 md:px-10 md:py-36">
       <div className="mx-auto w-full max-w-6xl">
         <div className="mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <SplitReveal

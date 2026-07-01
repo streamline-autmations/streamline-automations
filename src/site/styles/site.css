@@ -28,12 +28,9 @@
   letter-spacing: -0.015em;
 }
 
-/* ── Dot + ring custom cursor (craft/Cursor.tsx) ──────────────────
-   Fine pointers only; coarse/touch hide it and the rAF never starts. */
-@media (hover: hover) and (pointer: fine) {
-  body.sc-cursor,
-  body.sc-cursor * { cursor: none !important; }
-}
+/* ── Filled dot cursor (craft/Cursor.tsx) ─────────────────────────
+   Native OS pointer stays visible; this just adds a small filled dot at
+   the tip. Fine pointers only; coarse/touch hide it and the rAF never starts. */
 .sc-cur-dot,
 .sc-cur-ring {
   position: fixed;
@@ -45,28 +42,37 @@
   will-change: transform;
 }
 /* White + mix-blend-difference: renders black on the white site, white on dark
-   sections, and inverts whatever it overlaps — the glassy elegant cursor. */
+   sections, and inverts whatever it overlaps — always filled, never an outline. */
 .sc-cur-dot {
-  width: 9px;
-  height: 9px;
+  width: 10px;
+  height: 10px;
   background: #ffffff;
   mix-blend-mode: difference;
   transform: translate(-50%, -50%);
+  transition:
+    width 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+body.sc-cur-link .sc-cur-dot {
+  width: 22px;
+  height: 22px;
 }
 .sc-cur-ring {
-  width: 40px;
-  height: 40px;
-  border: 1.5px solid #ffffff;
-  mix-blend-mode: difference;
+  width: 0;
+  height: 0;
+  background: #7b3fe4;
+  mix-blend-mode: normal;
   transform: translate(-50%, -50%);
   display: grid;
   place-items: center;
+  opacity: 0;
+  box-shadow: none;
   transition:
     width 0.35s cubic-bezier(0.22, 1, 0.36, 1),
     height 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-    background-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .sc-cur-ring .sc-cur-label {
   font-family: 'JetBrains Mono', monospace;
@@ -78,22 +84,12 @@
   opacity: 0;
   transition: opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
-body.sc-cur-link .sc-cur-ring {
-  width: 72px;
-  height: 72px;
-  background: #ffffff;
-  border-color: transparent;
-}
-body.sc-cur-link .sc-cur-dot { opacity: 0; }
 body.sc-cur-view .sc-cur-ring,
 body.sc-cur-drag .sc-cur-ring {
-  width: 88px;
-  height: 88px;
-  background: #7b3fe4;
-  border-color: #a67bff;
-  box-shadow: 0 0 40px rgba(123, 63, 228, 0.6);
-  /* Brand-purple "View"/"Drag" moment — opt out of the invert blend. */
-  mix-blend-mode: normal;
+  width: 60px;
+  height: 60px;
+  opacity: 1;
+  box-shadow: 0 0 28px rgba(123, 63, 228, 0.55);
 }
 body.sc-cur-view .sc-cur-ring .sc-cur-label,
 body.sc-cur-drag .sc-cur-ring .sc-cur-label { opacity: 1; }

@@ -211,7 +211,7 @@ export default function ServicesSection() {
   const [selected, setSelected] = useState<number | null>(null);
 
   return (
-    <Panel bg="white" className="px-6 py-24 md:px-10 md:py-32">
+    <Panel bg="white" className="px-6 py-28 md:px-10 md:py-36">
       <div className="mx-auto w-full max-w-6xl">
 
         {/* Section intro */}

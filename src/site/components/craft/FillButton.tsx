@@ -7,18 +7,20 @@ type Variant = 'ink' | 'on-dark';
 // Full static class strings so Tailwind keeps them (no dynamic concatenation).
 // Every button is transparent by default — it takes on whatever colour the
 // section behind it already is — with an outline + label in the inverse
-// colour. On hover, that inverse colour fills in and the label flips back.
-const V: Record<Variant, { ring: string; fill: string; hoverText: string }> = {
-  ink: { ring: 'border-site-ink text-site-ink', fill: 'bg-site-ink', hoverText: 'group-hover:text-white' },
-  'on-dark': { ring: 'border-white text-white', fill: 'bg-white', hoverText: 'group-hover:text-site-ink' },
+// colour. On hover, a whole new "sheet" (fill colour + inverted label,
+// together as one unit) slides up and covers it.
+const V: Record<Variant, { ring: string; fill: string; text: string }> = {
+  ink: { ring: 'border-site-ink text-site-ink', fill: 'bg-site-ink', text: 'text-white' },
+  'on-dark': { ring: 'border-white text-white', fill: 'bg-white', text: 'text-site-ink' },
 };
 
 /**
- * FillButton — transparent-by-default outlined pill that fills from the
- * bottom on hover, inverting the label colour (Cuberto's signature button),
- * with a subtle magnetic pull (auto-disabled on touch + reduced-motion).
- * Renders a router <Link> (to) or an <a> (href). Reduced-motion → instant
- * fill, no slide.
+ * FillButton — transparent-by-default outlined pill. On hover, a second full
+ * copy of the button — inverted fill + inverted label, moving as one piece —
+ * slides up from below and covers the base label, so it reads as a new
+ * button sliding in rather than the same label just recolouring in place.
+ * Subtle magnetic pull (auto-disabled on touch + reduced-motion). Renders a
+ * router <Link> (to) or an <a> (href). Reduced-motion → instant swap, no slide.
  */
 export default function FillButton({
   to,
@@ -46,11 +48,19 @@ export default function FillButton({
 
   const inner = (
     <>
+      {/* Base label — sits underneath, in the outline colour, always present */}
+      <span className="relative z-0">{children}</span>
+
+      {/* The incoming "sheet" — fill colour + inverted label riding together
+          as one unit, translated fully off-screen at rest. On hover it
+          slides up and over the base label as a single piece, instead of
+          the label just recolouring where it already sits. */}
       <span
         aria-hidden="true"
-        className={`absolute inset-0 z-0 translate-y-full transition-transform duration-[600ms] ease-brand group-hover:translate-y-0 motion-reduce:transition-none ${v.fill}`}
-      />
-      <span className={`relative z-10 transition-colors duration-[350ms] ease-brand ${v.hoverText}`}>{children}</span>
+        className={`pointer-events-none absolute inset-0 z-10 flex translate-y-full items-center justify-center transition-transform duration-[550ms] ease-brand group-hover:translate-y-0 motion-reduce:transition-none ${v.fill}`}
+      >
+        <span className={v.text}>{children}</span>
+      </span>
     </>
   );
 

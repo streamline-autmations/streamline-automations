@@ -107,8 +107,10 @@ export default function CaseStudyCycler() {
       aria-label="Featured client work"
       className="relative z-[1] -mt-[2rem] rounded-t-[2rem] bg-site-ink md:-mt-[4rem] md:rounded-t-[4rem]"
     >
-      {/* Heading — scrolls in normally, ahead of the pin */}
-      <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 pb-10 pt-20 sm:flex-row sm:items-end sm:justify-between md:px-10 md:pt-28">
+      {/* Heading — scrolls in normally, ahead of the pin. Sits lower in the
+          section with generous dark space above it, instead of crowding
+          the top edge right after the previous panel. */}
+      <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 pb-16 pt-32 sm:flex-row sm:items-end sm:justify-between md:px-10 md:pb-20 md:pt-48">
         <SplitReveal
           as="h2"
           segments={[{ text: 'Featured projects' }]}
@@ -138,7 +140,7 @@ export default function CaseStudyCycler() {
                   key={project.href}
                   to={project.href}
                   data-cursor="view"
-                  data-cursor-label="View"
+                  data-cursor-label="Explore"
                   onClick={(e) => {
                     if (isCoarse && activeIdx !== i) {
                       e.preventDefault();
@@ -216,7 +218,7 @@ export default function CaseStudyCycler() {
                   <Link
                     to={project.href}
                     data-cursor="view"
-                    data-cursor-label="View"
+                    data-cursor-label="Explore"
                     className="group block overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.035] outline-none transition-[border-color,background-color] duration-300 ease-brand hover:border-site-accent/50 hover:bg-white/[0.06] focus-visible:ring-2 focus-visible:ring-site-accent"
                   >
                     <div className="relative aspect-[16/10] overflow-hidden">

@@ -6,7 +6,6 @@ import { fadeUp, viewport } from '../../lib/motion';
 import { CONTACT, FOOTER_NAV, SOCIALS } from '../../data/site';
 import { Magnetic } from '../craft/Magnetic';
 import RollText from '../craft/RollText';
-import Wordmark from '../craft/Wordmark';
 
 /**
  * ContactPill — a big outlined pill that fills white (ink text) on hover, with a
@@ -60,27 +59,20 @@ function SocialIcon({ href, label, Icon }: { href: string; label: string; Icon: 
 
 /**
  * SiteFooter — the single shared ink footer used identically on every v2 page.
- * Oversized wordmark, contact-detail pills, big roll-on-hover nav (same effect
- * as the top navbar), social row, bottom bar.
- * Ink #0A0A0F — one of the only two dark surfaces on the site.
+ * Minimal, Cuberto-style: just the contact pills + location, the nav links,
+ * social row and a one-line bottom bar — no section labels, no wordmark, no
+ * divider lines. Ink #0A0A0F — one of the only two dark surfaces on the site.
  */
 export default function SiteFooter() {
   return (
-    <footer data-header-dark="" className="relative bg-site-ink pb-12 pt-[clamp(80px,12vh,130px)] text-white">
-      <div className="mx-auto w-full max-w-6xl px-6">
-        <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}>
-          <Link to="/" data-cursor="link" className="inline-block outline-none" aria-label="Streamline Automations — home">
-            <Wordmark tone="light" className="text-[clamp(44px,8vw,104px)]" />
-          </Link>
-        </motion.div>
-
-        <div className="mt-[clamp(48px,7vh,80px)] grid grid-cols-1 gap-x-12 gap-y-14 border-t border-white/10 pt-[clamp(40px,6vh,64px)] md:grid-cols-[1fr_auto]">
+    <footer data-header-dark="" className="relative bg-site-ink px-6 pb-12 pt-[clamp(80px,14vh,140px)] text-white">
+      <div className="mx-auto w-full max-w-6xl">
+        <div className="grid grid-cols-1 gap-x-12 gap-y-14 md:grid-cols-[1fr_auto]">
           {/* LEFT — contact details as pill buttons */}
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}>
-            <div className="mb-6 font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">Get in touch</div>
             <div className="flex flex-wrap gap-4">
               <ContactPill href={`mailto:${CONTACT.email}`} label={CONTACT.email} />
-              <ContactPill href={CONTACT.whatsappUrl} label={`WhatsApp · ${CONTACT.whatsappDisplay}`} external />
+              <ContactPill href={CONTACT.whatsappUrl} label={CONTACT.whatsappDisplay} external />
             </div>
             <p className="mt-7 text-[16px] text-white/[0.78]">{CONTACT.location}</p>
           </motion.div>
@@ -93,9 +85,6 @@ export default function SiteFooter() {
             viewport={viewport}
             className="md:justify-self-end"
           >
-            <div className="mb-6 font-mono text-[11px] uppercase tracking-[0.2em] text-white/60 md:text-right">
-              Navigate
-            </div>
             <div className="grid grid-cols-2 gap-x-12 gap-y-2 md:text-right">
               {FOOTER_NAV.map(([label, href]) => (
                 <Link
@@ -116,7 +105,7 @@ export default function SiteFooter() {
           initial="hidden"
           whileInView="visible"
           viewport={viewport}
-          className="mt-[clamp(56px,8vh,90px)] flex flex-col gap-8 border-t border-white/10 pt-[36px] md:flex-row md:items-center md:justify-between"
+          className="mt-[clamp(56px,10vh,110px)] flex flex-col gap-8 md:flex-row md:items-center md:justify-between"
         >
           {/* Social icons */}
           <div className="flex flex-wrap items-center gap-4">
@@ -126,18 +115,15 @@ export default function SiteFooter() {
             <SocialIcon href={SOCIALS.facebook} label="Facebook" Icon={FaFacebookF} />
           </div>
 
-          <div className="flex flex-col gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-white/60 md:items-end">
-            <span>© 2026 Streamline Automations · CIPC {CONTACT.cipc}</span>
-            <span className="flex items-center gap-4">
-              <Link
-                to="/privacy"
-                data-cursor="link"
-                className="inline-flex min-h-[44px] items-center outline-none transition-colors duration-300 hover:text-white focus-visible:text-white"
-              >
-                Privacy
-              </Link>
-              <span>Built in the Vaal Triangle, SA</span>
-            </span>
+          <div className="flex items-center gap-5 font-mono text-[11px] uppercase tracking-[0.14em] text-white/60">
+            <Link
+              to="/privacy"
+              data-cursor="link"
+              className="inline-flex min-h-[44px] items-center outline-none transition-colors duration-300 hover:text-white focus-visible:text-white"
+            >
+              Privacy Policy
+            </Link>
+            <span>© 2026 Streamline Automations</span>
           </div>
         </motion.div>
       </div>
