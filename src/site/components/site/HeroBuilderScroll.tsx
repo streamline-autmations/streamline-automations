@@ -132,7 +132,19 @@ export default function HeroBuilderScroll() {
   // ── GSAP scroll scrub ────────────────────────────────────────────────────
   useGSAP(
     () => {
-      if (!ready) return;
+      // The pin (or, for reduced motion, the lack of one) is set up
+      // synchronously on mount — it no longer waits on the frame preload.
+      // That preload used to gate this entirely, which meant the page's
+      // real scroll height only became final once every frame had loaded;
+      // any section below (e.g. the featured-work cycler) that measured
+      // its own scroll position before then cached it against a much
+      // shorter, pre-pin layout — and since a mid-scroll pin can't be
+      // safely corrected by refresh(), it would stay permanently
+      // desynced (rendering on top of/inside the hero). Creating the pin
+      // immediately means the page reaches its true height on first
+      // paint, so nothing below ever has a wrong layout to cache.
+      (window as unknown as { __heroPinReady?: boolean }).__heroPinReady = true;
+      window.dispatchEvent(new Event('hero-pin-ready'));
 
       if (reduced) {
         // Show end frame + text + nav instantly
@@ -206,28 +218,12 @@ export default function HeroBuilderScroll() {
 
       gsap.ticker.add(onTick);
 
-      // This pin only mounts once frames finish preloading — by then every
-      // section below has already created its own ScrollTrigger and cached
-      // a start position against the pre-hero layout. Inserting this pin's
-      // spacer now shifts everything below it, so those cached positions go
-      // stale by exactly this pin's height until we force a recompute.
-      ScrollTrigger.refresh();
-      // Sections below (e.g. the featured-work cycler) defer creating their
-      // OWN ScrollTrigger until they hear this — creating one any earlier
-      // risks it being built against this stale pre-hero layout, and since
-      // refresh() doesn't safely correct an already-mid-scroll pin, that
-      // section would stay permanently desynced for the rest of the visit.
-      // The flag covers listeners that attach after this already fired
-      // (e.g. fast/cached repeat visits where preload finishes almost
-      // instantly, before the section below has mounted its effect).
-      (window as unknown as { __heroPinReady?: boolean }).__heroPinReady = true;
-      window.dispatchEvent(new Event('hero-pin-ready'));
-
       return () => {
         gsap.ticker.remove(onTick);
+        trigger.kill();
       };
     },
-    { scope: wrapRef, dependencies: [ready] },
+    { scope: wrapRef, dependencies: [reduced] },
   );
 
   return (
