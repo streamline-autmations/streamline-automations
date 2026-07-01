@@ -93,7 +93,7 @@ export default function HeroKineticType() {
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-6">
-            <FillButton to={PRIMARY_CTA.href} variant="solid-accent">
+            <FillButton to={PRIMARY_CTA.href} variant="ink">
               {PRIMARY_CTA.label}
             </FillButton>
             <Link

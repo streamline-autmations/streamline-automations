@@ -13,9 +13,11 @@ const PROJECTS = FEATURED_PROJECTS;
  * viewport (any width, desktop and mobile alike) while vertical scroll
  * drives a horizontal translate on the slide track — cheap transform-only
  * tween, no per-project canvas/video swap. Cards are sized under the
- * viewport (not edge-to-edge) with a gap between them, so the next card
- * peeks in at the edge as you scroll. Each card carries just a name + one
- * -line label over a bottom scrim — no numbers/tags/buttons.
+ * viewport (not edge-to-edge) with a generous gap between them, so the next
+ * card clearly peeks in at the edge as you scroll. Cards read as clean,
+ * unlabelled images by default — the name + one-line label only appear on
+ * hover (fine pointer) or tap (coarse pointer; first tap reveals, second
+ * tap navigates). No numbers/tags/buttons ever.
  * Reduced-motion gets a static stacked grid — no pin, no horizontal scroll.
  *
  * Pin uses GSAP's default (native position:fixed), same as HeroBuilderScroll
@@ -31,6 +33,13 @@ export default function CaseStudyCycler() {
     if (typeof window === 'undefined') return false;
     return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   });
+  // Coarse pointers have no hover — the caption is revealed by tap instead.
+  // First tap on a card shows its caption (and is swallowed); tapping the
+  // same card again lets the Link navigate normally.
+  const [isCoarse] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches
+  );
+  const [activeIdx, setActiveIdx] = useState<number | null>(null);
   // The hero above pins itself only once its frame sequence finishes
   // preloading, and only then does the page reach its true (much taller)
   // height. If we create our own ScrollTrigger before that, it caches a
@@ -102,8 +111,8 @@ export default function CaseStudyCycler() {
       <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 pb-10 pt-20 sm:flex-row sm:items-end sm:justify-between md:px-10 md:pt-28">
         <SplitReveal
           as="h2"
-          segments={[{ text: 'Serious builds, shown properly.' }]}
-          className="max-w-[16ch] text-[clamp(32px,5vw,56px)] font-semibold leading-[1.02] tracking-[-0.02em] text-white"
+          segments={[{ text: 'Featured projects' }]}
+          className="max-w-[16ch] text-[clamp(42px,7vw,88px)] font-semibold leading-[1.0] tracking-[-0.03em] text-white"
         />
         <Link
           to="/portfolio"
@@ -120,48 +129,75 @@ export default function CaseStudyCycler() {
         >
           <div
             ref={trackRef}
-            className="flex h-full w-max items-center gap-5 px-6 will-change-transform md:gap-8 md:px-10"
+            className="flex h-full w-max items-center gap-10 px-8 will-change-transform md:gap-14 md:px-16"
           >
-            {PROJECTS.map((project, i) => (
-              <Link
-                key={project.href}
-                to={project.href}
-                data-cursor="view"
-                data-cursor-label="View"
-                className="group relative block h-[62vh] w-[86vw] shrink-0 overflow-hidden rounded-[24px] sm:h-[68vh] sm:w-[70vw] md:h-[72vh] md:w-[52vw] lg:w-[42vw]"
-              >
-                {project.media.type === 'video' ? (
-                  <video
-                    src={project.media.src}
-                    poster={(project.media as { poster?: string }).poster}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="none"
-                    aria-label={project.media.alt}
-                    className="h-full w-full object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.04]"
-                  />
-                ) : (
-                  <img
-                    src={project.media.src}
-                    alt={project.media.alt}
-                    loading={i === 0 ? 'eager' : 'lazy'}
-                    draggable={false}
-                    className="h-full w-full object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.04]"
-                  />
-                )}
+            {PROJECTS.map((project, i) => {
+              const revealed = isCoarse ? activeIdx === i : undefined;
+              return (
+                <Link
+                  key={project.href}
+                  to={project.href}
+                  data-cursor="view"
+                  data-cursor-label="View"
+                  onClick={(e) => {
+                    if (isCoarse && activeIdx !== i) {
+                      e.preventDefault();
+                      setActiveIdx(i);
+                    }
+                  }}
+                  className="group relative block h-[70vh] w-[88vw] shrink-0 overflow-hidden rounded-[24px] sm:h-[74vh] sm:w-[72vw] md:h-[78vh] md:w-[56vw] lg:w-[46vw]"
+                >
+                  {project.media.type === 'video' ? (
+                    <video
+                      src={project.media.src}
+                      poster={(project.media as { poster?: string }).poster}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      preload="none"
+                      aria-label={project.media.alt}
+                      className="h-full w-full object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.04]"
+                    />
+                  ) : (
+                    <img
+                      src={project.media.src}
+                      alt={project.media.alt}
+                      loading={i === 0 ? 'eager' : 'lazy'}
+                      draggable={false}
+                      className="h-full w-full object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.04]"
+                    />
+                  )}
 
-                {/* Minimal caption — name + one-line label only, no numbers/tags/CTA */}
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[35%] bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 p-5 md:p-6">
-                  <h3 className="text-[19px] font-semibold tracking-[-0.02em] text-white md:text-[22px]">
-                    {project.name}
-                  </h3>
-                  <p className="mt-1 text-[13px] text-white/65 md:text-[13.5px]">{project.label}</p>
-                </div>
-              </Link>
-            ))}
+                  {/* Caption stays hidden until hover (fine pointer) or tap
+                      (coarse pointer) — cards read as clean, unlabelled
+                      images until the visitor shows intent to look closer. */}
+                  <div
+                    className={`pointer-events-none absolute inset-x-0 bottom-0 h-[35%] bg-gradient-to-t from-black/75 via-black/25 to-transparent transition-opacity duration-300 ease-brand ${
+                      revealed === undefined
+                        ? 'opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100'
+                        : revealed
+                        ? 'opacity-100'
+                        : 'opacity-0'
+                    }`}
+                  />
+                  <div
+                    className={`pointer-events-none absolute inset-x-0 bottom-0 p-5 transition-opacity duration-300 ease-brand md:p-6 ${
+                      revealed === undefined
+                        ? 'opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100'
+                        : revealed
+                        ? 'opacity-100'
+                        : 'opacity-0'
+                    }`}
+                  >
+                    <h3 className="text-[19px] font-semibold tracking-[-0.02em] text-white md:text-[22px]">
+                      {project.name}
+                    </h3>
+                    <p className="mt-1 text-[13px] text-white/65 md:text-[13.5px]">{project.label}</p>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       ) : (

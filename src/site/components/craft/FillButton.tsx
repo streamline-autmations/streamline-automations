@@ -2,22 +2,23 @@ import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { Magnetic } from './Magnetic';
 
-type Variant = 'ink' | 'accent' | 'on-dark' | 'solid-accent';
+type Variant = 'ink' | 'on-dark';
 
 // Full static class strings so Tailwind keeps them (no dynamic concatenation).
-// 'solid-accent' is the PRIMARY CTA: already filled purple, darkens on hover.
+// Every button is transparent by default — it takes on whatever colour the
+// section behind it already is — with an outline + label in the inverse
+// colour. On hover, that inverse colour fills in and the label flips back.
 const V: Record<Variant, { ring: string; fill: string; hoverText: string }> = {
   ink: { ring: 'border-site-ink text-site-ink', fill: 'bg-site-ink', hoverText: 'group-hover:text-white' },
-  accent: { ring: 'border-site-accent text-site-accent', fill: 'bg-site-accent', hoverText: 'group-hover:text-white' },
   'on-dark': { ring: 'border-white text-white', fill: 'bg-white', hoverText: 'group-hover:text-site-ink' },
-  'solid-accent': { ring: 'border-site-accent bg-site-accent text-white', fill: 'bg-site-accent-hover', hoverText: '' },
 };
 
 /**
- * FillButton — outlined pill that fills from the bottom on hover, inverting the
- * label colour (Cuberto's signature button), with a subtle magnetic pull
- * (auto-disabled on touch + reduced-motion). Renders a router <Link> (to) or
- * an <a> (href). Reduced-motion → instant fill, no slide.
+ * FillButton — transparent-by-default outlined pill that fills from the
+ * bottom on hover, inverting the label colour (Cuberto's signature button),
+ * with a subtle magnetic pull (auto-disabled on touch + reduced-motion).
+ * Renders a router <Link> (to) or an <a> (href). Reduced-motion → instant
+ * fill, no slide.
  */
 export default function FillButton({
   to,
@@ -39,7 +40,7 @@ export default function FillButton({
   external?: boolean;
 }) {
   const v = V[variant];
-  const cls = `group relative inline-flex min-h-[56px] items-center justify-center overflow-hidden rounded-full border px-9 py-4 text-[15px] font-semibold outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+  const cls = `group relative inline-flex min-h-[60px] items-center justify-center overflow-hidden rounded-full border px-11 py-5 text-[16px] font-semibold outline-none focus-visible:ring-2 focus-visible:ring-offset-2 md:min-h-[64px] md:px-12 md:text-[17px] ${
     variant === 'on-dark' ? 'focus-visible:ring-white' : 'focus-visible:ring-site-accent'
   } ${v.ring} ${className}`;
 

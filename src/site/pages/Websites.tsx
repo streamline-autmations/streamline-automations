@@ -87,7 +87,7 @@ export default function Websites() {
             transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.6 }}
             className="mt-10 flex flex-wrap items-center gap-6"
           >
-            <FillButton to="/contact" variant="solid-accent">
+            <FillButton to="/contact" variant="ink">
               Book a Free Call
             </FillButton>
             <FillButton to="/portfolio" variant="ink">

@@ -19,9 +19,9 @@
  * what showed up as visible shake/stutter during fast scrolling.
  */
 import { useRef, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { gsap, ScrollTrigger, useGSAP } from '../../../lib/gsap-setup';
 import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion';
+import FillButton from '../craft/FillButton';
 
 const MOBILE_QUERY = '(max-width: 767px)';
 const IS_MOBILE = typeof window !== 'undefined' && window.matchMedia(MOBILE_QUERY).matches;
@@ -202,7 +202,12 @@ export default function HeroBuilderScroll() {
           drawFrame(targetFrame);
         }
 
-        if (displayed >= TEXT_REVEAL_START) {
+        // Gate the nav on the real scroll position (target), not the
+        // rate-capped `displayed` value — otherwise a fast scroll/flick past
+        // the hero leaves the header invisible and un-clickable for the next
+        // few seconds while `displayed` is still catching up, which reads as
+        // "the nav is broken" on mobile.
+        if (target >= TEXT_REVEAL_START) {
           document.documentElement.removeAttribute('data-hero-loading');
         } else {
           document.documentElement.setAttribute('data-hero-loading', 'true');
@@ -284,19 +289,13 @@ export default function HeroBuilderScroll() {
           Fast. Clean. Connected.
         </p>
 
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <Link
-            to="/contact"
-            className="inline-flex min-h-[48px] items-center rounded-full bg-[#7B3FE4] px-8 text-[15px] font-semibold text-white transition-colors duration-300 hover:bg-[#6930D0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7B3FE4] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0F]"
-          >
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-5">
+          <FillButton to="/contact" variant="on-dark">
             Book a Free Call
-          </Link>
-          <Link
-            to="/portfolio"
-            className="inline-flex min-h-[48px] items-center rounded-full border border-white/20 px-8 text-[15px] font-semibold text-[#F5F5F7] transition-colors duration-300 hover:border-white/40 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
-          >
+          </FillButton>
+          <FillButton to="/portfolio" variant="on-dark">
             See the work
-          </Link>
+          </FillButton>
         </div>
       </div>
     </div>

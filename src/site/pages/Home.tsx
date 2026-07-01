@@ -72,7 +72,7 @@ function RentalCallout() {
         </motion.div>
 
         <div className="mt-12">
-          <FillButton to="/hosting" variant="solid-accent">
+          <FillButton to="/hosting" variant="ink">
             See full plans
           </FillButton>
         </div>

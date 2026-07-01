@@ -297,7 +297,7 @@ export default function HeroParticleNetwork() {
           transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.35 }}
           className="relative mt-9 flex flex-wrap items-center justify-center gap-6"
         >
-          <FillButton to={PRIMARY_CTA.href} variant="solid-accent">
+          <FillButton to={PRIMARY_CTA.href} variant="ink">
             {PRIMARY_CTA.label}
           </FillButton>
           <Link

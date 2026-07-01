@@ -11,7 +11,7 @@ import { CONTACT, PRIMARY_CTA } from '../../data/site';
  * the scroll-reactive 3D Engine running behind one huge headline with a
  * serif-italic accent and an outlined fill-button CTA. One of only two dark
  * surfaces on the site. On mobile/reduced-motion the engine doesn't load and
- * the CSS gradient blooms carry the backdrop.
+ * the plain ink bg + gradient blooms carry the backdrop.
  */
 export default function PreFooterCTA({
   headline = [{ text: 'Have an' }, { text: 'idea?' }],
@@ -22,20 +22,11 @@ export default function PreFooterCTA({
 }) {
   return (
     <section data-header-dark="" className="relative z-[1] -mt-[2rem] flex min-h-[78svh] flex-col items-center justify-center overflow-hidden rounded-t-[2.5rem] bg-site-ink py-28 text-white md:-mt-[4rem] md:rounded-t-[4.5rem] md:py-32">
-      {/* AI-generated electric network background */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        <img
-          src="/assets/prefooter-bg.png"
-          alt=""
-          className="h-full w-full object-cover opacity-60"
-          loading="lazy"
-          draggable={false}
-        />
-        {/* Dark radial overlay so text stays readable */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(10,10,15,0.45)_0%,rgba(10,10,15,0.75)_100%)]" />
-        {/* Bottom fade — blends into the footer's bg-site-ink with no hard edge */}
-        <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-[#0A0A0F] via-[rgba(10,10,15,0.7)] to-transparent" />
-      </div>
+      {/* Bottom fade — blends into the footer's bg-site-ink with no hard edge */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-[#0A0A0F] via-[rgba(10,10,15,0.7)] to-transparent"
+      />
 
       {/* The Engine — enquiries flow in, bookings flow out. The orb rides the
           stream left → right across the section, wrapping off-screen back to
@@ -72,7 +63,7 @@ export default function PreFooterCTA({
           transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.2 }}
           className="mt-10 flex flex-col items-center gap-5"
         >
-          <FillButton to={PRIMARY_CTA.to} variant="solid-accent" className="px-12 text-[16px]">
+          <FillButton to={PRIMARY_CTA.to} variant="on-dark" className="px-12 text-[16px]">
             {PRIMARY_CTA.label}
           </FillButton>
           <a

@@ -6,6 +6,7 @@ import { NAV_LINKS, CONTACT, PRIMARY_CTA } from '../../data/site';
 import { Magnetic } from '../craft/Magnetic';
 import RollText from '../craft/RollText';
 import Wordmark from '../craft/Wordmark';
+import FillButton from '../craft/FillButton';
 
 const SERVICE_LINKS = [
   { href: '/websites', label: 'Websites', desc: 'Custom sites, fast' },
@@ -261,9 +262,23 @@ export default function SiteHeader() {
         <Link
           to={PRIMARY_CTA.href}
           data-cursor="link"
-          className="inline-flex min-h-[44px] items-center rounded-full bg-site-accent px-5 text-[14px] font-semibold text-white outline-none transition-colors duration-300 hover:bg-site-accent-hover focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-offset-2"
+          className={`group relative inline-flex min-h-[44px] items-center overflow-hidden rounded-full border px-6 text-[14px] font-semibold outline-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 ${
+            overDark ? 'border-white text-white focus-visible:ring-white' : 'border-site-ink text-site-ink focus-visible:ring-site-accent'
+          }`}
         >
-          {PRIMARY_CTA.label}
+          <span
+            aria-hidden="true"
+            className={`absolute inset-0 z-0 translate-y-full transition-transform duration-500 ease-brand group-hover:translate-y-0 ${
+              overDark ? 'bg-white' : 'bg-site-ink'
+            }`}
+          />
+          <span
+            className={`relative z-10 transition-colors duration-300 ease-brand ${
+              overDark ? 'group-hover:text-site-ink' : 'group-hover:text-white'
+            }`}
+          >
+            {PRIMARY_CTA.label}
+          </span>
         </Link>
       </nav>
 
@@ -348,12 +363,9 @@ export default function SiteHeader() {
                   WhatsApp / {CONTACT.whatsappDisplay}
                 </a>
               </div>
-              <Link
-                to={PRIMARY_CTA.href}
-                className="flex min-h-[52px] items-center justify-center rounded-full bg-site-accent px-6 py-4 text-[16px] font-semibold text-white"
-              >
+              <FillButton to={PRIMARY_CTA.href} variant="ink" className="w-full justify-center">
                 {PRIMARY_CTA.label}
-              </Link>
+              </FillButton>
             </div>
           </motion.div>
         )}
