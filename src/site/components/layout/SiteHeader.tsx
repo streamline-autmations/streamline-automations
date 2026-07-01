@@ -46,6 +46,8 @@ export default function SiteHeader() {
   const [heroLoading, setHeroLoading] = useState(
     () => typeof document !== 'undefined' && document.documentElement.hasAttribute('data-hero-loading'),
   );
+  // Hide-on-scroll-down / show-on-scroll-up, once the hero build is done.
+  const [scrollHidden, setScrollHidden] = useState(false);
   const servicesRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
@@ -110,6 +112,33 @@ export default function SiteHeader() {
     return () => obs.disconnect();
   }, []);
 
+  // Hide the header once the user scrolls down, reveal it on scroll up.
+  // Stays hidden entirely while the hero build is still playing.
+  useEffect(() => {
+    if (heroLoading) {
+      setScrollHidden(false);
+      return;
+    }
+    let lastY = window.scrollY;
+    let ticking = false;
+    const TOP_ZONE = 80; // always show near the very top of the page
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        const delta = y - lastY;
+        if (y < TOP_ZONE) setScrollHidden(false);
+        else if (delta > 4) setScrollHidden(true);
+        else if (delta < -4) setScrollHidden(false);
+        lastY = y;
+        ticking = false;
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [heroLoading]);
+
   useEffect(() => {
     setOpen(false);
   }, [location]);
@@ -131,8 +160,12 @@ export default function SiteHeader() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-[1000] flex items-center justify-between px-6 py-[18px] transition-opacity duration-700 md:px-10 ${
-        heroLoading ? 'pointer-events-none opacity-0' : 'opacity-100'
+      className={`fixed inset-x-0 top-0 z-[1000] flex items-center justify-between px-6 py-[18px] transition-[opacity,transform] duration-300 md:px-10 ${
+        heroLoading
+          ? 'pointer-events-none opacity-0'
+          : scrollHidden
+          ? 'pointer-events-none -translate-y-full opacity-0'
+          : 'translate-y-0 opacity-100'
       }`}
     >
       <div

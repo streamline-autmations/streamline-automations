@@ -78,11 +78,19 @@ export default function HeroBuilderScroll() {
   };
 
   // ── Size canvas to match display ─────────────────────────────────────────
+  // Only re-measure on an actual width change (orientation/breakpoint).
+  // Mobile browsers fire `resize` when the address bar shows/hides on
+  // scroll — resizing the canvas mid-scrub on those events is what made the
+  // hero visibly shake/jump while scrolling on mobile.
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    let lastWidth = -1;
     const resize = () => {
-      canvas.width  = canvas.offsetWidth;
+      const w = canvas.offsetWidth;
+      if (w === lastWidth) return;
+      lastWidth = w;
+      canvas.width  = w;
       canvas.height = canvas.offsetHeight;
       drawFrame(0);
     };
@@ -113,12 +121,9 @@ export default function HeroBuilderScroll() {
       }
 
       const obj = { frame: 0 };
-      // Nav arrives once the network is dense and active (~50%), well before
-      // the wordmark forms. The wordmark then holds, rebuilds to a second
-      // line, and fades to black — the hero copy only appears after that
-      // exit completes, in the final ~3% of the sequence, so it reads as a
-      // clean cut into the real hero rather than an overlay on the video.
-      const NAV_REVEAL_START = 0.5;
+      // Nav and hero copy both arrive only once the wordmark has fully
+      // dissolved to black, in the final ~3% of the sequence — nothing
+      // appears until the whole build is done.
       const TEXT_REVEAL_START = 0.97;
       const TEXT_REVEAL_RANGE = 0.025;
 
@@ -128,6 +133,7 @@ export default function HeroBuilderScroll() {
         end: `+=${SCROLL_VH * 100}%`,
         pin: true,
         pinType: 'transform',
+        anticipatePin: 1,
         scrub: 0.5,
         onUpdate(self) {
           const targetFrame = Math.round(self.progress * (TOTAL_FRAMES - 1));
@@ -136,7 +142,7 @@ export default function HeroBuilderScroll() {
             drawFrame(targetFrame);
           }
 
-          if (self.progress >= NAV_REVEAL_START) {
+          if (self.progress >= TEXT_REVEAL_START) {
             document.documentElement.removeAttribute('data-hero-loading');
           } else {
             document.documentElement.setAttribute('data-hero-loading', 'true');
