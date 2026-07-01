@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { gsap, ScrollTrigger, useGSAP } from '../../lib/gsap';
 import SplitReveal from '../craft/SplitReveal';
-import FillButton from '../craft/FillButton';
 import { EASE_ARR } from '../../lib/motion';
 import { FEATURED_PROJECTS } from '../../data/site';
 
@@ -97,24 +96,13 @@ export default function CaseStudyCycler() {
       aria-label="Featured client work"
       className="relative z-[1] -mt-[2rem] rounded-t-[2rem] bg-site-ink md:-mt-[4rem] md:rounded-t-[4rem]"
     >
-      {/* Ambient glow */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 left-[10%] h-[500px] w-[500px] rounded-full bg-site-accent opacity-[0.06] blur-[140px]" />
-        <div className="absolute -bottom-32 right-[8%] h-[420px] w-[420px] rounded-full bg-[#5b2bd6] opacity-[0.05] blur-[140px]" />
-      </div>
-
       {/* Heading — scrolls in normally, ahead of the pin */}
       <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 pb-10 pt-20 sm:flex-row sm:items-end sm:justify-between md:px-10 md:pt-28">
-        <div>
-          <span className="mb-4 block font-mono text-[11px] uppercase tracking-[0.2em] text-site-accent">
-            Selected work
-          </span>
-          <SplitReveal
-            as="h2"
-            segments={[{ text: 'Serious builds, shown properly.' }]}
-            className="max-w-[16ch] text-[clamp(32px,5vw,56px)] font-semibold leading-[1.02] tracking-[-0.02em] text-white"
-          />
-        </div>
+        <SplitReveal
+          as="h2"
+          segments={[{ text: 'Serious builds, shown properly.' }]}
+          className="max-w-[16ch] text-[clamp(32px,5vw,56px)] font-semibold leading-[1.02] tracking-[-0.02em] text-white"
+        />
         <Link
           to="/portfolio"
           className="shrink-0 text-[14px] font-medium text-white/60 underline-offset-4 hover:text-white hover:underline"
@@ -130,64 +118,35 @@ export default function CaseStudyCycler() {
         >
           <div ref={trackRef} className="flex h-full w-max will-change-transform">
             {PROJECTS.map((project, i) => (
-              <div key={project.href} className="group relative h-full w-screen shrink-0">
-                <Link
-                  to={project.href}
-                  data-cursor="view"
-                  data-cursor-label="View"
-                  className="absolute inset-0 block"
-                >
-                  {project.media.type === 'video' ? (
-                    <video
-                      src={project.media.src}
-                      poster={(project.media as { poster?: string }).poster}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      preload="none"
-                      aria-label={project.media.alt}
-                      className="h-full w-full object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.03]"
-                    />
-                  ) : (
-                    <img
-                      src={project.media.src}
-                      alt={project.media.alt}
-                      loading={i === 0 ? 'eager' : 'lazy'}
-                      draggable={false}
-                      className="h-full w-full object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.03]"
-                    />
-                  )}
-                  <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(10,10,15,0.92)_0%,rgba(10,10,15,0.55)_28%,rgba(10,10,15,0.05)_55%,transparent_70%)]" />
-                </Link>
-
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 px-6 pb-12 md:px-14 md:pb-16">
-                  <span className="mb-3 block font-mono text-[11px] uppercase tracking-[0.2em] text-site-accent">
-                    Project / {project.no}
-                  </span>
-                  <h3 className="max-w-[18ch] text-[clamp(28px,5vw,48px)] font-semibold leading-[1.05] tracking-[-0.02em] text-white">
-                    {project.name}
-                  </h3>
-                  <p className="mt-3 max-w-[48ch] text-[15px] leading-[1.6] text-white/70 md:text-[16px]">
-                    {project.outcome}
-                  </p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {project.tags.slice(0, 3).map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full border border-white/15 px-3 py-1 text-[11px] text-white/60"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="pointer-events-auto mt-6">
-                    <FillButton to={project.href} variant="on-dark">
-                      View project
-                    </FillButton>
-                  </div>
-                </div>
-              </div>
+              <Link
+                key={project.href}
+                to={project.href}
+                data-cursor="view"
+                data-cursor-label="View"
+                className="relative block h-full w-screen shrink-0"
+              >
+                {project.media.type === 'video' ? (
+                  <video
+                    src={project.media.src}
+                    poster={(project.media as { poster?: string }).poster}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="none"
+                    aria-label={project.media.alt}
+                    className="h-full w-full object-cover transition-transform duration-700 ease-brand hover:scale-[1.03]"
+                  />
+                ) : (
+                  <img
+                    src={project.media.src}
+                    alt={project.media.alt}
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                    draggable={false}
+                    className="h-full w-full object-cover transition-transform duration-700 ease-brand hover:scale-[1.03]"
+                  />
+                )}
+              </Link>
             ))}
           </div>
         </div>
