@@ -34,9 +34,22 @@ function frameSrc(i: number) {
 }
 
 const FRAME_SRCS = Array.from({ length: TOTAL_FRAMES }, (_, i) => frameSrc(i + 1));
-// How many viewport-heights of scroll the sequence spans (shorter on mobile).
-// ~25% longer than the original 4/6 so the frames advance more gradually.
-const SCROLL_VH = IS_MOBILE ? 5 : 7.5;
+
+// Scroll distance is split into three phases so the wordmark's fade-to-black
+// gets to sit on its own for a beat before the hero copy cuts in, instead of
+// the reveal crowding right up against the end of the frame sequence:
+//   1. FRAME_VH      — plays through all frames (build → wordmark → black)
+//   2. BLACK_HOLD_VH  — pure black, nothing happens, a breathing gap
+//   3. REVEAL_VH      — hero copy + nav fade in
+const FRAME_VH      = IS_MOBILE ? 5   : 7.5;
+const BLACK_HOLD_VH = IS_MOBILE ? 2   : 3;
+const REVEAL_VH     = IS_MOBILE ? 1.5 : 2;
+const SCROLL_VH = FRAME_VH + BLACK_HOLD_VH + REVEAL_VH;
+
+const FRAME_END_FRACTION = FRAME_VH / SCROLL_VH;
+const TEXT_REVEAL_START  = (FRAME_VH + BLACK_HOLD_VH) / SCROLL_VH;
+const TEXT_REVEAL_RANGE  = REVEAL_VH / SCROLL_VH;
+
 // Minimum time (seconds) the sequence takes to play from 0% to 100%, even on
 // a huge/violent scroll or flick — enforced via a hard rate cap, see below.
 const SCRUB_SECONDS = 3.5;
@@ -132,11 +145,6 @@ export default function HeroBuilderScroll() {
         return;
       }
 
-      // Nav and hero copy both arrive only once the wordmark has fully
-      // dissolved to black, in the final ~3% of the sequence — nothing
-      // appears until the whole build is done.
-      const TEXT_REVEAL_START = 0.97;
-      const TEXT_REVEAL_RANGE = 0.025;
       // Hard cap on how fast the sequence can advance, in progress-units per
       // second (1 / SCRUB_SECONDS = a full 0→1 pass takes at least that many
       // seconds). GSAP's `scrub` option only smooths a *linked animation's*
@@ -155,7 +163,6 @@ export default function HeroBuilderScroll() {
         start: 'top top',
         end: `+=${SCROLL_VH * 100}%`,
         pin: true,
-        pinType: 'transform',
         anticipatePin: 1,
       });
 
@@ -173,7 +180,11 @@ export default function HeroBuilderScroll() {
         const maxStep = MAX_RATE * dt;
         displayed = Math.abs(diff) <= maxStep ? target : displayed + Math.sign(diff) * maxStep;
 
-        const targetFrame = Math.round(displayed * (TOTAL_FRAMES - 1));
+        // Frames finish playing at FRAME_END_FRACTION of the total scroll —
+        // the remaining distance is the black-hold gap + reveal, so nothing
+        // more happens to the canvas after this point.
+        const frameProgress = Math.min(1, displayed / FRAME_END_FRACTION);
+        const targetFrame = Math.round(frameProgress * (TOTAL_FRAMES - 1));
         if (targetFrame !== lastFrame) {
           lastFrame = targetFrame;
           drawFrame(targetFrame);
