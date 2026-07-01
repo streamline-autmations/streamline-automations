@@ -43,6 +43,12 @@ export default function HeroVideoScroll() {
   const reduced   = usePrefersReducedMotion();
   const [progress, setProgress] = useState(0); // 0–100 load progress
   const [ready,    setReady]    = useState(false);
+  // The GSAP pin effect only runs once, on mount (see below) — it can't
+  // depend on `ready` without recreating the pin mid-scroll, so `onUpdate`
+  // reads this ref instead of the `ready` state to avoid closing over the
+  // stale `false` value from the effect's first (and only) run.
+  const readyRef  = useRef(false);
+  useEffect(() => { readyRef.current = ready; }, [ready]);
 
   // ── Hide nav during the laptop-zoom phase ────────────────────────────────
   useEffect(() => {
@@ -112,7 +118,7 @@ export default function HeroVideoScroll() {
       if (reduced) {
         // Show end frame + text + nav instantly
         document.documentElement.removeAttribute('data-hero-loading');
-        if (ready) drawFrame(TOTAL_FRAMES - 1);
+        if (readyRef.current) drawFrame(TOTAL_FRAMES - 1);
         if (textRef.current) {
           textRef.current.style.opacity = '1';
           textRef.current.style.transform = 'none';
@@ -134,7 +140,7 @@ export default function HeroVideoScroll() {
         pinType: 'transform',
         scrub: 0.5,
         onUpdate(self) {
-          if (ready) {
+          if (readyRef.current) {
             const targetFrame = Math.round(self.progress * (TOTAL_FRAMES - 1));
             if (targetFrame !== Math.round(obj.frame)) {
               obj.frame = targetFrame;
