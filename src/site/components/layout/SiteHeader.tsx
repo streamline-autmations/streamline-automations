@@ -20,7 +20,7 @@ function NavRoll({ to, label, active, dark }: { to: string; label: string; activ
     <Link
       to={to}
       data-cursor="link"
-      className={`group inline-flex min-h-[44px] items-center text-[17px] font-medium outline-none transition-colors duration-300 ${
+      className={`group inline-flex min-h-[44px] items-center rounded-full text-[17px] font-medium outline-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-site-accent ${
         active ? 'text-site-accent' : dark ? 'text-white' : 'text-site-ink'
       }`}
     >
@@ -99,9 +99,35 @@ export default function SiteHeader() {
         },
         { rootMargin: `-40px 0px -${bottomMargin}px 0px` },
       );
-      document.querySelectorAll<HTMLElement>('[data-header-dark]').forEach((el) => darkObs!.observe(el));
+      const sections = document.querySelectorAll<HTMLElement>('[data-header-dark]');
+      sections.forEach((el) => darkObs!.observe(el));
+      // Set the state synchronously too — the IO's first callback is async, and
+      // waiting for it paints a light header over a dark first-load hero
+      // (visible ink-on-ink flash on pages like /contact).
+      setOverDark(
+        Array.from(sections).some((el) => {
+          const r = el.getBoundingClientRect();
+          return r.top <= 40 && r.bottom >= 40;
+        }),
+      );
     };
     setupDarkObs();
+
+    // Route pages are lazy — their [data-header-dark] sections often mount
+    // AFTER this effect first runs (Suspense resolves later on a hard load),
+    // leaving the observer watching nothing. Re-attach whenever dark sections
+    // enter or leave the DOM.
+    const mo = new MutationObserver((muts) => {
+      const relevant = muts.some((m) =>
+        [...m.addedNodes, ...m.removedNodes].some(
+          (n) =>
+            n instanceof HTMLElement &&
+            (n.matches('[data-header-dark]') || n.querySelector('[data-header-dark]') !== null),
+        ),
+      );
+      if (relevant) setupDarkObs();
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
 
     let resizeTimer: ReturnType<typeof setTimeout>;
     const onResize = () => {
@@ -113,6 +139,7 @@ export default function SiteHeader() {
     return () => {
       scrollObs.disconnect();
       darkObs?.disconnect();
+      mo.disconnect();
       intersectingDark.clear();
       clearTimeout(resizeTimer);
       sentinel.remove();
@@ -209,7 +236,7 @@ export default function SiteHeader() {
           className="block"
         >
           <Magnetic strength={10}>
-            <Link to="/" data-cursor="link" className="inline-flex min-h-[44px] items-center outline-none" aria-label="Streamline Automations home">
+            <Link to="/" data-cursor="link" className="inline-flex min-h-[44px] items-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-site-accent" aria-label="Streamline Automations home">
               <Wordmark tone={overDark ? 'light' : 'ink'} className="text-[23px] transition-colors duration-300 md:text-[26px]" />
             </Link>
           </Magnetic>
@@ -236,7 +263,7 @@ export default function SiteHeader() {
                 data-cursor="link"
                 aria-haspopup="true"
                 aria-expanded={servicesOpen}
-                className={`group inline-flex min-h-[44px] items-center gap-1.5 text-[17px] font-medium outline-none transition-colors duration-300 ${
+                className={`group inline-flex min-h-[44px] items-center gap-1.5 rounded-full text-[17px] font-medium outline-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-site-accent ${
                   isActive('/websites') || isActive('/systems')
                     ? 'text-site-accent'
                     : overDark
@@ -303,7 +330,7 @@ export default function SiteHeader() {
 
       <button
         onClick={() => setOpen((v) => !v)}
-        className={`relative z-[1001] flex min-h-[44px] min-w-[44px] items-center justify-center outline-none transition-colors duration-300 md:hidden ${
+        className={`relative z-[1001] flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full outline-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-site-accent md:hidden ${
           open || !overDark ? 'text-site-ink' : 'text-white'
         }`}
         aria-label={open ? 'Close menu' : 'Open menu'}
@@ -371,7 +398,7 @@ export default function SiteHeader() {
                 <span className="mb-1 text-[15px] font-medium text-site-text-body">Get in touch</span>
                 <a
                   href={`mailto:${CONTACT.email}`}
-                  className="min-h-[44px] w-fit border-b border-site-ink/40 py-1 text-[15px] font-medium text-site-text-body outline-none"
+                  className="min-h-[44px] w-fit border-b border-site-ink/40 py-1 text-[15px] font-medium text-site-text-body outline-none focus-visible:border-site-accent focus-visible:text-site-accent"
                 >
                   {CONTACT.email}
                 </a>
@@ -379,7 +406,7 @@ export default function SiteHeader() {
                   href={CONTACT.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="min-h-[44px] w-fit border-b border-site-ink/40 py-1 text-[15px] font-medium text-site-text-body outline-none"
+                  className="min-h-[44px] w-fit border-b border-site-ink/40 py-1 text-[15px] font-medium text-site-text-body outline-none focus-visible:border-site-accent focus-visible:text-site-accent"
                 >
                   {CONTACT.whatsappDisplay}
                 </a>

@@ -30,9 +30,18 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
 
   return (
     <div className="site-root flex min-h-[100svh] flex-col bg-white">
+      {/* First focusable element on the page — visually hidden until focused */}
+      <a
+        href="#site-main"
+        className="sr-only z-[2001] rounded-full bg-site-accent px-6 py-3 text-[15px] font-semibold text-white focus:not-sr-only focus:fixed focus:left-6 focus:top-6"
+      >
+        Skip to content
+      </a>
       <Cursor />
       <SiteHeader />
-      <main className="flex-1">{children}</main>
+      <main id="site-main" className="flex-1">
+        {children}
+      </main>
       <SiteFooter />
       <ContactOrb />
     </div>

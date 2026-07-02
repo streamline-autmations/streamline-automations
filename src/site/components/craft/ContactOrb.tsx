@@ -29,7 +29,7 @@ export default function ContactOrb() {
           data-cursor="view"
           data-cursor-label="Contact"
           aria-label="Get in touch"
-          className="group relative grid h-[88px] w-[88px] place-items-center outline-none md:h-[104px] md:w-[104px]"
+          className="group relative grid h-[88px] w-[88px] place-items-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-offset-2 md:h-[104px] md:w-[104px]"
         >
           <svg className="sc-orb-spin absolute inset-0 h-full w-full" viewBox="0 0 100 100" aria-hidden="true">
             <defs>
