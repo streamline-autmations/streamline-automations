@@ -83,6 +83,7 @@ export default function ClientLogos() {
               animationPlayState: paused ? 'paused' : 'running',
             } as CSSProperties
           }
+          role="group"
           aria-label="Client logos"
         >
           <TrackSet />

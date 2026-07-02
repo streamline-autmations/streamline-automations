@@ -108,7 +108,6 @@ function ServiceRow({
       tabIndex={0}
       role="button"
       aria-expanded={isOpen}
-      aria-label={`${svc.pillar.label}`}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onToggle(); }
       }}
