@@ -107,32 +107,34 @@ export default function CaseStudyCycler() {
       aria-label="Featured client work"
       className="relative z-[1] -mt-[2rem] rounded-t-[2rem] bg-site-ink md:-mt-[4rem] md:rounded-t-[4rem]"
     >
-      {/* Heading — scrolls in normally, ahead of the pin. Sits lower in the
-          section with generous dark space above it, instead of crowding
-          the top edge right after the previous panel. */}
-      <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 pb-16 pt-32 sm:flex-row sm:items-end sm:justify-between md:px-10 md:pb-20 md:pt-48">
-        <SplitReveal
-          as="h2"
-          segments={[{ text: 'Featured projects' }]}
-          className="max-w-[16ch] text-[clamp(42px,7vw,88px)] font-semibold leading-[1.0] tracking-[-0.03em] text-white"
-        />
-        <Link
-          to="/portfolio"
-          className="shrink-0 text-[14px] font-medium text-white/80 underline-offset-4 hover:text-white hover:underline"
-        >
-          All work →
-        </Link>
-      </div>
-
       {enabled ? (
+        /* The whole 100svh viewport pins as one unit — heading at the top,
+           card track filling the rest. Keeping the heading INSIDE the pin
+           means the title stays on screen for the entire scrub instead of
+           scrolling away and leaving a dead gap above the cards. */
         <div
           ref={wrapRef}
-          className="relative h-[100svh] max-h-[100svh] w-full overflow-hidden"
+          className="relative flex h-[100svh] max-h-[100svh] w-full flex-col overflow-hidden"
         >
-          <div
-            ref={trackRef}
-            className="flex h-full w-max items-center gap-10 px-8 will-change-transform md:gap-14 md:px-16"
-          >
+          <div className="mx-auto flex w-full max-w-6xl shrink-0 flex-col gap-4 px-6 pb-6 pt-28 sm:flex-row sm:items-end sm:justify-between md:px-10 md:pb-10 md:pt-32">
+            <SplitReveal
+              as="h2"
+              segments={[{ text: 'Featured projects' }]}
+              className="max-w-[16ch] text-[clamp(42px,7vw,88px)] font-semibold leading-[1.0] tracking-[-0.03em] text-white"
+            />
+            <Link
+              to="/portfolio"
+              className="shrink-0 text-[14px] font-medium text-white/80 underline-offset-4 hover:text-white hover:underline"
+            >
+              All work →
+            </Link>
+          </div>
+
+          <div className="min-h-0 flex-1">
+            <div
+              ref={trackRef}
+              className="flex h-full w-max items-center gap-16 px-8 pb-10 will-change-transform md:gap-28 md:px-16 md:pb-12"
+            >
             {PROJECTS.map((project, i) => {
               const revealed = isCoarse ? activeIdx === i : undefined;
               return (
@@ -147,8 +149,11 @@ export default function CaseStudyCycler() {
                       setActiveIdx(i);
                     }
                   }}
-                  className="group relative block h-[70vh] w-[88vw] shrink-0 overflow-hidden rounded-[24px] sm:h-[74vh] sm:w-[72vw] md:h-[78vh] md:w-[56vw] lg:w-[46vw]"
+                  className="group relative block h-full w-[88vw] shrink-0 overflow-hidden rounded-[24px] sm:w-[76vw] md:w-[62vw] lg:w-[52vw]"
                 >
+                  {/* object-contain, not cover — the mockups are dark renders
+                      that blend into the ink section, and cropping their
+                      edges made every card look cut off. */}
                   {project.media.type === 'video' ? (
                     <video
                       src={project.media.src}
@@ -159,7 +164,7 @@ export default function CaseStudyCycler() {
                       playsInline
                       preload="none"
                       aria-label={project.media.alt}
-                      className="h-full w-full object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.04]"
+                      className="h-full w-full object-contain transition-transform duration-700 ease-brand group-hover:scale-[1.03]"
                     />
                   ) : (
                     <img
@@ -167,7 +172,7 @@ export default function CaseStudyCycler() {
                       alt={project.media.alt}
                       loading={i === 0 ? 'eager' : 'lazy'}
                       draggable={false}
-                      className="h-full w-full object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.04]"
+                      className="h-full w-full object-contain transition-transform duration-700 ease-brand group-hover:scale-[1.03]"
                     />
                   )}
 
@@ -200,12 +205,26 @@ export default function CaseStudyCycler() {
                 </Link>
               );
             })}
+            </div>
           </div>
         </div>
       ) : (
         /* ── Reduced-motion fallback: static stacked grid, no pin ── */
         <div className="px-6 pb-20 md:px-10">
           <div className="mx-auto w-full max-w-6xl">
+            <div className="flex flex-col gap-4 pb-12 pt-28 sm:flex-row sm:items-end sm:justify-between md:pt-32">
+              <SplitReveal
+                as="h2"
+                segments={[{ text: 'Featured projects' }]}
+                className="max-w-[16ch] text-[clamp(42px,7vw,88px)] font-semibold leading-[1.0] tracking-[-0.03em] text-white"
+              />
+              <Link
+                to="/portfolio"
+                className="shrink-0 text-[14px] font-medium text-white/80 underline-offset-4 hover:text-white hover:underline"
+              >
+                All work →
+              </Link>
+            </div>
             <div className="grid gap-6 sm:grid-cols-2">
               {PROJECTS.map((project, i) => (
                 <motion.article
