@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Panel from '../../components/craft/Panel';
 import Tag from '../../components/craft/Tag';
+import ParallaxMedia from '../../components/craft/ParallaxMedia';
 import SplitReveal from '../../components/craft/SplitReveal';
 import FillButton from '../../components/craft/FillButton';
 import PreFooterCTA from '../../components/craft/PreFooterCTA';
@@ -90,13 +91,15 @@ export default function Blom() {
           transition={{ duration: 0.8, ease: EASE_ARR, delay: 0.35 }}
           className="mx-auto mt-14 w-full max-w-7xl md:mt-20"
         >
-          <img
-            src={`${C}/hero.webp`}
-            alt="BLOM Cosmetics storefront homepage"
-            loading="lazy"
-            draggable={false}
-            className="aspect-[16/10] w-full select-none rounded-2xl border border-site-line object-cover md:rounded-3xl"
-          />
+          <ParallaxMedia className="aspect-[16/10] w-full rounded-2xl border border-site-line md:rounded-3xl">
+            <img
+              src={`${C}/hero.webp`}
+              alt="BLOM Cosmetics storefront homepage"
+              loading="lazy"
+              draggable={false}
+              className="h-full w-full select-none object-cover"
+            />
+          </ParallaxMedia>
         </motion.div>
       </section>
 

@@ -4,6 +4,7 @@ import Panel from '../../components/craft/Panel';
 import Tag from '../../components/craft/Tag';
 import SplitReveal from '../../components/craft/SplitReveal';
 import FillButton from '../../components/craft/FillButton';
+import ParallaxMedia from '../../components/craft/ParallaxMedia';
 import PreFooterCTA from '../../components/craft/PreFooterCTA';
 import { EASE_ARR, fadeUp, viewport } from '../../lib/motion';
 
@@ -72,13 +73,15 @@ export default function RecklessBear() {
             transition={{ duration: 0.8, ease: EASE_ARR, delay: 0.65 }}
             className="mt-14 overflow-hidden rounded-2xl border border-site-line bg-site-surface shadow-[0_30px_80px_-20px_rgba(76,29,149,0.18),0_10px_30px_-10px_rgba(0,0,0,0.06)] md:mt-16 md:rounded-3xl"
           >
-            <img
-              src={`${C}/hero.webp`}
-              alt="RecklessBear custom apparel website homepage"
-              loading="eager"
-              draggable={false}
-              className="aspect-[16/10] w-full select-none object-cover"
-            />
+            <ParallaxMedia className="aspect-[16/10] w-full">
+              <img
+                src={`${C}/hero.webp`}
+                alt="RecklessBear custom apparel website homepage"
+                loading="eager"
+                draggable={false}
+                className="h-full w-full select-none object-cover"
+              />
+            </ParallaxMedia>
           </motion.div>
         </div>
       </section>

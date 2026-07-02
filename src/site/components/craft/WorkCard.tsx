@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { gsap, useGSAP } from '../../lib/gsap';
 import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion';
 import { EASE_ARR } from '../../lib/motion';
 import type { ProjectMedia } from '../../data/site';
@@ -30,7 +31,36 @@ export default function WorkCard({
 }: Props) {
   const reduced = usePrefersReducedMotion();
   const wrapRef = useRef<HTMLDivElement>(null);
+  const parallaxRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Inside-the-frame parallax: the media layer drifts a few percent as the
+  // card crosses the viewport. Lives on a wrapper div so it never fights the
+  // img/video's own CSS hover-scale transform. Desktop-only, reduced-motion off.
+  useGSAP(
+    () => {
+      if (reduced || !wrapRef.current || !parallaxRef.current) return;
+      const mm = gsap.matchMedia();
+      mm.add('(min-width: 768px)', () => {
+        const tween = gsap.fromTo(
+          parallaxRef.current,
+          { yPercent: -5, scale: 1.12 },
+          {
+            yPercent: 5,
+            scale: 1.12,
+            ease: 'none',
+            scrollTrigger: { trigger: wrapRef.current, start: 'top bottom', end: 'bottom top', scrub: 0.4 },
+          },
+        );
+        return () => {
+          tween.scrollTrigger?.kill();
+          tween.kill();
+        };
+      });
+      return () => mm.revert();
+    },
+    { scope: wrapRef, dependencies: [reduced] },
+  );
   const resolvedImage = media?.type === 'image' ? media.src : media?.poster || image || '';
   const resolvedVideo = media?.type === 'video' ? media.src : video;
   const mobileFallback = media?.mobileFallback || resolvedImage;
@@ -71,35 +101,37 @@ export default function WorkCard({
           className="relative w-full overflow-hidden rounded-3xl border border-site-line bg-site-surface shadow-[0_30px_80px_-20px_rgba(76,29,149,0.18),0_10px_30px_-10px_rgba(0,0,0,0.06)]"
           style={{ aspectRatio: ratio }}
         >
-          {reduced || !resolvedVideo ? (
-            <picture>
-              <source media="(max-width: 767px)" srcSet={mobileFallback} />
-              <img
-                src={resolvedImage}
-                alt={mediaAlt}
-                loading="lazy"
-                draggable={false}
-                className={`absolute inset-0 h-full w-full select-none object-cover transition-transform duration-[900ms] ease-brand will-change-transform ${
+          <div ref={parallaxRef} className="absolute inset-0 will-change-transform">
+            {reduced || !resolvedVideo ? (
+              <picture className="block h-full w-full">
+                <source media="(max-width: 767px)" srcSet={mobileFallback} />
+                <img
+                  src={resolvedImage}
+                  alt={mediaAlt}
+                  loading="lazy"
+                  draggable={false}
+                  className={`h-full w-full select-none object-cover transition-transform duration-[900ms] ease-brand will-change-transform ${
+                    reduced ? '' : 'group-hover:scale-[1.04]'
+                  }`}
+                />
+              </picture>
+            ) : (
+              <video
+                ref={videoRef}
+                src={resolvedVideo}
+                poster={resolvedImage}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="none"
+                aria-label={mediaAlt}
+                className={`h-full w-full object-cover transition-transform duration-[900ms] ease-brand will-change-transform ${
                   reduced ? '' : 'group-hover:scale-[1.04]'
                 }`}
               />
-            </picture>
-          ) : (
-            <video
-              ref={videoRef}
-              src={resolvedVideo}
-              poster={resolvedImage}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="none"
-              aria-label={mediaAlt}
-              className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-brand will-change-transform ${
-                reduced ? '' : 'group-hover:scale-[1.04]'
-              }`}
-            />
-          )}
+            )}
+          </div>
           <div
             aria-hidden="true"
             className="absolute inset-0 bg-site-ink/0 transition-colors duration-500 ease-brand group-hover:bg-site-ink/[0.04]"
