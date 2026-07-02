@@ -104,7 +104,7 @@ function ServiceRow({
         borderColor: { duration: 0.3, ease: EASE },
         boxShadow:   { duration: isOpen ? 0.5 : 0.28, ease: EASE },
       }}
-      className="cursor-pointer select-none overflow-hidden rounded-[20px] border px-8 py-6 outline-none md:px-10 md:py-7"
+      className="cursor-pointer select-none overflow-hidden rounded-[20px] border px-8 py-7 outline-none focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-offset-2 md:px-12 md:py-9"
       tabIndex={0}
       role="button"
       aria-expanded={isOpen}
@@ -125,7 +125,7 @@ function ServiceRow({
         </motion.span>
 
         {/* Title */}
-        <h3 className="flex-1 text-[clamp(20px,2.8vw,38px)] font-semibold leading-[1.05] tracking-[-0.025em]">
+        <h3 className="flex-1 text-[clamp(22px,3.2vw,42px)] font-semibold leading-[1.05] tracking-[-0.025em]">
           <TitleLine parts={svc.title} dark={isOpen} />
         </h3>
 
@@ -166,7 +166,7 @@ function ServiceRow({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1, transition: { duration: 0.38, ease: EASE, delay: 0.22 } }}
               exit={{ opacity: 0, transition: { duration: 0.1 } }}
-              className="max-w-[52ch] text-[15.5px] leading-[1.65] text-white/80"
+              className="max-w-[52ch] text-[17px] leading-[1.6] text-white/80 md:text-[19px]"
             >
               {svc.body}
             </motion.p>
@@ -213,8 +213,8 @@ export default function ServicesSection() {
     <Panel bg="white" className="px-6 py-28 md:px-10 md:py-36">
       <div className="mx-auto w-full max-w-6xl">
 
-        {/* Section intro */}
-        <div className="mb-14 flex flex-col items-center text-center">
+        {/* Section intro — generous breathing room before the rows start */}
+        <div className="mb-20 flex flex-col items-center text-center md:mb-28">
           <SplitReveal
             as="h2"
             segments={[
@@ -226,7 +226,7 @@ export default function ServicesSection() {
         </div>
 
         {/* Accordion rows */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-4 md:gap-5">
           {SERVICES.map((svc, i) => (
             <ServiceRow
               key={svc.no}

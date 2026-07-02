@@ -30,7 +30,7 @@ const STATS: { to: number; prefix?: string; suffix?: string; label: string }[] =
  *  ink stays reserved for the scrolly + pre-footer moments. */
 export default function StatsSection() {
   return (
-    <Panel bg="offwhite" className="px-6 py-24 md:px-10 md:py-32">
+    <Panel bg="offwhite" className="px-6 py-28 md:px-10 md:py-32">
       <div className="mx-auto w-full max-w-6xl">
         <motion.div
           variants={statContainer}

@@ -1,6 +1,5 @@
 import { ReactNode, useRef } from 'react';
 import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 
 /**
  * Magnetic — child slides a few px toward the cursor as it approaches, springing
@@ -55,61 +54,6 @@ export function Magnetic({
     >
       {children}
     </motion.span>
-  );
-}
-
-type ButtonVariant = 'primary' | 'on-dark' | 'ghost';
-
-const VARIANTS: Record<ButtonVariant, string> = {
-  primary:
-    'bg-site-accent text-white shadow-[0_8px_24px_rgba(123,63,228,0.3)] hover:bg-site-accent-hover hover:shadow-[0_14px_36px_rgba(123,63,228,0.4)]',
-  'on-dark': 'bg-white text-site-accent hover:bg-white/90 shadow-[0_8px_24px_rgba(0,0,0,0.18)]',
-  ghost: 'border border-site-line text-site-ink hover:border-site-line-mid hover:bg-site-surface',
-};
-
-/**
- * MagneticButton — a pill CTA wrapped in <Magnetic>. Renders a router <Link>
- * (internal `to`) or an <a> (external `href`). Brand-eased, 52px min height.
- */
-export function MagneticButton({
-  to,
-  href,
-  children,
-  variant = 'primary',
-  strength = 16,
-  className = '',
-  dataCursor = 'view',
-  external = false,
-}: {
-  to?: string;
-  href?: string;
-  children: ReactNode;
-  variant?: ButtonVariant;
-  strength?: number;
-  className?: string;
-  dataCursor?: 'view' | 'link';
-  /** For href links — adds target=_blank + rel. */
-  external?: boolean;
-}) {
-  const classes = `inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full px-8 py-4 text-[15px] font-semibold outline-none transition-[background-color,box-shadow,border-color] duration-300 ease-brand focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-offset-2 ${VARIANTS[variant]} ${className}`;
-
-  return (
-    <Magnetic strength={strength}>
-      {to ? (
-        <Link to={to} data-cursor={dataCursor} className={classes}>
-          {children}
-        </Link>
-      ) : (
-        <a
-          href={href}
-          data-cursor={dataCursor}
-          className={classes}
-          {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-        >
-          {children}
-        </a>
-      )}
-    </Magnetic>
   );
 }
 
