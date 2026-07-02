@@ -4,15 +4,25 @@ import Panel from '../components/craft/Panel';
 import Tag from '../components/craft/Tag';
 import SplitReveal from '../components/craft/SplitReveal';
 import FillButton from '../components/craft/FillButton';
-import { EASE_ARR, fadeUp, viewport } from '../lib/motion';
-import { CONTACT, SOCIALS } from '../data/site';
+import { fadeUp } from '../lib/motion';
+import { CONTACT } from '../data/site';
 import { FAQ_ITEMS } from '../data/faq';
-import EngineBackdrop from '../components/three/EngineBackdrop';
+
+const INTERESTS = [
+  'New website',
+  'Website redesign',
+  'Booking / online store',
+  'Systems & automation',
+  'Hosting & maintenance',
+  'Not sure yet',
+];
 
 const BUDGETS = [
-  'New website',
-  'Automation / system',
-  'Hosting & care',
+  'Under R10k',
+  'R10k – R25k',
+  'R25k – R60k',
+  'R60k+',
+  'Rent-to-own · From R699/mo',
   'Not sure yet',
 ];
 
@@ -84,13 +94,34 @@ function Field({
   );
 }
 
+/** Toggle pill — shared by the "what do you need" and budget rows. */
+function Pill({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      data-cursor="link"
+      aria-pressed={active}
+      onClick={onClick}
+      className={`min-h-[44px] rounded-full border px-5 text-[15px] font-medium outline-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-offset-2 ${
+        active
+          ? 'border-site-accent bg-site-accent text-white'
+          : 'border-site-line text-site-text-body hover:border-site-line-mid hover:text-site-ink'
+      }`}
+    >
+      {label}
+    </button>
+  );
+}
+
 /**
- * Contact — Cuberto-calibrated contacts page. Ink hero with a looping video bg,
- * a white form panel with large underline inputs that composes a prefilled
- * WhatsApp message (no backend yet), then an ink details panel. Alternating
- * rounded panels. No <form> element — submit is an onClick handler.
+ * Contact — one long, plain white form. No hero video, no dark panel — just
+ * the headline and the form, Cuberto-contacts-page simple. Submitting
+ * composes a prefilled WhatsApp message (no backend). Direct email/WhatsApp/
+ * location already live in the global footer, so this page doesn't repeat
+ * them. FAQ stays below — it backs the FAQPage schema in SiteSEO.
  */
 export default function Contact() {
+  const [interest, setInterest] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [project, setProject] = useState('');
@@ -115,6 +146,7 @@ export default function Contact() {
 
     const lines = [
       `Hi Christiaan, I'm ${name.trim()} and I'd like to talk about a project.`,
+      interest ? `\nI'm interested in: ${interest}` : '',
       project ? `\nWhat I'm building: ${project.trim()}` : '',
       budget ? `\nBudget: ${budget}` : '',
       email ? `\nEmail: ${email.trim()}` : '',
@@ -125,94 +157,71 @@ export default function Contact() {
 
   return (
     <>
-      {/* HERO — ink + the scroll-reactive Engine (CSS blooms on mobile/RM) */}
-      <Panel bg="ink" first className="flex min-h-[88svh] items-center overflow-hidden px-6 pt-32 pb-24 md:px-10">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="sc-bloom-a absolute -top-40 left-[18%] h-[560px] w-[560px] rounded-full bg-site-accent opacity-[0.16] blur-[150px]" />
-          <div className="sc-bloom-b absolute -bottom-44 right-[16%] h-[480px] w-[480px] rounded-full bg-[#5b2bd6] opacity-[0.12] blur-[150px]" />
-        </div>
-        {/* Core sits right of the left-aligned headline */}
-        <EngineBackdrop corePos={[3.0, -0.2, -0.8]} />
-
-        <div className="relative mx-auto w-full max-w-6xl">
-          <Tag variant="white" className="mb-7">
+      <Panel bg="white" first className="px-6 pb-24 pt-40 md:px-10 md:pt-48">
+        <div className="mx-auto w-full max-w-3xl">
+          <Tag variant="outline" className="mb-6">
             Get in touch
           </Tag>
           <SplitReveal
             as="h1"
             trigger="mount"
-            segments={[{ text: 'Book a' }, { text: 'free', serif: true }, { text: 'call.' }]}
-            className="max-w-[14ch] text-[clamp(48px,9vw,116px)] font-semibold leading-[0.96] tracking-[-0.03em] text-white"
+            segments={[{ text: 'Hey — tell me what' }, { text: "you're building.", serif: true }]}
+            className="max-w-[16ch] text-[clamp(40px,7vw,72px)] font-semibold leading-[1.04] tracking-[-0.02em] text-site-ink"
           />
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.4 }}
-            className="mt-8 max-w-lg text-[17px] leading-[1.65] text-white/70"
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="mt-7 max-w-md text-[17px] leading-[1.65] text-site-text-body"
           >
-            Tell me what you need: a professional website, a booking flow, a dashboard, or the
-            automation behind it. No pitch deck. Just a clear next step.
+            Fill this in and it opens WhatsApp with your details ready to send. I usually reply the
+            same day, Mon–Fri 8–5.
           </motion.p>
-        </div>
-      </Panel>
 
-      {/* FORM — white */}
-      <Panel bg="white" className="px-6 py-24 md:px-10 md:py-32">
-        <div className="mx-auto grid w-full max-w-6xl gap-14 md:grid-cols-[0.8fr_1.2fr]">
-          <div>
-            <Tag variant="outline" className="mb-6">
-              Start here
-            </Tag>
-            <SplitReveal
-              as="h2"
-              segments={[{ text: 'Tell me about the' }, { text: 'project.', serif: true }]}
-              className="text-[clamp(30px,4vw,48px)] font-semibold leading-[1.05] tracking-[-0.02em] text-site-ink"
-            />
-            <p className="mt-5 max-w-sm text-[16px] leading-[1.65] text-site-text-body">
-              Fill this in and it opens WhatsApp with the details ready to send. Prefer email? It is
-              right below.
-            </p>
-          </div>
+          <motion.form
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="mt-16 flex flex-col gap-14"
+            noValidate
+            onSubmit={submit}
+          >
+            <div>
+              <span className="mb-4 block text-[15px] font-medium text-site-text-body">What do you need?</span>
+              <div className="flex flex-wrap gap-3">
+                {INTERESTS.map((i) => (
+                  <Pill key={i} label={i} active={interest === i} onClick={() => setInterest((cur) => (cur === i ? '' : i))} />
+                ))}
+              </div>
+            </div>
 
-          <motion.form variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport} className="flex flex-col gap-9" noValidate onSubmit={submit}>
-            <div className="grid gap-9 sm:grid-cols-2">
+            <div className="grid gap-10 sm:grid-cols-2">
               <Field label="Your name" name="name" value={name} onChange={setName} placeholder="Jane Dlamini" required error={errors.name} />
               <Field label="Email" name="email" type="email" value={email} onChange={setEmail} placeholder="jane@business.co.za" error={errors.email} />
             </div>
+
             <Field
-              label="What are you building?"
+              label="Tell me about your project"
               name="project"
               value={project}
               onChange={setProject}
-              placeholder="A booking site, an admin system, WhatsApp automation…"
+              placeholder="What are you building, and what should it do?"
               textarea
               required
               error={errors.project}
             />
 
             <div>
-              <span className="mb-3 block text-[14px] font-medium text-site-text-body">Package or budget</span>
+              <span className="mb-4 block text-[15px] font-medium text-site-text-body">Project budget (ZAR)</span>
               <div className="flex flex-wrap gap-3">
                 {BUDGETS.map((b) => (
-                  <button
-                    key={b}
-                    type="button"
-                    data-cursor="link"
-                    onClick={() => setBudget((cur) => (cur === b ? '' : b))}
-                    className={`min-h-[44px] rounded-full border px-5 text-[14px] font-medium outline-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-offset-2 ${
-                      budget === b
-                        ? 'border-site-accent bg-site-accent text-white'
-                        : 'border-site-line text-site-text-body hover:border-site-line-mid hover:text-site-ink'
-                    }`}
-                  >
-                    {b}
-                  </button>
+                  <Pill key={b} label={b} active={budget === b} onClick={() => setBudget((cur) => (cur === b ? '' : b))} />
                 ))}
               </div>
             </div>
 
             <div className="flex flex-wrap items-center gap-6 pt-2">
-              <FillButton onClick={submit} variant="ink">
+              <FillButton onClick={submit} variant="ink" className="w-full justify-center sm:w-auto">
                 Send on WhatsApp
               </FillButton>
               <a
@@ -236,55 +245,8 @@ export default function Contact() {
         </div>
       </Panel>
 
-      {/* DETAILS — ink */}
-      <Panel bg="ink" className="px-6 py-24 md:px-10 md:py-32">
-        <div className="mx-auto w-full max-w-6xl">
-          <Tag variant="outline-dark" className="mb-8">
-            Or reach me directly
-          </Tag>
-          <a
-            href={`mailto:${CONTACT.email}`}
-            data-cursor="link"
-            className="group block max-w-full break-words text-[clamp(28px,5vw,64px)] font-semibold tracking-[-0.02em] text-white outline-none"
-          >
-            <span className="bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 ease-brand group-hover:bg-[length:100%_2px]">
-              {CONTACT.email}
-            </span>
-          </a>
-
-          <div className="mt-16 grid gap-10 border-t border-white/10 pt-12 sm:grid-cols-2 md:grid-cols-4">
-            <div>
-              <div className="mb-3 text-[14px] font-medium text-white/80">WhatsApp</div>
-              <a href={CONTACT.whatsappUrl} target="_blank" rel="noopener noreferrer" className="text-[16px] text-white/[0.78] hover:text-white">
-                {CONTACT.whatsappDisplay}
-              </a>
-            </div>
-            <div>
-              <div className="mb-3 text-[14px] font-medium text-white/80">Instagram</div>
-              <a href={SOCIALS.instagram} target="_blank" rel="noopener noreferrer" className="text-[16px] text-white/[0.78] hover:text-white">
-                {CONTACT.instagram}
-              </a>
-            </div>
-            <div>
-              <div className="mb-3 text-[14px] font-medium text-white/80">Hours</div>
-              <div className="flex flex-col gap-1 text-[15px] text-white/[0.7]">
-                {CONTACT.hours.map(([d, h]) => (
-                  <span key={d}>
-                    {d} · {h}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div>
-              <div className="mb-3 text-[14px] font-medium text-white/80">Based in</div>
-              <p className="text-[15px] text-white/[0.7]">{CONTACT.location}</p>
-            </div>
-          </div>
-        </div>
-      </Panel>
-
-      {/* FAQ — white. Visible content paired with the FAQPage schema (SiteSEO). */}
-      <Panel bg="white" className="px-6 py-24 md:px-10 md:py-32">
+      {/* FAQ — visible content paired with the FAQPage schema (SiteSEO). */}
+      <Panel bg="offwhite" className="px-6 py-24 md:px-10 md:py-32">
         <div className="mx-auto w-full max-w-3xl">
           <Tag variant="outline" className="mb-6">
             FAQ
