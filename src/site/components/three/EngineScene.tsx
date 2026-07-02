@@ -11,7 +11,7 @@
 import { useMemo, useRef } from 'react';
 import type { MutableRefObject } from 'react';
 import { AdditiveBlending } from 'three';
-import type { BufferGeometry, Group, Mesh } from 'three';
+import type { BufferGeometry, Group, Mesh, MeshStandardMaterial } from 'three';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { MeshDistortMaterial } from '@react-three/drei';
 
@@ -102,7 +102,8 @@ function Engine({
   const orbRef = useRef<Group>(null);
   const coreRef = useRef<Mesh>(null);
   const shellRef = useRef<Mesh>(null);
-  const matRef = useRef<any>(null);
+  // drei's MeshDistortMaterial = MeshStandardMaterial + a distort uniform
+  const matRef = useRef<(MeshStandardMaterial & { distort: number }) | null>(null);
   // World-space x of the travelling orb; starts at its classic corner anchor.
   const travelX = useRef(corePos[0]);
 

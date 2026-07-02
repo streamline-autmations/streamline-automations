@@ -76,7 +76,7 @@ function useNetworkCanvas(reduced: boolean) {
     if (!ctx) return;
 
     let nodes:  Node[]  = [];
-    let pulses: Pulse[] = [];
+    const pulses: Pulse[] = [];
     let raf     = 0;
     let W = 0, H = 0;
     let isMob   = false;

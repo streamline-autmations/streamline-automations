@@ -99,9 +99,11 @@ Short sentences. Direct. No corporate fluff. Never lorem ipsum.
 No orange. No dark default backgrounds. No glassmorphism, dot grids, or corner brackets.
 
 ### Typography
-- **Everything:** DM Sans (body, headings, UI)
-- **Highlight words:** Instrument Serif *italic*, purple — ONE accent word/short phrase per headline
-- **Eyebrows/labels:** JetBrains Mono, uppercase, letter-spaced
+- **Everything:** Inter Tight (body, headings, UI) — free stand-in for the Nimbus Sans Novus
+  reference (tight Helvetica-family grotesque), loaded from Google Fonts
+- **Highlight words:** same font, purple #7B3FE4 — the Instrument Serif italic accent is retired
+- **JetBrains Mono:** survives ONLY in the contact-orb ring + 3D node micro-labels — the
+  uppercase mono eyebrow/label pattern is retired site-wide
 
 ### Layout tokens
 - Easing for all transitions: `cubic-bezier(0.22, 1, 0.36, 1)`
@@ -167,7 +169,7 @@ Tiers: Starter R699/mo · Business R1,099/mo · Pro R1,799/mo.
 | BLOM Cosmetics | E-commerce + admin + BLOM Academy course platform + email/WhatsApp automation. Supabase, n8n, PayFast, ShipLogic. Active retainer. |
 | RecklessBear | Website + admin + CRM + 12-stage Trello production tracking + WhatsApp automation + AI quote engine (Voiceflow). Active retainer. |
 | CW Electronics | Full e-commerce + custom admin, 700+ products live in under 2 weeks, retail + wholesale pricing, PayFast live. cw-electronics.co.za. Active retainer. |
-| Ameli Designs | Portfolio site for skin & brow studio, contact form, automated email lead capture. 4-day turnaround. |
+| Ameli Designs | Portfolio site for a graphic designer, contact form, automated email lead capture. 4-day turnaround. |
 | JJ Glasswork | Service site, contact form, automated email lead notifications |
 | NSA Mining | Internal employee gift system, eligibility lookup, slip printing, reporting |
 | Tuscany SA | Email hosting, domain management, IT support, logo, email banner |

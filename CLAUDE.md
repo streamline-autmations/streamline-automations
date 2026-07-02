@@ -48,8 +48,10 @@ lots of small decorative touches instead of a few confident ones. Concretely:
 - Borders: #E8E8EC / #D4D4DA
 - Text: primary #0A0A0F · body #3D3D47 · secondary #6B6B7A · muted #9E9EA8
 - Accent (ONE only): #7B3FE4, hover #6930D0
-- Type: DM Sans (everything) · Instrument Serif italic purple (ONE accent word per headline)
-  · JetBrains Mono (eyebrows/labels, uppercase, tracking)
+- Type: Inter Tight (everything — free stand-in for the Nimbus Sans Novus reference; tight
+  Helvetica-family grotesque). Headline accent words = same font, purple (the Instrument Serif
+  italic accent is retired). JetBrains Mono survives ONLY in the contact-orb ring + 3D node
+  micro-labels — the uppercase mono eyebrow/label pattern is retired site-wide.
 
 ### Motion stack (single source each — never duplicate)
 - One `src/lib/gsap-setup.ts` registering all GSAP plugins once.
@@ -155,9 +157,9 @@ no corner brackets — that was the old dark cyberpunk version and is retired.
 ```
 
 ### Typography
-- **Everything:** DM Sans (body, headings, UI)
-- **Highlight words only:** Instrument Serif *italic* — used sparingly inside headlines for
-  emphasis on a single word or short phrase
+- **Everything:** Inter Tight (body, headings, UI) — free stand-in for the Nimbus Sans Novus
+  reference (tight Helvetica-family grotesque). Loaded from Google Fonts.
+- **Highlight words:** same font, purple `#7B3FE4` — the Instrument Serif italic accent is retired.
 
 ### Motion & layout tokens
 - Easing for all transitions: `cubic-bezier(0.22, 1, 0.36, 1)`
@@ -248,7 +250,7 @@ hero and the "what's included" section. GSAP scrub-pinned.
 | 1 | BLOM Cosmetics    | Full e-commerce + admin + course platform (BLOM Academy) + email + WhatsApp automation. Supabase, n8n, PayFast, ShipLogic. **Active retainer.** |
 | 2 | RecklessBear      | Website + admin + CRM + 12-stage Trello production tracking + WhatsApp automation + AI quote engine (Voiceflow). **Active retainer.** |
 | 3 | CW Electronics    | Full e-commerce + custom admin for a JHB-based Chinese electronics importer (Shop C15, China Mart, Crown Mines). 700+ products live in under 2 weeks. Retail + wholesale pricing, stock analytics, order management, customer updates, owner-editable. PayFast live. cw-electronics.co.za. **Active retainer.** |
-| 4 | Ameli Designs     | Portfolio site for skin & brow studio, contact form, automated email lead capture. 4-day turnaround. |
+| 4 | Ameli Designs     | Portfolio site for a graphic designer, contact form, automated email lead capture. 4-day turnaround. |
 
 ### Full portfolio grid (/portfolio)
 
