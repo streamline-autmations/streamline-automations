@@ -82,7 +82,9 @@ export default {
         'ubuntu': ['Ubuntu', 'sans-serif'],
         'inter': ['Inter', 'sans-serif'],
         'roboto': ['Roboto', 'sans-serif'],
-        sans: ['DM Sans', 'sans-serif'],
+        // v2 type system — Inter Tight everywhere (free stand-in for the
+        // Nimbus Sans Novus reference: tight Helvetica-family grotesque)
+        sans: ['Inter Tight', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
         syne: ['Syne', 'sans-serif'],
         'bebas': ['Bebas Neue', 'sans-serif'],
