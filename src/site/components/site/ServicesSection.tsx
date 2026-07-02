@@ -48,7 +48,7 @@ function TitleLine({ parts, dark }: { parts: readonly TitlePart[]; dark: boolean
             {part}
           </span>
         ) : (
-          <em key={i} className="font-instrument not-italic text-site-accent">
+          <em key={i} className="not-italic text-site-accent">
             {part.serif}
           </em>
         ),
@@ -117,9 +117,9 @@ function ServiceRow({
       <div className="flex items-center gap-6 md:gap-10">
         {/* Number */}
         <motion.span
-          animate={{ color: isOpen ? '#7B3FE4' : showHoverHint ? '#6B6B7A' : '#9E9EA8' }}
+          animate={{ color: isOpen ? '#7B3FE4' : showHoverHint ? '#6B6B7A' : '#3D3D47' }}
           transition={{ duration: 0.32, ease: EASE }}
-          className="shrink-0 font-mono text-[12px] uppercase tracking-[0.18em]"
+          className="shrink-0 text-[14px] font-medium"
         >
           {svc.no}
         </motion.span>
@@ -166,7 +166,7 @@ function ServiceRow({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1, transition: { duration: 0.38, ease: EASE, delay: 0.22 } }}
               exit={{ opacity: 0, transition: { duration: 0.1 } }}
-              className="max-w-[52ch] text-[15.5px] leading-[1.65] text-white/65"
+              className="max-w-[52ch] text-[15.5px] leading-[1.65] text-white/80"
             >
               {svc.body}
             </motion.p>
@@ -181,7 +181,7 @@ function ServiceRow({
               {svc.pillar.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full border border-white/12 px-3 py-1.5 text-[12px] text-white/45"
+                  className="rounded-full border border-white/12 px-3 py-1.5 text-[14px] text-white/80"
                 >
                   {tag}
                 </span>

@@ -154,7 +154,7 @@ export default function About() {
               >
                 <span
                   aria-hidden="true"
-                  className="font-mono text-[40px] font-semibold leading-none tracking-[-0.02em] text-site-accent md:text-[52px]"
+                  className="text-[40px] font-semibold leading-none tracking-[-0.02em] text-site-accent md:text-[52px]"
                 >
                   {step.n}
                 </span>
@@ -200,7 +200,7 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={viewport}
             transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.15 }}
-            className="mt-12 font-mono text-[11px] uppercase tracking-[0.14em] text-white/60"
+            className="mt-12 text-[14px] font-medium text-white/80"
           >
             CIPC 2025/069691/07 · Not VAT-registered.
           </motion.p>

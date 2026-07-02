@@ -118,7 +118,7 @@ export default function CaseStudyCycler() {
         />
         <Link
           to="/portfolio"
-          className="shrink-0 text-[14px] font-medium text-white/60 underline-offset-4 hover:text-white hover:underline"
+          className="shrink-0 text-[14px] font-medium text-white/80 underline-offset-4 hover:text-white hover:underline"
         >
           All work →
         </Link>
@@ -244,13 +244,11 @@ export default function CaseStudyCycler() {
                       )}
                     </div>
                     <div className="p-5">
-                      <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-site-accent">
-                        {project.no}
-                      </span>
+                      <span className="text-[14px] font-medium text-site-accent">{project.no}</span>
                       <h3 className="mt-2 text-[20px] font-semibold tracking-[-0.02em] text-white">
                         {project.name}
                       </h3>
-                      <p className="mt-2 text-[14px] leading-[1.55] text-white/60">{project.outcome}</p>
+                      <p className="mt-2 text-[14px] leading-[1.55] text-white/80">{project.outcome}</p>
                     </div>
                   </Link>
                 </motion.article>

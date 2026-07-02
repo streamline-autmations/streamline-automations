@@ -116,7 +116,7 @@ export default function SiteFooter() {
             <SocialIcon href={SOCIALS.facebook} label="Facebook" Icon={FaFacebookF} />
           </div>
 
-          <div className="flex items-center gap-5 font-mono text-[11px] uppercase tracking-[0.14em] text-white/60">
+          <div className="flex items-center gap-5 text-[14px] text-white/80">
             <Link
               to="/privacy"
               data-cursor="link"

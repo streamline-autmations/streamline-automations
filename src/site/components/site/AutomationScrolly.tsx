@@ -84,12 +84,12 @@ export default function AutomationScrolly() {
           <ol className="mt-12 flex flex-col gap-9 border-l border-white/15 pl-8">
             {STEPS.map((s) => (
               <li key={s.no} className="relative">
-                <span className="absolute -left-[41px] top-1 grid h-5 w-5 place-items-center rounded-full bg-site-accent font-mono text-[9px] font-semibold text-white">
+                <span className="absolute -left-[41px] top-1 grid h-5 w-5 place-items-center rounded-full bg-site-accent text-[10px] font-semibold text-white">
                   {s.no.replace('0', '')}
                 </span>
-                <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-site-accent">{s.no}</span>
+                <span className="text-[14px] font-medium text-site-accent">{s.no}</span>
                 <h3 className="mt-1 text-[20px] font-semibold tracking-[-0.01em] text-white">{s.title}</h3>
-                <p className="mt-2 text-[15px] leading-[1.6] text-white/70">{s.body}</p>
+                <p className="mt-2 text-[15px] leading-[1.6] text-white/80">{s.body}</p>
               </li>
             ))}
           </ol>
@@ -148,7 +148,7 @@ export default function AutomationScrolly() {
                   <h3 className="mt-6 text-[clamp(28px,3.5vw,44px)] font-semibold leading-[1.05] tracking-[-0.02em] text-white">
                     {s.title}
                   </h3>
-                  <p className="mt-4 max-w-md text-[17px] leading-[1.6] text-white/70">{s.body}</p>
+                  <p className="mt-4 max-w-md text-[17px] leading-[1.6] text-white/80">{s.body}</p>
                 </div>
               ))}
             </div>
@@ -164,7 +164,7 @@ export default function AutomationScrolly() {
                 }`}
               >
                 <span
-                  className={`font-mono text-[13px] transition-colors duration-300 ${
+                  className={`text-[14px] font-medium transition-colors duration-300 ${
                     i <= active ? 'text-site-accent' : 'text-white/30'
                   }`}
                 >

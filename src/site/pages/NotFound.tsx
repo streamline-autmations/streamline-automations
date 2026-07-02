@@ -5,9 +5,9 @@ export default function NotFound() {
   return (
     <section className="flex min-h-[100svh] items-center px-6">
       <div className="mx-auto w-full max-w-6xl text-center">
-        <p className="mb-6 font-mono text-[12px] uppercase tracking-[0.18em] text-site-text-muted">404</p>
+        <p className="mb-6 text-[14px] font-medium text-site-text-body">404</p>
         <h1 className="text-[clamp(44px,9vw,120px)] font-semibold leading-[0.95] tracking-[-0.02em] text-site-ink">
-          Nothing <span className="font-serif italic text-site-accent">here</span>.
+          Nothing <span className="text-site-accent">here</span>.
         </h1>
         <p className="mx-auto mt-8 max-w-md text-[17px] leading-[1.65] text-site-text-body">
           That page moved or never existed. Let's get you back on track.

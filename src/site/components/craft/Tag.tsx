@@ -2,15 +2,15 @@ import { ReactNode } from 'react';
 
 type TagVariant = 'ink' | 'white' | 'outline' | 'outline-dark';
 
-// Small mono pill label (Cuberto "DESIGN COURSE" style).
+// Plain label, same font as everything else — no pill, no mono, no grey.
 const TAG: Record<TagVariant, string> = {
-  ink: 'bg-site-ink text-white', // on light sections
-  white: 'bg-white text-site-ink', // on dark sections
-  outline: 'border border-site-line text-site-text-secondary', // on light
-  'outline-dark': 'border border-white/25 text-white/80', // on dark
+  ink: 'text-site-ink', // on light sections
+  white: 'text-white', // on dark sections
+  outline: 'text-site-ink', // on light sections
+  'outline-dark': 'text-white', // on dark sections
 };
 
-/** Pill tag for section eyebrows / labels. */
+/** Section label — sits above a headline, or as a chip in a tag cloud. */
 export default function Tag({
   children,
   variant = 'outline',
@@ -21,9 +21,7 @@ export default function Tag({
   className?: string;
 }) {
   return (
-    <span
-      className={`inline-flex items-center rounded-full px-4 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.14em] ${TAG[variant]} ${className}`}
-    >
+    <span className={`inline-block text-[15px] font-medium tracking-[-0.01em] ${TAG[variant]} ${className}`}>
       {children}
     </span>
   );

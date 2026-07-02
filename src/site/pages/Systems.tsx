@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import SplitReveal from '../components/craft/SplitReveal';
-import SystemsHeroScroll from '../components/site/SystemsHeroScroll';
 import WorkCard from '../components/craft/WorkCard';
 import PreFooterCTA from '../components/craft/PreFooterCTA';
 import FillButton from '../components/craft/FillButton';
@@ -39,8 +38,51 @@ const FLOW: { n: string; title: string; line: string }[] = [
 export default function Systems() {
   return (
     <>
-      {/* HERO — scroll sequence */}
-      <SystemsHeroScroll />
+      {/* HERO — white, text-only. One idea, one CTA. */}
+      <section className="flex min-h-[100svh] items-center px-6 pt-32 pb-24 md:px-10">
+        <div className="mx-auto w-full max-w-6xl">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: EASE_ARR }}
+            className="mb-7"
+          >
+            <Tag variant="outline">Systems &amp; Automation</Tag>
+          </motion.div>
+
+          <SplitReveal
+            as="h1"
+            trigger="mount"
+            segments={[
+              { text: 'Stop doing it by hand.' },
+              { text: 'Build the system' },
+              { text: 'once.', serif: true },
+            ]}
+            className="max-w-4xl text-[clamp(44px,8vw,104px)] font-semibold leading-[0.98] tracking-[-0.02em] text-site-ink"
+          />
+
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.5 }}
+            className="mt-8 max-w-xl text-[17px] leading-[1.65] text-site-text-body"
+          >
+            Custom CRMs, WhatsApp automation and n8n workflows that handle the repetitive work.
+            Usually 5–14 days.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.6 }}
+            className="mt-10"
+          >
+            <FillButton to="/contact" variant="ink">
+              Book a Free Call
+            </FillButton>
+          </motion.div>
+        </div>
+      </section>
 
       {/* WHAT I BUILD — ink */}
       <Panel bg="ink" className="px-6 py-24 md:px-10 md:py-32">
@@ -78,9 +120,7 @@ export default function Systems() {
             transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.15 }}
             className="mt-14 inline-flex items-center gap-3 rounded-full border border-white/15 px-6 py-3"
           >
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/60">
-              Typical turnaround
-            </span>
+            <span className="text-[14px] font-medium text-white/80">Typical turnaround</span>
             <span className="text-[15px] font-semibold text-white">5 to 14 days</span>
           </motion.div>
         </div>
@@ -113,7 +153,7 @@ export default function Systems() {
                 variants={fadeUp}
                 className="rounded-2xl border border-site-line bg-site-surface p-7 transition-colors duration-300 ease-brand hover:border-site-line-mid"
               >
-                <span className="block font-mono text-[clamp(34px,4vw,48px)] font-semibold leading-none tracking-[-0.02em] text-site-accent">
+                <span className="block text-[clamp(34px,4vw,48px)] font-semibold leading-none tracking-[-0.02em] text-site-accent">
                   {step.n}
                 </span>
                 <h3 className="mt-5 text-[18px] font-semibold tracking-[-0.01em] text-site-ink md:text-[20px]">

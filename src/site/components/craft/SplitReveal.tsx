@@ -37,7 +37,7 @@ export default function SplitReveal({
   segments,
   as: Tag = 'h2',
   className = '',
-  serifClassName = 'font-instrument text-site-accent',
+  serifClassName = 'text-site-accent',
   trigger = 'inview',
   stagger = 0.07,
   delay = 0.05,

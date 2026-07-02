@@ -130,7 +130,7 @@ export default function Hosting() {
             ))}
           </motion.div>
 
-          <p className="mt-8 max-w-3xl font-mono text-[12px] uppercase tracking-[0.14em] text-site-text-muted">
+          <p className="mt-8 max-w-3xl text-[14px] font-medium text-site-text-body">
             Every build is scoped properly before work starts. These prices are starting points, not fixed quotes.
           </p>
         </div>
@@ -162,7 +162,7 @@ export default function Hosting() {
           >
             <div>
               <h3 className="text-[20px] font-semibold tracking-[-0.02em] text-site-ink">Maintenance retainer</h3>
-              <p className="mt-2 max-w-xl text-[14.5px] leading-[1.55] text-site-text-secondary">
+              <p className="mt-2 max-w-xl text-[14.5px] leading-[1.55] text-site-text-body">
                 {MAINTENANCE_PLANS.description}
               </p>
             </div>
@@ -187,7 +187,7 @@ export default function Hosting() {
             <h3 className="text-[24px] font-semibold tracking-[-0.02em] text-white">{RENT_TO_OWN.title}</h3>
             <p className="mt-4 text-[15.5px] leading-[1.65] text-white/70">{RENT_TO_OWN.note}</p>
             <p className="mt-7 text-[22px] font-semibold tracking-[-0.02em] text-white">{RENT_TO_OWN.floor}</p>
-            <p className="mt-1 text-[13px] text-white/50">Tier and scope confirmed on a call.</p>
+            <p className="mt-1 text-[14px] text-white/80">Tier and scope confirmed on a call.</p>
           </div>
         </div>
       </Panel>

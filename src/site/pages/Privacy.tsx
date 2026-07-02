@@ -15,11 +15,11 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 export default function Privacy() {
   return (
     <section className="mx-auto max-w-3xl px-6 pt-32 pb-24 md:pt-40 md:pb-32">
-      <span className="block font-mono text-[11px] uppercase tracking-[0.16em] text-site-accent">Legal</span>
+      <span className="block text-[14px] font-medium text-site-accent">Legal</span>
       <h1 className="mt-4 text-[40px] font-semibold leading-[1.07] tracking-[-0.03em] text-site-ink sm:text-[52px]">
         Privacy policy.
       </h1>
-      <p className="mt-5 text-[16px] leading-[1.6] text-site-text-muted">
+      <p className="mt-5 text-[16px] leading-[1.6] text-site-text-body">
         Last updated {UPDATED}. How I collect, use and protect your personal information through
         streamline-automations.co.za, under the Protection of Personal Information Act (POPIA).
       </p>

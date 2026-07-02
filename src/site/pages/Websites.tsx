@@ -158,7 +158,7 @@ export default function Websites() {
             <Link
               to="/portfolio"
               data-cursor="link"
-              className="group hidden min-h-[44px] shrink-0 items-center text-[15px] font-medium text-site-text-secondary outline-none md:inline-flex"
+              className="group hidden min-h-[44px] shrink-0 items-center text-[15px] font-medium text-site-text-body outline-none md:inline-flex"
             >
               <span className="transition-colors duration-300 group-hover:text-site-accent">All work →</span>
             </Link>

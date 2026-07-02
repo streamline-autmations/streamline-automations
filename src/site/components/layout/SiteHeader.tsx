@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, type Variants } from 'framer-motion';
 import { EASE, EASE_ARR } from '../../lib/motion';
-import { NAV_LINKS, CONTACT, PRIMARY_CTA } from '../../data/site';
+import { NAV_LINKS, CONTACT } from '../../data/site';
 import { Magnetic } from '../craft/Magnetic';
 import RollText from '../craft/RollText';
 import InvertText from '../craft/InvertText';
 import Wordmark from '../craft/Wordmark';
-import FillButton from '../craft/FillButton';
 import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion';
 
 const SERVICE_LINKS = [
@@ -177,6 +177,7 @@ export default function SiteHeader() {
   }, []);
 
   return (
+    <>
     <header
       className={`fixed inset-x-0 top-0 z-[1000] flex items-center justify-between px-6 py-6 transition-[opacity,transform] duration-300 md:px-10 ${
         heroLoading
@@ -280,7 +281,7 @@ export default function SiteHeader() {
                           <span className={`text-[14px] font-semibold leading-none ${isActive(link.href) ? 'text-site-accent' : 'text-site-ink'}`}>
                             <InvertText invertColor="#FFFFFF">{link.label}</InvertText>
                           </span>
-                          <span className="mt-1 text-[12px] text-site-text-secondary">{link.desc}</span>
+                          <span className="mt-1 text-[14px] text-site-text-body">{link.desc}</span>
                         </Link>
                       ))}
                     </div>
@@ -309,13 +310,20 @@ export default function SiteHeader() {
         aria-expanded={open}
         aria-controls="site-mobile-menu"
       >
-        <div className="flex w-7 flex-col gap-[7px]">
-          <span className={`h-[2px] rounded bg-current transition-all duration-300 motion-reduce:transition-none ${open ? 'translate-y-[9px] rotate-45' : ''}`} />
-          <span className={`h-[2px] rounded bg-current transition-all duration-200 ${open ? 'opacity-0' : ''}`} />
-          <span className={`h-[2px] rounded bg-current transition-all duration-300 motion-reduce:transition-none ${open ? '-translate-y-[9px] -rotate-45' : ''}`} />
+        <div className="flex w-7 flex-col gap-2">
+          <span className={`h-[2px] w-7 rounded bg-current transition-transform duration-300 motion-reduce:transition-none ${open ? 'translate-y-[5px] rotate-45' : ''}`} />
+          <span className={`h-[2px] w-7 rounded bg-current transition-transform duration-300 motion-reduce:transition-none ${open ? '-translate-y-[5px] -rotate-45' : ''}`} />
         </div>
       </button>
+    </header>
 
+    {/* Portalled to #root (not <body>) — a transformed ancestor (the
+        header's own hide-on-scroll translate) would otherwise become this
+        panel's containing block and collapse it to the header's own box
+        instead of the viewport. Staying inside #root keeps it in the same
+        stacking context as the header, so the header's z-index (and its
+        close button) still paint on top. */}
+    {createPortal(
       <AnimatePresence>
         {open && (
           <motion.div
@@ -323,40 +331,34 @@ export default function SiteHeader() {
             role="dialog"
             aria-modal="true"
             aria-label="Site menu"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: EASE_ARR }}
-            className="fixed inset-0 z-[1000] flex flex-col overflow-y-auto bg-white md:hidden"
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ duration: 0.5, ease: EASE_ARR }}
+            className="fixed inset-0 z-[999] flex flex-col overflow-y-auto bg-white md:hidden"
           >
-            <div className="px-8 pt-[22px]">
-              <Link to="/" className="inline-flex min-h-[44px] items-center outline-none" aria-label="Streamline Automations home">
-                <Wordmark className="text-[21px]" />
-              </Link>
-            </div>
-
+            {/* No logo/close row here — the header's own (always on top,
+                z-[1000]) logo + close button already sit in this exact
+                spot, so the panel just leaves room for them. */}
             <motion.nav
               variants={overlayContainer}
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="mt-14 flex flex-1 flex-col gap-1 px-8"
+              className="mt-28 flex flex-1 flex-col gap-1 px-8"
             >
-              <span className="mb-4 font-mono text-[11px] uppercase tracking-[0.22em] text-site-text-muted">
-                Menu
-              </span>
-              {[...SERVICE_LINKS, ...NAV_LINKS].map((l, i) => (
+              <span className="mb-4 text-[15px] font-medium text-site-text-body">Menu</span>
+              {[...SERVICE_LINKS, ...NAV_LINKS].map((l) => (
                 <span key={l.href} className="overflow-hidden">
                   <motion.span variants={overlayItem} className="block">
                     <Link
                       to={l.href}
-                      className={`flex min-h-[48px] items-baseline gap-3 py-1.5 text-[clamp(34px,9vw,42px)] font-semibold leading-[1.1] tracking-[-0.02em] outline-none focus-visible:text-site-accent ${
-                        isActive(l.href) ? 'text-site-accent' : 'text-site-ink'
+                      className={`flex min-h-[48px] items-center py-1.5 text-[clamp(34px,9vw,42px)] font-semibold leading-[1.1] tracking-[-0.02em] outline-none focus-visible:text-site-accent ${
+                        isActive(l.href)
+                          ? 'text-site-accent underline underline-offset-8 decoration-2'
+                          : 'text-site-ink'
                       }`}
                     >
-                      <span className="font-mono text-[12px] font-normal tracking-[0.1em] text-site-text-muted">
-                        0{i + 1}
-                      </span>
                       <InvertText invertColor="#FFFFFF">{l.label}</InvertText>
                     </Link>
                   </motion.span>
@@ -365,29 +367,29 @@ export default function SiteHeader() {
             </motion.nav>
 
             <div className="px-8 pb-10 pt-8">
-              <div className="mb-7 flex flex-col gap-2 border-t border-site-line pt-7">
-                <span className="mb-1 font-mono text-[11px] uppercase tracking-[0.22em] text-site-text-muted">
-                  Get in touch
-                </span>
-                <a href={`mailto:${CONTACT.email}`} className="min-h-[44px] py-1 text-[15px] font-medium text-site-text-body outline-none">
+              <div className="flex flex-col gap-2 border-t border-site-line pt-7">
+                <span className="mb-1 text-[15px] font-medium text-site-text-body">Get in touch</span>
+                <a
+                  href={`mailto:${CONTACT.email}`}
+                  className="min-h-[44px] w-fit border-b border-site-ink/40 py-1 text-[15px] font-medium text-site-text-body outline-none"
+                >
                   {CONTACT.email}
                 </a>
                 <a
                   href={CONTACT.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="min-h-[44px] py-1 text-[15px] font-medium text-site-text-body outline-none"
+                  className="min-h-[44px] w-fit border-b border-site-ink/40 py-1 text-[15px] font-medium text-site-text-body outline-none"
                 >
-                  WhatsApp / {CONTACT.whatsappDisplay}
+                  {CONTACT.whatsappDisplay}
                 </a>
               </div>
-              <FillButton to={PRIMARY_CTA.href} variant="ink" className="w-full justify-center">
-                {PRIMARY_CTA.label}
-              </FillButton>
             </div>
           </motion.div>
         )}
-      </AnimatePresence>
-    </header>
+      </AnimatePresence>,
+      document.getElementById('root') ?? document.body,
+    )}
+    </>
   );
 }

@@ -101,7 +101,7 @@ export default function Ameli() {
             className="mt-16 grid gap-10 border-t border-white/10 pt-12 sm:grid-cols-2 md:grid-cols-3"
           >
             <div>
-              <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">
+              <div className="mb-3 text-[14px] font-medium text-white/80">
                 What it is
               </div>
               <p className="text-[15px] leading-[1.6] text-white/70">
@@ -110,7 +110,7 @@ export default function Ameli() {
               </p>
             </div>
             <div>
-              <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">
+              <div className="mb-3 text-[14px] font-medium text-white/80">
                 Stack
               </div>
               <p className="text-[15px] leading-[1.6] text-white/70">
@@ -119,7 +119,7 @@ export default function Ameli() {
               </p>
             </div>
             <div>
-              <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">
+              <div className="mb-3 text-[14px] font-medium text-white/80">
                 Turnaround
               </div>
               <p className="text-[15px] leading-[1.6] text-white/70">
@@ -146,7 +146,7 @@ export default function Ameli() {
           {/* 3a — custom design system + gallery (text left, image right) */}
           <div className="mt-20 grid items-center gap-12 md:grid-cols-2 md:gap-16">
             <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}>
-              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-site-accent">
+              <span className="text-[14px] font-medium text-site-accent">
                 01 · The design system
               </span>
               <h3 className="mt-4 text-[clamp(24px,3.2vw,38px)] font-semibold leading-[1.1] tracking-[-0.02em] text-site-ink">
@@ -204,7 +204,7 @@ export default function Ameli() {
               viewport={viewport}
               className="order-1 md:order-2"
             >
-              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-site-accent">
+              <span className="text-[14px] font-medium text-site-accent">
                 02 · The work, framed
               </span>
               <h3 className="mt-4 text-[clamp(24px,3.2vw,38px)] font-semibold leading-[1.1] tracking-[-0.02em] text-site-ink">
@@ -225,7 +225,7 @@ export default function Ameli() {
           {/* 3c — automation (text left, image right) */}
           <div className="mt-20 grid items-center gap-12 md:grid-cols-2 md:gap-16">
             <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}>
-              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-site-accent">
+              <span className="text-[14px] font-medium text-site-accent">
                 03 · Never miss an enquiry
               </span>
               <h3 className="mt-4 text-[clamp(24px,3.2vw,38px)] font-semibold leading-[1.1] tracking-[-0.02em] text-site-ink">
@@ -355,7 +355,7 @@ export default function Ameli() {
                 <div className="text-[clamp(30px,4vw,46px)] font-semibold leading-none tracking-[-0.02em] text-white">
                   {m.value}
                 </div>
-                <div className="mt-4 text-[14px] leading-[1.5] text-white/60">{m.label}</div>
+                <div className="mt-4 text-[14px] leading-[1.5] text-white/80">{m.label}</div>
               </div>
             ))}
           </motion.div>
@@ -377,7 +377,7 @@ export default function Ameli() {
       {/* 6 — NEXT PROJECT (white) */}
       <Panel bg="white" className="px-6 py-20 md:px-10 md:py-28">
         <div className="mx-auto w-full max-w-6xl">
-          <div className="mb-10 font-mono text-[11px] uppercase tracking-[0.2em] text-site-text-muted">
+          <div className="mb-10 text-[14px] font-medium text-site-text-body">
             Next project
           </div>
           <Link

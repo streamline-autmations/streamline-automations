@@ -108,9 +108,7 @@ export default function WorkCard({
 
         <div className="mt-6 flex items-start justify-between gap-6">
           <div>
-            <span className="block font-mono text-[11px] uppercase tracking-[0.16em] text-site-accent">
-              {label}
-            </span>
+            <span className="block text-[14px] font-medium text-site-accent">{label}</span>
             <h3 className="mt-2 text-[22px] font-semibold leading-[1.2] tracking-[-0.02em] text-site-ink md:text-[26px]">
               {title}
             </h3>

@@ -53,7 +53,7 @@ export default function StatsSection() {
                 suffix={s.suffix}
                 className="block text-[clamp(48px,7vw,84px)] font-semibold leading-none tracking-[-0.03em] text-site-ink"
               />
-              <p className="mt-4 max-w-[24ch] text-[14px] leading-[1.5] text-site-text-secondary">{s.label}</p>
+              <p className="mt-4 max-w-[24ch] text-[14px] leading-[1.5] text-site-text-body">{s.label}</p>
             </motion.div>
           ))}
         </motion.div>

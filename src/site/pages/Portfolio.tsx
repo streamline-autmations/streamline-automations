@@ -181,7 +181,7 @@ export default function Portfolio() {
                     />
                   </div>
                 )}
-                <span className="block font-mono text-[11px] uppercase tracking-[0.14em] text-site-accent">
+                <span className="block text-[14px] font-medium text-site-accent">
                   {item.type}
                 </span>
                 <h3 className="mt-2 text-[22px] font-semibold leading-[1.2] tracking-[-0.02em] text-site-ink md:text-[26px]">

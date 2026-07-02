@@ -107,26 +107,26 @@ export default function RecklessBear() {
             className="mt-16 grid gap-10 border-t border-white/10 pt-12 sm:grid-cols-2 md:grid-cols-4"
           >
             <div>
-              <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">Client</div>
+              <div className="mb-3 text-[14px] font-medium text-white/80">Client</div>
               <p className="text-[16px] leading-[1.6] text-white/[0.78]">
                 RecklessBear Apparel — custom and branded clothing, South Africa.
               </p>
             </div>
             <div>
-              <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">What it is</div>
+              <div className="mb-3 text-[14px] font-medium text-white/80">What it is</div>
               <p className="text-[16px] leading-[1.6] text-white/[0.78]">
                 Website, custom admin + CRM, production tracker, and an AI quote engine — wired into
                 one flow.
               </p>
             </div>
             <div>
-              <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">Built with</div>
+              <div className="mb-3 text-[14px] font-medium text-white/80">Built with</div>
               <p className="text-[16px] leading-[1.6] text-white/[0.78]">
                 React, TypeScript, Tailwind, Supabase, Voiceflow, n8n, the WhatsApp API and Trello.
               </p>
             </div>
             <div>
-              <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">Status</div>
+              <div className="mb-3 text-[14px] font-medium text-white/80">Status</div>
               <p className="text-[16px] leading-[1.6] text-white/[0.78]">
                 Live and running on an active retainer since launch.
               </p>
@@ -150,7 +150,7 @@ export default function RecklessBear() {
           {/* 3a — the website */}
           <div className="mt-16 grid items-center gap-10 md:mt-20 md:grid-cols-2 md:gap-14">
             <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}>
-              <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-site-accent">01 · The website</span>
+              <span className="text-[14px] font-medium text-site-accent">01 · The website</span>
               <h3 className="mt-3 text-[26px] font-semibold leading-[1.15] tracking-[-0.02em] text-site-ink md:text-[32px]">
                 A loud brand site that turns browsers into briefs.
               </h3>
@@ -208,7 +208,7 @@ export default function RecklessBear() {
               viewport={viewport}
               className="md:order-2"
             >
-              <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-site-accent">
+              <span className="text-[14px] font-medium text-site-accent">
                 02 · The AI quote engine
               </span>
               <h3 className="mt-3 text-[26px] font-semibold leading-[1.15] tracking-[-0.02em] text-site-ink md:text-[32px]">
@@ -241,7 +241,7 @@ export default function RecklessBear() {
               viewport={viewport}
               className="max-w-2xl"
             >
-              <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-site-accent">
+              <span className="text-[14px] font-medium text-site-accent">
                 03 · Admin, CRM + production
               </span>
               <h3 className="mt-3 text-[26px] font-semibold leading-[1.15] tracking-[-0.02em] text-site-ink md:text-[32px]">
@@ -361,7 +361,7 @@ export default function RecklessBear() {
               className="flex items-center overflow-hidden rounded-2xl border border-site-line bg-white p-8 md:rounded-3xl md:p-12"
             >
               <div>
-                <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-site-accent">
+                <span className="text-[14px] font-medium text-site-accent">
                   Mobile-first
                 </span>
                 <h3 className="mt-3 text-[24px] font-semibold leading-[1.15] tracking-[-0.02em] text-site-ink md:text-[30px]">
@@ -429,7 +429,7 @@ export default function RecklessBear() {
       {/* 6 · NEXT PROJECT — white */}
       <Panel bg="white" className="px-6 py-24 md:px-10 md:py-28">
         <div className="mx-auto w-full max-w-6xl">
-          <div className="mb-8 font-mono text-[12px] uppercase tracking-[0.18em] text-site-text-muted">
+          <div className="mb-8 text-[14px] font-medium text-site-text-body">
             Next project
           </div>
           <Link
@@ -439,7 +439,7 @@ export default function RecklessBear() {
             className="group flex flex-col gap-6 rounded-3xl outline-none focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-offset-4 md:flex-row md:items-center md:justify-between md:gap-12"
           >
             <div className="min-w-0">
-              <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-site-accent">
+              <span className="text-[14px] font-medium text-site-accent">
                 E-commerce + Admin
               </span>
               <h2 className="mt-3 text-[clamp(40px,7vw,88px)] font-semibold leading-[0.98] tracking-[-0.02em] text-site-ink">

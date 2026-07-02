@@ -134,7 +134,7 @@ export default function CWElectronics() {
             className="mt-16 grid gap-10 border-t border-white/10 pt-12 sm:grid-cols-2 md:grid-cols-3"
           >
             <div>
-              <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">
+              <div className="mb-3 text-[14px] font-medium text-white/80">
                 What it is
               </div>
               <p className="text-[16px] leading-[1.6] text-white/[0.78]">
@@ -143,7 +143,7 @@ export default function CWElectronics() {
               </p>
             </div>
             <div>
-              <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">
+              <div className="mb-3 text-[14px] font-medium text-white/80">
                 The stack
               </div>
               <p className="text-[16px] leading-[1.6] text-white/[0.78]">
@@ -152,7 +152,7 @@ export default function CWElectronics() {
               </p>
             </div>
             <div>
-              <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">
+              <div className="mb-3 text-[14px] font-medium text-white/80">
                 Status
               </div>
               <p className="text-[16px] leading-[1.6] text-white/[0.78]">
@@ -178,7 +178,7 @@ export default function CWElectronics() {
                 <div className="text-[clamp(40px,7vw,72px)] font-semibold leading-none tracking-[-0.03em] text-white">
                   {m.value}
                 </div>
-                <div className="mt-3 max-w-[22ch] text-[14px] leading-[1.5] text-white/60">
+                <div className="mt-3 max-w-[22ch] text-[14px] leading-[1.5] text-white/80">
                   {m.label}
                 </div>
               </motion.div>
@@ -197,7 +197,7 @@ export default function CWElectronics() {
           {/* 01 — storefront */}
           <div className="grid items-center gap-12 md:grid-cols-2 md:gap-16">
             <div>
-              <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-site-accent">
+              <span className="text-[14px] font-medium text-site-accent">
                 01 — The storefront
               </span>
               <SplitReveal
@@ -261,7 +261,7 @@ export default function CWElectronics() {
               />
             </motion.div>
             <div className="md:order-2">
-              <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-site-accent">
+              <span className="text-[14px] font-medium text-site-accent">
                 02 — Retail + wholesale
               </span>
               <SplitReveal
@@ -300,7 +300,7 @@ export default function CWElectronics() {
           {/* 03 — owner-editable */}
           <div className="mt-24 grid items-center gap-12 md:mt-32 md:grid-cols-2 md:gap-16">
             <div>
-              <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-site-accent">
+              <span className="text-[14px] font-medium text-site-accent">
                 03 — Owner-editable admin
               </span>
               <SplitReveal
@@ -505,7 +505,7 @@ export default function CWElectronics() {
       {/* NEXT PROJECT — white */}
       <Panel bg="white" className="px-6 py-24 md:px-10 md:py-32">
         <div className="mx-auto w-full max-w-6xl">
-          <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-site-text-muted">
+          <span className="text-[14px] font-medium text-site-text-body">
             Next project
           </span>
           <Link

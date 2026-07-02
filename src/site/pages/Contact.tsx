@@ -44,7 +44,7 @@ function Field({
     'w-full border-0 border-b bg-transparent pb-3 pt-2 text-[19px] text-site-ink outline-none transition-colors duration-300 placeholder:text-site-text-muted focus:border-site-accent md:text-[22px]';
   return (
     <label htmlFor={id} className="block">
-      <span className="mb-2 block font-mono text-[11px] uppercase tracking-[0.14em] text-site-text-muted">
+      <span className="mb-2 block text-[14px] font-medium text-site-text-body">
         {label}
         {required && <span className="text-site-accent"> *</span>}
       </span>
@@ -191,7 +191,7 @@ export default function Contact() {
             />
 
             <div>
-              <span className="mb-3 block font-mono text-[11px] uppercase tracking-[0.14em] text-site-text-muted">Package or budget</span>
+              <span className="mb-3 block text-[14px] font-medium text-site-text-body">Package or budget</span>
               <div className="flex flex-wrap gap-3">
                 {BUDGETS.map((b) => (
                   <button
@@ -199,10 +199,10 @@ export default function Contact() {
                     type="button"
                     data-cursor="link"
                     onClick={() => setBudget((cur) => (cur === b ? '' : b))}
-                    className={`min-h-[44px] rounded-full border px-5 text-[13.5px] font-medium outline-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-offset-2 ${
+                    className={`min-h-[44px] rounded-full border px-5 text-[14px] font-medium outline-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-offset-2 ${
                       budget === b
                         ? 'border-site-accent bg-site-accent text-white'
-                        : 'border-site-line text-site-text-secondary hover:border-site-line-mid hover:text-site-ink'
+                        : 'border-site-line text-site-text-body hover:border-site-line-mid hover:text-site-ink'
                     }`}
                   >
                     {b}
@@ -254,19 +254,19 @@ export default function Contact() {
 
           <div className="mt-16 grid gap-10 border-t border-white/10 pt-12 sm:grid-cols-2 md:grid-cols-4">
             <div>
-              <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">WhatsApp</div>
+              <div className="mb-3 text-[14px] font-medium text-white/80">WhatsApp</div>
               <a href={CONTACT.whatsappUrl} target="_blank" rel="noopener noreferrer" className="text-[16px] text-white/[0.78] hover:text-white">
                 {CONTACT.whatsappDisplay}
               </a>
             </div>
             <div>
-              <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">Instagram</div>
+              <div className="mb-3 text-[14px] font-medium text-white/80">Instagram</div>
               <a href={SOCIALS.instagram} target="_blank" rel="noopener noreferrer" className="text-[16px] text-white/[0.78] hover:text-white">
                 {CONTACT.instagram}
               </a>
             </div>
             <div>
-              <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">Hours</div>
+              <div className="mb-3 text-[14px] font-medium text-white/80">Hours</div>
               <div className="flex flex-col gap-1 text-[15px] text-white/[0.7]">
                 {CONTACT.hours.map(([d, h]) => (
                   <span key={d}>
@@ -276,7 +276,7 @@ export default function Contact() {
               </div>
             </div>
             <div>
-              <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">Based in</div>
+              <div className="mb-3 text-[14px] font-medium text-white/80">Based in</div>
               <p className="text-[15px] text-white/[0.7]">{CONTACT.location}</p>
             </div>
           </div>

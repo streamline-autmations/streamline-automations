@@ -123,7 +123,7 @@ export default function Blom() {
             className="mt-16 grid gap-10 border-t border-white/10 pt-12 sm:grid-cols-2 md:grid-cols-3"
           >
             <motion.div variants={fadeUp}>
-              <dt className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">
+              <dt className="mb-3 text-[14px] font-medium text-white/80">
                 What it is
               </dt>
               <dd className="text-[16px] leading-[1.6] text-white/70">
@@ -132,7 +132,7 @@ export default function Blom() {
               </dd>
             </motion.div>
             <motion.div variants={fadeUp}>
-              <dt className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">
+              <dt className="mb-3 text-[14px] font-medium text-white/80">
                 The stack
               </dt>
               <dd className="text-[16px] leading-[1.6] text-white/70">
@@ -141,7 +141,7 @@ export default function Blom() {
               </dd>
             </motion.div>
             <motion.div variants={fadeUp}>
-              <dt className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">
+              <dt className="mb-3 text-[14px] font-medium text-white/80">
                 Status
               </dt>
               <dd className="text-[16px] leading-[1.6] text-white/70">
@@ -526,7 +526,7 @@ export default function Blom() {
                 <dt className="text-[clamp(34px,5vw,56px)] font-semibold tracking-[-0.02em] text-site-ink">
                   <span className="text-site-accent">{value}</span>
                 </dt>
-                <dd className="mt-3 text-[15px] leading-[1.6] text-site-text-secondary">{label}</dd>
+                <dd className="mt-3 text-[15px] leading-[1.6] text-site-text-body">{label}</dd>
               </motion.div>
             ))}
           </motion.dl>
@@ -536,7 +536,7 @@ export default function Blom() {
       {/* NEXT PROJECT — ink */}
       <Panel bg="ink" className="px-6 py-24 md:px-10 md:py-32">
         <div className="mx-auto w-full max-w-6xl">
-          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">
+          <span className="text-[14px] font-medium text-white/80">
             Next project
           </span>
           <Link

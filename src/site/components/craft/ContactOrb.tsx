@@ -35,7 +35,7 @@ export default function ContactOrb() {
             <defs>
               <path id="sc-orb-path" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0" />
             </defs>
-            <text className="fill-site-text-secondary font-mono text-[8.5px] uppercase tracking-[0.32em]">
+            <text className="fill-site-text-body font-mono text-[8.5px] uppercase tracking-[0.32em]">
               <textPath href="#sc-orb-path" startOffset="0">
                 contact · let&apos;s talk · contact · let&apos;s talk ·
               </textPath>
