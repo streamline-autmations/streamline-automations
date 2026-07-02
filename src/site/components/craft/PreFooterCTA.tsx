@@ -8,7 +8,7 @@ import EngineBackdrop from '../three/EngineBackdrop';
  * and "Tell us." itself doubling as the CTA — no separate pill button below
  * it. A rounded-top ink section (its corners reveal the white page behind
  * for a smooth section transition). One of only two dark surfaces on the
- * site. On mobile/reduced-motion the engine doesn't load and the plain ink
+ * site. Under reduced-motion the engine doesn't load and the plain ink
  * bg + gradient blooms carry the backdrop.
  */
 export default function PreFooterCTA({

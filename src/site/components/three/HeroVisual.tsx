@@ -2,7 +2,7 @@
  * HeroVisual — gate + glue for the homepage 3D "automation network".
  *
  * - Lazy-loads the R3F scene so three.js never blocks first paint.
- * - ≤768px or prefers-reduced-motion → NO WebGL at all; renders the static
+ * - prefers-reduced-motion → NO WebGL at all; renders the static
  *   NetworkFallback image instead (also used as the Suspense loading state).
  * - PROD INTEGRATION (graduated from /lab): a GSAP ScrollTrigger on the hero
  *   section writes its 0→1 progress into a ref; the scene reads that ref in
@@ -16,22 +16,17 @@ import { ScrollTrigger } from '../../lib/gsap';
 
 const HeroScene = lazy(() => import('./HeroScene'));
 
-/** True when WebGL should NOT load: small screens or reduced-motion users. */
+/** True when WebGL should NOT load: reduced-motion users only. */
 export function useNoWebGL() {
   const [blocked, setBlocked] = useState(
-    () =>
-      window.matchMedia('(max-width: 768px)').matches ||
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
   );
 
   useEffect(() => {
-    const queries = [
-      window.matchMedia('(max-width: 768px)'),
-      window.matchMedia('(prefers-reduced-motion: reduce)'),
-    ];
-    const update = () => setBlocked(queries.some((q) => q.matches));
-    queries.forEach((q) => q.addEventListener('change', update));
-    return () => queries.forEach((q) => q.removeEventListener('change', update));
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const update = () => setBlocked(query.matches);
+    query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
   }, []);
 
   return blocked;

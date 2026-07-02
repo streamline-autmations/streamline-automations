@@ -7,8 +7,9 @@
  * - GSAP ScrollTrigger tracks the section through the viewport (0→1) and the
  *   scene spins up as you approach the CTA — the engine "running".
  * - IntersectionObserver halts the frameloop while off-screen.
- * - ≤768px / prefers-reduced-motion → renders nothing; the PreFooterCTA's
- *   CSS gradient blooms remain as the fallback visual.
+ * - prefers-reduced-motion → renders nothing; the PreFooterCTA's CSS
+ *   gradient blooms remain as the fallback visual. Runs on all screen sizes
+ *   otherwise, mobile included.
  */
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { ScrollTrigger } from '../../lib/gsap';
