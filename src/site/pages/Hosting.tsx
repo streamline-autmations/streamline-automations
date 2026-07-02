@@ -5,7 +5,7 @@ import SplitReveal from '../components/craft/SplitReveal';
 import FillButton from '../components/craft/FillButton';
 import PreFooterCTA from '../components/craft/PreFooterCTA';
 import { EASE_ARR, fadeUp, stagger, viewport } from '../lib/motion';
-import { MAINTENANCE_PLANS, PACKAGES, PRIMARY_CTA, RENT_TO_OWN } from '../data/site';
+import { MAINTENANCE_PLANS, PRIMARY_CTA, PROJECT_FLOORS, RENT_TO_OWN } from '../data/site';
 
 function Check() {
   return (
@@ -24,6 +24,17 @@ function Check() {
   );
 }
 
+/**
+ * /hosting — the pricing page. Structure (in order of business priority):
+ *   1. Hero — honest quote-based framing.
+ *   2. Rent-to-own — THE differentiator, so it leads. Purple-tint panel.
+ *   3. Custom builds — floor prices as stacked editorial rows (hairline
+ *      dividers, no columns, no feature checklists). Every project is quoted
+ *      individually; the rows are anchors, not a menu.
+ *   4. Maintenance retainer — single floor figure.
+ * Hard rule respected throughout: floor figures only, never a side-by-side
+ * tier-comparison grid.
+ */
 export default function Hosting() {
   return (
     <>
@@ -35,13 +46,13 @@ export default function Hosting() {
             transition={{ duration: 0.6, ease: EASE_ARR }}
             className="mb-7"
           >
-            <Tag variant="outline">Packages & Pricing</Tag>
+            <Tag variant="outline">Pricing</Tag>
           </motion.div>
 
           <SplitReveal
             as="h1"
             trigger="mount"
-            segments={[{ text: 'Packages for websites that become' }, { text: 'systems.', serif: true }]}
+            segments={[{ text: 'What it' }, { text: 'costs.', serif: true }]}
             className="max-w-[15ch] text-[clamp(44px,8vw,104px)] font-semibold leading-[0.98] tracking-[-0.02em] text-site-ink"
           />
 
@@ -51,8 +62,8 @@ export default function Hosting() {
             transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.5 }}
             className="mt-8 max-w-xl text-[17px] leading-[1.65] text-site-text-body"
           >
-            Clear starting points for professional websites, booking flows, dashboards and ongoing
-            support. Every build is scoped properly before work starts.
+            Every build is scoped and quoted individually — no fixed menus. These are honest
+            starting points so you know where you stand before we talk.
           </motion.p>
 
           <motion.div
@@ -68,80 +79,137 @@ export default function Hosting() {
         </div>
       </section>
 
-      <Panel bg="white" className="px-6 py-24 md:px-10 md:py-32">
-        <div className="mx-auto w-full max-w-6xl">
-          <div className="mb-14 max-w-2xl">
-            <Tag variant="outline" className="mb-6">
-              Website + system packages
-            </Tag>
+      {/* ── Rent-to-own — the differentiator leads ── */}
+      <Panel bg="accent" className="px-6 py-28 md:px-10 md:py-36">
+        <div className="mx-auto grid w-full max-w-6xl gap-12 md:grid-cols-[1.1fr_0.9fr] md:items-center md:gap-16">
+          <div>
             <SplitReveal
               as="h2"
-              segments={[{ text: 'Choose the' }, { text: 'level', serif: true }, { text: 'you need.' }]}
-              className="max-w-[16ch] text-[clamp(34px,5vw,64px)] font-semibold leading-[1.02] tracking-[-0.02em] text-site-ink"
+              segments={[
+                { text: 'No upfront cost.' },
+                { text: 'Pay monthly.' },
+                { text: "It's yours", serif: true },
+                { text: 'in 18 months.' },
+              ]}
+              className="max-w-[14ch] text-[clamp(38px,5.5vw,72px)] font-semibold leading-[0.98] tracking-[-0.03em] text-site-ink"
             />
+            <motion.ul
+              variants={stagger}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewport}
+              className="mt-9 flex flex-col gap-3.5"
+            >
+              {RENT_TO_OWN.terms.map((term) => (
+                <motion.li
+                  key={term}
+                  variants={fadeUp}
+                  className="flex gap-3 text-[16px] leading-[1.5] text-site-text-body"
+                >
+                  <Check />
+                  <span>{term}</span>
+                </motion.li>
+              ))}
+            </motion.ul>
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewport}
+              className="mt-10"
+            >
+              <FillButton to={PRIMARY_CTA.href} variant="ink">
+                {PRIMARY_CTA.label}
+              </FillButton>
+            </motion.div>
           </div>
 
           <motion.div
-            variants={stagger}
-            initial="hidden"
-            whileInView="visible"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={viewport}
-            className="grid grid-cols-1 gap-6 lg:grid-cols-3"
+            transition={{ duration: 0.7, ease: EASE_ARR }}
+            className="rounded-[2rem] bg-white px-9 py-11 shadow-[0_30px_80px_-30px_rgba(123,63,228,0.35)] md:px-11 md:py-14"
           >
-            {PACKAGES.map((plan) => (
-              <motion.article
-                key={plan.name}
-                variants={fadeUp}
-                className={`relative flex flex-col rounded-[30px] border bg-white p-7 md:p-8 ${
-                  plan.popular
-                    ? 'border-site-accent shadow-[0_35px_90px_-34px_rgba(123,63,228,0.4)]'
-                    : 'border-site-line'
-                }`}
-              >
-                {plan.popular && (
-                  <Tag variant="outline" className="absolute right-6 top-6 border-site-accent text-site-accent">
-                    Most Popular
-                  </Tag>
-                )}
-
-                <h3 className="max-w-[10ch] text-[28px] font-semibold leading-[1.05] tracking-[-0.03em] text-site-ink">
-                  {plan.name}
-                </h3>
-                <p className="mt-5 text-[clamp(28px,4vw,40px)] font-semibold leading-none tracking-[-0.03em] text-site-ink">
-                  {plan.price}
-                </p>
-                <p className="mt-4 text-[15px] leading-[1.55] text-site-text-body">Best for: {plan.bestFor}</p>
-
-                <ul className="mt-8 flex flex-1 flex-col gap-3.5 border-t border-site-line pt-8">
-                  {plan.features.map((feature) => (
-                    <li key={feature} className="flex gap-3 text-[15px] leading-[1.45] text-site-text-body">
-                      <Check />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="mt-9">
-                  <FillButton to={PRIMARY_CTA.href} variant="ink" className="w-full">
-                    {PRIMARY_CTA.label}
-                  </FillButton>
-                </div>
-              </motion.article>
-            ))}
+            <p className="text-[15px] font-medium text-site-text-body">Starting from</p>
+            <p className="mt-2 text-[clamp(48px,7vw,80px)] font-semibold leading-none tracking-[-0.03em] text-site-ink">
+              {RENT_TO_OWN.floor.replace('From ', '').replace('/month', '')}
+              <span className="text-[clamp(20px,2.4vw,28px)] font-medium text-site-text-body">/mo</span>
+            </p>
+            <p className="mt-5 border-t border-site-ink/10 pt-6 text-[19px] font-semibold leading-[1.4] text-site-ink">
+              Own it outright at 18 months.
+            </p>
+            <p className="mt-2 text-[14px] text-site-text-secondary">
+              Tier and scope confirmed on a call.
+            </p>
           </motion.div>
-
-          <p className="mt-8 max-w-3xl text-[14px] font-medium text-site-text-body">
-            Every build is scoped properly before work starts. These prices are starting points, not fixed quotes.
-          </p>
         </div>
       </Panel>
 
-      <Panel bg="offwhite" className="px-6 py-24 md:px-10 md:py-32">
+      {/* ── Custom builds — floor prices as editorial rows, not a grid ── */}
+      <Panel bg="white" className="px-6 py-28 md:px-10 md:py-36">
+        <div className="mx-auto w-full max-w-6xl">
+          <SplitReveal
+            as="h2"
+            segments={[{ text: 'Rather own it' }, { text: 'outright?', serif: true }]}
+            className="max-w-[16ch] text-[clamp(34px,5vw,64px)] font-semibold leading-[1.02] tracking-[-0.02em] text-site-ink"
+          />
+          <motion.p
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            className="mt-6 max-w-xl text-[16px] leading-[1.65] text-site-text-body"
+          >
+            One quote, one invoice, yours from day one. Where builds usually start:
+          </motion.p>
+
+          <div className="mt-16 md:mt-20">
+            {PROJECT_FLOORS.map((row, i) => (
+              <motion.div
+                key={row.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.65, ease: EASE_ARR, delay: i * 0.06 }}
+                className="flex flex-col gap-3 border-t border-site-line py-9 sm:flex-row sm:items-baseline sm:justify-between sm:gap-10 md:py-12"
+              >
+                <div className="max-w-xl">
+                  <h3 className="text-[clamp(24px,3.2vw,40px)] font-semibold leading-[1.1] tracking-[-0.025em] text-site-ink">
+                    {row.title}
+                  </h3>
+                  <p className="mt-3 text-[15.5px] leading-[1.6] text-site-text-body">{row.desc}</p>
+                </div>
+                <p className="shrink-0 text-[clamp(22px,2.8vw,34px)] font-semibold tracking-[-0.02em] text-site-ink">
+                  {row.floor}
+                </p>
+              </motion.div>
+            ))}
+            <div className="border-t border-site-line" />
+          </div>
+
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            className="mt-12 flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:gap-10"
+          >
+            <FillButton to={PRIMARY_CTA.href} variant="ink">
+              {PRIMARY_CTA.label}
+            </FillButton>
+            <p className="max-w-md text-[14px] leading-[1.6] text-site-text-secondary">
+              Starting points, not fixed quotes — your build is scoped properly on the call before
+              work starts.
+            </p>
+          </motion.div>
+        </div>
+      </Panel>
+
+      {/* ── Maintenance retainer ── */}
+      <Panel bg="offwhite" className="px-6 py-28 md:px-10 md:py-32">
         <div className="mx-auto grid w-full max-w-6xl gap-12 md:grid-cols-[0.9fr_1.1fr] md:items-start">
           <div>
-            <Tag variant="outline" className="mb-6">
-              Maintenance retainers
-            </Tag>
             <SplitReveal
               as="h2"
               segments={[{ text: 'Keep the site' }, { text: 'looked after.', serif: true }]}
@@ -168,27 +236,6 @@ export default function Hosting() {
             </div>
             <p className="text-[22px] font-semibold tracking-[-0.02em] text-site-ink">{MAINTENANCE_PLANS.floor}</p>
           </motion.div>
-        </div>
-      </Panel>
-
-      <Panel bg="ink" className="px-6 py-24 md:px-10 md:py-32">
-        <div className="mx-auto grid w-full max-w-6xl gap-10 md:grid-cols-[1fr_1fr] md:items-center">
-          <div>
-            <Tag variant="outline-dark" className="mb-7">
-              Secondary option
-            </Tag>
-            <SplitReveal
-              as="h2"
-              segments={[{ text: 'Need the monthly' }, { text: 'route?', serif: true }]}
-              className="max-w-[14ch] text-[clamp(34px,5vw,64px)] font-semibold leading-[1.02] tracking-[-0.02em] text-white"
-            />
-          </div>
-          <div className="rounded-[28px] border border-white/10 bg-white/[0.04] p-7">
-            <h3 className="text-[24px] font-semibold tracking-[-0.02em] text-white">{RENT_TO_OWN.title}</h3>
-            <p className="mt-4 text-[15.5px] leading-[1.65] text-white/70">{RENT_TO_OWN.note}</p>
-            <p className="mt-7 text-[22px] font-semibold tracking-[-0.02em] text-white">{RENT_TO_OWN.floor}</p>
-            <p className="mt-1 text-[14px] text-white/80">Tier and scope confirmed on a call.</p>
-          </div>
         </div>
       </Panel>
 

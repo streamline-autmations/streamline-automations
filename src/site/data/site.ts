@@ -82,56 +82,24 @@ export const FOOTER_NAV: Array<[string, string]> = [
   ['Systems', '/systems'],
 ];
 
-export const PACKAGES = [
+// Floor prices only — every build is quoted individually on a call. Rendered
+// as stacked editorial rows on /hosting, never a side-by-side comparison grid
+// (hard rule: no price grids/menus anywhere on the site).
+export const PROJECT_FLOORS = [
   {
-    name: 'Online Presence',
-    price: 'From R6,500',
-    bestFor: 'A clean professional website.',
-    timeframe: '3-5 working days',
-    popular: false,
-    features: [
-      'Up to 5 pages',
-      'Responsive design',
-      'Contact form',
-      'Basic SEO setup',
-      'Google Maps/social links',
-      'Fast performance',
-      '3-5 working days',
-    ],
+    title: 'A professional website',
+    desc: 'Custom-built, mobile-first, fast. Live in 3–5 working days.',
+    floor: 'From R6,500',
   },
   {
-    name: 'Client Magnet',
-    price: 'From R12,000',
-    bestFor: 'Websites that capture leads and bookings.',
-    timeframe: '5-7 working days',
-    popular: true,
-    features: [
-      'Everything in Online Presence',
-      'Booking integration',
-      'Smart enquiry forms',
-      'Lead capture into simple CRM',
-      'Email/WhatsApp notifications',
-      'Booking confirmations/reminders',
-      'Basic follow-ups',
-      '5-7 working days',
-    ],
+    title: 'A website that captures leads',
+    desc: 'Bookings, smart enquiry forms, WhatsApp notifications and a simple CRM.',
+    floor: 'From R12,000',
   },
   {
-    name: 'Business Accelerator',
-    price: 'From R25,000 setup + monthly support',
-    bestFor: 'Businesses that need a system, not just a site.',
-    timeframe: '7-10 working days setup',
-    popular: false,
-    features: [
-      'Everything in Client Magnet',
-      'Dashboard/admin visibility',
-      'Lead/order/booking tracking',
-      'Editable site sections where practical',
-      'Advanced follow-up logic',
-      'Monthly optimisation',
-      'Priority support',
-      '7-10 working days setup',
-    ],
+    title: 'A full business system',
+    desc: 'Dashboards, order tracking and automation — a system, not just a site.',
+    floor: 'From R25,000',
   },
 ] as const;
 
@@ -142,9 +110,14 @@ export const MAINTENANCE_PLANS = {
 } as const;
 
 export const RENT_TO_OWN = {
-  title: 'Rent-to-own is still available',
-  note: 'No upfront build fee. Pay monthly. Own the site outright after 18 months.',
+  title: 'No upfront cost. Pay monthly. Own it after 18 months.',
+  note: 'I build the site free upfront — you pay one flat monthly fee for the build, hosting, SSL and updates. After 18 months the site is yours outright, full files, no strings.',
   floor: 'From R699/month',
+  terms: [
+    'R0 upfront — I build it first',
+    'One flat monthly fee, hosting and updates included',
+    'At 18 months it’s yours outright — full files, no strings',
+  ],
 } as const;
 
 export type ProjectMedia = {
@@ -179,8 +152,8 @@ export const FEATURED_PROJECTS = [
     tags: ['Product catalogue', 'Retail/wholesale', 'Admin dashboard', 'PayFast'],
     media: {
       type: 'image',
-      src: 'https://res.cloudinary.com/dbhiu7lv0/image/upload/v1782914584/3_phone_abyyj6.png',
-      mobileFallback: 'https://res.cloudinary.com/dbhiu7lv0/image/upload/v1782914584/3_phone_abyyj6.png',
+      src: 'https://res.cloudinary.com/dbhiu7lv0/image/upload/f_auto,q_auto,w_1400/v1782914584/3_phone_abyyj6.png',
+      mobileFallback: 'https://res.cloudinary.com/dbhiu7lv0/image/upload/f_auto,q_auto,w_800/v1782914584/3_phone_abyyj6.png',
       alt: 'CW Electronics e-commerce website interface',
     },
   },
