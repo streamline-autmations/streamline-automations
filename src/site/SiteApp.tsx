@@ -33,7 +33,7 @@ function AnimatedRoutes() {
   const t = (el: React.ReactNode) => <PageTransition>{el}</PageTransition>;
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
+    <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={t(<Home />)} />
         <Route path="/websites" element={t(<Websites />)} />
@@ -105,7 +105,7 @@ export default function SiteApp() {
     // prefers-reduced-motion automatically — transforms/layout animations are
     // skipped, opacity fades still run. One switch for the whole v2 app.
     <MotionConfig reducedMotion="user">
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <LenisProvider>
           <ScrollToTop />
           <Cursor />
