@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { gsap, ScrollTrigger, useGSAP } from '../../lib/gsap';
@@ -40,38 +40,20 @@ export default function CaseStudyCycler() {
     () => typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches
   );
   const [activeIdx, setActiveIdx] = useState<number | null>(null);
-  // The hero above pins itself only once its frame sequence finishes
-  // preloading, and only then does the page reach its true (much taller)
-  // height. If we create our own ScrollTrigger before that, it caches a
-  // start/end against the short pre-hero layout — a fast scroller can reach
-  // this section while that's still true, and since refreshing mid-pin
-  // doesn't safely correct it, the whole cycler stays permanently stuck
-  // (looks like a big dead gap, cards frozen mid-track). So: wait for the
-  // hero's "I've pinned and the layout is now final" signal before creating
-  // ours. The window flag covers the case where that already fired before
-  // this effect attached its listener (fast/cached preload).
-  const [pinSafe, setPinSafe] = useState(
-    () => typeof window !== 'undefined' && (window as unknown as { __heroPinReady?: boolean }).__heroPinReady === true
-  );
-  useEffect(() => {
-    if (pinSafe) return;
-    const onReady = () => setPinSafe(true);
-    window.addEventListener('hero-pin-ready', onReady);
-    // Safety net: pages/situations where the hero never fires this (e.g. it
-    // errors out) shouldn't leave this section dead forever.
-    const fallback = window.setTimeout(() => setPinSafe(true), 8000);
-    return () => {
-      window.removeEventListener('hero-pin-ready', onReady);
-      window.clearTimeout(fallback);
-    };
-  }, [pinSafe]);
+  // NB: this used to wait for the canvas hero's "hero-pin-ready" signal (its
+  // frame preload changed the page height under our pin). That hero was
+  // archived when Home went text-only, so nothing fired the signal anymore
+  // and the pin only appeared after an 8s fallback timer — reach the section
+  // sooner and you scrolled straight past frozen cards, then got snapped
+  // back into the late-created pin on the way up. The layout is static now:
+  // pin immediately on mount.
   const scopeRef = useRef<HTMLElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      if (!enabled || !pinSafe || !wrapRef.current || !trackRef.current) return;
+      if (!enabled || !wrapRef.current || !trackRef.current) return;
       const wrap = wrapRef.current;
       const track = trackRef.current;
 
@@ -97,7 +79,7 @@ export default function CaseStudyCycler() {
       });
       return () => st.kill();
     },
-    { scope: scopeRef, dependencies: [enabled, pinSafe] }
+    { scope: scopeRef, dependencies: [enabled] }
   );
 
   return (
@@ -133,7 +115,7 @@ export default function CaseStudyCycler() {
           <div className="min-h-0 flex-1">
             <div
               ref={trackRef}
-              className="flex h-full w-max items-center gap-16 px-8 pb-10 will-change-transform md:gap-28 md:px-16 md:pb-12"
+              className="flex h-full w-max items-center gap-10 px-4 pb-10 will-change-transform md:gap-28 md:px-16 md:pb-12"
             >
             {PROJECTS.map((project, i) => {
               const revealed = isCoarse ? activeIdx === i : undefined;
@@ -149,7 +131,7 @@ export default function CaseStudyCycler() {
                       setActiveIdx(i);
                     }
                   }}
-                  className="group relative block h-full w-[88vw] shrink-0 overflow-hidden rounded-[24px] sm:w-[76vw] md:w-[62vw] lg:w-[52vw]"
+                  className="group relative block aspect-[16/10] h-auto max-h-full w-[92vw] shrink-0 overflow-hidden rounded-[24px] sm:w-[76vw] md:aspect-auto md:h-full md:w-[62vw] lg:w-[52vw]"
                 >
                   {/* object-contain, not cover — the mockups are dark renders
                       that blend into the ink section, and cropping their
@@ -164,7 +146,7 @@ export default function CaseStudyCycler() {
                       playsInline
                       preload="none"
                       aria-label={project.media.alt}
-                      className="h-full w-full object-contain transition-transform duration-700 ease-brand group-hover:scale-[1.03]"
+                      className="h-full w-full scale-[1.12] object-contain transition-transform duration-700 ease-brand group-hover:scale-[1.03] md:scale-100"
                     />
                   ) : (
                     <img
@@ -172,7 +154,7 @@ export default function CaseStudyCycler() {
                       alt={project.media.alt}
                       loading={i === 0 ? 'eager' : 'lazy'}
                       draggable={false}
-                      className="h-full w-full object-contain transition-transform duration-700 ease-brand group-hover:scale-[1.03]"
+                      className="h-full w-full scale-[1.12] object-contain transition-transform duration-700 ease-brand group-hover:scale-[1.03] md:scale-100"
                     />
                   )}
 
