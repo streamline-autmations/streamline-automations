@@ -6,6 +6,7 @@ import SplitReveal from '../../components/craft/SplitReveal';
 import FillButton from '../../components/craft/FillButton';
 import ParallaxMedia from '../../components/craft/ParallaxMedia';
 import PreFooterCTA from '../../components/craft/PreFooterCTA';
+import ScreenStrip from '../../components/craft/ScreenStrip';
 import { EASE_ARR, fadeUp, viewport } from '../../lib/motion';
 
 const C = '/assets/clients/recklessbear';
@@ -278,9 +279,9 @@ export default function RecklessBear() {
         </div>
       </Panel>
 
-      {/* 4 · GALLERY — offwhite */}
-      <Panel bg="offwhite" className="px-6 py-24 md:px-10 md:py-32">
-        <div className="mx-auto w-full max-w-6xl">
+      {/* 4 · GALLERY — offwhite, horizontal filmstrip breaks the vertical rhythm */}
+      <Panel bg="offwhite" className="py-24 md:py-0">
+        <div className="mx-auto w-full max-w-6xl px-6 md:px-10 md:pt-32">
           <Tag variant="outline" className="mb-6">
             The build
           </Tag>
@@ -289,95 +290,28 @@ export default function RecklessBear() {
             segments={[{ text: 'Screen by' }, { text: 'screen', serif: true }]}
             className="max-w-[14ch] text-[clamp(34px,5vw,64px)] font-semibold leading-[1.02] tracking-[-0.02em] text-site-ink"
           />
-
-          <div className="mt-14 grid gap-6 md:mt-16 md:grid-cols-2 md:gap-8">
-            {/* wide — all products */}
-            <motion.div
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewport}
-              className="overflow-hidden rounded-2xl border border-site-line bg-white md:col-span-2 md:rounded-3xl"
-            >
-              <img
-                src={`${C}/all-products.webp`}
-                alt="RecklessBear product catalogue listing every apparel item"
-                loading="lazy"
-                draggable={false}
-                className="aspect-[16/9] w-full object-cover"
-              />
-            </motion.div>
-
-            {/* 2-col — product + forms */}
-            <motion.div
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewport}
-              className="overflow-hidden rounded-2xl border border-site-line bg-white md:rounded-3xl"
-            >
-              <img
-                src={`${C}/product.webp`}
-                alt="RecklessBear single product page"
-                loading="lazy"
-                draggable={false}
-                className="aspect-[4/3] w-full object-cover"
-              />
-            </motion.div>
-            <motion.div
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewport}
-              className="overflow-hidden rounded-2xl border border-site-line bg-white md:rounded-3xl"
-            >
-              <img
-                src={`${C}/forms.webp`}
-                alt="RecklessBear structured custom-order request form"
-                loading="lazy"
-                draggable={false}
-                className="aspect-[4/3] w-full object-cover"
-              />
-            </motion.div>
-
-            {/* mobile shot — narrow, centred panel beside a note */}
-            <motion.div
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewport}
-              className="flex items-center justify-center overflow-hidden rounded-2xl border border-site-line bg-site-surface p-8 md:rounded-3xl"
-            >
-              <img
-                src={`${C}/mobile-home.webp`}
-                alt="RecklessBear homepage on mobile, built mobile-first"
-                loading="lazy"
-                draggable={false}
-                className="h-auto w-[58%] max-w-[260px] rounded-2xl border border-site-line object-cover shadow-[0_24px_60px_-20px_rgba(76,29,149,0.22)]"
-              />
-            </motion.div>
-            <motion.div
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewport}
-              className="flex items-center overflow-hidden rounded-2xl border border-site-line bg-white p-8 md:rounded-3xl md:p-12"
-            >
-              <div>
-                <span className="text-[14px] font-medium text-site-accent">
-                  Mobile-first
-                </span>
-                <h3 className="mt-3 text-[24px] font-semibold leading-[1.15] tracking-[-0.02em] text-site-ink md:text-[30px]">
-                  Built for the phone, because that's where they browse.
-                </h3>
-                <p className="mt-4 text-[16px] leading-[1.65] text-site-text-body md:text-[17px]">
-                  Most RecklessBear traffic comes through Instagram on a phone. So the whole flow —
-                  catalogue, product, quote request, chat — was designed mobile-first and tested
-                  small before it ever went wide.
-                </p>
-              </div>
-            </motion.div>
-          </div>
+          <motion.p
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            className="mt-6 max-w-xl text-[16px] leading-[1.65] text-site-text-body"
+          >
+            Most RecklessBear traffic comes through Instagram on a phone, so the whole flow was
+            designed mobile-first and tested small before it ever went wide.
+          </motion.p>
+        </div>
+        <div className="mt-12">
+          <ScreenStrip
+            items={[
+              { src: `${C}/all-products.webp`, alt: 'RecklessBear product catalogue listing every apparel item' },
+              { src: `${C}/product.webp`, alt: 'RecklessBear single product page' },
+              { src: `${C}/forms.webp`, alt: 'RecklessBear structured custom-order request form' },
+              { src: `${C}/mobile-home.webp`, alt: 'RecklessBear homepage on mobile, built mobile-first', aspect: '9/19' },
+              { src: `${C}/mobile-product.webp`, alt: 'RecklessBear product page on mobile', aspect: '9/19' },
+              { src: `${C}/mobile-contact.webp`, alt: 'RecklessBear contact and quote page on mobile', aspect: '9/19' },
+            ]}
+          />
         </div>
       </Panel>
 
@@ -461,7 +395,7 @@ export default function RecklessBear() {
             </div>
             <div className="w-full shrink-0 overflow-hidden rounded-2xl border border-site-line bg-site-surface md:w-[42%] md:rounded-3xl">
               <img
-                src="/assets/clients/cw-electronics/tile.webp"
+                src="/assets/clients/cw-electronics/cover-wide.webp"
                 alt="CW Electronics e-commerce store"
                 loading="lazy"
                 draggable={false}

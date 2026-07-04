@@ -133,9 +133,9 @@ export default function CaseStudyCycler() {
                   }}
                   className="group relative block aspect-[16/10] h-auto max-h-full w-[92vw] shrink-0 overflow-hidden rounded-[24px] sm:w-[76vw] md:aspect-auto md:h-full md:w-[62vw] lg:w-[52vw]"
                 >
-                  {/* object-contain, not cover — the mockups are dark renders
-                      that blend into the ink section, and cropping their
-                      edges made every card look cut off. */}
+                  {/* object-cover full-bleed — the cover-wide crops are dense
+                      top-view mockups made to be cropped, so every card reads
+                      as a Cuberto-style case cover with no dead margins. */}
                   {project.media.type === 'video' ? (
                     <video
                       src={project.media.src}
@@ -146,7 +146,7 @@ export default function CaseStudyCycler() {
                       playsInline
                       preload="none"
                       aria-label={project.media.alt}
-                      className="h-full w-full scale-[1.12] object-contain transition-transform duration-700 ease-brand group-hover:scale-[1.03] md:scale-100"
+                      className="h-full w-full object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.03]"
                     />
                   ) : (
                     <img
@@ -154,7 +154,7 @@ export default function CaseStudyCycler() {
                       alt={project.media.alt}
                       loading={i === 0 ? 'eager' : 'lazy'}
                       draggable={false}
-                      className="h-full w-full scale-[1.12] object-contain transition-transform duration-700 ease-brand group-hover:scale-[1.03] md:scale-100"
+                      className="h-full w-full object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.03]"
                     />
                   )}
 

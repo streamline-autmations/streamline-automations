@@ -8,7 +8,6 @@ import Tag from '../components/craft/Tag';
 import { EASE_ARR, fadeUp, stagger, viewport } from '../lib/motion';
 
 // Real, local, optimised client tiles.
-const TILE = (c: string) => `/assets/clients/${c}/tile.webp`;
 
 // What I build — the boring stuff, automated.
 const BUILDS: string[] = [
@@ -178,7 +177,7 @@ export default function Systems() {
               label="Site + CRM + AI"
               title="RecklessBear Apparel"
               blurb="Quote engine, 12-stage production tracking, and an AI booking bot."
-              image={TILE('recklessbear')}
+              image="/assets/clients/recklessbear/cover-wide.webp"
               ratio="16/10"
             />
           </div>

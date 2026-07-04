@@ -6,6 +6,8 @@ import SplitReveal from '../../components/craft/SplitReveal';
 import FillButton from '../../components/craft/FillButton';
 import ParallaxMedia from '../../components/craft/ParallaxMedia';
 import PreFooterCTA from '../../components/craft/PreFooterCTA';
+import ScreenStrip from '../../components/craft/ScreenStrip';
+import WalkthroughVideo from '../../components/craft/WalkthroughVideo';
 import { EASE_ARR, fadeUp, viewport } from '../../lib/motion';
 
 const C = '/assets/clients/ameli';
@@ -265,9 +267,29 @@ export default function Ameli() {
         </div>
       </Panel>
 
-      {/* 4 — SCREENSHOTS GALLERY (offwhite) */}
+      {/* 4a — WALKTHROUGH (offwhite) */}
       <Panel bg="offwhite" className="px-6 py-24 md:px-10 md:py-32">
         <div className="mx-auto w-full max-w-6xl">
+          <Tag variant="outline" className="mb-7">
+            The walkthrough
+          </Tag>
+          <SplitReveal
+            as="h2"
+            segments={[{ text: 'See it' }, { text: 'move.', serif: true }]}
+            className="text-[clamp(30px,5vw,60px)] font-semibold leading-[1.04] tracking-[-0.02em] text-site-ink"
+          />
+          <WalkthroughVideo
+            src="/assets/videos/work/ameli-walkthrough.mp4"
+            poster="/assets/videos/work/ameli-walkthrough-poster.webp"
+            label="Ameli Designs website walkthrough"
+            className="mt-12"
+          />
+        </div>
+      </Panel>
+
+      {/* 4b — SCREENSHOTS (offwhite, horizontal filmstrip) */}
+      <Panel bg="offwhite" className="py-24 md:py-0">
+        <div className="mx-auto w-full max-w-6xl px-6 md:px-10 md:pt-32">
           <Tag variant="outline" className="mb-7">
             The work
           </Tag>
@@ -276,57 +298,17 @@ export default function Ameli() {
             segments={[{ text: 'Screen by' }, { text: 'screen.', serif: true }]}
             className="text-[clamp(30px,5vw,60px)] font-semibold leading-[1.04] tracking-[-0.02em] text-site-ink"
           />
-
-          {/* wide portfolio grid */}
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            className="mt-14 overflow-hidden rounded-2xl border border-site-line bg-white shadow-[0_24px_60px_-24px_rgba(76,29,149,0.14)] md:rounded-3xl"
-          >
-            <img
-              src={`${C}/portfolio.webp`}
-              alt="Ameli Designs portfolio grid showing the full body of work"
-              loading="lazy"
-              draggable={false}
-              className="aspect-[16/9] w-full select-none object-cover"
-            />
-          </motion.div>
-
-          {/* two-up */}
-          <div className="mt-8 grid gap-8 md:grid-cols-2">
-            <motion.div
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewport}
-              className="overflow-hidden rounded-2xl border border-site-line bg-white shadow-[0_24px_60px_-24px_rgba(76,29,149,0.14)] md:rounded-3xl"
-            >
-              <img
-                src={`${C}/extra.webp`}
-                alt="Extra packaging design project on Ameli Designs"
-                loading="lazy"
-                draggable={false}
-                className="aspect-[4/3] w-full select-none object-cover"
-              />
-            </motion.div>
-            <motion.div
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewport}
-              className="overflow-hidden rounded-2xl border border-site-line bg-white shadow-[0_24px_60px_-24px_rgba(76,29,149,0.14)] md:rounded-3xl"
-            >
-              <img
-                src={`${C}/mobile-home.webp`}
-                alt="Ameli Designs home page on mobile, built mobile-first"
-                loading="lazy"
-                draggable={false}
-                className="aspect-[4/3] w-full select-none object-cover object-top"
-              />
-            </motion.div>
-          </div>
+        </div>
+        <div className="mt-12">
+          <ScreenStrip
+            items={[
+              { src: `${C}/portfolio.webp`, alt: 'Ameli Designs portfolio grid showing the full body of work' },
+              { src: `${C}/extra.webp`, alt: 'Extra packaging design project on Ameli Designs' },
+              { src: `${C}/mobile-home.webp`, alt: 'Ameli Designs home page on mobile, built mobile-first', aspect: '9/19' },
+              { src: `${C}/mobile-about.webp`, alt: 'Ameli Designs about page on mobile', aspect: '9/19' },
+              { src: `${C}/mobile-habitat.webp`, alt: 'Habitat Cosmic Oasis project page on mobile', aspect: '9/19' },
+            ]}
+          />
         </div>
       </Panel>
 

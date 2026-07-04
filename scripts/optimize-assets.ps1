@@ -21,10 +21,12 @@ $items = @(
 
   # ---- BLOM ----
   @{src='Assets\Blom\Mockups\BLOM Cosmetics Home Page Mockup.png';                 out='clients\blom\hero';               w=2000; q=82},
-  @{src='Assets\Blom\Mockups\BLOM Cosmetics Home Page Mockup.png';                 out='clients\blom\tile';               w=1200; q=80},
+  # Full-bleed top-view mockup: crop-safe case cover for work cards + cycler
+  @{src='Assets\Blom\Mockups\Blom-Top view mutliple screens.png';                  out='clients\blom\tile';               w=1200; q=80},
+  @{src='Assets\Blom\Mockups\Blom-Top view mutliple screens.png';                  out='clients\blom\cover-wide';         w=1600; q=80; vf='scale=1600:-2,crop=1600:1000:(iw-1600)/2:(ih-1000)/2'},
   @{src='Assets\Blom\Mockups\BLOM Cosmetics Mockup 1.png';                         out='clients\blom\mockup-1';           w=1800; q=82},
   @{src='Assets\Blom\Mockups\Blom 3 phone Mcp.png';                                out='clients\blom\mockup-3phone';      w=1800; q=82},
-  @{src='Assets\Blom\Mockups\3 phone-blom-academy.png';                            out='clients\blom\mockup-academy';     w=1800; q=82},
+  @{src='Assets\Blom-Academy\Mockups\3 phone-blom-academy.png';                    out='clients\blom\mockup-academy';     w=1800; q=82},
   @{src='Assets\Blom\Desktop\shop.png';                                            out='clients\blom\shop';               w=1600; q=82},
   @{src='Assets\Blom\Desktop\Batch-2\product-page.png';                            out='clients\blom\product';            w=1600; q=82},
   @{src='Assets\Blom\Desktop\Batch-2\home-categories.png';                         out='clients\blom\categories';         w=1600; q=82},
@@ -41,7 +43,8 @@ $items = @(
 
   # ---- RecklessBear ----
   @{src='Assets\RecklessBear\Mockups\Recklessbear-laptop-hero-transparent.png';    out='clients\recklessbear\hero';       w=2000; q=86},
-  @{src='Assets\RecklessBear\Mockups\Recklessbear Home Page Mockup.png';           out='clients\recklessbear\tile';       w=1200; q=80},
+  @{src='Assets\RecklessBear\Mockups\Reckless-Top view mutliple screens.png';      out='clients\recklessbear\tile';       w=1200; q=80},
+  @{src='Assets\RecklessBear\Mockups\Reckless-Top view mutliple screens.png';      out='clients\recklessbear\cover-wide'; w=1600; q=80; vf='scale=1600:-2,crop=1600:1000:(iw-1600)/2:(ih-1000)/2'},
   @{src='Assets\RecklessBear\Mockups\Reckless Admin Multi Device.png';             out='clients\recklessbear\admin';      w=1900; q=82},
   @{src='Assets\RecklessBear\Mockups\3 phone reckless-home-chabot.png';            out='clients\recklessbear\mockup-3phone'; w=1800; q=82},
   @{src='Assets\RecklessBear\Desktop\New folder\home.jpg';                         out='clients\recklessbear\home';       w=1600; q=82},
@@ -55,8 +58,9 @@ $items = @(
   @{src='Assets\RecklessBear\Mobile\Mcp Resize-phone\contact.png';                 out='clients\recklessbear\mobile-contact'; w=720; q=82},
 
   # ---- CW Electronics ----
-  @{src='Assets\CW-Electronics\Desktop\Home.jpg';                                  out='clients\cw-electronics\hero';     w=1800; q=82},
-  @{src='Assets\CW-Electronics\Desktop\Home.jpg';                                  out='clients\cw-electronics\tile';     w=1200; q=80},
+  @{src='Assets\CW-Electronics\Mockups\Untitled design (50).png';                  out='clients\cw-electronics\hero';     w=2000; q=82},
+  @{src='Assets\CW-Electronics\Mockups\CW-1Top view mutliple screens.png';         out='clients\cw-electronics\tile';     w=1200; q=80},
+  @{src='Assets\CW-Electronics\Mockups\CW-1Top view mutliple screens.png';         out='clients\cw-electronics\cover-wide'; w=1600; q=80; vf='scale=1600:-2,crop=1600:1000:(iw-1600)/2:(ih-1000)/2'},
   @{src='Assets\CW-Electronics\Desktop\Home-2.jpg';                                out='clients\cw-electronics\home-2';   w=1600; q=82},
   @{src='Assets\CW-Electronics\Desktop\Featured Categories.png';                   out='clients\cw-electronics\categories'; w=1600; q=82},
   @{src='Assets\CW-Electronics\Desktop\Shop.png';                                  out='clients\cw-electronics\shop';     w=1600; q=82},
@@ -67,7 +71,8 @@ $items = @(
 
   # ---- Ameli ----
   @{src='Assets\Ameli\Mockups\Ameli Portfolio Mockup 2.png';                       out='clients\ameli\hero';              w=2000; q=82},
-  @{src='Assets\Ameli\Mockups\Ameli Portfolio Mockup 2.png';                       out='clients\ameli\tile';              w=1200; q=80},
+  @{src='Assets\Ameli\Mockups\Top view mutliple screens.png';                      out='clients\ameli\tile';              w=1200; q=80},
+  @{src='Assets\Ameli\Mockups\Top view mutliple screens.png';                      out='clients\ameli\cover-wide';        w=1600; q=80; vf='scale=1600:-2,crop=1600:1000:(iw-1600)/2:(ih-1000)/2'},
   @{src='Assets\Ameli\Mockups\ameli 4 iphone.png';                                 out='clients\ameli\mockup-4iphone';    w=1900; q=82},
   @{src='Assets\Ameli\Mockups\Ameli Portfolio Mockup 1.png';                       out='clients\ameli\mockup-1';          w=1800; q=82},
   @{src='Assets\Ameli\Desktop\Screenshots\my-work.jpg';                            out='clients\ameli\my-work';           w=1600; q=82},
@@ -81,7 +86,8 @@ $items = @(
 
   # ---- JJ Glassworks (grid tile only) ----
   @{src='Assets\JJ-Glass\Desktop\Home.png';                                        out='clients\jj-glass\hero';           w=1600; q=82},
-  @{src='Assets\JJ-Glass\Desktop\Home.png';                                        out='clients\jj-glass\tile';           w=1200; q=80},
+  # 16/10 centre-crop of the top-view mockup — the More-work card renders 16/10
+  @{src='Assets\JJ-Glass\Mockups\JJ-GlassTop view mutliple screens.png';           out='clients\jj-glass\tile';           w=1600; q=80; vf='scale=1600:-2,crop=1600:1000:(iw-1600)/2:(ih-1000)/2'},
   @{src='Assets\JJ-Glass\Mobile\MCP Size\home.png';                                out='clients\jj-glass\mobile-home';    w=620; q=82},
 
   # ---- About / founder ----
@@ -98,7 +104,9 @@ foreach ($it in $items) {
   $outDir = Split-Path $outPath -Parent
   if (-not (Test-Path $outDir)) { New-Item -ItemType Directory -Force -Path $outDir | Out-Null }
 
-  if ($it.w -eq 0) {
+  if ($it.ContainsKey('vf')) {
+    $vf = $it.vf
+  } elseif ($it.w -eq 0) {
     $vf = "scale='min(600,iw)':'min(600,ih)':force_original_aspect_ratio=decrease"
   } else {
     $vf = "scale='min($($it.w),iw)':-2"

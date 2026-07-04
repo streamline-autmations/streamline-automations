@@ -6,6 +6,7 @@ import SplitReveal from '../../components/craft/SplitReveal';
 import FillButton from '../../components/craft/FillButton';
 import ParallaxMedia from '../../components/craft/ParallaxMedia';
 import PreFooterCTA from '../../components/craft/PreFooterCTA';
+import ScreenStrip from '../../components/craft/ScreenStrip';
 import { EASE_ARR, fadeUp, stagger, viewport } from '../../lib/motion';
 
 const C = '/assets/clients/cw-electronics';
@@ -352,9 +353,9 @@ export default function CWElectronics() {
         </div>
       </Panel>
 
-      {/* GALLERY — offwhite */}
-      <Panel bg="offwhite" className="px-6 py-24 md:px-10 md:py-32">
-        <div className="mx-auto w-full max-w-6xl">
+      {/* GALLERY — offwhite, horizontal filmstrip breaks the vertical rhythm */}
+      <Panel bg="offwhite" className="py-24 md:py-0">
+        <div className="mx-auto w-full max-w-6xl px-6 md:px-10 md:pt-32">
           <Tag variant="outline" className="mb-6">
             The build
           </Tag>
@@ -363,93 +364,18 @@ export default function CWElectronics() {
             segments={[{ text: 'Screen by' }, { text: 'screen.', serif: true }]}
             className="max-w-[14ch] text-[clamp(32px,5vw,64px)] font-semibold leading-[1.02] tracking-[-0.02em] text-site-ink"
           />
-
-          <div className="mt-14 grid gap-6 md:gap-8">
-            {/* full-width shop */}
-            <motion.div
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={viewport}
-              transition={{ duration: 0.7, ease: EASE_ARR }}
-              className="overflow-hidden rounded-2xl border border-site-line bg-white shadow-[0_24px_60px_-24px_rgba(76,29,149,0.16)] md:rounded-3xl"
-            >
-              <img
-                src={`${C}/shop.webp`}
-                alt="CW Electronics shop page listing products with retail and wholesale pricing"
-                loading="lazy"
-                draggable={false}
-                className="aspect-[16/9] w-full select-none object-cover"
-              />
-            </motion.div>
-
-            {/* 2-col: categories + product */}
-            <div className="grid gap-6 md:grid-cols-2 md:gap-8">
-              <motion.div
-                initial={{ opacity: 0, y: 32 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={viewport}
-                transition={{ duration: 0.7, ease: EASE_ARR }}
-                className="overflow-hidden rounded-2xl border border-site-line bg-white shadow-[0_24px_60px_-24px_rgba(76,29,149,0.16)] md:rounded-3xl"
-              >
-                <img
-                  src={`${C}/categories.webp`}
-                  alt="CW Electronics category navigation across the catalogue"
-                  loading="lazy"
-                  draggable={false}
-                  className="aspect-[4/3] w-full select-none object-cover"
-                />
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: 32 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={viewport}
-                transition={{ duration: 0.7, ease: EASE_ARR, delay: 0.08 }}
-                className="overflow-hidden rounded-2xl border border-site-line bg-white shadow-[0_24px_60px_-24px_rgba(76,29,149,0.16)] md:rounded-3xl"
-              >
-                <img
-                  src={`${C}/product.webp`}
-                  alt="CW Electronics product detail page"
-                  loading="lazy"
-                  draggable={false}
-                  className="aspect-[4/3] w-full select-none object-cover"
-                />
-              </motion.div>
-            </div>
-
-            {/* 2-col: home-2 wide + mobile shot */}
-            <div className="grid gap-6 md:grid-cols-[1.4fr_1fr] md:gap-8">
-              <motion.div
-                initial={{ opacity: 0, y: 32 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={viewport}
-                transition={{ duration: 0.7, ease: EASE_ARR }}
-                className="overflow-hidden rounded-2xl border border-site-line bg-white shadow-[0_24px_60px_-24px_rgba(76,29,149,0.16)] md:rounded-3xl"
-              >
-                <img
-                  src={`${C}/home-2.webp`}
-                  alt="CW Electronics home page layout"
-                  loading="lazy"
-                  draggable={false}
-                  className="h-full min-h-[260px] w-full select-none object-cover"
-                />
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: 32 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={viewport}
-                transition={{ duration: 0.7, ease: EASE_ARR, delay: 0.08 }}
-                className="flex items-center justify-center overflow-hidden rounded-2xl border border-site-line bg-site-surface p-6 md:rounded-3xl"
-              >
-                <img
-                  src={`${C}/mobile-product.webp`}
-                  alt="CW Electronics product page on mobile"
-                  loading="lazy"
-                  draggable={false}
-                  className="max-h-[440px] w-auto select-none rounded-xl object-contain"
-                />
-              </motion.div>
-            </div>
-          </div>
+        </div>
+        <div className="mt-12">
+          <ScreenStrip
+            items={[
+              { src: `${C}/shop.webp`, alt: 'CW Electronics shop page listing products with retail and wholesale pricing' },
+              { src: `${C}/categories.webp`, alt: 'CW Electronics category navigation across the catalogue' },
+              { src: `${C}/product.webp`, alt: 'CW Electronics product detail page' },
+              { src: `${C}/home-2.webp`, alt: 'CW Electronics home page layout' },
+              { src: `${C}/mobile-home.webp`, alt: 'CW Electronics home page on mobile', aspect: '9/19' },
+              { src: `${C}/mobile-product.webp`, alt: 'CW Electronics product page on mobile', aspect: '9/19' },
+            ]}
+          />
         </div>
       </Panel>
 

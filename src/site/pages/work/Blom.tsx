@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import Panel from '../../components/craft/Panel';
 import Tag from '../../components/craft/Tag';
 import ParallaxMedia from '../../components/craft/ParallaxMedia';
+import ScreenStrip from '../../components/craft/ScreenStrip';
 import SplitReveal from '../../components/craft/SplitReveal';
+import WalkthroughVideo from '../../components/craft/WalkthroughVideo';
 import FillButton from '../../components/craft/FillButton';
 import PreFooterCTA from '../../components/craft/PreFooterCTA';
 import { EASE_ARR, fadeUp, stagger, viewport } from '../../lib/motion';
@@ -416,9 +418,29 @@ export default function Blom() {
         </div>
       </Panel>
 
-      {/* GALLERY — white, the strong shots */}
+      {/* WALKTHROUGH — white, the reel */}
       <Panel bg="white" className="px-6 py-24 md:px-10 md:py-32">
         <div className="mx-auto w-full max-w-6xl">
+          <Tag variant="outline" className="mb-7">
+            The walkthrough
+          </Tag>
+          <SplitReveal
+            as="h2"
+            segments={[{ text: 'See it' }, { text: 'move.', serif: true }]}
+            className="text-[clamp(34px,5vw,64px)] font-semibold leading-[1.02] tracking-[-0.02em] text-site-ink"
+          />
+          <WalkthroughVideo
+            src="/assets/videos/work/blom-walkthrough.mp4"
+            poster="/assets/videos/work/blom-walkthrough-poster.webp"
+            label="BLOM Cosmetics website walkthrough"
+            className="mt-12"
+          />
+        </div>
+      </Panel>
+
+      {/* GALLERY — white, horizontal filmstrip breaks the vertical rhythm */}
+      <Panel bg="white" className="py-24 md:py-0">
+        <div className="mx-auto w-full max-w-6xl px-6 md:px-10 md:pt-32">
           <Tag variant="outline" className="mb-7">
             The build
           </Tag>
@@ -427,62 +449,18 @@ export default function Blom() {
             segments={[{ text: 'Screen by' }, { text: 'screen.', serif: true }]}
             className="text-[clamp(34px,5vw,64px)] font-semibold leading-[1.02] tracking-[-0.02em] text-site-ink"
           />
-
-          {/* Wide hero shot */}
-          <motion.img
-            initial={{ opacity: 0, y: 32 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={viewport}
-            transition={{ duration: 0.7, ease: EASE_ARR }}
-            src={`${C}/home-full.webp`}
-            alt="Full BLOM Cosmetics homepage layout, top to bottom"
-            loading="lazy"
-            draggable={false}
-            className="mt-12 w-full select-none rounded-2xl border border-site-line object-cover md:rounded-3xl"
+        </div>
+        <div className="mt-12">
+          <ScreenStrip
+            items={[
+              { src: `${C}/home-full.webp`, alt: 'Full BLOM Cosmetics homepage layout, top to bottom' },
+              { src: `${C}/admin-edit.webp`, alt: 'BLOM admin product editor with live pricing and image fields' },
+              { src: `${C}/admin-orders.webp`, alt: 'BLOM admin order management table' },
+              { src: `${C}/account.webp`, alt: 'BLOM customer account and order history page' },
+              { src: `${C}/academy-login.webp`, alt: 'BLOM Academy student login screen' },
+              { src: `${C}/mobile-shop.webp`, alt: 'BLOM Cosmetics shop on a mobile phone — built mobile-first', aspect: '9/19' },
+            ]}
           />
-
-          {/* 2-col grid of details */}
-          <motion.div
-            variants={stagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            className="mt-6 grid gap-6 md:mt-8 md:grid-cols-2 md:gap-8"
-          >
-            {[
-              { src: 'admin-edit.webp', alt: 'BLOM admin product editor with live pricing and image fields' },
-              { src: 'admin-orders.webp', alt: 'BLOM admin order management table' },
-              { src: 'account.webp', alt: 'BLOM customer account and order history page' },
-              { src: 'academy-login.webp', alt: 'BLOM Academy student login screen' },
-            ].map((shot) => (
-              <motion.img
-                key={shot.src}
-                variants={fadeUp}
-                src={`${C}/${shot.src}`}
-                alt={shot.alt}
-                loading="lazy"
-                draggable={false}
-                className="aspect-[16/10] w-full select-none rounded-2xl border border-site-line object-cover md:rounded-3xl"
-              />
-            ))}
-          </motion.div>
-
-          {/* Mobile shot — narrow, centred */}
-          <motion.div
-            initial={{ opacity: 0, y: 32 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={viewport}
-            transition={{ duration: 0.7, ease: EASE_ARR }}
-            className="mt-6 flex justify-center md:mt-8"
-          >
-            <img
-              src={`${C}/mobile-shop.webp`}
-              alt="BLOM Cosmetics shop on a mobile phone — built mobile-first"
-              loading="lazy"
-              draggable={false}
-              className="aspect-[9/19] w-full max-w-[280px] select-none rounded-[2rem] border border-site-line object-cover"
-            />
-          </motion.div>
         </div>
       </Panel>
 

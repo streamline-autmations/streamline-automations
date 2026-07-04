@@ -138,8 +138,8 @@ export const FEATURED_PROJECTS = [
     tags: ['E-commerce', 'Course platform', 'Admin dashboard', 'PayFast', 'n8n'],
     media: {
       type: 'image',
-      src: '/assets/clients/blom/mockup-1.webp',
-      mobileFallback: '/assets/clients/blom/mobile-shop.webp',
+      src: '/assets/clients/blom/cover-wide.webp',
+      mobileFallback: '/assets/clients/blom/tile.webp',
       alt: 'BLOM Cosmetics e-commerce and academy screens',
     },
   },
@@ -152,8 +152,8 @@ export const FEATURED_PROJECTS = [
     tags: ['Product catalogue', 'Retail/wholesale', 'Admin dashboard', 'PayFast'],
     media: {
       type: 'image',
-      src: 'https://res.cloudinary.com/dbhiu7lv0/image/upload/f_auto,q_auto,w_1400/v1782914584/3_phone_abyyj6.png',
-      mobileFallback: 'https://res.cloudinary.com/dbhiu7lv0/image/upload/f_auto,q_auto,w_800/v1782914584/3_phone_abyyj6.png',
+      src: '/assets/clients/cw-electronics/cover-wide.webp',
+      mobileFallback: '/assets/clients/cw-electronics/tile.webp',
       alt: 'CW Electronics e-commerce website interface',
     },
   },
@@ -166,8 +166,8 @@ export const FEATURED_PROJECTS = [
     tags: ['Portfolio site', 'Lead capture', 'Email automation'],
     media: {
       type: 'image',
-      src: '/assets/clients/ameli/mockup-1.webp',
-      mobileFallback: '/assets/clients/ameli/mobile-home.webp',
+      src: '/assets/clients/ameli/cover-wide.webp',
+      mobileFallback: '/assets/clients/ameli/tile.webp',
       alt: 'Ameli Designs portfolio website mockup',
     },
   },
@@ -180,8 +180,8 @@ export const FEATURED_PROJECTS = [
     tags: ['CRM', 'Production tracking', 'AI quote engine', 'WhatsApp'],
     media: {
       type: 'image',
-      src: '/assets/clients/recklessbear/mockup-3phone.webp',
-      mobileFallback: '/assets/clients/recklessbear/mobile-home.webp',
+      src: '/assets/clients/recklessbear/cover-wide.webp',
+      mobileFallback: '/assets/clients/recklessbear/tile.webp',
       alt: 'RecklessBear website and automation screens',
     },
   },
