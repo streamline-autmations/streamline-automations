@@ -1,4 +1,4 @@
-import { useState, type CSSProperties } from 'react';
+import { useCallback, useEffect, useRef, useState, type CSSProperties, type Ref } from 'react';
 import { motion } from 'framer-motion';
 import { EASE_ARR } from '../../lib/motion';
 
@@ -17,7 +17,15 @@ const CLIENTS: ClientItem[] = [
   { type: 'text',  name: 'AFRICAN NOMAD', color: '#5C8C6A' }, // sage green — earthy/nature
 ];
 
-function ClientItem({ item }: { item: ClientItem }) {
+// rAF loop tuning — a fixed px/s drift eased toward its target with an
+// exponential time-constant, so hover-to-stop (and back) glides instead of
+// hard-cutting like a CSS animation-play-state toggle would.
+const SPEED = 28;
+const SMOOTH_TAU = 0.3;
+const MIN_COPIES = 2;
+const COPY_HEADROOM = 1;
+
+function ClientLogoItem({ item }: { item: ClientItem }) {
   if (item.type === 'image') {
     return (
       <div className="group flex h-10 shrink-0 cursor-default items-center">
@@ -45,49 +53,136 @@ function ClientItem({ item }: { item: ClientItem }) {
   );
 }
 
-/** Two identical sets for the seamless -50% loop. */
-function TrackSet() {
+/** One repeat unit of the loop. First copy carries the a11y label; the rest are decorative. */
+function LogoSet({ innerRef, hidden }: { innerRef?: Ref<HTMLDivElement>; hidden?: boolean }) {
   return (
-    <div className="flex shrink-0 items-center gap-12 pr-12" aria-hidden>
+    <div ref={innerRef} className="flex shrink-0 items-center gap-12 pr-12" aria-hidden={hidden}>
       {CLIENTS.map((item, i) => (
-        <ClientItem key={i} item={item} />
+        <ClientLogoItem key={i} item={item} />
       ))}
     </div>
   );
 }
 
 /**
- * ClientLogos — continuous marquee trust strip on all screen sizes.
- * Pauses on hover. Respects prefers-reduced-motion (animation stops via CSS).
+ * ClientLogos — continuous marquee trust strip, all screen sizes.
+ *
+ * Mechanics borrowed from React Bits' LogoLoop (rAF drift with eased
+ * velocity + dynamic copy count from measured set width so the loop never
+ * gaps on any viewport) — restyled entirely to brand tokens, no library
+ * markup/CSS shipped. Per-logo grayscale -> colour reveal is a plain CSS
+ * hover, so it works identically whether the loop is moving or eased to a
+ * stop. On touch, hover never fires and the strip just runs.
  */
 export default function ClientLogos() {
-  const [paused, setPaused] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const setRef = useRef<HTMLDivElement>(null);
+
+  const [setWidth, setSetWidth] = useState(0);
+  const [copies, setCopies] = useState(MIN_COPIES);
+  const hoveredRef = useRef(false);
+  const reducedMotionRef = useRef(false);
+
+  const measure = useCallback(() => {
+    const containerWidth = containerRef.current?.clientWidth ?? 0;
+    const width = setRef.current?.getBoundingClientRect().width ?? 0;
+    if (width > 0) {
+      setSetWidth(Math.ceil(width));
+      const needed = Math.ceil(containerWidth / width) + COPY_HEADROOM;
+      setCopies(Math.max(MIN_COPIES, needed));
+    }
+  }, []);
+
+  useEffect(() => {
+    reducedMotionRef.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }, []);
+
+  // Re-measure on resize (and once images have loaded, since logo widths shift layout).
+  useEffect(() => {
+    measure();
+    if (!window.ResizeObserver) {
+      window.addEventListener('resize', measure);
+      return () => window.removeEventListener('resize', measure);
+    }
+    const ro = new ResizeObserver(measure);
+    if (containerRef.current) ro.observe(containerRef.current);
+    if (setRef.current) ro.observe(setRef.current);
+    return () => ro.disconnect();
+  }, [measure]);
+
+  useEffect(() => {
+    const imgs = setRef.current?.querySelectorAll('img') ?? [];
+    if (imgs.length === 0) return;
+    let remaining = imgs.length;
+    const onLoad = () => {
+      remaining -= 1;
+      if (remaining <= 0) measure();
+    };
+    imgs.forEach((img) => {
+      if (img.complete) onLoad();
+      else {
+        img.addEventListener('load', onLoad, { once: true });
+        img.addEventListener('error', onLoad, { once: true });
+      }
+    });
+  }, [measure]);
+
+  useEffect(() => {
+    if (reducedMotionRef.current) return;
+    const track = trackRef.current;
+    if (!track || setWidth === 0) return;
+
+    let raf = 0;
+    let last: number | null = null;
+    let offset = 0;
+    let velocity = 0;
+
+    const tick = (t: number) => {
+      if (last === null) last = t;
+      const dt = Math.max(0, t - last) / 1000;
+      last = t;
+
+      const target = hoveredRef.current ? 0 : SPEED;
+      const k = 1 - Math.exp(-dt / SMOOTH_TAU);
+      velocity += (target - velocity) * k;
+
+      offset = ((offset + velocity * dt) % setWidth + setWidth) % setWidth;
+      track.style.transform = `translate3d(${-offset}px, 0, 0)`;
+
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [setWidth]);
+
+  const effectiveCopies = reducedMotionRef.current ? 1 : copies;
 
   return (
     <section className="border-t border-site-line bg-white py-20 md:py-24">
-      {/* Marquee — all screen sizes */}
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: '-40px' }}
         transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.1 }}
         className="overflow-hidden"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
       >
         <div
-          className="sc-marquee-track flex w-max items-center"
-          style={
-            {
-              '--marquee-dur': '42s',
-              animationPlayState: paused ? 'paused' : 'running',
-            } as CSSProperties
-          }
-          role="group"
-          aria-label="Client logos"
+          ref={containerRef}
+          onMouseEnter={() => { hoveredRef.current = true; }}
+          onMouseLeave={() => { hoveredRef.current = false; }}
         >
-          <TrackSet />
-          <TrackSet />
+          <div
+            ref={trackRef}
+            className="flex w-max items-center"
+            style={{ willChange: 'transform' }}
+            role="group"
+            aria-label="Client logos"
+          >
+            {Array.from({ length: effectiveCopies }, (_, i) => (
+              <LogoSet key={i} innerRef={i === 0 ? setRef : undefined} hidden={i > 0} />
+            ))}
+          </div>
         </div>
       </motion.div>
     </section>
