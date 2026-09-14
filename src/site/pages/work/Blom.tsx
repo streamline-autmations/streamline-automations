@@ -458,7 +458,7 @@ export default function Blom() {
               { src: `${C}/admin-orders.webp`, alt: 'BLOM admin order management table' },
               { src: `${C}/account.webp`, alt: 'BLOM customer account and order history page' },
               { src: `${C}/academy-login.webp`, alt: 'BLOM Academy student login screen' },
-              { src: `${C}/mobile-shop.webp`, alt: 'BLOM Cosmetics shop on a mobile phone — built mobile-first', aspect: '9/19' },
+              { src: `${C}/mockup-3phone.webp`, alt: 'BLOM Cosmetics shop, product page and checkout across three phones — built mobile-first', aspect: '3/2' },
             ]}
           />
         </div>

@@ -13,11 +13,6 @@ const statItem: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: EASE_ARR } },
 };
 
-const lineReveal: Variants = {
-  hidden: { scaleX: 0 },
-  visible: { scaleX: 1, transition: { duration: 0.75, ease: EASE_ARR } },
-};
-
 // Real numbers only — no invented metrics.
 const STATS: { to: number; prefix?: string; suffix?: string; label: string }[] = [
   { to: 8, suffix: '+', label: 'Clients delivered, end to end' },
@@ -27,7 +22,8 @@ const STATS: { to: number; prefix?: string; suffix?: string; label: string }[] =
 ];
 
 /** By the numbers — honest stats, count up on scroll-in. White treatment so
- *  ink stays reserved for the scrolly + pre-footer moments. */
+ *  ink stays reserved for the scrolly + pre-footer moments. One motion beat
+ *  per section: the count-up. The hairlines stay static. */
 export default function StatsSection() {
   return (
     <Panel bg="offwhite" className="px-6 py-28 md:px-10 md:py-32">
@@ -40,13 +36,7 @@ export default function StatsSection() {
           className="grid grid-cols-1 gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-4"
         >
           {STATS.map((s) => (
-            <motion.div key={s.label} variants={statItem} className="relative pt-6">
-              {/* Border line draws left-to-right as the stat enters view */}
-              <motion.span
-                variants={lineReveal}
-                aria-hidden="true"
-                className="absolute inset-x-0 top-0 block h-px origin-left bg-site-line-mid"
-              />
+            <motion.div key={s.label} variants={statItem} className="relative border-t border-site-line-mid pt-6">
               <CountUp
                 to={s.to}
                 prefix={s.prefix}

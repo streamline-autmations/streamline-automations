@@ -123,6 +123,12 @@ const ROUTES: Record<string, Meta> = {
     'A fast, mobile-first portfolio site for a graphic designer, with automated email lead capture wired through n8n.',
     '/assets/clients/ameli/hero.webp',
   ),
+  '/work/jj-glass': caseStudy(
+    'JJ Glassworks',
+    '/work/jj-glass',
+    'A service site for a Gauteng glass and aluminium specialist — quote requests, WhatsApp CTA and automated email lead notifications.',
+    '/assets/clients/jj-glass/hero.webp',
+  ),
 };
 
 export default function SiteSEO() {

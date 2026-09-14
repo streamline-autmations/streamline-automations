@@ -5,7 +5,7 @@ import EngineBackdrop from '../three/EngineBackdrop';
 /**
  * PreFooterCTA — the Cuberto "have an idea?" moment. A big, quiet, centred
  * moment: the headline, the scroll-reactive 3D Engine (centred behind it)
- * and "Tell us." itself doubling as the CTA — no separate pill button below
+ * and "Tell me." itself doubling as the CTA — no separate pill button below
  * it. A rounded-top ink section (its corners reveal the white page behind
  * for a smooth section transition). One of only two dark surfaces on the
  * site. Under reduced-motion the engine doesn't load and the plain ink
@@ -26,7 +26,7 @@ export default function PreFooterCTA({
 
       {/* The Engine — enquiries flow in, bookings flow out. Centred behind
           the headline/button, sat a touch lower so it drifts through the
-          "Tell us." line rather than the headline above it. */}
+          "Tell me." line rather than the headline above it. */}
       <EngineBackdrop corePos={[0, 0.15, -1.2]} drift />
 
       {/* Soft ink vignette behind the copy so the engine never fights the headline */}
@@ -49,7 +49,7 @@ export default function PreFooterCTA({
         >
           <SplitReveal
             as="p"
-            segments={[{ text: 'Tell us.', serif: true }]}
+            segments={[{ text: 'Tell me.', serif: true }]}
             delay={0.15}
             className="mx-auto text-[clamp(40px,7.5vw,80px)] leading-none tracking-[-0.02em] transition-transform duration-500 ease-brand group-hover:scale-[1.05]"
           />
