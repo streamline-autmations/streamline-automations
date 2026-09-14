@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useRef, useState, type CSSProperties, type Ref } from 'react';
+import { useCallback, useEffect, useRef, useState, type Ref } from 'react';
 import { motion } from 'framer-motion';
 import { EASE_ARR } from '../../lib/motion';
 
 type LogoItem = { type: 'image'; name: string; src: string };
-type TextItem = { type: 'text'; name: string; color: string };
+type TextItem = { type: 'text'; name: string };
 type ClientItem = LogoItem | TextItem;
 
 const CLIENTS: ClientItem[] = [
@@ -11,10 +11,10 @@ const CLIENTS: ClientItem[] = [
   { type: 'image', name: 'RecklessBear Apparel', src: '/assets/clients/recklessbear/logo-word.webp' },
   { type: 'image', name: 'CW Electronics',       src: '/assets/clients/cw-electronics/logo.webp' },
   { type: 'image', name: 'Ameli Designs',        src: '/assets/clients/ameli/logo.webp' },
-  { type: 'image', name: 'JJ Glasswork',         src: '/assets/clients/jj-glass/logo.webp' },
-  { type: 'image', name: 'NSA Mining',           src: '/assets/clients/nsa-mining/logo.jpg' },
-  { type: 'text',  name: 'TUSCANY SA',    color: '#A07244' }, // warm amber — Italian hospitality
-  { type: 'text',  name: 'AFRICAN NOMAD', color: '#5C8C6A' }, // sage green — earthy/nature
+  { type: 'image', name: 'JJ Glassworks',        src: '/assets/clients/jj-glass/logo.webp' },
+  { type: 'image', name: 'NSA Mining',           src: '/assets/clients/nsa-mining/logo.webp' },
+  { type: 'text',  name: 'TUSCANY SA' },
+  { type: 'text',  name: 'AFRICAN NOMAD' },
 ];
 
 // rAF loop tuning — a fixed px/s drift eased toward its target with an
@@ -41,12 +41,11 @@ function ClientLogoItem({ item }: { item: ClientItem }) {
     );
   }
 
+  // Text-only clients mirror the image logos' grayscale→colour reveal:
+  // muted at rest, full ink on hover. No off-system brand colours.
   return (
     <div className="group flex h-10 shrink-0 cursor-default items-center">
-      <span
-        className="select-none whitespace-nowrap font-sans text-[13px] font-semibold uppercase tracking-[0.12em] text-site-text-muted transition-colors duration-300 ease-brand group-hover:text-[--logo-hover]"
-        style={{ '--logo-hover': item.color } as CSSProperties}
-      >
+      <span className="select-none whitespace-nowrap font-sans text-[13px] font-semibold uppercase tracking-[0.12em] text-site-text-muted transition-colors duration-300 ease-brand group-hover:text-site-ink">
         {item.name}
       </span>
     </div>

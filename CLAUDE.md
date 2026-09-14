@@ -13,11 +13,18 @@ NOT the old fluid.glass / brokerpilot "white-minimal subtle" direction — that 
 ### Skill precedence (hard order)
 1. **streamline-site** = brand truth. It wins on EVERYTHING: colours, fonts, spacing,
    copy voice, clients, pricing, structure, the dark-section rule. Never overridden.
-2. **ui-ux-pro-max / frontend-design** = technique + ideas only. Use them for motion
-   patterns, composition, component craft — never to change brand tokens, fonts, colours,
-   the accent, the dark-section rule, or the copy voice. If they suggest a font or colour
-   outside the system, ignore it.
-3. Everything else (Vercel, cost, writing, web-design-guidelines) = supporting, no aesthetic authority.
+2. **design-director** = process authority. Invoked first on any visual work. It governs
+   HOW the work is done — intake, written concept, one derived motion signature, visual
+   verification. It does NOT touch brand tokens here: this repo is brand-locked, so the
+   divergence roll and palette/type rotation are SKIPPED. Process only.
+3. **taste-skill** = the craft rulebook (layout discipline, AI tells, section 9 pre-flight).
+   Applies fully, except where it conflicts with locked brand tokens — tokens win.
+4. **ui-ux-pro-max / frontend-design** = technique + ideas only, and only when 2 and 3 have
+   nothing to say. Never to change brand tokens, fonts, colours, the accent, the
+   dark-section rule, or the copy voice. `ui-ux-pro-max` is a lookup database of conventional
+   styles and palettes — treat its suggestions as a starting point to react against, never
+   as an answer. If it suggests a font or colour outside the system, ignore it.
+5. Everything else (Vercel, cost, writing, web-design-guidelines) = supporting, no aesthetic authority.
 
 ### The reconcile rule (do not violate)
 Cuberto-LEVEL craft, NOT Cuberto's maximalism. Steal the motion quality, cursor,
@@ -101,7 +108,7 @@ Short sentences. Direct. No corporate fluff. Never lorem ipsum.**
 | Animation    | Framer Motion         | Hover/tap, page transitions, simple in-view fades  |
 | Animation    | GSAP + @gsap/react    | Pinning, scrub, cycler, automation flow            |
 | Smooth scroll| Lenis                 | Buttery smooth-scroll wrapper at app root          |
-| Components   | 21st.dev Magic        | Pull from library before building from scratch     |
+| Components   | 21st.dev Magic        | Mechanics reference only — restyle before commit   |
 | Backend      | Supabase              | Auth, Postgres, Storage                            |
 | Deployment   | Vercel                | Auto-deploy from main branch                       |
 | Analytics    | PostHog               | Env var: VITE_POSTHOG_KEY                          |
@@ -112,13 +119,24 @@ Short sentences. Direct. No corporate fluff. Never lorem ipsum.**
   cycler on home, the 6-stage automation flow on /systems.
 - Never duplicate the same animation in both libraries on the same element.
 
-### 21st.dev Magic
-Before building any new UI component, check if a production-quality version already exists in
-21st.dev. Use it as-is or adapt it — don't rebuild from scratch unless there's no match.
+### 21st.dev Magic — mechanics reference ONLY
+21st.dev (and Magic UI, shadcn, React Bits) show you **how a component is wired** — the marquee
+loop, the beam path, the pin logic. They do not show you how it should look here.
 
-### UI/UX Pro Max Design Skill
-Design decisions follow the UI/UX Pro Max skill system. All new sections must feel premium —
-not generic AI output. Reference the brand system below when in doubt.
+- **Never ship a library component in its default styling.** Restyle to the brand tokens below
+  — colours, radii, shadows, type, easing — BEFORE it is committed. A component merged in its
+  default state is the single fastest route to the generic vibe-coded look, and it is the exact
+  thing the brand system exists to prevent.
+- Pulling the mechanics is encouraged. Pulling the aesthetic is not.
+- If a component cannot be restyled to the system without fighting it, build it instead.
+
+### Design skills — which one actually decides
+Design decisions follow `design-director` (process) + `taste-skill` (craft), inside the locked
+brand tokens below. `ui-ux-pro-max` is a reference database, not the decider — see the skill
+precedence block at the top of this file.
+
+"Feels premium" is not a specification. Every new section needs a stated reason it looks the
+way it does, tied to the Cuberto reference intent and the brand system below.
 
 ---
 

@@ -32,6 +32,7 @@ const ROUTES = [
   '/work/recklessbear',
   '/work/cw-electronics',
   '/work/ameli',
+  '/work/jj-glass',
   '/about',
   '/contact',
   '/privacy',

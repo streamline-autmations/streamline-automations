@@ -1,29 +1,37 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import SplitReveal from '../components/craft/SplitReveal';
 import WorkCard from '../components/craft/WorkCard';
 import PreFooterCTA from '../components/craft/PreFooterCTA';
 import Panel from '../components/craft/Panel';
 import Tag from '../components/craft/Tag';
+import usePrefersReducedMotion from '../hooks/usePrefersReducedMotion';
 import { EASE_ARR, fadeUp, stagger, viewport } from '../lib/motion';
 
 // Real, local, optimised client tiles.
 const TILE = (c: string) => `/assets/clients/${c}/tile.webp`;
 
-/** Smaller jobs without a case-study page — rendered as plain (non-link) cards. */
+/** Smaller jobs — plain cards, or a linked video card when a case page exists. */
 interface MoreItem {
   type: string;
   name: string;
   blurb: string;
   /** Optional real local thumbnail; text-only card when absent. */
   image?: string;
+  /** Optional muted walkthrough loop shown in place of the thumbnail. */
+  video?: string;
+  /** Case-study route — the whole card becomes a link when present. */
+  href?: string;
 }
 
 const MORE: MoreItem[] = [
   {
     type: 'Service site + Automation',
-    name: 'JJ Glasswork',
-    blurb: 'Service site, contact form, automated email lead notifications.',
-    image: TILE('jj-glass'),
+    name: 'JJ Glassworks',
+    blurb: 'Service site, quote requests, automated email lead notifications.',
+    image: '/assets/videos/work/jj-glass-walkthrough-poster.webp',
+    video: '/assets/videos/work/jj-glass-walkthrough.mp4',
+    href: '/work/jj-glass',
   },
   {
     type: 'Internal tool',
@@ -48,6 +56,7 @@ const MORE: MoreItem[] = [
  * the smaller jobs as plain border cards (offwhite) → end CTA. No pricing.
  */
 export default function Portfolio() {
+  const reduced = usePrefersReducedMotion();
   return (
     <>
       {/* HERO — white */}
@@ -164,32 +173,69 @@ export default function Portfolio() {
             viewport={viewport}
             className="grid grid-cols-1 gap-6 sm:grid-cols-2"
           >
-            {MORE.map((item) => (
-              <motion.div
-                key={item.name}
-                variants={fadeUp}
-                className="rounded-2xl border border-site-line bg-white p-8"
-              >
-                {item.image && (
-                  <div className="mb-7 overflow-hidden rounded-xl border border-site-line bg-site-surface">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      loading="lazy"
-                      draggable={false}
-                      className="aspect-[16/10] w-full select-none object-cover"
-                    />
-                  </div>
-                )}
-                <span className="block text-[14px] font-medium text-site-accent">
-                  {item.type}
-                </span>
-                <h3 className="mt-2 text-[22px] font-semibold leading-[1.2] tracking-[-0.02em] text-site-ink md:text-[26px]">
-                  {item.name}
-                </h3>
-                <p className="mt-2 max-w-md text-[15px] leading-[1.55] text-site-text-body">{item.blurb}</p>
-              </motion.div>
-            ))}
+            {MORE.map((item) => {
+              const media = (
+                <>
+                  {(item.video || item.image) && (
+                    <div className="mb-7 overflow-hidden rounded-xl border border-site-line bg-site-surface">
+                      {item.video && !reduced ? (
+                        <video
+                          src={item.video}
+                          poster={item.image}
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                          preload="none"
+                          aria-label={`${item.name} website walkthrough`}
+                          className="aspect-[16/10] w-full object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.03]"
+                        />
+                      ) : (
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          loading="lazy"
+                          draggable={false}
+                          className="aspect-[16/10] w-full select-none object-cover"
+                        />
+                      )}
+                    </div>
+                  )}
+                  <span className="block text-[14px] font-medium text-site-accent">
+                    {item.type}
+                  </span>
+                  <h3 className="mt-2 flex items-center gap-3 text-[22px] font-semibold leading-[1.2] tracking-[-0.02em] text-site-ink md:text-[26px]">
+                    {item.name}
+                    {item.href && (
+                      <span
+                        aria-hidden="true"
+                        className="text-[20px] text-site-text-muted transition-all duration-300 ease-brand group-hover:translate-x-1 group-hover:text-site-accent motion-reduce:group-hover:translate-x-0"
+                      >
+                        →
+                      </span>
+                    )}
+                  </h3>
+                  <p className="mt-2 max-w-md text-[15px] leading-[1.55] text-site-text-body">{item.blurb}</p>
+                </>
+              );
+
+              return (
+                <motion.div key={item.name} variants={fadeUp}>
+                  {item.href ? (
+                    <Link
+                      to={item.href}
+                      data-cursor="view"
+                      data-cursor-label="Explore"
+                      className="group block rounded-2xl border border-site-line bg-white p-8 outline-none transition-colors duration-300 ease-brand hover:border-site-line-mid focus-visible:ring-2 focus-visible:ring-site-accent"
+                    >
+                      {media}
+                    </Link>
+                  ) : (
+                    <div className="rounded-2xl border border-site-line bg-white p-8">{media}</div>
+                  )}
+                </motion.div>
+              );
+            })}
           </motion.div>
         </div>
       </Panel>

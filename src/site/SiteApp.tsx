@@ -22,6 +22,7 @@ const Blom = lazy(() => import('./pages/work/Blom'));
 const RecklessBear = lazy(() => import('./pages/work/RecklessBear'));
 const CWElectronics = lazy(() => import('./pages/work/CWElectronics'));
 const Ameli = lazy(() => import('./pages/work/Ameli'));
+const JJGlass = lazy(() => import('./pages/work/JJGlass'));
 const Privacy = lazy(() => import('./pages/Privacy'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 // Isolated 3D scroll lab (lives outside src/site) — no header/footer/orb
@@ -49,6 +50,7 @@ function AnimatedRoutes() {
         <Route path="/work/recklessbear" element={t(<RecklessBear />)} />
         <Route path="/work/cw-electronics" element={t(<CWElectronics />)} />
         <Route path="/work/ameli" element={t(<Ameli />)} />
+        <Route path="/work/jj-glass" element={t(<JJGlass />)} />
 
         {/* Keep legacy portfolio slugs alive */}
         <Route path="/portfolio/blom-cosmetics" element={<Navigate to="/work/blom" replace />} />

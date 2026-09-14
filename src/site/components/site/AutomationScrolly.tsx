@@ -22,7 +22,10 @@ const STEPS = [
  * (React) and the scene (progress ref read in useFrame — Lenis-safe, same
  * pattern as HeroVisual). On mobile / reduced-motion it renders as a clean
  * stacked timeline (no pin, no WebGL).
- * Pin uses pinType:'transform' to play nice with Lenis + the overflow-x root.
+ * Pin uses GSAP's default (native position:fixed), same as CaseStudyCycler and
+ * for the same reason: overflow-x:hidden sits on <body> (not an inner wrapper),
+ * so fixed pins have a viewport containing block, and pinType:'transform'
+ * would force per-tick JS pin repositioning for nothing.
  */
 export default function AutomationScrolly() {
   const [enhanced, setEnhanced] = useState(false);
@@ -46,7 +49,7 @@ export default function AutomationScrolly() {
         start: 'top top',
         end: '+=' + STEPS.length * 400,
         pin: pinRef.current,
-        pinType: 'transform',
+        anticipatePin: 1,
         onUpdate: (self) => {
           progressRef.current = self.progress;
           const i = Math.min(STEPS.length - 1, Math.floor(self.progress * STEPS.length));

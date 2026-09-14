@@ -307,9 +307,7 @@ export default function RecklessBear() {
               { src: `${C}/all-products.webp`, alt: 'RecklessBear product catalogue listing every apparel item' },
               { src: `${C}/product.webp`, alt: 'RecklessBear single product page' },
               { src: `${C}/forms.webp`, alt: 'RecklessBear structured custom-order request form' },
-              { src: `${C}/mobile-home.webp`, alt: 'RecklessBear homepage on mobile, built mobile-first', aspect: '9/19' },
-              { src: `${C}/mobile-product.webp`, alt: 'RecklessBear product page on mobile', aspect: '9/19' },
-              { src: `${C}/mobile-contact.webp`, alt: 'RecklessBear contact and quote page on mobile', aspect: '9/19' },
+              { src: `${C}/mockup-3phone.webp`, alt: 'RecklessBear home, kit builder and AI chatbot across three phones — built mobile-first', aspect: '3/2' },
             ]}
           />
         </div>

@@ -192,5 +192,5 @@ export const PROOF_ITEMS = [
   { name: 'CW Electronics', tags: ['Product catalogue', 'PayFast', 'Owner admin'] },
   { name: 'RecklessBear', tags: ['CRM', 'Automation workflow', 'AI quote flow'] },
   { name: 'Ameli Designs', tags: ['Portfolio', 'Lead capture'] },
-  { name: 'JJ Glasswork', tags: ['Service site', 'Email leads'] },
+  { name: 'JJ Glassworks', tags: ['Service site', 'Email leads'] },
 ] as const;

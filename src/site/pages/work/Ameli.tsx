@@ -304,9 +304,7 @@ export default function Ameli() {
             items={[
               { src: `${C}/portfolio.webp`, alt: 'Ameli Designs portfolio grid showing the full body of work' },
               { src: `${C}/extra.webp`, alt: 'Extra packaging design project on Ameli Designs' },
-              { src: `${C}/mobile-home.webp`, alt: 'Ameli Designs home page on mobile, built mobile-first', aspect: '9/19' },
-              { src: `${C}/mobile-about.webp`, alt: 'Ameli Designs about page on mobile', aspect: '9/19' },
-              { src: `${C}/mobile-habitat.webp`, alt: 'Habitat Cosmic Oasis project page on mobile', aspect: '9/19' },
+              { src: `${C}/mockup-4iphone.webp`, alt: 'Ameli Designs home, about, experience and project pages across four phones — built mobile-first', aspect: '10/7' },
             ]}
           />
         </div>
