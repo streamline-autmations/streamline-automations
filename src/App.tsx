@@ -12,10 +12,11 @@ import CookieConsent from './components/layout/CookieConsent';
 import ComingSoon from './pages/ComingSoon';
 import { trackScrollDepth, resetScrollTracking, initOutboundLinkTracking, initBounceDetection, resetSessionTiming } from './lib/analytics';
 
-const COMING_SOON = import.meta.env.VITE_COMING_SOON === 'true';
-// Fresh white-minimal rebuild (src/site). Set VITE_SITE_V2=true to serve it
-// from root; unset/false keeps the existing app. The old site is one toggle away.
-const SITE_V2 = import.meta.env.VITE_SITE_V2 === 'true';
+// ⚠️ v2-preview BRANCH ONLY — forces the new white-minimal site ON so this
+// branch gets its own Vercel preview URL for side-by-side comparison with the
+// live (old) site on main. DO NOT MERGE THIS BRANCH TO MAIN.
+const COMING_SOON = false;
+const SITE_V2 = true;
 const SiteApp = lazy(() => import('./site/SiteApp'));
 
 // Lazy load pages for performance
