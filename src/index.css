@@ -36,6 +36,12 @@
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
+/* Chrome's scroll anchoring can silently re-adjust the viewport when
+   late-loading content (images, fonts, GSAP measurements) shifts layout near
+   the top of the page — fighting the SPA's own scroll-to-top-on-route-change
+   reset. We own scroll restoration ourselves (see ScrollToTop), so opt out. */
+html, body { overflow-anchor: none; }
+
 body {
   background-color: var(--bg);
   color: var(--text-high);

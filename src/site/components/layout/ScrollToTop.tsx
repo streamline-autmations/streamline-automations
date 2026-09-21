@@ -17,6 +17,15 @@ import { PAGE_EXIT_EVENT } from '../craft/PageTransition';
  * Hash-aware: a deep link like /restaurant-direct#review lands on that section
  * instead of the top. The target may not exist on the first pass (routes are
  * lazy), so an unresolved hash gets one retry.
+ *
+ * A single scrollTo(0,0) isn't enough on its own: the incoming route is
+ * lazy-loaded and often still growing (images decoding, web fonts swapping,
+ * GSAP-pinned sections measuring) for a few hundred ms after it mounts —
+ * especially on slower mobile connections. If that growth happens after the
+ * one-shot reset, the page ends up sitting mid-scroll despite this component
+ * having "already" run. So the reset holds the top for a short window,
+ * re-asserting scrollY 0 every frame, and only stops early if the visitor
+ * actually scrolls or touches the screen themselves.
  */
 export default function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -44,6 +53,7 @@ export default function ScrollToTop() {
     const routeChanged = lastPath.current !== pathname;
     lastPath.current = pathname;
     let retry: ReturnType<typeof setTimeout> | undefined;
+    let stopHold: (() => void) | undefined;
 
     const go = () => {
       const el = targetId ? document.getElementById(targetId) : null;
@@ -55,13 +65,40 @@ export default function ScrollToTop() {
       return false;
     };
 
+    // Re-asserts scrollY 0 every frame for HOLD_MS, so a late-arriving image,
+    // font swap or GSAP measurement that grows the page can't leave it sitting
+    // mid-scroll. Stops the instant the visitor scrolls/touches/uses a key.
+    const HOLD_MS = 700;
+    const holdAtTop = () => {
+      let cancelled = false;
+      const release = () => {
+        cancelled = true;
+        window.removeEventListener('wheel', release);
+        window.removeEventListener('touchstart', release);
+        window.removeEventListener('keydown', release);
+      };
+      window.addEventListener('wheel', release, { passive: true, once: true });
+      window.addEventListener('touchstart', release, { passive: true, once: true });
+      window.addEventListener('keydown', release, { once: true });
+
+      const start = performance.now();
+      const tick = () => {
+        if (cancelled) return;
+        if (lenis) lenis.scrollTo(0, { immediate: true, force: true });
+        else window.scrollTo(0, 0);
+        if (performance.now() - start < HOLD_MS) requestAnimationFrame(tick);
+      };
+      tick();
+
+      return release;
+    };
+
     const run = () => {
       if (targetId) {
         if (!go()) retry = setTimeout(go, 300);
         return;
       }
-      if (lenis) lenis.scrollTo(0, { immediate: true, force: true });
-      else window.scrollTo(0, 0);
+      stopHold = holdAtTop();
     };
 
     // Same-page hash change, first load, or no curtain: act immediately.
@@ -69,7 +106,10 @@ export default function ScrollToTop() {
     firstRun.current = false;
     if (!waitForCurtain) {
       run();
-      return () => clearTimeout(retry);
+      return () => {
+        clearTimeout(retry);
+        stopHold?.();
+      };
     }
 
     let done = false;
@@ -84,6 +124,7 @@ export default function ScrollToTop() {
       window.removeEventListener(PAGE_EXIT_EVENT, onExit);
       clearTimeout(fallback);
       clearTimeout(retry);
+      stopHold?.();
     };
     // lenis is deliberately not a dep: it mounts after first render, and a
     // re-run then would scroll a deep-linked page back to the top.
