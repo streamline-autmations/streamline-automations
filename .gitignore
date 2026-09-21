@@ -47,3 +47,17 @@ dist-ssr
 # Auto-installed plugin skills (managed by Claude Code, not checked in)
 .claude/skills/higgsfield-*/
 .agents/skills/higgsfield-*/
+
+# Local Claude Code permissions — machine-specific, not shared
+.claude/settings.local.json
+
+# Deployment CLI state (Vercel project/org IDs)
+.vercel/
+
+# Local QA / review screenshot output — regenerate, never commit
+lab-screens/
+review-shots/
+.playwright-mcp/
+
+# Client-facing offer documents — kept locally, never published
+/*.pdf

@@ -2,9 +2,12 @@ import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap, ScrollTrigger, useGSAP } from '../../lib/gsap';
 import SplitReveal from '../craft/SplitReveal';
-import { FEATURED_PROJECTS } from '../../data/site';
+import { FEATURED_PROJECTS, type ProjectMedia } from '../../data/site';
 
-const PROJECTS = FEATURED_PROJECTS;
+// Widen media to the ProjectMedia contract — the data is `as const`, which narrows
+// every entry to 'image' and makes the video branch below look unreachable.
+type FeaturedProject = Omit<(typeof FEATURED_PROJECTS)[number], 'media'> & { media: ProjectMedia };
+const PROJECTS: readonly FeaturedProject[] = FEATURED_PROJECTS;
 
 /**
  * CaseStudyCycler — horizontal filmstrip of cards. The section pins to the

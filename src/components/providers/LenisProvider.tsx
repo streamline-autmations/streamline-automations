@@ -7,16 +7,10 @@
  * Disabled automatically on touch/mobile devices — native scroll
  * performs better there.
  */
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 import Lenis from 'lenis';
 import { gsap, ScrollTrigger } from '../../lib/gsap-setup';
-
-const LenisContext = createContext<Lenis | null>(null);
-
-/** Access the Lenis instance anywhere inside the provider tree. */
-export function useLenis() {
-  return useContext(LenisContext);
-}
+import { LenisContext } from './lenis-context';
 
 export default function LenisProvider({ children }: { children: ReactNode }) {
   const [lenis, setLenis] = useState<Lenis | null>(null);

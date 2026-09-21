@@ -37,7 +37,6 @@ export default defineConfig({
   ],
   optimizeDeps: {
     exclude: ['lucide-react'],
-    include: ['sheryjs'],
     esbuildOptions: { plugins: [esbuildGlslPlugin] },
   },
   build: {
@@ -49,7 +48,7 @@ export default defineConfig({
           if (id.includes('framer-motion') || id.includes('gsap') || id.includes('lenis')) {
             return 'vendor-motion';
           }
-          if (id.includes('posthog') || id.includes('@calcom')) return 'vendor-analytics';
+          if (id.includes('posthog')) return 'vendor-analytics';
           if (id.includes('react-icons') || id.includes('lucide-react')) return 'vendor-icons';
           if (id.includes('react') || id.includes('scheduler')) return 'vendor-react';
           return undefined;

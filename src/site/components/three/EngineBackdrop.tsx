@@ -13,7 +13,7 @@
  */
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { ScrollTrigger } from '../../lib/gsap';
-import { useNoWebGL } from './HeroVisual';
+import { useNoWebGL } from '../../hooks/useNoWebGL';
 
 const EngineScene = lazy(() => import('./EngineScene'));
 

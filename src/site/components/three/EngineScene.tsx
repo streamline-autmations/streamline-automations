@@ -9,9 +9,9 @@
  * (0 entering → 1 leaving). The engine spins up as the CTA arrives.
  */
 import { useMemo, useRef } from 'react';
-import type { MutableRefObject } from 'react';
+import type { ElementRef, MutableRefObject } from 'react';
 import { AdditiveBlending } from 'three';
-import type { BufferGeometry, Group, Mesh, MeshStandardMaterial } from 'three';
+import type { BufferGeometry, Group, Mesh } from 'three';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { MeshDistortMaterial } from '@react-three/drei';
 
@@ -103,7 +103,7 @@ function Engine({
   const coreRef = useRef<Mesh>(null);
   const shellRef = useRef<Mesh>(null);
   // drei's MeshDistortMaterial = MeshStandardMaterial + a distort uniform
-  const matRef = useRef<(MeshStandardMaterial & { distort: number }) | null>(null);
+  const matRef = useRef<ElementRef<typeof MeshDistortMaterial>>(null);
   // World-space x of the travelling orb; starts at its classic corner anchor.
   const travelX = useRef(corePos[0]);
 

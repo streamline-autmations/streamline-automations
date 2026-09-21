@@ -22,12 +22,13 @@
  * is isolated from the global Lenis scroll.
  */
 import { useEffect, useMemo, useRef } from 'react';
-import type { ReactNode } from 'react';
+import type { ElementRef, ReactNode } from 'react';
 import { AdditiveBlending, MathUtils } from 'three';
 import type { BufferGeometry, Group, Mesh } from 'three';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { MeshDistortMaterial, Scroll, ScrollControls, useScroll } from '@react-three/drei';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
+import type { BloomEffect } from 'postprocessing';
 
 const ACCENT = '#7B3FE4';
 const INK = '#0A0A0F';
@@ -121,8 +122,8 @@ function Engine() {
   const groupRef = useRef<Group>(null);
   // drei's MeshDistortMaterial exposes .distort; postprocessing's Bloom
   // exposes .intensity — both are safe to mutate per frame (no React re-render).
-  const distortRef = useRef<any>(null);
-  const bloomRef = useRef<any>(null);
+  const distortRef = useRef<ElementRef<typeof MeshDistortMaterial>>(null);
+  const bloomRef = useRef<BloomEffect | null>(null);
 
   useEffect(() => {
     const el = scroll.el;
@@ -214,7 +215,11 @@ function Engine() {
           slightly with scroll in useFrame above. */}
       <EffectComposer multisampling={4}>
         <Bloom
-          ref={bloomRef}
+          // Upstream types this ref as `typeof BloomEffect` (the class) but it
+          // forwards the instance — bridge that typing bug here, nowhere else.
+          ref={(effect) => {
+            bloomRef.current = effect as unknown as BloomEffect | null;
+          }}
           intensity={0.55}
           luminanceThreshold={0.28}
           luminanceSmoothing={0.85}

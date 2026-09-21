@@ -2,8 +2,8 @@
  * src/site base globals — v2 white-minimal canvas.
  * Component styling lives in Tailwind utilities; this file only resets the
  * page-level surface (the legacy index.html <body> carries dark-theme classes)
- * and sets selection + font smoothing. Scoped to .site-root so toggling the
- * VITE_SITE_V2 flag back to the old app changes nothing.
+ * and sets selection + font smoothing. Scoped to .site-root; anything rendered
+ * outside it (e.g. CookieConsent) sets its own font-sans.
  */
 .site-root {
   -webkit-font-smoothing: antialiased;

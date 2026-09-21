@@ -63,10 +63,10 @@ export default function CookieConsent() {
       role="dialog"
       aria-live="polite"
       aria-label="Cookie consent"
-      className="fixed inset-x-3 bottom-3 z-[1000] mx-auto max-w-md rounded-2xl border border-[#E8E8EC] bg-white/95 p-4 shadow-[0_12px_40px_rgba(10,10,15,0.12)] backdrop-blur-md sm:inset-x-auto sm:left-auto sm:right-6 sm:bottom-6 sm:mx-0 sm:max-w-[420px]"
+      className="fixed inset-x-3 bottom-3 z-[1000] mx-auto max-w-md font-sans antialiased rounded-2xl border border-[#E8E8EC] bg-white/95 p-4 shadow-[0_12px_40px_rgba(10,10,15,0.12)] backdrop-blur-md sm:inset-x-auto sm:left-auto sm:right-6 sm:bottom-6 sm:mx-0 sm:max-w-[420px]"
     >
       <div className="flex flex-col gap-3">
-        <p className="font-['DM_Sans'] text-[13px] leading-[1.5] text-[#3D3D47]">
+        <p className="text-[13px] leading-[1.5] text-[#3D3D47]">
           I use cookies for analytics to understand how the site is used. You can accept or
           decline - declining keeps only what's essential.{' '}
           <Link to="/privacy" className="font-medium text-[#7B3FE4] underline-offset-2 hover:underline">

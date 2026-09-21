@@ -67,53 +67,6 @@
     <!-- v2 type system: Inter Tight (everything — tight Helvetica-family grotesque,
          free stand-in for the Nimbus Sans Novus reference) · JetBrains Mono (orb/3D labels only) -->
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-      @media (max-width: 768px) {
-        #VG_OVERLAY_CONTAINER .vg-widget-trigger {
-          transform: scale(0.7);
-          right: 16px !important;
-          bottom: 16px !important;
-        }
-        #VG_OVERLAY_CONTAINER .vg-widget-iframe {
-          right: 16px !important;
-          bottom: 90px !important;
-          width: calc(100% - 32px) !important;
-          max-width: 340px !important;
-        }
-      }
-      
-      @media (min-width: 769px) {
-        #VG_OVERLAY_CONTAINER .vg-widget-trigger {
-          right: 24px !important;
-          bottom: 24px !important;
-        }
-        #VG_OVERLAY_CONTAINER .vg-widget-iframe {
-          right: 24px !important;
-          bottom: 100px !important;
-        }
-      }
-      
-      /* Add delay for initial chat message */
-      #VG_OVERLAY_CONTAINER .vg-widget-iframe {
-        animation: fadeInDelayed 0.3s ease-in-out 2s both;
-      }
-      
-      @keyframes fadeInDelayed {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      
-      /* Hide chat widget while intro screen is active */
-      .intro-active #VG_OVERLAY_CONTAINER {
-        display: none !important;
-      }
-    </style>
     <!-- Apollo website tracker — only loads once analytics consent is granted (POPIA) -->
     <script>function initApollo(){var n=Math.random().toString(36).substring(7),o=document.createElement("script");
     o.src="https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache="+n,o.async=!0,o.defer=!0,
@@ -195,8 +148,6 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <div id="root"></div>
-    <div id="VG_OVERLAY_CONTAINER"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <!-- Chat widget removed per request -->
   </body>
 </html>

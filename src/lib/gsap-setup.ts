@@ -1,7 +1,6 @@
 /**
  * GSAP setup — import from here everywhere, not from 'gsap' directly.
- * Ensures ScrollTrigger + SplitText + CustomEase + useGSAP are registered once.
- * SplitText & CustomEase are free as of GSAP 3.13 and ship with the package.
+ * Ensures ScrollTrigger + CustomEase + useGSAP are registered once.
  *
  * Smooth scroll: Lenis (see LenisProvider) — NOT GSAP ScrollSmoother. Both do
  * smooth-scroll and both can drive ScrollTrigger; running both double-inits and
@@ -12,11 +11,10 @@
  */
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { SplitText } from 'gsap/SplitText';
 import { CustomEase } from 'gsap/CustomEase';
 import { useGSAP } from '@gsap/react';
 
-gsap.registerPlugin(ScrollTrigger, SplitText, CustomEase, useGSAP);
+gsap.registerPlugin(ScrollTrigger, CustomEase, useGSAP);
 
 // Mobile browsers resize the viewport (and fire `resize`) when the address
 // bar shows/hides on scroll. Without this, every pinned ScrollTrigger
@@ -28,4 +26,4 @@ ScrollTrigger.config({ ignoreMobileResize: true });
 // (Control points map directly to the SVG path below.)
 CustomEase.create('brand', 'M0,0 C0.22,1 0.36,1 1,1');
 
-export { gsap, ScrollTrigger, SplitText, CustomEase, useGSAP };
+export { gsap, ScrollTrigger, CustomEase, useGSAP };

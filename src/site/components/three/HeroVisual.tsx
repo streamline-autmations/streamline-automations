@@ -13,24 +13,9 @@
  */
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { ScrollTrigger } from '../../lib/gsap';
+import { useNoWebGL } from '../../hooks/useNoWebGL';
 
 const HeroScene = lazy(() => import('./HeroScene'));
-
-/** True when WebGL should NOT load: reduced-motion users only. */
-export function useNoWebGL() {
-  const [blocked, setBlocked] = useState(
-    () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  );
-
-  useEffect(() => {
-    const query = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const update = () => setBlocked(query.matches);
-    query.addEventListener('change', update);
-    return () => query.removeEventListener('change', update);
-  }, []);
-
-  return blocked;
-}
 
 /**
  * NetworkFallback — static render of the automation network (no WebGL).
