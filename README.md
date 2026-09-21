@@ -113,16 +113,23 @@ The client systems shown in the case studies (Supabase backends, PayFast, WhatsA
 
 ## Screenshots
 
-Suggested captures, using only public pages and the fictional demo data:
+### Home
 
-1. **Home hero** at desktop 1440, showing the headline, the single CTA and the type system.
-2. **/systems automation walkthrough**, mid-scroll, with the pinned 6-stage flow and the 3D node graph.
-3. **Home case-study cycler**, mid-scrub.
-4. **/restaurant-direct live demo** with the customer and staff views side by side. The demo uses fictional data.
-5. **/contact on mobile** at 390 wide, showing the form with its interest chips.
-6. **A case study** such as `/work/blom` at desktop: full-bleed cover and walkthrough.
+![Home hero](docs/screenshots/home-hero-desktop.png)
 
-Store them in `docs/screenshots/` and reference them from this section.
+### Restaurant Direct demo
+
+![Restaurant Direct demo](docs/screenshots/restaurant-direct-demo-desktop.png)
+
+### Portfolio
+
+![Portfolio](docs/screenshots/portfolio-desktop.png)
+
+### Mobile contact
+
+![Mobile contact](docs/screenshots/contact-mobile.png)
+
+More captures — including the Systems & Automation page — are in `docs/screenshots/`.
 
 ## Running locally
 
