@@ -107,9 +107,13 @@ async function snapshot(page, route) {
   return html;
 }
 
+// Write /websites as websites.html (not websites/index.html). Netlify serves a
+// directory index only at the trailing-slash URL, so the folder layout 301'd every
+// canonical /route to /route/ — contradicting the canonical tags and the sitemap.
+// A flat .html file is served at the slash-less URL directly.
 function outPath(route) {
   if (route === '/') return path.join(DIST, 'index.html');
-  return path.join(DIST, route.replace(/^\//, ''), 'index.html');
+  return path.join(DIST, `${route.replace(/^\//, '')}.html`);
 }
 
 (async () => {
