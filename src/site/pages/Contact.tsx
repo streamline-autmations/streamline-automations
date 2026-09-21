@@ -5,7 +5,8 @@ import Tag from '../components/craft/Tag';
 import SplitReveal from '../components/craft/SplitReveal';
 import FillButton from '../components/craft/FillButton';
 import { EASE_ARR, fadeUp } from '../lib/motion';
-import { CONTACT } from '../data/site';
+import Field from '../components/craft/Field';
+import { CONTACT, CONTACT_WEBHOOK_URL } from '../data/site';
 import { FAQ_ITEMS } from '../data/faq';
 
 const INTERESTS = [
@@ -26,74 +27,6 @@ const BUDGETS = [
   'Not sure yet',
 ];
 
-/** Underline-style input (Cuberto contacts feel). */
-function Field({
-  label,
-  value,
-  onChange,
-  name,
-  type = 'text',
-  placeholder,
-  textarea = false,
-  required = false,
-  error,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  name: string;
-  type?: string;
-  placeholder?: string;
-  textarea?: boolean;
-  required?: boolean;
-  error?: string;
-}) {
-  const id = `contact-${name}`;
-  const errorId = `${id}-error`;
-  const cls =
-    'w-full border-0 border-b bg-transparent pb-3 pt-2 text-[19px] text-site-ink outline-none transition-colors duration-300 placeholder:text-site-text-muted focus:border-site-accent md:text-[22px]';
-  return (
-    <label htmlFor={id} className="block">
-      <span className="mb-2 block text-[14px] font-medium text-site-text-body">
-        {label}
-        {required && <span className="text-site-accent"> *</span>}
-      </span>
-      {textarea ? (
-        <textarea
-          id={id}
-          name={name}
-          rows={2}
-          value={value}
-          placeholder={placeholder}
-          required={required}
-          aria-invalid={Boolean(error)}
-          aria-describedby={error ? errorId : undefined}
-          onChange={(e) => onChange(e.target.value)}
-          className={`${cls} resize-none ${error ? 'border-site-accent' : 'border-site-line'}`}
-        />
-      ) : (
-        <input
-          id={id}
-          name={name}
-          type={type}
-          value={value}
-          placeholder={placeholder}
-          required={required}
-          aria-invalid={Boolean(error)}
-          aria-describedby={error ? errorId : undefined}
-          onChange={(e) => onChange(e.target.value)}
-          className={`${cls} ${error ? 'border-site-accent' : 'border-site-line'}`}
-        />
-      )}
-      {error && (
-        <span id={errorId} className="mt-2 block text-[13px] font-medium text-site-accent">
-          {error}
-        </span>
-      )}
-    </label>
-  );
-}
-
 /** Toggle pill — shared by the "what do you need" and budget rows. */
 function Pill({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
   return (
@@ -113,9 +46,7 @@ function Pill({ label, active, onClick }: { label: string; active: boolean; onCl
   );
 }
 
-// The proven contact pipeline from the old site — an n8n webhook on Render
-// that notifies Christiaan directly. Already allowed by the CSP connect-src.
-const WEBHOOK_URL = 'https://dockerfile-1n82.onrender.com/webhook/streamline-contact-form';
+const WEBHOOK_URL = CONTACT_WEBHOOK_URL;
 
 /**
  * Contact — one long, plain white form. No hero video, no dark panel — just

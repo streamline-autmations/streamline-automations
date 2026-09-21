@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom';
 import SEO from '../../components/seo/SEO';
 import { service, breadcrumb, creativeWork, faqPage } from '../../lib/structured-data';
 import { FAQ_ITEMS } from '../data/faq';
+import { RD_FAQ } from '../data/restaurant-direct';
 
 type Meta = {
   title?: string;
@@ -92,6 +93,22 @@ const ROUTES: Record<string, Meta> = {
     description:
       'Book a free call with Christiaan about a website, booking flow, dashboard, automation or maintenance plan for your South African small business.',
     jsonLd: [crumb(['Home', '/'], ['Contact', '/contact']), faqPage(FAQ_ITEMS)],
+  },
+  '/restaurant-direct': {
+    title: 'Restaurant Direct - Websites, Bookings & Collection Orders',
+    description:
+      'A managed mobile-first website, direct table bookings and collection ordering with a simple staff dashboard, for independent South African restaurants.',
+    jsonLd: [
+      service({
+        name: 'Restaurant Direct',
+        serviceType: 'Restaurant website, direct booking and collection ordering',
+        description:
+          'A managed mobile-first restaurant website with direct table bookings, collection ordering and a protected staff dashboard.',
+        path: '/restaurant-direct',
+      }),
+      crumb(['Home', '/'], ['Restaurant Direct', '/restaurant-direct']),
+      faqPage([...RD_FAQ]),
+    ],
   },
   '/privacy': {
     title: 'Privacy Policy',

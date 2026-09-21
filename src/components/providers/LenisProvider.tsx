@@ -21,6 +21,35 @@ export function useLenis() {
 export default function LenisProvider({ children }: { children: ReactNode }) {
   const [lenis, setLenis] = useState<Lenis | null>(null);
 
+  // Keep every ScrollTrigger's start/end in step with the real layout.
+  // Triggers measure once on mount, but lazy routes, lazy images and web fonts
+  // keep growing the page afterwards — a pin sitting below them then engages
+  // hundreds of px late and visibly snaps into place. ScrollTrigger only
+  // auto-refreshes on window load/resize, so watch the document height and
+  // refresh (debounced) whenever it actually changes. Runs on every device,
+  // with or without Lenis. Refreshing is idempotent (pin spacers come out the
+  // same size), so it settles instead of looping.
+  useEffect(() => {
+    let lastHeight = document.documentElement.scrollHeight;
+    let timer: ReturnType<typeof setTimeout>;
+    const ro = new ResizeObserver(() => {
+      const h = document.documentElement.scrollHeight;
+      if (Math.abs(h - lastHeight) < 2) return;
+      lastHeight = h;
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        ScrollTrigger.refresh();
+        lastHeight = document.documentElement.scrollHeight;
+      }, 150);
+    });
+    ro.observe(document.body);
+    document.fonts?.ready.then(() => ScrollTrigger.refresh());
+    return () => {
+      clearTimeout(timer);
+      ro.disconnect();
+    };
+  }, []);
+
   useEffect(() => {
     // Respect user motion preference — fall back to native scroll
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;

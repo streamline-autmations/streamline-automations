@@ -49,7 +49,8 @@ export default function AutomationScrolly() {
         start: 'top top',
         end: '+=' + STEPS.length * 400,
         pin: pinRef.current,
-        anticipatePin: 1,
+        // No anticipatePin: desktop-only pin under Lenis — it would engage
+        // ~30px early and snap.
         onUpdate: (self) => {
           progressRef.current = self.progress;
           const i = Math.min(STEPS.length - 1, Math.floor(self.progress * STEPS.length));
@@ -74,8 +75,11 @@ export default function AutomationScrolly() {
   if (!enhanced) {
     // Stacked timeline fallback (mobile / reduced-motion).
     return (
-      <section data-header-dark="" className="relative rounded-t-[2rem] bg-site-ink px-6 py-24 text-white md:rounded-t-[4rem] md:px-10">
-        <div className="mx-auto w-full max-w-3xl">
+      <section data-header-dark="" className="relative rounded-t-[2rem] bg-site-ink px-6 py-24 text-white md:rounded-t-[4rem] md:px-10 md:py-32">
+        {/* Mobile keeps the single-column timeline; desktop reduced-motion gets
+            the six stages two-up across the full container, so the section
+            reads as a desktop composition rather than a phone layout. */}
+        <div className="mx-auto w-full max-w-3xl md:max-w-6xl">
           <Tag variant="outline-dark" className="mb-8">
             How the automation runs
           </Tag>
@@ -84,15 +88,17 @@ export default function AutomationScrolly() {
             segments={[{ text: 'From enquiry to' }, { text: 'done', serif: true }, { text: '— without you touching it.' }]}
             className="text-[clamp(30px,8vw,52px)] font-semibold leading-[1.05] tracking-[-0.02em] text-white"
           />
-          <ol className="mt-12 flex flex-col gap-9 border-l border-white/15 pl-8">
+          <ol className="mt-12 flex flex-col gap-9 border-l border-white/15 pl-8 md:mt-16 md:grid md:grid-cols-2 md:gap-x-16 md:gap-y-12 md:border-l-0 md:pl-0">
             {STEPS.map((s) => (
-              <li key={s.no} className="relative">
-                <span className="absolute -left-[41px] top-1 grid h-5 w-5 place-items-center rounded-full bg-site-accent text-[10px] font-semibold text-white">
+              <li key={s.no} className="relative md:border-t md:border-white/15 md:pt-6">
+                <span className="absolute -left-[41px] top-1 grid h-5 w-5 place-items-center rounded-full bg-site-accent text-[10px] font-semibold text-white md:hidden">
                   {s.no.replace('0', '')}
                 </span>
-                <span className="text-[14px] font-medium text-site-accent">{s.no}</span>
-                <h3 className="mt-1 text-[20px] font-semibold tracking-[-0.01em] text-white">{s.title}</h3>
-                <p className="mt-2 text-[15px] leading-[1.6] text-white/80">{s.body}</p>
+                <span className="text-[14px] font-medium text-site-accent md:text-[clamp(32px,3vw,48px)] md:font-semibold md:leading-none md:tracking-[-0.03em]">
+                  {s.no}
+                </span>
+                <h3 className="mt-1 text-[20px] font-semibold tracking-[-0.01em] text-white md:mt-5 md:text-[26px]">{s.title}</h3>
+                <p className="mt-2 text-[15px] leading-[1.6] text-white/80 md:mt-3 md:max-w-[38ch] md:text-[16px]">{s.body}</p>
               </li>
             ))}
           </ol>

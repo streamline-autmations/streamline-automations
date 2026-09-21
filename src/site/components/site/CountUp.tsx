@@ -9,12 +9,15 @@ export default function CountUp({
   to,
   prefix = '',
   suffix = '',
+  suffixClassName = '',
   duration = 1600,
   className = '',
 }: {
   to: number;
   prefix?: string;
   suffix?: string;
+  /** Styles the suffix alone — e.g. setting a word suffix below the numeral size. */
+  suffixClassName?: string;
   duration?: number;
   className?: string;
 }) {
@@ -58,7 +61,7 @@ export default function CountUp({
     <span ref={ref} className={className}>
       {prefix}
       {val}
-      {suffix}
+      {suffixClassName ? <span className={suffixClassName}>{suffix}</span> : suffix}
     </span>
   );
 }

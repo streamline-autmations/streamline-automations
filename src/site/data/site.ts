@@ -80,7 +80,12 @@ export const FOOTER_NAV: Array<[string, string]> = [
   ['Contact', '/contact'],
   ['Websites', '/websites'],
   ['Systems', '/systems'],
+  ['Restaurant Direct', '/restaurant-direct'],
 ];
+
+// The proven contact pipeline — an n8n webhook on Render that notifies
+// Christiaan directly. Already allowed by the CSP connect-src.
+export const CONTACT_WEBHOOK_URL = 'https://dockerfile-1n82.onrender.com/webhook/streamline-contact-form';
 
 // Floor prices only — every build is quoted individually on a call. Rendered
 // as stacked editorial rows on /hosting, never a side-by-side comparison grid

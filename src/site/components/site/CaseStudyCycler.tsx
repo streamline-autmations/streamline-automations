@@ -1,9 +1,7 @@
 import { useRef, useState } from 'react';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { gsap, ScrollTrigger, useGSAP } from '../../lib/gsap';
 import SplitReveal from '../craft/SplitReveal';
-import { EASE_ARR } from '../../lib/motion';
 import { FEATURED_PROJECTS } from '../../data/site';
 
 const PROJECTS = FEATURED_PROJECTS;
@@ -18,7 +16,9 @@ const PROJECTS = FEATURED_PROJECTS;
  * unlabelled images by default — the name + one-line label only appear on
  * hover (fine pointer) or tap (coarse pointer; first tap reveals, second
  * tap navigates). No numbers/tags/buttons ever.
- * Reduced-motion gets a static stacked grid — no pin, no horizontal scroll.
+ * Reduced-motion keeps the same filmstrip at the same scale but drops the pin
+ * and the scrub: it becomes a hand-scrolled snap track with visible captions.
+ * ("Skip the choreography", not "serve the small mobile layout".)
  *
  * Pin uses GSAP's default (native position:fixed), same as HeroBuilderScroll
  * and for the same reason: pinType:'transform' forces GSAP to recompute the
@@ -26,7 +26,10 @@ const PROJECTS = FEATURED_PROJECTS;
  * compositor handle it for free — on mobile that shows up as visible
  * shake/stutter. Lenis drives real window.scrollTo (and is disabled outright
  * under 768px), so the default pin has nothing to conflict with here.
- * anticipatePin:1 removes the small jump/snap the instant a pin engages.
+ * anticipatePin:1 removes the small jump/snap the instant a pin engages — but
+ * only with native scroll (mobile). Under Lenis (desktop) scroll already runs
+ * on the main thread in lockstep with ScrollTrigger, so anticipating makes the
+ * pin engage ~30px early and snap; it's switched off there.
  */
 export default function CaseStudyCycler() {
   const [enabled] = useState(() => {
@@ -56,6 +59,8 @@ export default function CaseStudyCycler() {
       if (!enabled || !wrapRef.current || !trackRef.current) return;
       const wrap = wrapRef.current;
       const track = trackRef.current;
+      // Mirrors LenisProvider: Lenis only runs above 768px.
+      const nativeScroll = window.matchMedia('(max-width: 768px)').matches;
 
       const st = ScrollTrigger.create({
         trigger: wrap,
@@ -68,7 +73,7 @@ export default function CaseStudyCycler() {
         // how little the cards actually overflow.
         end: '+=' + PROJECTS.length * 100 + '%',
         pin: wrap,
-        anticipatePin: 1,
+        anticipatePin: nativeScroll ? 1 : 0,
         scrub: 0.6,
         fastScrollEnd: true,
         invalidateOnRefresh: true,
@@ -191,68 +196,68 @@ export default function CaseStudyCycler() {
           </div>
         </div>
       ) : (
-        /* ── Reduced-motion fallback: static stacked grid, no pin ── */
-        <div className="px-6 pb-20 md:px-10">
-          <div className="mx-auto w-full max-w-6xl">
-            <div className="flex flex-col gap-4 pb-12 pt-28 sm:flex-row sm:items-end sm:justify-between md:pt-32">
-              <SplitReveal
-                as="h2"
-                segments={[{ text: 'Featured projects' }]}
-                className="max-w-[16ch] text-[clamp(42px,7vw,88px)] font-semibold leading-[1.0] tracking-[-0.03em] text-white"
-              />
-              <Link
-                to="/portfolio"
-                className="shrink-0 text-[14px] font-medium text-white/80 underline-offset-4 hover:text-white hover:underline"
-              >
-                All work →
-              </Link>
-            </div>
-            <div className="grid gap-6 sm:grid-cols-2">
-              {PROJECTS.map((project, i) => (
-                <motion.article
+        /* ── Reduced-motion: the SAME filmstrip, scrolled by hand ──
+           Reduced motion means "skip the choreography", not "serve the small
+           mobile layout": the desktop composition survives — full-bleed case
+           covers at the same scale, swiped/scrolled horizontally with snap
+           points instead of scrubbed by a pin. Captions sit visible, since
+           there's no hover reveal to depend on. */
+        <div className="pb-24">
+          <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-6 pb-10 pt-28 sm:flex-row sm:items-end sm:justify-between md:px-10 md:pb-12 md:pt-32">
+            <SplitReveal
+              as="h2"
+              segments={[{ text: 'Featured projects' }]}
+              className="max-w-[16ch] text-[clamp(42px,7vw,88px)] font-semibold leading-[1.0] tracking-[-0.03em] text-white"
+            />
+            <Link
+              to="/portfolio"
+              className="shrink-0 text-[14px] font-medium text-white/80 underline-offset-4 hover:text-white hover:underline"
+            >
+              All work →
+            </Link>
+          </div>
+
+          <div className="snap-x snap-mandatory overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex w-max items-stretch gap-6 px-6 md:gap-10 md:px-10">
+              {PROJECTS.map((project) => (
+                <Link
                   key={project.href}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-60px' }}
-                  transition={{ duration: 0.6, ease: EASE_ARR, delay: i * 0.08 }}
+                  to={project.href}
+                  data-cursor="view"
+                  data-cursor-label="Explore"
+                  className="group relative block aspect-[16/10] w-[86vw] shrink-0 snap-center overflow-hidden rounded-[24px] outline-none focus-visible:ring-2 focus-visible:ring-site-accent sm:w-[70vw] md:w-[58vw] lg:w-[46vw]"
                 >
-                  <Link
-                    to={project.href}
-                    data-cursor="view"
-                    data-cursor-label="Explore"
-                    className="group block overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.035] outline-none transition-[border-color,background-color] duration-300 ease-brand hover:border-site-accent/50 hover:bg-white/[0.06] focus-visible:ring-2 focus-visible:ring-site-accent"
-                  >
-                    <div className="relative aspect-[16/10] overflow-hidden">
-                      {project.media.type === 'video' ? (
-                        <video
-                          src={project.media.src}
-                          poster={(project.media as { poster?: string }).poster}
-                          autoPlay
-                          muted
-                          loop
-                          playsInline
-                          preload="none"
-                          className="h-full w-full object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.04]"
-                        />
-                      ) : (
-                        <img
-                          src={project.media.src}
-                          alt={project.media.alt}
-                          loading="lazy"
-                          draggable={false}
-                          className="h-full w-full object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.04]"
-                        />
-                      )}
-                    </div>
-                    <div className="p-5">
-                      <span className="text-[14px] font-medium text-site-accent">{project.no}</span>
-                      <h3 className="mt-2 text-[20px] font-semibold tracking-[-0.02em] text-white">
-                        {project.name}
-                      </h3>
-                      <p className="mt-2 text-[14px] leading-[1.55] text-white/80">{project.outcome}</p>
-                    </div>
-                  </Link>
-                </motion.article>
+                  {project.media.type === 'video' ? (
+                    <video
+                      src={project.media.src}
+                      poster={(project.media as { poster?: string }).poster}
+                      muted
+                      loop
+                      playsInline
+                      preload="none"
+                      aria-label={project.media.alt}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <img
+                      src={project.media.src}
+                      alt={project.media.alt}
+                      loading="lazy"
+                      draggable={false}
+                      className="h-full w-full object-cover"
+                    />
+                  )}
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-x-0 bottom-0 h-[38%] bg-gradient-to-t from-black/80 via-black/30 to-transparent"
+                  />
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 p-5 md:p-6">
+                    <h3 className="text-[19px] font-semibold tracking-[-0.02em] text-white md:text-[22px]">
+                      {project.name}
+                    </h3>
+                    <p className="mt-1 text-[13px] text-white/65 md:text-[13.5px]">{project.label}</p>
+                  </div>
+                </Link>
               ))}
             </div>
           </div>

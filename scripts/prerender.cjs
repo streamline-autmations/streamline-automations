@@ -33,6 +33,7 @@ const ROUTES = [
   '/work/cw-electronics',
   '/work/ameli',
   '/work/jj-glass',
+  '/restaurant-direct',
   '/about',
   '/contact',
   '/privacy',

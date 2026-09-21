@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import SplitReveal from '../components/craft/SplitReveal';
 import WorkCard from '../components/craft/WorkCard';
 import PreFooterCTA from '../components/craft/PreFooterCTA';
@@ -117,6 +118,17 @@ export default function Systems() {
             <span className="text-[14px] font-medium text-site-text-body">Typical turnaround</span>
             <span className="text-[15px] font-semibold text-site-ink">5 to 14 days</span>
           </motion.div>
+
+          <p className="mt-10 text-[16px] leading-[1.6] text-site-text-body">
+            Run a restaurant?{' '}
+            <Link
+              to="/restaurant-direct"
+              data-cursor="link"
+              className="inline-flex min-h-[44px] items-center font-semibold text-site-ink underline-offset-4 outline-none hover:text-site-accent hover:underline focus-visible:text-site-accent focus-visible:underline"
+            >
+              See Restaurant Direct →
+            </Link>
+          </p>
         </div>
       </Panel>
 

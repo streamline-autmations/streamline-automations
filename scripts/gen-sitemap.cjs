@@ -23,6 +23,7 @@ const ROUTES = [
   { path: '/work/cw-electronics', changefreq: 'monthly', priority: '0.8' },
   { path: '/work/ameli', changefreq: 'monthly', priority: '0.8' },
   { path: '/work/jj-glass', changefreq: 'monthly', priority: '0.8' },
+  { path: '/restaurant-direct', changefreq: 'monthly', priority: '0.9' },
   { path: '/about', changefreq: 'monthly', priority: '0.7' },
   { path: '/contact', changefreq: 'monthly', priority: '0.9' },
   { path: '/privacy', changefreq: 'yearly', priority: '0.2' },

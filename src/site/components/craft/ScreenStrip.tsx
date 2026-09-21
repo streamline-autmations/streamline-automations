@@ -41,7 +41,9 @@ export default function ScreenStrip({ items }: Props) {
           // short and a single flick would blow through the whole strip.
           end: '+=' + items.length * 55 + '%',
           pin: wrap,
-          anticipatePin: 1,
+          // No anticipatePin: this pin is desktop-only, where Lenis drives the
+          // scroll on the main thread — anticipating makes it engage ~30px
+          // early and visibly snap.
           scrub: 0.6,
           fastScrollEnd: true,
           invalidateOnRefresh: true,

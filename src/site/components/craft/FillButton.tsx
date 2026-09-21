@@ -36,15 +36,21 @@ export default function FillButton({
   className = '',
   dataCursor = 'link',
   external = false,
+  type = 'button',
+  disabled = false,
 }: {
   to?: string;
   href?: string;
-  onClick?: () => void;
+  /** Click handler. On an <a> it runs alongside the link (use preventDefault to take over). */
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => void;
   children: ReactNode;
   variant?: Variant;
   className?: string;
   dataCursor?: 'view' | 'link';
   external?: boolean;
+  /** 'submit' makes this the form's real submit control (Enter key works). */
+  type?: 'button' | 'submit';
+  disabled?: boolean;
 }) {
   const v = V[variant];
   // Tells the cursor what colour this button's hover-fill sweep turns it —
@@ -90,6 +96,7 @@ export default function FillButton({
     return (
       <a
         href={href}
+        onClick={onClick}
         data-cursor={dataCursor}
         data-cursor-bg={cursorBg}
         className={cls}
@@ -100,7 +107,14 @@ export default function FillButton({
     );
   }
   return (
-    <button type="button" onClick={onClick} data-cursor={dataCursor} data-cursor-bg={cursorBg} className={cls}>
+    <button
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      data-cursor={dataCursor}
+      data-cursor-bg={cursorBg}
+      className={`${cls} disabled:cursor-not-allowed disabled:opacity-60`}
+    >
       {inner}
     </button>
   );

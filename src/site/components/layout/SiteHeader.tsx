@@ -186,6 +186,7 @@ export default function SiteHeader() {
 
   useEffect(() => {
     setOpen(false);
+    setServicesOpen(false);
   }, [location]);
 
   useEffect(() => {
@@ -197,11 +198,30 @@ export default function SiteHeader() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
+      if (e.key === 'Escape') {
+        setOpen(false);
+        setServicesOpen(false);
+      }
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
   }, []);
+
+  // The Services menu used to open on hover ONLY: clicking the button did
+  // nothing, and keyboard users could never reach the two links inside it.
+  // It now opens on click/Enter/Space (it's a real <button>) and closes on
+  // Escape, an outside click, tabbing away or the pointer leaving. Click
+  // OPENS rather than toggles on purpose: hover has usually opened it
+  // already for a mouse user, so a toggle made the menu vanish the instant
+  // they clicked it — which reads as a broken nav.
+  useEffect(() => {
+    if (!servicesOpen) return;
+    const onPointerDown = (e: PointerEvent) => {
+      if (!servicesRef.current?.contains(e.target as Node)) setServicesOpen(false);
+    };
+    document.addEventListener('pointerdown', onPointerDown);
+    return () => document.removeEventListener('pointerdown', onPointerDown);
+  }, [servicesOpen]);
 
   return (
     <>
@@ -257,10 +277,14 @@ export default function SiteHeader() {
               className="relative"
               onMouseEnter={() => setServicesOpen(true)}
               onMouseLeave={() => setServicesOpen(false)}
+              onBlur={(e) => {
+                if (!e.currentTarget.contains(e.relatedTarget as Node)) setServicesOpen(false);
+              }}
             >
               <button
                 type="button"
                 data-cursor="link"
+                onClick={() => setServicesOpen(true)}
                 aria-haspopup="true"
                 aria-expanded={servicesOpen}
                 className={`group inline-flex min-h-[44px] items-center gap-1.5 rounded-full text-[17px] font-medium outline-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-site-accent ${
@@ -369,9 +393,13 @@ export default function SiteHeader() {
                 spot, so the panel just leaves room for them. */}
             <motion.nav
               variants={overlayContainer}
-              initial="hidden"
+              // Same trap as SplitReveal: these links are revealed purely by a
+              // transform inside an overflow-hidden clip, and reducedMotion
+              // ="user" skips transform animations — starting them 'hidden'
+              // would leave the menu permanently empty.
+              initial={reduced ? 'visible' : 'hidden'}
               animate="visible"
-              exit="exit"
+              exit={reduced ? 'visible' : 'exit'}
               className="mt-28 flex flex-1 flex-col gap-1 px-8"
             >
               <span className="mb-4 text-[15px] font-medium text-site-text-body">Menu</span>

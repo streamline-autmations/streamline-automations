@@ -45,15 +45,13 @@ export default function SplitReveal({
   const reduced = usePrefersReducedMotion();
   const MotionTag = (motion as unknown as Record<string, ElementType>)[Tag as string];
 
-  const animateProps = reduced
-    ? { initial: 'visible' as const }
-    : trigger === 'mount'
-      ? { initial: 'hidden' as const, animate: 'visible' as const }
-      : {
-          initial: 'hidden' as const,
-          whileInView: 'visible' as const,
-          viewport: { once: true, margin: '-80px' },
-        };
+  const animateProps = trigger === 'mount'
+    ? { initial: 'hidden' as const, animate: 'visible' as const }
+    : {
+        initial: 'hidden' as const,
+        whileInView: 'visible' as const,
+        viewport: { once: true, margin: '-80px' },
+      };
 
   const tokens = segments.flatMap((seg, si) =>
     seg.text
@@ -66,6 +64,26 @@ export default function SplitReveal({
     const next = tokens[index + 1]?.word;
     return Boolean(next && !/^[.,!?;:)]/.test(next));
   };
+
+  // Reduced motion: render the finished heading as plain text, with no motion
+  // components at all. The reveal works by translating each word inside an
+  // overflow-hidden clip, so its visibility depends entirely on a transform —
+  // and MotionConfig reducedMotion="user" skips transform animations, which
+  // left the words parked outside their clip and the headline invisible.
+  // Opting out of the mechanism entirely is the only structurally safe
+  // fallback here.
+  if (reduced) {
+    return (
+      <Tag className={className}>
+        {segments.map((seg, i) => (
+          <span key={i} className={seg.serif ? serifClassName : undefined}>
+            {seg.text}
+            {i < segments.length - 1 ? ' ' : ''}
+          </span>
+        ))}
+      </Tag>
+    );
+  }
 
   return (
     <MotionTag

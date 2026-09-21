@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 /**
  * Cursor — native OS pointer stays visible; a small solid dot rides at its tip
@@ -25,6 +26,7 @@ import { useEffect, useRef, useState } from 'react';
  */
 export default function Cursor() {
   const [active, setActive] = useState(false);
+  const { pathname } = useLocation();
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
@@ -35,6 +37,14 @@ export default function Cursor() {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (fine && !reduce) setActive(true);
   }, []);
+
+  // Clicking a card navigates away, so the element the pointer was over is
+  // gone and no further mouseover fires — the big "Explore" ring would stay
+  // stuck on screen through the page transition. Clear the hover modes on
+  // every route change; the next real mouseover re-applies the right one.
+  useEffect(() => {
+    document.body.classList.remove('sc-cur-link', 'sc-cur-text', 'sc-cur-view', 'sc-cur-drag');
+  }, [pathname]);
 
   useEffect(() => {
     if (!active) return;

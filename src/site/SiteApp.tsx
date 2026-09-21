@@ -5,7 +5,7 @@ import LenisProvider from './providers/LenisProvider';
 import ScrollToTop from './components/layout/ScrollToTop';
 import SiteLayout from './components/layout/SiteLayout';
 import Cursor from './components/craft/Cursor';
-import PageTransition from './components/craft/PageTransition';
+import PageTransition, { PAGE_EXIT_EVENT } from './components/craft/PageTransition';
 import SiteSEO from './components/SiteSEO';
 import CookieConsent from '../components/layout/CookieConsent';
 import './styles/site.css';
@@ -23,6 +23,7 @@ const RecklessBear = lazy(() => import('./pages/work/RecklessBear'));
 const CWElectronics = lazy(() => import('./pages/work/CWElectronics'));
 const Ameli = lazy(() => import('./pages/work/Ameli'));
 const JJGlass = lazy(() => import('./pages/work/JJGlass'));
+const RestaurantDirect = lazy(() => import('./pages/RestaurantDirect'));
 const Privacy = lazy(() => import('./pages/Privacy'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 // Isolated 3D scroll lab (lives outside src/site) — no header/footer/orb
@@ -34,7 +35,9 @@ function AnimatedRoutes() {
   const t = (el: React.ReactNode) => <PageTransition>{el}</PageTransition>;
 
   return (
-    <AnimatePresence mode="wait">
+    // onExitComplete: the old page is now fully under the ink curtain — tell
+    // ScrollToTop it's safe to reset the scroll position.
+    <AnimatePresence mode="wait" onExitComplete={() => window.dispatchEvent(new Event(PAGE_EXIT_EVENT))}>
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={t(<Home />)} />
         <Route path="/websites" element={t(<Websites />)} />
@@ -44,6 +47,7 @@ function AnimatedRoutes() {
         <Route path="/about" element={t(<About />)} />
         <Route path="/contact" element={t(<Contact />)} />
         <Route path="/privacy" element={t(<Privacy />)} />
+        <Route path="/restaurant-direct" element={t(<RestaurantDirect />)} />
 
         {/* Case studies */}
         <Route path="/work/blom" element={t(<Blom />)} />

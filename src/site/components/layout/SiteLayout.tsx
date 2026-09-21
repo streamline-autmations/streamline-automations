@@ -1,7 +1,6 @@
 import { useEffect, type ReactNode } from 'react';
 import SiteHeader from './SiteHeader';
 import SiteFooter from './SiteFooter';
-import Cursor from '../craft/Cursor';
 import ContactOrb from '../craft/ContactOrb';
 
 /**
@@ -37,7 +36,6 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
       >
         Skip to content
       </a>
-      <Cursor />
       <SiteHeader />
       <main id="site-main" className="flex-1">
         {children}
