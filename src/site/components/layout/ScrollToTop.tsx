@@ -25,6 +25,20 @@ export default function ScrollToTop() {
   const firstRun = useRef(true);
   const lastPath = useRef(pathname);
 
+  // Without this the browser re-imposes its own remembered scroll offset for
+  // a URL on back/forward nav (and sometimes on reload) after this component
+  // has already reset it — so the page still lands mid-scroll despite the
+  // logic below running correctly.
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      const prev = window.history.scrollRestoration;
+      window.history.scrollRestoration = 'manual';
+      return () => {
+        window.history.scrollRestoration = prev;
+      };
+    }
+  }, []);
+
   useEffect(() => {
     const targetId = hash ? hash.slice(1) : '';
     const routeChanged = lastPath.current !== pathname;

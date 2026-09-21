@@ -59,6 +59,7 @@ export default function SiteHeader() {
   const [overDark, setOverDark] = useState(false);
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [heroLoading, setHeroLoading] = useState(
     () => typeof document !== 'undefined' && document.documentElement.hasAttribute('data-hero-loading'),
   );
@@ -191,6 +192,7 @@ export default function SiteHeader() {
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
+    if (!open) setMobileServicesOpen(false);
     return () => {
       document.body.style.overflow = '';
     };
@@ -269,18 +271,21 @@ export default function SiteHeader() {
         {...navAnimate}
         className="hidden items-center gap-10 md:flex"
       >
-        {/* Services dropdown */}
-        <span className="overflow-hidden">
-          <motion.span variants={navItem} className="block">
-            <div
-              ref={servicesRef}
-              className="relative"
-              onMouseEnter={() => setServicesOpen(true)}
-              onMouseLeave={() => setServicesOpen(false)}
-              onBlur={(e) => {
-                if (!e.currentTarget.contains(e.relatedTarget as Node)) setServicesOpen(false);
-              }}
-            >
+        {/* Services dropdown — the reveal clip (overflow-hidden) must wrap
+            only the button, not the flyout: an ancestor with overflow-hidden
+            clips absolutely positioned descendants too, so the panel was
+            being cut off the instant it opened. */}
+        <div
+          ref={servicesRef}
+          className="relative"
+          onMouseEnter={() => setServicesOpen(true)}
+          onMouseLeave={() => setServicesOpen(false)}
+          onBlur={(e) => {
+            if (!e.currentTarget.contains(e.relatedTarget as Node)) setServicesOpen(false);
+          }}
+        >
+          <span className="block overflow-hidden">
+            <motion.span variants={navItem} className="block">
               <button
                 type="button"
                 data-cursor="link"
@@ -309,39 +314,39 @@ export default function SiteHeader() {
                   <path d="M2 4l4 4 4-4" />
                 </svg>
               </button>
+            </motion.span>
+          </span>
 
-              <AnimatePresence>
-                {servicesOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 8, scale: 0.97 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 8, scale: 0.97 }}
-                    transition={{ duration: 0.18, ease: EASE_ARR }}
-                    className="absolute left-0 top-full z-50 pt-3"
-                  >
-                    <div className="min-w-[220px] overflow-hidden rounded-2xl border border-site-line bg-white p-2 shadow-[0_12px_40px_-8px_rgba(0,0,0,0.12)]">
-                      {SERVICE_LINKS.map((link) => (
-                        <Link
-                          key={link.href}
-                          to={link.href}
-                          data-cursor="link"
-                          className={`flex min-h-[52px] flex-col justify-center rounded-xl px-4 py-2.5 outline-none transition-colors duration-200 hover:bg-site-surface focus-visible:bg-site-surface ${
-                            isActive(link.href) ? 'bg-site-surface' : ''
-                          }`}
-                        >
-                          <span className={`text-[14px] font-semibold leading-none ${isActive(link.href) ? 'text-site-accent' : 'text-site-ink'}`}>
-                            <InvertText invertColor="#FFFFFF">{link.label}</InvertText>
-                          </span>
-                          <span className="mt-1 text-[14px] text-site-text-body">{link.desc}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </motion.span>
-        </span>
+          <AnimatePresence>
+            {servicesOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: 8, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 8, scale: 0.97 }}
+                transition={{ duration: 0.18, ease: EASE_ARR }}
+                className="absolute left-0 top-full z-50 pt-3"
+              >
+                <div className="min-w-[220px] overflow-hidden rounded-2xl border border-site-line bg-white p-2 shadow-[0_12px_40px_-8px_rgba(0,0,0,0.12)]">
+                  {SERVICE_LINKS.map((link) => (
+                    <Link
+                      key={link.href}
+                      to={link.href}
+                      data-cursor="link"
+                      className={`flex min-h-[52px] flex-col justify-center rounded-xl px-4 py-2.5 outline-none transition-colors duration-200 hover:bg-site-surface focus-visible:bg-site-surface ${
+                        isActive(link.href) ? 'bg-site-surface' : ''
+                      }`}
+                    >
+                      <span className={`text-[14px] font-semibold leading-none ${isActive(link.href) ? 'text-site-accent' : 'text-site-ink'}`}>
+                        <InvertText invertColor="#FFFFFF">{link.label}</InvertText>
+                      </span>
+                      <span className="mt-1 text-[14px] text-site-text-body">{link.desc}</span>
+                    </Link>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
         {NAV_LINKS.map((link) => (
           <span key={link.href} className="overflow-hidden">
@@ -403,7 +408,67 @@ export default function SiteHeader() {
               className="mt-28 flex flex-1 flex-col gap-1 px-8"
             >
               <span className="mb-4 text-[15px] font-medium text-site-text-body">Menu</span>
-              {[...SERVICE_LINKS, ...NAV_LINKS].map((l) => (
+
+              {/* Services — same grouping as desktop, as an expandable
+                  section rather than flattening the two links into the
+                  rest of the menu. */}
+              <span className="overflow-hidden">
+                <motion.span variants={overlayItem} className="block">
+                  <button
+                    type="button"
+                    onClick={() => setMobileServicesOpen((v) => !v)}
+                    aria-expanded={mobileServicesOpen}
+                    aria-controls="mobile-services-panel"
+                    className={`flex min-h-[48px] w-full items-center justify-between gap-3 py-1.5 text-left text-[clamp(34px,9vw,42px)] font-semibold leading-[1.1] tracking-[-0.02em] outline-none focus-visible:text-site-accent ${
+                      isActive('/websites') || isActive('/systems') ? 'text-site-accent' : 'text-site-ink'
+                    }`}
+                  >
+                    <InvertText invertColor="#FFFFFF">Services</InvertText>
+                    <svg
+                      aria-hidden="true"
+                      viewBox="0 0 12 12"
+                      className={`h-5 w-5 shrink-0 transition-transform duration-300 ${mobileServicesOpen ? 'rotate-180' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M2 4l4 4 4-4" />
+                    </svg>
+                  </button>
+                </motion.span>
+              </span>
+
+              <AnimatePresence initial={false}>
+                {mobileServicesOpen && (
+                  <motion.div
+                    id="mobile-services-panel"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: reduced ? 0 : 0.3, ease: EASE_ARR }}
+                    className="overflow-hidden"
+                  >
+                    <div className="flex flex-col gap-1 py-2">
+                      {SERVICE_LINKS.map((link) => (
+                        <Link
+                          key={link.href}
+                          to={link.href}
+                          className={`flex min-h-[44px] flex-col justify-center py-1.5 outline-none focus-visible:text-site-accent ${
+                            isActive(link.href) ? 'text-site-accent' : 'text-site-ink'
+                          }`}
+                        >
+                          <span className="text-[22px] font-semibold leading-tight">{link.label}</span>
+                          <span className="text-[14px] text-site-text-body">{link.desc}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {NAV_LINKS.map((l) => (
                 <span key={l.href} className="overflow-hidden">
                   <motion.span variants={overlayItem} className="block">
                     <Link
