@@ -41,12 +41,11 @@ export const RD_ASSETS = {
   staffCustomers: `${A}/staff-customers.webp`,
 } as const;
 
-/** The 60–75s walkthrough. `src: null` renders the poster placeholder — drop the
- *  exported MP4 into /assets/videos/work/ and set src + poster when it's ready. */
-export const RD_WALKTHROUGH: { src: string | null; poster: string } = {
-  src: null,
-  poster: RD_ASSETS.staffToday,
-};
+/** The 60–75s walkthrough, hosted on Bunny Stream. Player options (autoplay,
+ *  loop, mute) are appended per visitor on the page — reduced motion skips autoplay. */
+export const RD_WALKTHROUGH = {
+  embed: 'https://iframe.mediadelivery.net/embed/601665/223c779c-6425-43a1-807e-08d5b6cc5a1d',
+} as const;
 
 export const RD_FRICTION = [
   {

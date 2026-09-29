@@ -5,7 +5,6 @@ import Tag from '../components/craft/Tag';
 import SplitReveal from '../components/craft/SplitReveal';
 import FillButton from '../components/craft/FillButton';
 import ScreenStrip from '../components/craft/ScreenStrip';
-import WalkthroughVideo from '../components/craft/WalkthroughVideo';
 import RestaurantJourney from '../components/site/RestaurantJourney';
 import RestaurantLiveDemo from '../components/site/RestaurantLiveDemo';
 import RestaurantReviewForm from '../components/site/RestaurantReviewForm';
@@ -230,36 +229,22 @@ export default function RestaurantDirect() {
             team takes it from new to collected.
           </p>
 
-          {RD_WALKTHROUGH.src ? (
-            <WalkthroughVideo
-              src={RD_WALKTHROUGH.src}
-              poster={RD_WALKTHROUGH.poster}
-              label="Restaurant Direct walkthrough"
-              className="mt-12"
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            className={`relative mt-12 aspect-video overflow-hidden rounded-2xl border border-site-line bg-site-surface md:rounded-3xl ${FRAME_SHADOW}`}
+          >
+            <iframe
+              src={`${RD_WALKTHROUGH.embed}?autoplay=${!reduced}&loop=true&muted=true&preload=true&responsive=true`}
+              title="Restaurant Direct walkthrough"
+              loading="lazy"
+              allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen"
+              allowFullScreen
+              className="absolute inset-0 h-full w-full border-0"
             />
-          ) : (
-            // Placeholder until the walkthrough export exists — swap in RD_WALKTHROUGH.
-            <motion.div
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewport}
-              className={`relative mt-12 overflow-hidden rounded-2xl border border-site-line bg-site-surface md:rounded-3xl ${FRAME_SHADOW}`}
-            >
-              <img
-                src={RD_WALKTHROUGH.poster}
-                alt=""
-                loading="lazy"
-                draggable={false}
-                className="aspect-video w-full select-none object-cover object-top opacity-40"
-              />
-              <div className="absolute inset-0 grid place-items-center px-6 text-center">
-                <p className="text-[clamp(20px,2.6vw,30px)] font-semibold tracking-[-0.02em] text-site-ink">
-                  Walkthrough video coming soon
-                </p>
-              </div>
-            </motion.div>
-          )}
+          </motion.div>
         </div>
       </Panel>
 
