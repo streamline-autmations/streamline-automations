@@ -110,6 +110,12 @@ const ROUTES: Record<string, Meta> = {
       faqPage([...RD_FAQ]),
     ],
   },
+  '/restaurant-direct/watch': {
+    title: 'Restaurant Direct at Jimmy’s - 36s video',
+    description:
+      'See Restaurant Direct in 36 seconds: menu, collection orders and table bookings for independent restaurants, managed from one dashboard.',
+    noindex: true,
+  },
   '/privacy': {
     title: 'Privacy Policy',
     description:

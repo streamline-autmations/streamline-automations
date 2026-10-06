@@ -24,6 +24,7 @@ const CWElectronics = lazy(() => import('./pages/work/CWElectronics'));
 const Ameli = lazy(() => import('./pages/work/Ameli'));
 const JJGlass = lazy(() => import('./pages/work/JJGlass'));
 const RestaurantDirect = lazy(() => import('./pages/RestaurantDirect'));
+const RestaurantDirectWatch = lazy(() => import('./pages/RestaurantDirectWatch'));
 const Privacy = lazy(() => import('./pages/Privacy'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 // Isolated 3D scroll lab (lives outside src/site) — no header/footer/orb
@@ -48,6 +49,7 @@ function AnimatedRoutes() {
         <Route path="/contact" element={t(<Contact />)} />
         <Route path="/privacy" element={t(<Privacy />)} />
         <Route path="/restaurant-direct" element={t(<RestaurantDirect />)} />
+        <Route path="/restaurant-direct/watch" element={t(<RestaurantDirectWatch />)} />
 
         {/* Case studies */}
         <Route path="/work/blom" element={t(<Blom />)} />

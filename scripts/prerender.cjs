@@ -34,6 +34,7 @@ const ROUTES = [
   '/work/ameli',
   '/work/jj-glass',
   '/restaurant-direct',
+  '/restaurant-direct/watch',
   '/about',
   '/contact',
   '/privacy',

@@ -47,6 +47,12 @@ export const RD_WALKTHROUGH = {
   embed: 'https://iframe.mediadelivery.net/embed/601665/223c779c-6425-43a1-807e-08d5b6cc5a1d',
 } as const;
 
+/** The 36s Jimmy's promo cut that the outreach email's GIF links to.
+ *  Played on /restaurant-direct/watch with sound — no autoplay. */
+export const RD_PROMO = {
+  embed: 'https://iframe.mediadelivery.net/embed/601665/91a0108b-ca5c-4009-a1ea-177cf3a72960',
+} as const;
+
 export const RD_FRICTION = [
   {
     title: 'The menu is a PDF.',
