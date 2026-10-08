@@ -78,48 +78,61 @@ function RentalCallout() {
 export default function Home() {
   return (
     <>
-      {/* HERO — white, text-only. One idea, one CTA. */}
-      <section className="flex min-h-[100svh] items-center px-6 pt-32 pb-24 md:px-10">
-        <div className="mx-auto w-full max-w-6xl">
+      {/* HERO — the phone screen IS the headline (it's baked into the image), so the
+          H1 is kept for SEO / screen readers only. One motion beat: the hand rises in. */}
+      <section className="overflow-hidden px-6 pt-28 pb-16 md:flex md:min-h-[100svh] md:items-center md:px-10 md:pt-32 md:pb-20">
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-8 md:grid-cols-12 md:gap-6">
+          <h1 className="sr-only">Built to work, not just look good.</h1>
+
+          <div className="order-2 md:order-1 md:col-span-4">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: EASE_ARR }}
+              className="mb-6"
+            >
+              <Tag variant="outline">Web design &amp; automation</Tag>
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.2 }}
+              className="max-w-sm text-[17px] leading-[1.65] text-site-text-body"
+            >
+              I build websites and automation systems for South African businesses. Fast. Clean.
+              Connected.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.3 }}
+              className="mt-9"
+            >
+              <FillButton to="/contact" variant="ink">
+                Book a Free Call
+              </FillButton>
+            </motion.div>
+          </div>
+
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 56 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: EASE_ARR }}
-            className="mb-7"
+            transition={{ duration: 1.1, ease: EASE_ARR }}
+            className="order-1 -mr-6 md:order-2 md:col-span-8 md:-mr-10 lg:-mr-[calc((100vw-72rem)/2+2.5rem)]"
           >
-            <Tag variant="outline">Web design &amp; automation</Tag>
-          </motion.div>
-
-          <SplitReveal
-            as="h1"
-            trigger="mount"
-            segments={[
-              { text: 'Built to work,' },
-              { text: 'not just look' },
-              { text: 'good.', serif: true },
-            ]}
-            className="max-w-4xl text-[clamp(44px,8vw,104px)] font-semibold leading-[0.98] tracking-[-0.02em] text-site-ink"
-          />
-
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.5 }}
-            className="mt-8 max-w-xl text-[17px] leading-[1.65] text-site-text-body"
-          >
-            I build websites and automation systems for South African businesses. Fast. Clean.
-            Connected.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: EASE_ARR, delay: 0.6 }}
-            className="mt-10"
-          >
-            <FillButton to="/contact" variant="ink">
-              Book a Free Call
-            </FillButton>
+            <img
+              src="/assets/hero/hero-phone.webp"
+              srcSet="/assets/hero/hero-phone-900.webp 900w, /assets/hero/hero-phone.webp 1487w"
+              sizes="(min-width: 768px) 62vw, 100vw"
+              width={1487}
+              height={886}
+              alt="A hand holding a phone that reads: Built to work, not just look good."
+              fetchPriority="high"
+              decoding="async"
+              className="block h-auto w-[118%] max-w-none select-none md:w-full"
+            />
           </motion.div>
         </div>
       </section>
