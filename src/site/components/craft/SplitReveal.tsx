@@ -94,11 +94,7 @@ export default function SplitReveal({
     >
       {tokens.map((token, index) => (
         <Fragment key={token.key}>
-          <span
-            aria-hidden="true"
-            className="inline-block overflow-hidden align-top pb-[0.04em]"
-            style={needsSpaceAfter(index) ? { marginRight: '0.25em' } : undefined}
-          >
+          <span aria-hidden="true" className="inline-block overflow-hidden align-top pb-[0.04em]">
             <motion.span
               variants={word}
               className={`inline-block pb-[0.16em] ${token.serif ? serifClassName : ''}`}
@@ -106,6 +102,9 @@ export default function SplitReveal({
               {token.word}
             </motion.span>
           </span>
+          {/* A real space text node — inline-block spans collapse it to one
+              word-space visually, and text extraction reads separate words. */}
+          {needsSpaceAfter(index) ? ' ' : null}
         </Fragment>
       ))}
     </MotionTag>

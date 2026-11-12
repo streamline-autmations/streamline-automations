@@ -80,7 +80,47 @@ function startServer() {
   });
 }
 
-async function snapshot(page, route) {
+// The snapshot is what crawlers, AI assistants and social scrapers read. It is
+// taken with prefers-reduced-motion: reduce, so every component renders its
+// finished state (CountUp shows the real number, SplitReveal renders plain
+// text, pins/scrubs render their end state) instead of frame 0 of an animation.
+// The live app re-renders from scratch on load (createRoot), so visitors still
+// get the full motion — this only changes the static HTML.
+async function cleanSnapshot(page, templateScripts) {
+  await page.evaluate((keep) => {
+    // Framer Motion parks not-yet-revealed elements at opacity:0 + a transform.
+    // In static HTML nothing will ever reveal them, so ship them visible.
+    document.querySelectorAll('[style]').forEach((el) => {
+      // Only touch parked content reveals (opacity < 1) — transforms used for
+      // layout stay. Decorative aria-hidden layers (e.g. the header's frosted
+      // backdrop, deliberately transparent over the hero) are left as they are.
+      const s = el.style;
+      if (s.opacity === '' || parseFloat(s.opacity) >= 1) return;
+      if (el.closest('[aria-hidden="true"]')) return;
+      s.removeProperty('opacity');
+      s.removeProperty('transform');
+      s.removeProperty('will-change');
+      if (!el.getAttribute('style')) el.removeAttribute('style');
+    });
+    // Async stylesheets (media="print" + onload swap) have already swapped by now —
+    // put them back so the static HTML doesn't render-block on them.
+    document.querySelectorAll('link[rel="stylesheet"][onload*="this.media"]').forEach((l) => {
+      l.setAttribute('media', 'print');
+    });
+    // Runtime-only state the live app adds itself.
+    document.documentElement.classList.remove('lenis', 'lenis-smooth', 'lenis-stopped');
+    if (document.documentElement.getAttribute('class') === '') document.documentElement.removeAttribute('class');
+    document.documentElement.removeAttribute('style');
+    // Tag-manager / tracker loaders inject extra <script src> tags at runtime;
+    // keep only the scripts that are in the built index.html template.
+    document.querySelectorAll('script[src]').forEach((sc) => {
+      const src = sc.getAttribute('src');
+      if (/^https?:/.test(src) && !keep.includes(src)) sc.remove();
+    });
+  }, templateScripts);
+}
+
+async function snapshot(page, route, templateScripts = []) {
   // 'load' (not networkidle*) — the Cal embed and trackers keep connections open, so
   // a network-idle wait never settles. We gate on the route's Helmet title instead.
   await page.goto(`http://localhost:${PORT}${route}`, {
@@ -102,6 +142,7 @@ async function snapshot(page, route) {
     .catch(() => {});
   await page.evaluate(() => document.fonts && document.fonts.ready).catch(() => {});
   await new Promise((r) => setTimeout(r, 600));
+  await cleanSnapshot(page, templateScripts);
 
   let html = await page.content();
   if (!html.startsWith('<!')) html = '<!doctype html>\n' + html;
@@ -137,6 +178,11 @@ function outPath(route) {
   });
   const page = await browser.newPage();
   await page.setViewport({ width: 1440, height: 900 });
+  await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
+  // External scripts that belong in the HTML (from the built template) — any
+  // other external <script src> in a snapshot was injected at runtime.
+  const template = fs.readFileSync(path.join(DIST, 'index.html'), 'utf8');
+  const templateScripts = [...template.matchAll(/<script[^>]*\ssrc="(https?:[^"]+)"/g)].map((m) => m[1]);
   // Trim noisy third-party trackers so they can't stall the snapshot.
   await page.setRequestInterception(true);
   page.on('request', (r) => {
@@ -148,7 +194,7 @@ function outPath(route) {
   let ok = 0;
   for (const route of ROUTES) {
     try {
-      const html = await snapshot(page, route);
+      const html = await snapshot(page, route, templateScripts);
       const file = outPath(route);
       fs.mkdirSync(path.dirname(file), { recursive: true });
       fs.writeFileSync(file, html);
@@ -161,7 +207,7 @@ function outPath(route) {
 
   // Real 404 page from the catch-all route.
   try {
-    const html = await snapshot(page, '/__not_found__');
+    const html = await snapshot(page, '/__not_found__', templateScripts);
     fs.writeFileSync(path.join(DIST, '404.html'), html);
     console.log('[prerender] 404.html written');
   } catch (e) {

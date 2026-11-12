@@ -43,6 +43,13 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
+          // Vite's dynamic-import preload helper and Rollup's CJS helpers are used
+          // by every route chunk. Left unassigned, Rollup folded them into
+          // vendor-three — so every page modulepreloaded ~200KB of three.js just
+          // to reach a 1KB helper. Give them their own tiny chunk.
+          if (id.includes('vite/preload-helper') || id.includes('commonjsHelpers')) {
+            return 'vendor-runtime';
+          }
           if (!id.includes('node_modules')) return undefined;
           if (id.includes('three') || id.includes('@react-three')) return 'vendor-three';
           if (id.includes('framer-motion') || id.includes('gsap') || id.includes('lenis')) {

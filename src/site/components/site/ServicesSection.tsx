@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Panel from '../craft/Panel';
 import SplitReveal from '../craft/SplitReveal';
 import FillButton from '../craft/FillButton';
-import { OFFER_PILLARS } from '../../data/site';
+import { OFFER_PILLARS, TURNAROUND } from '../../data/site';
 
 const [WEBSITES, SYSTEMS, CARE] = OFFER_PILLARS;
 
@@ -16,7 +16,7 @@ const SERVICES = [
     no: '01',
     pillar: WEBSITES,
     title: ['Websites that ', { serif: 'convert.' }],
-    body: 'Custom-built, mobile-first, fast. Most sites go live in 3–7 days. Made to turn visitors into enquiries — not just look good.',
+    body: `Custom-built, mobile-first, fast. Most sites go live in ${TURNAROUND}. Made to turn visitors into enquiries — not just look good.`,
   },
   {
     no: '02',

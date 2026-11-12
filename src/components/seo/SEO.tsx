@@ -41,6 +41,8 @@ interface SEOProps {
   noindex?: boolean;
   type?: 'website' | 'article';
   jsonLd?: JsonLd;
+  /** False on error pages — no canonical tag at all (a 404 has no canonical URL). */
+  canonical?: boolean;
 }
 
 function setMeta(attr: 'name' | 'property', key: string, content: string) {
@@ -72,6 +74,7 @@ export default function SEO({
   noindex = false,
   type = 'website',
   jsonLd,
+  canonical = true,
 }: SEOProps) {
   const jsonLdNodes = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 
@@ -95,7 +98,8 @@ export default function SEO({
       'robots',
       noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large',
     );
-    setLink('canonical', canonicalUrl);
+    if (canonical) setLink('canonical', canonicalUrl);
+    else document.head.querySelector('link[rel="canonical"]')?.remove();
 
     setMeta('property', 'og:type', type);
     setMeta('property', 'og:site_name', SITE_NAME);
@@ -104,6 +108,7 @@ export default function SEO({
     setMeta('property', 'og:title', fullTitle);
     setMeta('property', 'og:description', description);
     setMeta('property', 'og:image', absoluteImage);
+    // Every og image (default card + /og/work-*.jpg) is exported at 1200×630.
     setMeta('property', 'og:image:width', '1200');
     setMeta('property', 'og:image:height', '630');
     setMeta('property', 'og:image:alt', `${SITE_NAME} — web design & automation, South Africa`);
@@ -124,7 +129,7 @@ export default function SEO({
       document.head.appendChild(s);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [title, description, image, url, noindex, type, JSON.stringify(keywords), JSON.stringify(jsonLd)]);
+  }, [title, description, image, url, noindex, canonical, type, JSON.stringify(keywords), JSON.stringify(jsonLd)]);
 
   return null;
 }

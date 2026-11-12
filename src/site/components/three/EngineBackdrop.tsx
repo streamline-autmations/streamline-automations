@@ -30,6 +30,10 @@ export default function EngineBackdrop({
   const wrapRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef(0);
   const [inView, setInView] = useState(false);
+  // Mount the scene (and download the ~200KB three.js chunk) only once the
+  // backdrop comes within a screen or so of the viewport — it lives in the
+  // pre-footer, so most of a page loads without three.js at all.
+  const [near, setNear] = useState(false);
 
   useEffect(() => {
     if (blocked) return;
@@ -52,16 +56,31 @@ export default function EngineBackdrop({
     if (!el) return;
     const io = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting));
     io.observe(el);
-    return () => io.disconnect();
+    const nearIo = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setNear(true);
+          nearIo.disconnect();
+        }
+      },
+      { rootMargin: '100% 0px' },
+    );
+    nearIo.observe(el);
+    return () => {
+      io.disconnect();
+      nearIo.disconnect();
+    };
   }, [blocked]);
 
   if (blocked) return null;
 
   return (
     <div ref={wrapRef} aria-hidden className="absolute inset-0 opacity-[0.9]">
-      <Suspense fallback={null}>
-        <EngineScene progressRef={progressRef} active={inView} corePos={corePos} drift={drift} />
-      </Suspense>
+      {near && (
+        <Suspense fallback={null}>
+          <EngineScene progressRef={progressRef} active={inView} corePos={corePos} drift={drift} />
+        </Suspense>
+      )}
     </div>
   );
 }

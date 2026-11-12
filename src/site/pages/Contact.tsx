@@ -154,8 +154,15 @@ export default function Contact() {
             animate="visible"
             className="mt-7 max-w-md text-[17px] leading-[1.65] text-site-text-body"
           >
-            Fill this in and it lands straight in my inbox. I usually reply the same day,
-            Mon–Fri 8–5.
+            Fill this in and it lands straight in my inbox. I usually reply the same day,{' '}
+            {CONTACT.replyHours}. Prefer to talk?{' '}
+            <a
+              href={CONTACT.telUrl}
+              className="font-medium text-site-ink underline underline-offset-4 outline-none hover:text-site-accent focus-visible:text-site-accent"
+            >
+              Call {CONTACT.whatsappDisplay}
+            </a>
+            .
           </motion.p>
 
           {sent ? (
@@ -191,7 +198,7 @@ export default function Contact() {
           >
             {/* Honeypot — hidden from people, irresistible to bots */}
             <div className="sr-only" aria-hidden="true">
-              <label htmlFor="contact-company">Company (leave blank)</label>
+              <label htmlFor="contact-company">Do not fill this field in</label>
               <input
                 id="contact-company"
                 name="company"
@@ -204,8 +211,8 @@ export default function Contact() {
             </div>
 
             <div>
-              <span className="mb-4 block text-[15px] font-medium text-site-text-body">What do you need?</span>
-              <div className="flex flex-wrap gap-3">
+              <span id="contact-need-label" className="mb-4 block text-[15px] font-medium text-site-text-body">What do you need?</span>
+              <div role="group" aria-labelledby="contact-need-label" className="flex flex-wrap gap-3">
                 {INTERESTS.map((i) => (
                   <Pill key={i} label={i} active={interest === i} onClick={() => setInterest((cur) => (cur === i ? '' : i))} />
                 ))}
@@ -240,8 +247,8 @@ export default function Contact() {
             />
 
             <div>
-              <span className="mb-4 block text-[15px] font-medium text-site-text-body">Project budget (ZAR)</span>
-              <div className="flex flex-wrap gap-3">
+              <span id="contact-budget-label" className="mb-4 block text-[15px] font-medium text-site-text-body">Project budget (ZAR)</span>
+              <div role="group" aria-labelledby="contact-budget-label" className="flex flex-wrap gap-3">
                 {BUDGETS.map((b) => (
                   <Pill key={b} label={b} active={budget === b} onClick={() => setBudget((cur) => (cur === b ? '' : b))} />
                 ))}
@@ -249,7 +256,7 @@ export default function Contact() {
             </div>
 
             <div className="flex flex-wrap items-center gap-6 pt-2">
-              <FillButton onClick={() => void submit()} variant="ink" className="w-full justify-center sm:w-auto">
+              <FillButton type="submit" variant="ink" className="w-full justify-center sm:w-auto">
                 {sending ? 'Sending…' : 'Send message'}
               </FillButton>
               <button

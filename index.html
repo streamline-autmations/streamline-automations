@@ -66,7 +66,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- v2 type system: Inter Tight (everything — tight Helvetica-family grotesque,
          free stand-in for the Nimbus Sans Novus reference) · JetBrains Mono (orb/3D labels only) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Non-render-blocking: the faces use display=swap anyway, so the page paints in the
+         fallback font and swaps — no reason to hold first paint for this stylesheet. -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
     <!-- Apollo website tracker — only loads once analytics consent is granted (POPIA) -->
     <script>function initApollo(){var n=Math.random().toString(36).substring(7),o=document.createElement("script");
     o.src="https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache="+n,o.async=!0,o.defer=!0,
@@ -87,10 +91,24 @@
           "description": "Web design and business automation for South African companies. Custom websites that convert, WhatsApp automation, admin systems and hosting — built in the Vaal Triangle, Gauteng.",
           "url": "https://streamline-automations.co.za",
           "logo": "https://streamline-automations.co.za/assets/logos/streamline-mark.webp",
-          "image": "https://streamline-automations.co.za/assets/logos/streamline-mark.webp",
+          "image": "https://streamline-automations.co.za/og-image.png",
           "telephone": "+27687579940",
           "email": "christiaan@streamline-automations.co.za",
-          "founder": { "@type": "Person", "name": "Christiaan Steffen" },
+          "founder": { "@id": "https://streamline-automations.co.za/#christiaan" },
+          "identifier": {
+            "@type": "PropertyValue",
+            "propertyID": "CIPC registration number",
+            "value": "2025/069691/07"
+          },
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "sales",
+            "telephone": "+27687579940",
+            "email": "christiaan@streamline-automations.co.za",
+            "areaServed": "ZA",
+            "availableLanguage": "en"
+          },
+          "hasMap": "https://maps.google.com/?cid=6128924037936038799",
           "address": {
             "@type": "PostalAddress",
             "addressLocality": "Vaal Triangle",
@@ -103,11 +121,11 @@
             { "@type": "City", "name": "Three Rivers" },
             { "@type": "City", "name": "Meyerton" },
             { "@type": "City", "name": "Sasolburg" },
-            { "@type": "City", "name": "Vaal Triangle" },
-            { "@type": "City", "name": "Gauteng" },
-            { "@type": "City", "name": "South Africa" }
+            { "@type": "AdministrativeArea", "name": "Vaal Triangle" },
+            { "@type": "AdministrativeArea", "name": "Gauteng" },
+            { "@type": "Country", "name": "South Africa" }
           ],
-          "priceRange": "R699–R1,799 / month",
+          "priceRange": "From R699/month",
           "openingHoursSpecification": [
             {
               "@type": "OpeningHoursSpecification",
@@ -125,10 +143,20 @@
           "sameAs": [
             "https://www.instagram.com/streamline_automations/",
             "https://www.facebook.com/people/Streamline-Automations/61587739632609/",
-            "https://www.linkedin.com/in/christiaan-steffen-703805177/",
             "https://www.tiktok.com/@streamline_automations",
-            "https://www.youtube.com/@streamline_automations"
+            "https://www.youtube.com/@streamline_automations",
+            "https://maps.google.com/?cid=6128924037936038799"
           ]
+        },
+        {
+          "@type": "Person",
+          "@id": "https://streamline-automations.co.za/#christiaan",
+          "name": "Christiaan Steffen",
+          "jobTitle": "Founder, web designer and automation developer",
+          "url": "https://streamline-automations.co.za/about",
+          "worksFor": { "@id": "https://streamline-automations.co.za/#organization" },
+          "knowsAbout": ["Web design", "Business process automation", "WhatsApp automation", "E-commerce", "n8n", "Supabase"],
+          "sameAs": ["https://www.linkedin.com/in/christiaan-steffen-703805177/"]
         },
         {
           "@type": "WebSite",

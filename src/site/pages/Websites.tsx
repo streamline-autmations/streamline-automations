@@ -7,6 +7,7 @@ import FillButton from '../components/craft/FillButton';
 import Panel from '../components/craft/Panel';
 import Tag from '../components/craft/Tag';
 import { EASE_ARR, fadeUp, stagger, viewport } from '../lib/motion';
+import { TURNAROUND } from '../data/site';
 
 // Real, local, optimised client tiles.
 const TILE = (c: string) => `/assets/clients/${c}/tile.webp`;
@@ -78,7 +79,8 @@ export default function Websites() {
             className="mt-8 max-w-xl text-[17px] leading-[1.65] text-site-text-body"
           >
             Custom-built, fast, and made to turn visitors into enquiries — not just look pretty. Most
-            sites go live in 3–7 days.
+            sites go live in {TURNAROUND}. I&rsquo;m based in the Vaal Triangle and build for businesses in
+            Vanderbijlpark, Vereeniging, Sasolburg and right across South Africa.
           </motion.p>
 
           <motion.div

@@ -104,8 +104,13 @@ export default function CWElectronics() {
             <ParallaxMedia className="aspect-[16/9] w-full">
               <img
                 src={`${C}/hero.webp`}
+                srcSet={`${C}/hero-640.webp 640w, ${C}/hero-1000.webp 1000w, ${C}/hero.webp 1600w`}
+                sizes="(min-width: 1280px) 1200px, 100vw"
+                width={1600}
+                height={1200}
                 alt="CW Electronics storefront homepage showing the electronics catalogue"
-                loading="lazy"
+                loading="eager"
+                fetchPriority="high"
                 draggable={false}
                 className="h-full w-full select-none object-cover"
               />
@@ -457,7 +462,7 @@ export default function CWElectronics() {
               </span>
             </div>
             <p className="mt-4 max-w-md text-[16px] leading-[1.6] text-site-text-body">
-              Portfolio + lead capture — a fast portfolio for a skin and brow studio with automated
+              Portfolio + lead capture — a fast portfolio for a graphic designer with automated
               email lead capture. 4-day build.
             </p>
           </Link>

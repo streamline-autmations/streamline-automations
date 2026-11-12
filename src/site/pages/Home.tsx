@@ -82,7 +82,9 @@ export default function Home() {
           H1 is kept for SEO / screen readers only. One motion beat: the hand rises in. */}
       <section className="overflow-hidden px-6 pt-28 pb-16 md:flex md:min-h-[100svh] md:items-center md:px-10 md:pt-32 md:pb-20">
         <div className="mx-auto grid w-full max-w-6xl items-center gap-8 md:grid-cols-12 md:gap-6">
-          <h1 className="sr-only">Built to work, not just look good.</h1>
+          <h1 className="sr-only">
+            Built to work, not just look good — web design and automation in the Vaal Triangle, Gauteng.
+          </h1>
 
           <div className="order-2 md:order-1 md:col-span-4">
             <motion.div
@@ -91,7 +93,7 @@ export default function Home() {
               transition={{ duration: 0.6, ease: EASE_ARR }}
               className="mb-6"
             >
-              <Tag variant="outline">Web design &amp; automation</Tag>
+              <Tag variant="outline">Web design &amp; automation · Vaal Triangle</Tag>
             </motion.div>
 
             <motion.p

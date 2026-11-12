@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-# Internal 3D test route — not for indexing
-Disallow: /lab
+# /lab (internal 3D test route) is kept out of the index with a noindex meta
+# tag — it is deliberately NOT disallowed here, or crawlers couldn't read it.
 
 Sitemap: https://streamline-automations.co.za/sitemap.xml

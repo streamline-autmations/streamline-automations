@@ -71,8 +71,13 @@ export default function JJGlass() {
             <ParallaxMedia className="aspect-[16/9] w-full">
               <img
                 src={`${C}/hero.webp`}
+                srcSet={`${C}/hero-640.webp 640w, ${C}/hero-1000.webp 1000w, ${C}/hero.webp 1600w`}
+                sizes="(min-width: 1280px) 1200px, 100vw"
+                width={1600}
+                height={914}
                 alt="JJ Glassworks homepage on desktop — glass and aluminium specialists since 1988"
-                loading="lazy"
+                loading="eager"
+                fetchPriority="high"
                 draggable={false}
                 className="h-full w-full select-none object-cover"
               />

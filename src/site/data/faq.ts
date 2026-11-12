@@ -2,7 +2,7 @@ export const FAQ_ITEMS = [
   {
     question: 'How much does a website cost?',
     answer:
-      'Packages start from R6,500 for Online Presence, R12,000 for Client Magnet and R25,000 setup plus monthly support for Business Accelerator. Pricing lives on the packages page and every build is scoped before work starts.',
+      'A professional website starts from R6,500, a website that captures leads from R12,000 and a full business system from R25,000. Pricing lives on the pricing page and every build is scoped before work starts.',
   },
   {
     question: 'Do I actually own my website?',

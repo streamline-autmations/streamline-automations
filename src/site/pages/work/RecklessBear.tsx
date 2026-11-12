@@ -77,8 +77,13 @@ export default function RecklessBear() {
             <ParallaxMedia className="aspect-[16/10] w-full">
               <img
                 src={`${C}/hero.webp`}
+                srcSet={`${C}/hero-640.webp 640w, ${C}/hero-1000.webp 1000w, ${C}/hero.webp 2000w`}
+                sizes="(min-width: 1280px) 1200px, 100vw"
+                width={2000}
+                height={1500}
                 alt="RecklessBear custom apparel website homepage"
                 loading="eager"
+                fetchPriority="high"
                 draggable={false}
                 className="h-full w-full select-none object-cover"
               />

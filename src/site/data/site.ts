@@ -10,6 +10,9 @@ export const CONTACT = {
   email: 'christiaan@streamline-automations.co.za',
   whatsappDisplay: WHATSAPP_DISPLAY,
   whatsappUrl: `https://wa.me/${WHATSAPP_E164}`,
+  telUrl: `tel:+${WHATSAPP_E164}`,
+  // Short form of `hours` for running copy — keep the two in step.
+  replyHours: 'Mon–Fri 8–5, Sat 9–1',
   instagram: '@streamline_automations',
   instagramUrl: 'https://instagram.com/streamline_automations',
   location: 'Vaal Triangle / Gauteng / South Africa',
@@ -19,7 +22,12 @@ export const CONTACT = {
     ['Sunday', 'Closed'],
   ] as const,
   cipc: '2025/069691/07',
+  // Google Business Profile — linked from schema sameAs/hasMap.
+  googleBusinessUrl: 'https://maps.google.com/?cid=6128924037936038799',
 } as const;
+
+/** Standard website turnaround — one value, quoted everywhere. */
+export const TURNAROUND = '3–5 working days';
 
 export const SOCIALS = {
   instagram: 'https://instagram.com/streamline_automations',
@@ -93,7 +101,7 @@ export const CONTACT_WEBHOOK_URL = 'https://dockerfile-1n82.onrender.com/webhook
 export const PROJECT_FLOORS = [
   {
     title: 'A professional website',
-    desc: 'Custom-built, mobile-first, fast. Live in 3–5 working days.',
+    desc: `Custom-built, mobile-first, fast. Live in ${TURNAROUND}.`,
     floor: 'From R6,500',
   },
   {
