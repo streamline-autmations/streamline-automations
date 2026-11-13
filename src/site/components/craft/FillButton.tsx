@@ -23,8 +23,9 @@ const V: Record<Variant, { ring: string; fill: string; text: string }> = {
 // outline-only primary never reads as the main action on phones); the sweep
 // brings in the accent instead.
 const SOLID: Record<Variant, { ring: string; fill: string; text: string }> = {
-  ink: { ring: 'border-site-ink bg-site-ink text-white', fill: 'bg-site-accent', text: 'text-white' },
-  'on-dark': { ring: 'border-white bg-white text-site-ink', fill: 'bg-site-accent', text: 'text-white' },
+  // Border turns accent with the sweep, so no dark/white outline rims the purple fill.
+  ink: { ring: 'border-site-ink bg-site-ink text-white transition-colors duration-[550ms] ease-brand hover:border-site-accent', fill: 'bg-site-accent', text: 'text-white' },
+  'on-dark': { ring: 'border-white bg-white text-site-ink transition-colors duration-[550ms] ease-brand hover:border-site-accent', fill: 'bg-site-accent', text: 'text-white' },
 };
 
 /**
