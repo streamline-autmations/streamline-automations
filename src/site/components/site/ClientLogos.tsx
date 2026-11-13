@@ -35,7 +35,7 @@ function ClientLogoItem({ item }: { item: ClientItem }) {
           loading="lazy"
           decoding="async"
           draggable={false}
-          className="h-full w-auto max-w-[130px] select-none object-contain grayscale opacity-[0.45] transition-all duration-300 ease-brand group-hover:grayscale-0 group-hover:opacity-100"
+          className="h-full w-auto max-w-[130px] select-none object-contain grayscale opacity-70 transition-all duration-300 ease-brand group-hover:grayscale-0 group-hover:opacity-100"
         />
       </div>
     );
@@ -45,7 +45,7 @@ function ClientLogoItem({ item }: { item: ClientItem }) {
   // muted at rest, full ink on hover. No off-system brand colours.
   return (
     <div className="group flex h-10 shrink-0 cursor-default items-center">
-      <span className="select-none whitespace-nowrap font-sans text-[13px] font-semibold uppercase tracking-[0.12em] text-site-text-muted transition-colors duration-300 ease-brand group-hover:text-site-ink">
+      <span className="select-none whitespace-nowrap font-sans text-[13px] font-semibold uppercase tracking-[0.12em] text-site-text-secondary transition-colors duration-300 ease-brand group-hover:text-site-ink">
         {item.name}
       </span>
     </div>

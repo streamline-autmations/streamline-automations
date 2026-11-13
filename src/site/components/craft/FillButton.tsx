@@ -19,6 +19,15 @@ const V: Record<Variant, { ring: string; fill: string; text: string }> = {
   'on-dark': { ring: 'border-white text-white', fill: 'bg-white', text: 'text-site-ink' },
 };
 
+// `solid` — the primary booking CTA. Filled at rest (touch has no hover, so an
+// outline-only primary never reads as the main action on phones); the sweep
+// brings in the accent instead.
+const SOLID: Record<Variant, { ring: string; fill: string; text: string }> = {
+  // Border turns accent with the sweep, so no dark/white outline rims the purple fill.
+  ink: { ring: 'border-site-ink bg-site-ink text-white transition-colors duration-[550ms] ease-brand hover:border-site-accent', fill: 'bg-site-accent', text: 'text-white' },
+  'on-dark': { ring: 'border-white bg-white text-site-ink transition-colors duration-[550ms] ease-brand hover:border-site-accent', fill: 'bg-site-accent', text: 'text-white' },
+};
+
 /**
  * FillButton — transparent-by-default outlined pill. On hover, a second full
  * copy of the button — inverted fill + inverted label, moving as one piece —
@@ -38,7 +47,10 @@ export default function FillButton({
   external = false,
   type = 'button',
   disabled = false,
+  solid = false,
 }: {
+  /** Filled at rest — the primary "book a call" action only. */
+  solid?: boolean;
   to?: string;
   href?: string;
   /** Click handler. On an <a> it runs alongside the link (use preventDefault to take over). */
@@ -52,12 +64,12 @@ export default function FillButton({
   type?: 'button' | 'submit';
   disabled?: boolean;
 }) {
-  const v = V[variant];
+  const v = (solid ? SOLID : V)[variant];
   // Tells the cursor what colour this button's hover-fill sweep turns it —
   // it can't be inferred from computed background-color since the fill is a
   // translated sibling <span>, not the anchor's own background.
-  const cursorBg = variant === 'on-dark' ? 'light' : 'dark';
-  const cls = `group relative inline-flex min-h-[60px] items-center justify-center overflow-hidden rounded-full border px-11 py-5 text-[16px] font-semibold outline-none focus-visible:ring-2 focus-visible:ring-offset-2 md:min-h-[64px] md:px-12 md:text-[17px] ${
+  const cursorBg = solid || variant !== 'on-dark' ? 'dark' : 'light';
+  const cls = `group relative inline-flex min-h-[60px] items-center justify-center whitespace-nowrap overflow-hidden rounded-full border px-11 py-5 text-[16px] font-semibold outline-none focus-visible:ring-2 focus-visible:ring-offset-2 md:min-h-[64px] md:px-12 md:text-[17px] ${
     variant === 'on-dark' ? 'focus-visible:ring-white' : 'focus-visible:ring-site-accent'
   } ${v.ring} ${className}`;
 
@@ -72,7 +84,7 @@ export default function FillButton({
           the label just recolouring where it already sits. */}
       <span
         aria-hidden="true"
-        className={`pointer-events-none absolute inset-0 z-10 flex translate-y-full items-center justify-center transition-transform duration-[550ms] ease-brand group-hover:translate-y-0 motion-reduce:transition-none ${v.fill}`}
+        className={`pointer-events-none absolute inset-0 z-10 flex translate-y-[102%] items-center justify-center transition-transform duration-[550ms] ease-brand group-hover:translate-y-0 motion-reduce:transition-none ${v.fill}`}
       >
         <span className={`${v.text} pointer-events-auto`}>
           {typeof children === 'string' ? (

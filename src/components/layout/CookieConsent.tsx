@@ -67,8 +67,8 @@ export default function CookieConsent() {
     >
       <div className="flex flex-col gap-3">
         <p className="text-[13px] leading-[1.5] text-[#3D3D47]">
-          I use cookies for analytics to understand how the site is used. You can accept or
-          decline - declining keeps only what's essential.{' '}
+          I use analytics cookies to see how the site is used. Declining keeps only the
+          essentials.{' '}
           <Link to="/privacy" className="font-medium text-[#7B3FE4] underline-offset-2 hover:underline">
             Privacy policy
           </Link>
@@ -83,7 +83,7 @@ export default function CookieConsent() {
           </button>
           <button
             onClick={() => decide(true)}
-            className="min-h-[44px] flex-1 rounded-full bg-[#7B3FE4] px-5 py-2.5 text-[14px] font-semibold text-white transition-colors duration-200 hover:bg-[#6930D0]"
+            className="min-h-[44px] flex-1 rounded-full border border-[#E8E8EC] bg-[#F5F5F7] px-5 py-2.5 text-[14px] font-semibold text-[#0A0A0F] transition-colors duration-200 hover:border-[#D4D4DA] hover:bg-[#EEEEEF]"
           >
             Accept
           </button>

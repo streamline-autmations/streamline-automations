@@ -49,6 +49,21 @@ const navContainer: Variants = {
   visible: { transition: { staggerChildren: 0.06, delayChildren: 0.05 } },
 };
 
+/** Compact "Book a call" pill — the one filled action in the header. */
+function BookPill({ dark }: { dark: boolean }) {
+  return (
+    <Link
+      to="/contact"
+      data-cursor="link"
+      className={`inline-flex min-h-[44px] items-center whitespace-nowrap rounded-full px-5 text-[14px] font-semibold outline-none transition-colors duration-300 ease-brand focus-visible:ring-2 focus-visible:ring-site-accent hover:bg-site-accent hover:text-white ${
+        dark ? 'bg-white text-site-ink' : 'bg-site-ink text-white'
+      }`}
+    >
+      Book a call
+    </Link>
+  );
+}
+
 const navItem: Variants = {
   hidden: { y: '100%' },
   visible: { y: 0, transition: { duration: 0.55, ease: EASE_ARR } },
@@ -348,14 +363,23 @@ export default function SiteHeader() {
           </AnimatePresence>
         </div>
 
-        {NAV_LINKS.map((link) => (
+        {NAV_LINKS.filter((link) => link.href !== '/contact').map((link) => (
           <span key={link.href} className="overflow-hidden">
             <motion.span variants={navItem} className="block">
               <NavRoll to={link.href} label={link.label} active={isActive(link.href)} dark={overDark} />
             </motion.span>
           </span>
         ))}
+        {/* p-1 keeps the focus ring inside the reveal clip */}
+        <span className="-m-1 overflow-hidden p-1">
+          <motion.span variants={navItem} className="block">
+            <BookPill dark={overDark} />
+          </motion.span>
+        </span>
       </motion.nav>
+
+      <div className="flex items-center gap-2 md:hidden">
+      {!open && <BookPill dark={overDark} />}
 
       <button
         onClick={() => setOpen((v) => !v)}
@@ -371,6 +395,7 @@ export default function SiteHeader() {
           <span className={`h-[2px] w-7 rounded bg-current transition-transform duration-300 motion-reduce:transition-none ${open ? '-translate-y-[5px] -rotate-45' : ''}`} />
         </div>
       </button>
+      </div>
     </header>
 
     {/* Portalled to #root (not <body>) — a transformed ancestor (the
