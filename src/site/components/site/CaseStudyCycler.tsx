@@ -37,15 +37,12 @@ const PROJECTS: readonly FeaturedProject[] = FEATURED_PROJECTS;
 export default function CaseStudyCycler() {
   const [enabled] = useState(() => {
     if (typeof window === 'undefined') return false;
-    return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Phones get the hand-swiped track: a 4-screen pin over small cards was dead scroll.
+    return (
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+      !window.matchMedia('(max-width: 768px)').matches
+    );
   });
-  // Coarse pointers have no hover — the caption is revealed by tap instead.
-  // First tap on a card shows its caption (and is swallowed); tapping the
-  // same card again lets the Link navigate normally.
-  const [isCoarse] = useState(
-    () => typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches
-  );
-  const [activeIdx, setActiveIdx] = useState<number | null>(null);
   // NB: this used to wait for the canvas hero's "hero-pin-ready" signal (its
   // frame preload changed the page height under our pin). That hero was
   // archived when Home went text-only, so nothing fired the signal anymore
@@ -74,7 +71,7 @@ export default function CaseStudyCycler() {
         // making the whole pin feel broken/instant. Scaling by project count
         // guarantees a deliberate, controllable scroll length regardless of
         // how little the cards actually overflow.
-        end: '+=' + PROJECTS.length * 100 + '%',
+        end: '+=' + PROJECTS.length * 60 + '%',
         pin: wrap,
         anticipatePin: nativeScroll ? 1 : 0,
         scrub: 0.6,
@@ -114,7 +111,7 @@ export default function CaseStudyCycler() {
             />
             <Link
               to="/portfolio"
-              className="shrink-0 text-[14px] font-medium text-white/80 underline-offset-4 hover:text-white hover:underline"
+              className="inline-flex min-h-[44px] shrink-0 items-center text-[14px] font-medium text-white/80 underline-offset-4 hover:text-white hover:underline"
             >
               All work →
             </Link>
@@ -126,19 +123,12 @@ export default function CaseStudyCycler() {
               className="flex h-full w-max items-center gap-10 px-4 pb-10 will-change-transform md:gap-28 md:px-16 md:pb-12"
             >
             {PROJECTS.map((project, i) => {
-              const revealed = isCoarse ? activeIdx === i : undefined;
               return (
                 <Link
                   key={project.href}
                   to={project.href}
                   data-cursor="view"
                   data-cursor-label="Explore"
-                  onClick={(e) => {
-                    if (isCoarse && activeIdx !== i) {
-                      e.preventDefault();
-                      setActiveIdx(i);
-                    }
-                  }}
                   className="group relative block aspect-[16/10] h-auto max-h-full w-[92vw] shrink-0 overflow-hidden rounded-[24px] sm:w-[76vw] md:aspect-auto md:h-full md:w-[62vw] lg:w-[52vw]"
                 >
                   {/* object-cover full-bleed — the cover-wide crops are dense
@@ -166,26 +156,12 @@ export default function CaseStudyCycler() {
                     />
                   )}
 
-                  {/* Caption stays hidden until hover (fine pointer) or tap
-                      (coarse pointer) — cards read as clean, unlabelled
-                      images until the visitor shows intent to look closer. */}
+                  {/* Captions always visible — visitors need to know these are real clients. */}
                   <div
-                    className={`pointer-events-none absolute inset-x-0 bottom-0 h-[35%] bg-gradient-to-t from-black/75 via-black/25 to-transparent transition-opacity duration-300 ease-brand ${
-                      revealed === undefined
-                        ? 'opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100'
-                        : revealed
-                        ? 'opacity-100'
-                        : 'opacity-0'
-                    }`}
+                    className="pointer-events-none absolute inset-x-0 bottom-0 h-[35%] bg-gradient-to-t from-black/75 via-black/25 to-transparent"
                   />
                   <div
-                    className={`pointer-events-none absolute inset-x-0 bottom-0 p-5 transition-opacity duration-300 ease-brand md:p-6 ${
-                      revealed === undefined
-                        ? 'opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100'
-                        : revealed
-                        ? 'opacity-100'
-                        : 'opacity-0'
-                    }`}
+                    className="pointer-events-none absolute inset-x-0 bottom-0 p-5 md:p-6"
                   >
                     <h3 className="text-[19px] font-semibold tracking-[-0.02em] text-white md:text-[22px]">
                       {project.name}
@@ -214,7 +190,7 @@ export default function CaseStudyCycler() {
             />
             <Link
               to="/portfolio"
-              className="shrink-0 text-[14px] font-medium text-white/80 underline-offset-4 hover:text-white hover:underline"
+              className="inline-flex min-h-[44px] shrink-0 items-center text-[14px] font-medium text-white/80 underline-offset-4 hover:text-white hover:underline"
             >
               All work →
             </Link>

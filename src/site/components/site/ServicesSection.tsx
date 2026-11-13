@@ -104,16 +104,18 @@ function ServiceRow({
         borderColor: { duration: 0.3, ease: EASE },
         boxShadow:   { duration: isOpen ? 0.5 : 0.28, ease: EASE },
       }}
-      className="cursor-pointer select-none overflow-hidden rounded-[20px] border px-8 py-7 outline-none focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-offset-2 md:px-12 md:py-9"
-      tabIndex={0}
-      role="button"
-      aria-expanded={isOpen}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onToggle(); }
-      }}
+      className="cursor-pointer select-none overflow-hidden rounded-[20px] border px-8 py-7 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-site-accent has-[:focus-visible]:ring-offset-2 md:px-12 md:py-9"
     >
-      {/* ── Always-visible header row ── */}
-      <div className="flex items-center gap-6 md:gap-10">
+      {/* ── Always-visible header row ──
+          A real <button> inside the heading (accordion pattern), so the "Learn more"
+          link in the body is never nested inside another interactive element. Its
+          click bubbles to the card's onClick, which does the toggling. */}
+      <h3>
+      <button
+        type="button"
+        aria-expanded={isOpen}
+        className="flex w-full items-center gap-6 text-left outline-none md:gap-10"
+      >
         {/* Number */}
         <motion.span
           animate={{ color: isOpen ? '#7B3FE4' : showHoverHint ? '#6B6B7A' : '#3D3D47' }}
@@ -124,11 +126,11 @@ function ServiceRow({
         </motion.span>
 
         {/* Title */}
-        <h3 className="flex-1 text-[clamp(22px,3.2vw,42px)] font-semibold leading-[1.05] tracking-[-0.025em]">
+        <span className="flex-1 text-[clamp(22px,3.2vw,42px)] font-semibold leading-[1.05] tracking-[-0.025em]">
           <TitleLine parts={svc.title} dark={isOpen} />
-        </h3>
+        </span>
 
-        {/* Arrow — rotates to × on open */}
+        {/* Arrow — rotates to ↗ on open */}
         <motion.span
           animate={{
             rotate: isOpen ? -45 : showHoverHint ? 8 : 0,
@@ -140,7 +142,8 @@ function ServiceRow({
         >
           →
         </motion.span>
-      </div>
+      </button>
+      </h3>
 
       {/* ── Expandable body ── */}
       <AnimatePresence initial={false}>

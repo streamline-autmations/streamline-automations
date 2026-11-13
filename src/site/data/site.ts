@@ -76,14 +76,14 @@ export const OFFER_PILLARS = [
 
 export const NAV_LINKS = [
   { label: 'Work', href: '/portfolio' },
-  { label: 'Pricing', href: '/hosting' },
+  { label: 'Hosting', href: '/hosting' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ] as const;
 
 export const FOOTER_NAV: Array<[string, string]> = [
   ['Work', '/portfolio'],
-  ['Pricing', '/hosting'],
+  ['Hosting', '/hosting'],
   ['About', '/about'],
   ['Contact', '/contact'],
   ['Websites', '/websites'],

@@ -1,12 +1,12 @@
-import { Link } from 'react-router-dom';
 import SplitReveal from './SplitReveal';
+import FillButton from './FillButton';
+import { CONTACT } from '../../data/site';
 import EngineBackdrop from '../three/EngineBackdrop';
 
 /**
- * PreFooterCTA — the Cuberto "have an idea?" moment. A big, quiet, centred
- * moment: the headline, the scroll-reactive 3D Engine (centred behind it)
- * and "Tell me." itself doubling as the CTA — no separate pill button below
- * it. A rounded-top ink section (its corners reveal the white page behind
+ * PreFooterCTA — the closing moment. Big headline over the scroll-reactive
+ * 3D Engine, one reassurance line, then the booking pill (filled) and a
+ * WhatsApp pill — real button affordances, since touch has no hover. A rounded-top ink section (its corners reveal the white page behind
  * for a smooth section transition). One of only two dark surfaces on the
  * site. Under reduced-motion the engine doesn't load and the plain ink
  * bg + gradient blooms carry the backdrop.
@@ -42,22 +42,18 @@ export default function PreFooterCTA({
           className="mx-auto max-w-[16ch] text-[clamp(52px,11vw,128px)] font-semibold leading-[0.95] tracking-[-0.03em] text-white"
         />
 
-        <Link
-          to="/contact"
-          data-cursor="link"
-          className="group relative mt-6 inline-block"
-        >
-          <SplitReveal
-            as="p"
-            segments={[{ text: 'Tell me.', serif: true }]}
-            delay={0.15}
-            className="mx-auto text-[clamp(40px,7.5vw,80px)] leading-none tracking-[-0.02em] transition-transform duration-500 ease-brand group-hover:scale-[1.05]"
-          />
-          <span
-            aria-hidden="true"
-            className="absolute inset-x-1 -bottom-2 h-[3px] origin-left scale-x-0 bg-site-accent transition-transform duration-500 ease-brand group-hover:scale-x-100"
-          />
-        </Link>
+        <p className="mx-auto mt-8 max-w-[40ch] text-pretty text-[18px] leading-[1.6] text-white/75 md:text-[20px]">
+          Tell me what&rsquo;s eating your time. It&rsquo;s a free call, no obligation.
+        </p>
+
+        <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          <FillButton to="/contact" variant="on-dark" solid>
+            Book a Free Call
+          </FillButton>
+          <FillButton href={CONTACT.whatsappUrl} external variant="on-dark">
+            WhatsApp me
+          </FillButton>
+        </div>
       </div>
     </section>
   );
