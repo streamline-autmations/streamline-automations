@@ -22,18 +22,18 @@ const SHARED = ['src/site/data/site.ts'];
 
 const ROUTES = [
   { path: '/', files: [`${PAGES}/Home.tsx`, 'src/site/components/site'] },
-  { path: '/websites', files: [`${PAGES}/Websites.tsx`] },
-  { path: '/systems', files: [`${PAGES}/Systems.tsx`] },
+  { path: '/websites', files: [`${PAGES}/Websites.tsx`, 'src/site/data/service-faq.ts', 'src/site/components/site/ServiceBlocks.tsx', 'src/site/components/site/FAQSection.tsx'] },
+  { path: '/systems', files: [`${PAGES}/Systems.tsx`, 'src/site/data/service-faq.ts', 'src/site/components/site/ServiceBlocks.tsx', 'src/site/components/site/FAQSection.tsx'] },
   { path: '/hosting', files: [`${PAGES}/Hosting.tsx`] },
   { path: '/portfolio', files: [`${PAGES}/Portfolio.tsx`] },
-  { path: '/work/blom', files: [`${PAGES}/work/Blom.tsx`] },
-  { path: '/work/recklessbear', files: [`${PAGES}/work/RecklessBear.tsx`] },
-  { path: '/work/cw-electronics', files: [`${PAGES}/work/CWElectronics.tsx`] },
-  { path: '/work/ameli', files: [`${PAGES}/work/Ameli.tsx`] },
-  { path: '/work/jj-glass', files: [`${PAGES}/work/JJGlass.tsx`] },
+  { path: '/work/blom', files: [`${PAGES}/work/Blom.tsx`, 'src/site/components/site/ServiceBlocks.tsx'] },
+  { path: '/work/recklessbear', files: [`${PAGES}/work/RecklessBear.tsx`, 'src/site/components/site/ServiceBlocks.tsx'] },
+  { path: '/work/cw-electronics', files: [`${PAGES}/work/CWElectronics.tsx`, 'src/site/components/site/ServiceBlocks.tsx'] },
+  { path: '/work/ameli', files: [`${PAGES}/work/Ameli.tsx`, 'src/site/components/site/ServiceBlocks.tsx'] },
+  { path: '/work/jj-glass', files: [`${PAGES}/work/JJGlass.tsx`, 'src/site/components/site/ServiceBlocks.tsx'] },
   { path: '/restaurant-direct', files: [`${PAGES}/RestaurantDirect.tsx`, 'src/site/data/restaurant-direct.ts'] },
   { path: '/about', files: [`${PAGES}/About.tsx`] },
-  { path: '/contact', files: [`${PAGES}/Contact.tsx`, 'src/site/data/faq.ts'] },
+  { path: '/contact', files: [`${PAGES}/Contact.tsx`, 'src/site/data/faq.ts', 'src/site/components/site/FAQSection.tsx'] },
   { path: '/privacy', files: [`${PAGES}/Privacy.tsx`], shared: false },
 ];
 

@@ -8,6 +8,7 @@ import ParallaxMedia from '../../components/craft/ParallaxMedia';
 import PreFooterCTA from '../../components/craft/PreFooterCTA';
 import ScreenStrip from '../../components/craft/ScreenStrip';
 import { EASE_ARR, fadeUp, stagger, viewport } from '../../lib/motion';
+import { ServiceCrossLink } from '../../components/site/ServiceBlocks';
 
 const C = '/assets/clients/cw-electronics';
 
@@ -439,6 +440,7 @@ export default function CWElectronics() {
       {/* NEXT PROJECT — white */}
       <Panel bg="white" className="px-6 py-24 md:px-10 md:py-32">
         <div className="mx-auto w-full max-w-6xl">
+          <ServiceCrossLink services={['websites', 'systems']} />
           <span className="text-[14px] font-medium text-site-text-body">
             Next project
           </span>

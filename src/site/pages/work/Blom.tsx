@@ -9,6 +9,7 @@ import WalkthroughVideo from '../../components/craft/WalkthroughVideo';
 import FillButton from '../../components/craft/FillButton';
 import PreFooterCTA from '../../components/craft/PreFooterCTA';
 import { EASE_ARR, fadeUp, stagger, viewport } from '../../lib/motion';
+import { ServiceCrossLink } from '../../components/site/ServiceBlocks';
 
 const C = '/assets/clients/blom';
 
@@ -522,6 +523,7 @@ export default function Blom() {
       {/* NEXT PROJECT — ink */}
       <Panel bg="ink" className="px-6 py-24 md:px-10 md:py-32">
         <div className="mx-auto w-full max-w-6xl">
+          <ServiceCrossLink services={['websites', 'systems']} dark />
           <span className="text-[14px] font-medium text-white/80">
             Next project
           </span>
