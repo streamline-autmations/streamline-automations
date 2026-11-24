@@ -11,6 +11,7 @@ import {
 } from '../../lib/structured-data';
 import { FAQ_ITEMS } from '../data/faq';
 import { RD_FAQ } from '../data/restaurant-direct';
+import { WEBSITES_FAQ, SYSTEMS_FAQ } from '../data/service-faq';
 
 type Meta = {
   title?: string;
@@ -57,33 +58,35 @@ const ROUTES: Record<string, Meta> = {
       'Professional websites, booking flows, dashboards and automations for South African small businesses. Built by Christiaan Steffen in the Vaal Triangle, Gauteng.',
   },
   '/websites': {
-    title: 'Websites for SA Small Businesses',
+    title: 'Website Design for Small Businesses',
     description:
-      'Clean professional websites that turn visitors into enquiries. Built for salons, spas, gyms, contractors, shops and service businesses in South Africa.',
+      'Custom, mobile-first websites for South African small businesses. Copy, design, hosting and SEO basics handled, live in 3–5 working days.',
     jsonLd: [
       service({
-        name: 'Web Design & Website Creation',
+        name: 'Website Design for Small Businesses',
         serviceType: 'Web design and development',
         description:
-          'Clean professional websites that turn visitors into enquiries for South African small businesses.',
+          'Custom, mobile-first website design for South African small businesses: copywriting, design, build, hosting, domain, SSL and SEO basics.',
         path: '/websites',
       }),
       crumb(['Home', '/'], ['Websites', '/websites']),
+      faqPage(WEBSITES_FAQ),
     ],
   },
   '/systems': {
-    title: 'Business Systems & Automation',
+    title: 'Small Business Automation & WhatsApp',
     description:
-      'Booking flows, smart forms, dashboards, simple CRM capture and WhatsApp/email notifications for South African small businesses.',
+      'WhatsApp and email notifications, CRMs, quotes and invoices that run themselves. Business automation for SA small businesses, built on n8n.',
     jsonLd: [
       service({
-        name: 'Systems & Business Automation',
+        name: 'Business Automation for Small Businesses',
         serviceType: 'Business process automation',
         description:
-          'Booking flows, smart forms, dashboards, CRM capture and WhatsApp/email notifications for South African small businesses.',
+          'WhatsApp and email notifications, CRM lead capture, automated quotes and invoices, and admin dashboards for South African small businesses.',
         path: '/systems',
       }),
       crumb(['Home', '/'], ['Systems', '/systems']),
+      faqPage(SYSTEMS_FAQ),
     ],
   },
   '/hosting': {

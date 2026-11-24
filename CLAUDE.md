@@ -67,10 +67,11 @@ lots of small decorative touches instead of a few confident ones. Concretely:
   Respect `prefers-reduced-motion` everywhere. Custom cursor off on touch/coarse pointers.
 
 ### Hard rules
-- Pricing only on /hosting, and only as single **floor** figures (e.g. "From R699/month"),
+- Full pricing lives on /hosting, and only as single **floor** figures (e.g. "From R699/month"),
   never side-by-side tier comparisons — no price grids/menus anywhere on the site. The goal
   is premium/boutique positioning: give a budget anchor, then drive to a call for the real
-  quote. Every other service page ends with "Contact for a quote".
+  quote. /websites and /systems may each show ONE floor line in prose (decided 2026-11-23);
+  every service page still ends with a call to book a free call for the real quote.
 - No fake testimonials, no invented metrics, no stock/placeholder images, no lorem ipsum.
 - Pill (rounded-full) primary CTAs. Generous section padding (py-28 min).
 - Min 44px tap targets. Target 90+ Lighthouse perf on mobile.
@@ -209,8 +210,9 @@ Home → Websites → Systems → Hosting → Portfolio → About → Contact
 /contact     Form + WhatsApp button
 ```
 
-3 service pillars replace the old 11-service sprawl. Pricing lives only on /hosting (rental
-tiers) — every other service page is pricing-free.
+3 service pillars replace the old 11-service sprawl. Full pricing lives on /hosting (rental
+tiers). /websites and /systems each carry ONE floor line in prose (decided 2026-11-23), pulled
+from `PROJECT_FLOORS` / `RENT_TO_OWN` in site.ts — never a grid, never a second tier.
 
 ---
 
@@ -397,7 +399,7 @@ const HeavySection = lazy(() => import('./HeavySection'))
 
 ## WHAT NEVER TO DO
 
-- Show pricing on any service page — rental tiers live on /hosting only
+- Show more than one floor line on a service page, or any price grid/tier comparison — rental tiers live on /hosting only
 - Use fake testimonials — real clients only, or remove the section
 - Use stock/placeholder/AI-generated images — real client screenshots only
 - Use lorem ipsum anywhere

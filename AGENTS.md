@@ -126,8 +126,8 @@ Site structure:
 - `/privacy`
 
 Pricing rules:
-- Pricing belongs on `/hosting` only
-- Other service pages should stay pricing-free and end with a quote-led CTA
+- Full pricing belongs on `/hosting`
+- `/websites` and `/systems` may each show ONE floor line in prose (from `PROJECT_FLOORS` / `RENT_TO_OWN`), never a grid; every service page ends with a quote-led CTA
 
 Rental model truth:
 - Free upfront build

@@ -9,6 +9,7 @@ import PreFooterCTA from '../../components/craft/PreFooterCTA';
 import ScreenStrip from '../../components/craft/ScreenStrip';
 import WalkthroughVideo from '../../components/craft/WalkthroughVideo';
 import { EASE_ARR, fadeUp, viewport } from '../../lib/motion';
+import { ServiceCrossLink } from '../../components/site/ServiceBlocks';
 
 const C = '/assets/clients/ameli';
 
@@ -365,6 +366,7 @@ export default function Ameli() {
       {/* 6 — NEXT PROJECT (white) */}
       <Panel bg="white" className="px-6 py-20 md:px-10 md:py-28">
         <div className="mx-auto w-full max-w-6xl">
+          <ServiceCrossLink services={['websites']} />
           <div className="mb-10 text-[14px] font-medium text-site-text-body">
             Next project
           </div>
